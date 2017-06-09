@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script type="text/javascript" src="../lib/jquery-3.2.1.min.js"></script>
+    <title>Model测试页面</title>
+</head>
+<body>
+    <input type="button" value="保存" onclick="onSave()">
+    <input type="button" value="加载" onclick="onLoad()">
+    <br>
+    <form method="POST" action="/model/model/save/">
+    <table>
+    	<table>
+    		<tr>
+    			<td>名称</td>
+    			<td><input type="text" id="name" name="my model"></td>
+    		</tr>
+    		<tr>
+    			<td>模型</td>
+    			<td>
+    				<textarea id="model" style="width:600px;height:250px;">{"name":"my model","functions":[{"id":"dflgo","name":"Fusion","inputs":[{"id":"wyfzh"},{"id":"dwqe4"}],"output":{"id":"zbcqk"}},{"id":"4tgfo","name":"Stretch","inputs":[{"id":"4f152"}],"output":{"id":"ryqdc"}},{"id":"5fa6f","name":"Fusion","inputs":[{"id":"zbcqk"},{"id":"ryqdc"}],"output":{"id":"nwyes"}}],"data":[{"id":"wyfzh","path":"/raster/fusion1_raster_1.tif"},{"id":"dwqe4","path":"/raster/fusion1_raster_2.tif"},{"id":"zbcqk","path":"/raster/fusion1_output_1.tif"},{"id":"4f152","path":"/raster/stretch/stretch_1.tif"},{"id":"ryqdc","path":"/raster/stretch/stretch_output_1.tif"},{"id":"nwyes","path":"/raster/model/output.tif"}],"connections":[{"from":"wyfzh","to":"dflgo"},{"from":"dwqe4","to":"dflgo"},{"from":"dflgo","to":"zbcqk"},{"from":"4f152","to":"4tgfo"},{"from":"4tgfo","to":"ryqdc"},{"from":"zbcqk","to":"5fa6f"},{"from":"ryqdc","to":"5fa6f"},{"from":"5fa6f","to":"nwyes"}]}</textarea>
+    			</td>
+    		</tr>
+    		<tr>
+    			<td colspan="2">
+    				<center>
+    					<input type="submit" value="提交">
+    				</center>
+    			</td>
+    		</tr>
+
+    	</table>
+    </table>
+
+</body>
+</html>
+
+<script type="text/javascript">
+	function onSave(){
+		var model = document.getElementById("model").value;
+		$.ajax({
+			type:"POST",
+			url:"/model/model/save/",
+			data : model,
+			contentType: "text/plain",
+			dataType : "text",
+			success:function(data){
+				alert(data);
+			}
+		});
+	}
+
+	function onLoad(){
+
+	}
+</script>
