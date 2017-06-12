@@ -1,10 +1,152 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>ModelFlow</title>
+	<meta charset="utf-8">
+	<link rel="stylesheet" type="text/css" href="css/workflow.css">
+	<link rel="stylesheet" type="text/css" href="lib/css/dialog.css">
+	<title>Workflow</title>
 </head>
+
 <body>
-    Hello Modelflow
+	
+	<div id="header">
+		<div class="title">工作流系统</div>
+		<div class="toolbar">
+			<ul>
+				<li id="adddata">数据</li>
+				<li id="addfunc">算法</li>
+				<!-- <li id="add">
+					添加
+					<ul>
+						<li id="adddata">数据</li>
+						<li id="addfunc">算法</li>
+					</ul>
+				</li> -->
+				<li></li>
+				<li id="sel">移动</li>
+				<li id="conn">连接</li>
+				<li id="save">保存</li>				
+				<li id="load">加载</li>
+				<li id="run">运行</li>
+			</ul>
+		</div>
+	</div>
+
+	<div id="center">
+		<div id="funcs">
+			<div class="titlebar">算法库</div>
+			<div id="func_container" class="func_container">				
+			</div>
+		</div>
+		<div id="main">
+			<div id="canvas"></div>
+			<div id="result_panel">
+				<div class="titlebar">输出</div>
+				<div id="result">输出结果</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
+<!-- 	<div class="func_dialog file_dialog">
+		<div class='titlebar'>
+			<div class="dialog_title">文件</div>
+			<div class="dialog_exit"></div>
+		</div>
+		<div class="dialog_main">
+			<div class="dialog_file_path_wrapper">
+				<span>路径:</span>
+				<input type="text" class='dialog_folder_path' readonly="readonly">
+				<div class="dialog_folder_up"></div>
+			</div>
+			<div class='dialog_file_ctrl'>
+				<div class="item_container">
+					<div class="folder_item_icon"></div>
+					<div class="folder_item_text">raster</div>
+				</div>
+				<div class="item_container">
+					<div class="folder_item_icon"></div>
+					<div class="folder_item_text">dem</div>
+				</div>
+				<div class="item_container">
+					<div class="folder_item_icon"></div>
+					<div class="folder_item_text">world-2.tif</div>
+				</div>
+				<div class="item_container">
+					<div class="folder_item_icon"></div>
+					<div class="folder_item_text">world-2.tif</div>
+				</div>
+				<div class="item_container">
+					<div class="folder_item_icon"></div>
+					<div class="folder_item_text">world-2.tif</div>
+				</div>
+				<div class="item_container">
+					<div class="file_item_icon"></div>
+					<div class="folder_item_text">raster</div>
+				</div>
+				<div class="item_container">
+					<div class="file_item_icon"></div>
+					<div class="folder_item_text">dem</div>
+				</div>
+				<div class="item_container">
+					<div class="file_item_icon"></div>
+					<div class="folder_item_text">world-2.tif</div>
+				</div>
+				<div class="item_container">
+					<div class="file_item_icon"></div>
+					<div class="folder_item_text">world-2.tif</div>
+				</div>
+				<div class="item_container">
+					<div class="file_item_icon"></div>
+					<div class="folder_item_text">world-2.tif</div>
+				</div>
+			</div>		
+		</div>	
+		<div class="dialog_bottom">
+			<ul>
+				<li>
+					<a href="javascript:void(0)">确定</a>
+				</li>
+				<li>
+					<a href="javascript:void(0)">取消</a>
+				</li>
+			</ul>
+		</div>
+	</div> -->
+	<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
 </body>
 </html>
+
+
+<script type="text/javascript" src="js/raphael.js"></script>
+<script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
+<!-- <script type="text/javascript" src="lib/def.js"></script> -->
+<script type="text/javascript" src="lib/Arrow.js"></script>
+<script type="text/javascript" src="lib/Edge.js"></script>
+<script type="text/javascript" src="lib/EdgeManager.js"></script>
+<script type="text/javascript" src="lib/Node.js"></script>
+<script type="text/javascript" src="lib/Shape.js"></script>
+<script type="text/javascript" src="lib/shape/Ellipse.js"></script>
+<script type="text/javascript" src="lib/shape/Rect.js"></script>
+
+<script type="text/javascript" src="lib/Node/DataNode.js"></script>
+<script type="text/javascript" src="lib/Node/FuncNode.js"></script>
+<script type="text/javascript" src="lib/Node/Func/Fusion.js"></script>
+<script type="text/javascript" src="lib/Node/Func/Stretch.js"></script>
+<script type="text/javascript" src="lib/NodeManager.js"></script>
+
+<script type="text/javascript" src="lib/Graph.js"></script>
+<script type="text/javascript" src="lib/Dialog.js"></script>
+<script type="text/javascript" src="lib/Dialog/FileDialog.js"></script>
+<script type="text/javascript" src="lib/Dialog/FusionDialog.js"></script>
+<script type="text/javascript" src="lib/Dialog/StretchDialog.js"></script>
+
+<script type="text/javascript" src="js/workflow.js"></script>
+
+<script type="text/javascript">
+
+
+</script>
+
+<!-- <script type="text/javascript" src="input.js"></script>
+<script type="text/javascript" src="func.js"></script> -->

@@ -1,0 +1,157 @@
+html, body{
+	margin: 0px;
+	padding: 0px;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+}
+#header{
+	width: 100%;
+	height: 50px;
+	background-color: #0097c3;
+	/*border-bottom: thin solid #eeeeee;*/
+}
+
+#center{
+	width: 100%;
+	height: calc(100% - 50px);
+}
+
+#main{
+	float: left;
+	width: calc(100% - 202px);
+	height: 100%;
+}
+
+#funcs{
+	float: left;
+	width: 200px;
+	height: 100%;
+	border-right: 1px solid #999999;
+	/*box-shadow:1px 1px 3px #292929;*/
+}
+
+#result_panel{
+	width: 100%;
+	height: 200px;
+	bottom: 0px;
+	border-top: 1px solid #999999;
+	/*box-shadow: 1px 3px 1px #292929;*/
+}
+
+#result{
+	width: 100%;
+	height: calc(100%-200px);
+	padding: 10px;
+}
+
+#canvas{
+	width: 100%;
+	height: calc(100% - 200px);
+}
+
+.title{
+	float: left;
+	height: 50px;
+	width: 150px;
+	line-height: 50px;
+	margin-left: 20px;
+	font-size:28px;
+	color:white;
+	text-shadow: 1px 1px 1px #000;;
+}
+
+.toolbar{
+	float: right;
+	height: 25px;
+	width: 320px;
+	margin-right: 10px;
+	/*background-color: red;*/
+	margin-top:25px;
+}
+
+.toolbar ul{
+	height: 25px;
+	margin: 0px;
+	padding: 0px;
+}
+
+.toolbar li{
+	width: 40px;
+	height: 25px;
+	float: left;
+	color: white;
+	font-size: 14px;
+	text-align: center;
+	line-height: 25px;
+	list-style:none;
+}
+
+.toolbar li:hover{
+	background-color: #00b9ee;
+	cursor: pointer;
+}
+
+.toolbar li ul{
+	display: none;
+}
+
+.toolbar li:hover ul{
+	display: list-item;
+}
+
+.toolbar li:hover ul li{
+	cursor: pointer;
+}
+
+.toolbar li ul li{
+	background-color: #0097c3;
+}
+
+.titlebar{
+	width: calc(100%-10px);
+	padding-left: 10px;
+	height: 30px;
+	line-height: 30px;
+	background-color: #eeeeee;
+}
+
+.func_container{
+	width: 100%;
+	height: calc(100%-30px);
+	background-color: red;
+}
+
+.func_wrapper{
+	width: 100%;
+	height: 30px;
+	background-color: white;
+	border-bottom: 1px solid #eeeeee;
+}
+
+.func_wrapper:hover{
+	background-color: #dff1f9;
+	cursor : pointer;
+}
+
+.func_icon{
+	float: left;
+	width: 24px;
+	height: 100%;
+	padding-left: 20px;
+	background-image: url(../images/gear_24_24.png);
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.func{
+	width: calc(100%-10px);
+	padding-left: 10px;
+	height: 30px;
+	line-height: 30px;
+	font-size: 12px;
+}
+
+.float_left{
+	float: left;
+}

@@ -32,3 +32,9 @@ def model_get(request, model_id):
     except GModel.DoesNotExist:
         raise Http404("Model does not exist")
     return HttpResponse(model.text)
+
+def model_run(request):
+
+    return HttpResponse("dsfsdf")
+
+

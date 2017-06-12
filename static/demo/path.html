@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<style type="text/css">
+		#canvas{
+			width: 1000px;
+			height: 500px;
+			background-color: #eeeeee;
+		}
+	</style>
+	<title>connect</title>
+</head>
+<body onload="init();">
+	
+	<div id="canvas"></div>
+	
+</body>
+</html>
+
+
+<script type="text/javascript" src="../../lib/raphael.js"></script>
+
+<script type="text/javascript">
+	
+	var R = null;
+
+	function init(){		
+
+		_sx=50, _sy=50;
+		_ox=2, _oy=10;
+
+		R = Raphael("canvas", 1000,600);
+
+		// for(var i=0; i<50; i++){
+		// 	console.log("[length]:"+i*_ox);
+		// 	var _path = "M{sx} {sy}L{ex} {ey}"
+		// 					.replace("{sx}", _sx)
+		// 					.replace("{sy}", _sy + i*_oy)
+		// 					.replace("{ex}", _sx + i*_ox)
+		// 					.replace("{ey}", _sy + i*_oy);
+		// 	//console.log(this._path);
+		// 	//create arrow line object
+		// 	R.path(_path).attr({
+		// 			"stroke" : "#0000FF",
+		// 			"stroke-width" : 2,
+		// 			"stroke-linecapstring" : "round",
+		// 			"arrow-end" : "classic-wide-long"
+		// 		});	
+		// }
+
+			_sx = 50, _sy = 50;
+			_ox = 4 , _oy = 4;
+			var _path = "M{sx} {sy}L{ex} {ey}"
+							.replace("{sx}", _sx)
+							.replace("{sy}", _sy)
+							.replace("{ex}", _sx + _ox)
+							.replace("{ey}", _sy + _oy);
+			//console.log(this._path);
+			//create arrow line object
+			R.path(_path).attr({
+					"stroke" : "#0000FF",
+					"stroke-width" : 2,
+					"stroke-linecapstring" : "round",
+					"arrow-end" : "classic-wide-long"
+				});	
+	}
+
+
+</script>

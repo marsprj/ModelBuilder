@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<style type="text/css">
+		#canvas{
+			width: 1000px;
+			height: 500px;
+			background-color: #eeeeee;
+		}
+	</style>
+	<title>flowchart</title>
+</head>
+<body onload="init();">
+	
+	<input type="button" value="生成执行序列" onclick="onSeralize()">
+	<input type="text" id="workflow" size="60">
+	<br>
+	<input type="button" value="Drag" onclick="onDrag()">
+	<input type="button" value="Connect" onclick="onConnect()">
+	<input type="button" value="Test" onclick="onTest()">
+	<input type="text" id="xy" size="30">
+	<br>
+	<input type="text" id="xy" size="30">
+	<div id="canvas"></div>
+	<br>
+	
+	
+</body>
+</html>
+
+
+<script type="text/javascript" src="../../lib/raphael.js"></script>
+<!-- <script type="text/javascript" src="../../lib/raphael-draggable.js"></script> -->
+<script type="text/javascript" src="../../lib/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="../lib/def.js"></script>
+<script type="text/javascript" src="../lib/Arrow.js"></script>
+<script type="text/javascript" src="../lib/Edge.js"></script>
+<script type="text/javascript" src="../lib/EdgeManager.js"></script>
+<script type="text/javascript" src="../lib/Node.js"></script>
+<script type="text/javascript" src="../lib/Shape.js"></script>
+<script type="text/javascript" src="../lib/shape/Ellipse.js"></script>
+<script type="text/javascript" src="../lib/shape/Rect.js"></script>
+
+<script type="text/javascript" src="../lib/Node/DataNode.js"></script>
+<script type="text/javascript" src="../lib/Node/FuncNode.js"></script>
+<script type="text/javascript" src="../lib/NodeManager.js"></script>
+
+<script type="text/javascript" src="../lib/Graph.js"></script>
+
+<script type="text/javascript">
+	var input, output, func;
+	//绘制链接线的状态
+	var STATE = {
+		DRAW : "draw",
+		CONNECT : "connect",
+		NONE : "none"
+	}
+	var CONNECT_STATE = {		
+		READY : "ready",
+		CONNECTING : "connecting",
+		NONE : "none"	
+	}
+	var g_state = STATE.CONNECT;
+	var g_connect_state = CONNECT_STATE.NONE;
+
+	var graph = new Graph("canvas");
+	initGraph();
+
+	function initGraph(){
+		
+
+		var input_1_1 = graph.createDatumNode(50, 50, 100, 50);
+		var input_1_2 = graph.createDatumNode(50, 150, 100, 50);
+		var output_1  = graph.createDatumNode(350, 100, 100, 50);
+		var func_1    = graph.createFuncNode(200, 100, 100, 50);
+		var conn_1_1  = graph.createEdge(input_1_1, func_1);
+		var conn_1_2  = graph.createEdge(input_1_2, func_1);
+		var conn_1_3  = graph.createEdge(func_1, output_1);
+
+		var input_2_1 = graph.createDatumNode(50, 300, 100, 50);
+		var func_2    = graph.createFuncNode(200, 300, 100, 50);
+		var output_2  = graph.createDatumNode(350, 300, 100, 50);
+		var conn_2_1  = graph.createEdge(input_2_1, func_2);
+		var conn_2_2  = graph.createEdge(func_2, output_2);
+
+		var func_3    = graph.createFuncNode(600, 200, 100, 50);
+		var output_3  = graph.createDatumNode(800, 200, 100, 50);
+		var conn_3_1  = graph.createEdge(output_1, func_3);
+		var conn_3_2  = graph.createEdge(output_2, func_3);
+		var conn_3_3  = graph.createEdge(func_3, output_3);
+	}
+
+	function onSeralize(){
+		graph.serialize();
+		document.getElementById("workflow").value = graph.getWorkflowText();
+	}
+
+	function onDrag(){		
+		graph.draggable();
+	}
+
+	function onConnect(){
+		graph.undrag();
+	}
+
+	function onTest(){
+		//var dd = new L.Class1();
+		//dd.echo();
+		// var data = new Data(R);
+		// data.getType();
+		// data.echo();
+		
+		// var v=null;
+		// if(v){
+		// 	alert("1");
+		// }
+		// else{
+		// 	alert("2");
+		// }
+		// 
+		
+		var arr = [];
+		for(var i=0; i<10; i++){
+			arr.push(i);
+		}
+		while(arr.length>0){
+			console.log(arr.pop());
+		}
+	}
+
+	function init(){
+		$("#canvas").on("mousemove", onMouseMove);
+	}
+
+	function onMouseMove(evt){
+		document.getElementById("xy").value = evt.offsetX + "," + evt.offsetY;
+	}
+
+</script>
+
+<!-- <script type="text/javascript" src="input.js"></script>
+<script type="text/javascript" src="func.js"></script> -->

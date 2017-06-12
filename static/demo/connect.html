@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<style type="text/css">
+		#canvas{
+			width: 1000px;
+			height: 500px;
+			background-color: #eeeeee;
+		}
+	</style>
+	<title>connect</title>
+</head>
+<body>
+	
+	<br>
+	<input type="button" value="Drag" onclick="onDrag()">
+	<input type="button" value="Connect" onclick="onConnect()">
+
+	<input type="button" value="Start Snapping" onclick="onStartSnapping()">
+	<input type="button" value="Stop Snapping" onclick="onStopSnapping()">
+
+	<input type="button" value="Start Connecting" onclick="onStartConnecting()">
+	<input type="button" value="Stop Connecting" onclick="onStopConnecting()">
+	<div id="canvas"></div>
+	<br>
+	
+</body>
+</html>
+
+
+<script type="text/javascript" src="../../lib/raphael.js"></script>
+<!-- <script type="text/javascript" src="../../lib/raphael-draggable.js"></script> -->
+<script type="text/javascript" src="../../lib/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="../lib/def.js"></script>
+<script type="text/javascript" src="../lib/Arrow.js"></script>
+<script type="text/javascript" src="../lib/Edge.js"></script>
+<script type="text/javascript" src="../lib/EdgeManager.js"></script>
+<script type="text/javascript" src="../lib/Node.js"></script>
+<script type="text/javascript" src="../lib/Shape.js"></script>
+<script type="text/javascript" src="../lib/shape/Ellipse.js"></script>
+<script type="text/javascript" src="../lib/shape/Rect.js"></script>
+
+<script type="text/javascript" src="../lib/Node/DataNode.js"></script>
+<script type="text/javascript" src="../lib/Node/FuncNode.js"></script>
+<script type="text/javascript" src="../lib/NodeManager.js"></script>
+
+<script type="text/javascript" src="../lib/Graph.js"></script>
+
+<script type="text/javascript">
+	var input, output, func;
+	//绘制链接线的状态
+	var STATE = {
+		DRAW : "draw",
+		CONNECT : "connect",
+		NONE : "none"
+	}
+	var CONNECT_STATE = {		
+		READY : "ready",
+		CONNECTING : "connecting",
+		NONE : "none"	
+	}
+	var g_state = STATE.CONNECT;
+	var g_connect_state = CONNECT_STATE.NONE;
+
+	//创建Raphael对象
+	var graph = new Graph("canvas");
+	initGraph();
+
+	var input_2_1, func_2;
+
+	function initGraph(){
+		
+		input_2_1 = graph.createDatumNode(50, 150, 100, 50);
+		
+		func_2    = graph.createFuncNode(350, 50, 100, 50);
+		var output_2  = graph.createDatumNode(650, 150, 100, 50);
+	}
+
+	function onDrag(){		
+		graph.draggable();
+	}
+
+	function onConnect(){
+		graph.undrag();
+	}
+
+	function onStartSnapping(){
+		input_2_1.startSnapping();
+	}
+
+	function onStopSnapping(){
+		input_2_1.stopSnapping();	
+	}
+
+	function onStartConnecting(){
+		graph.undrag();
+		graph.startConnecting();
+	}
+
+	function onStopConnecting(){
+		graph.stopConnecting();	
+	}
+
+</script>

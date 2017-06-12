@@ -1,0 +1,188 @@
+.func_dialog{
+	position: absolute;
+	left: 400px;
+	top: 200px;
+	width: 400px;
+	font-size:12px;
+	border : 1px solid #888888;	
+	background-color: white;
+	box-shadow: 2px 2px 5px 2px #888888;
+	display: none;
+}
+
+.dialog_title{
+	float:left;
+	
+}
+
+.dialog_exit{
+	float:right;
+	width:16px;
+	height:100%;
+	margin-right:10px;
+	background-image: url('../images/exit_12.png');
+	background-repeat: no-repeat;
+	background-position: center;	
+}
+
+
+.dialog_main{
+	width: 100%;
+	height: calc(100%-50px);
+	font-size: 12px;
+	/*border:1px solid #000000;*/
+}
+
+.dialog_item{
+	padding:10px;
+	height:30px;
+	font-size:12px;
+}
+
+.dialog_item_icon{
+	float:left;
+	width:18px;
+	height:18px;
+	background-image: url(../images/ball_16.png);
+	background-repeat: no-repeat;
+	background-position: center;
+}
+
+.dialog_item_title{
+	float:left;
+}
+
+.dialog_input {
+	width:320px;
+	/*margin-left:20px;*/
+}
+
+.dialog_output{
+	width:320px;
+	/*margin-left:20px;*/
+}
+
+.dialog_folder{
+	float:right;
+	width:30px;
+	height:20px;
+	background-image: url(../images/folder_open_16.png);
+	background-repeat: no-repeat;
+	background-position: center;
+}
+
+.dialog_folder:hover{
+	cursor : pointer;
+}
+
+.dialog_bottom{
+	width:100%;
+	height:24px;
+	padding:3px 0px;
+	margin:20px 0px;
+}
+
+.dialog_bottom ul{
+	float:right;
+	list-style:none;
+	height:24px;
+	margin:0px 20px;
+	padding:0px;
+}
+
+.dialog_bottom ul li{
+	float:left;
+	width:70px;
+	height:24px;
+	line-height: 24px;
+	margin-left:10px;
+}
+
+.dialog_bottom ul li a{
+	text-decoration:none;
+	display: block;
+	width: 70px;
+	color: black;
+	text-align:center;
+	background-color: #f0f0f0;
+}
+
+.dialog_bottom ul li a:hover{
+	background-color: #e0ecf6;
+	border: 1px solid #aaaaaa;
+}
+
+.file_dialog{
+	left: 300px;
+	top: 80px;
+	width: 700px;
+	height: 500px;
+}
+
+.dialog_file_path_wrapper{
+    margin: 10px 0px;
+    padding: 0px 10px;
+}
+
+.dialog_folder_path{
+    width: 620px;
+}
+
+.dialog_folder_up{
+	float: right;
+    width: 20px	;
+    height: 20px	;
+    background-image: url(../images/upward_16.png);
+    background-repeat: no-repeat;
+	background-position: center;
+}
+
+.dialog_folder_up:hover{
+	background-color: #e0ecf6;
+}
+
+#dialog_file_ctrl{
+	height: 340px;
+    margin: 0px 10px;
+    padding: 5px;
+    border: 1px solid #aaaaaa;
+}
+
+
+#dialog_file_ctrl .item_container{
+	float: left;
+	width: 125px;
+	height: 30px;
+	margin: 0px 5px 0px 0px;
+	/*border: 1px solid #000000;*/
+}
+
+#dialog_file_ctrl .item_container:hover{
+	cursor : pointer;
+	background-color: #e0ecf6;
+}
+
+.folder_item_icon{
+	float: left;
+	width: 24px;
+	margin: 0px 3px;
+	height: 100%;
+	background-image: url(../images/folder_24.png);
+	background-repeat: no-repeat;
+	background-position: center;
+}
+
+.file_item_icon{
+	float: left;
+	width: 24px;
+	margin: 0px 3px;
+	height: 100%;
+	background-image: url(../images/file_24.png);
+	background-repeat: no-repeat;
+	background-position: center;
+}
+
+.folder_item_text{
+	height: 30px;
+	line-height: 30px;
+}

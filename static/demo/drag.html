@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<style type="text/css">
+		#canvas{
+			width: 1000px;
+			height: 500px;
+			background-color: #eeeeee;
+		}
+	</style>
+	<title>drag</title>
+</head>
+<body>
+	
+	<br>
+	<input type="button" value="Drag" onclick="onDrag()">
+	<input type="button" value="Connect" onclick="onConnect()">
+	<div id="canvas"></div>
+	<br>
+	
+</body>
+</html>
+
+
+<script type="text/javascript" src="../../lib/raphael.js"></script>
+<!-- <script type="text/javascript" src="../../lib/raphael-draggable.js"></script> -->
+<script type="text/javascript" src="../../lib/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="../lib/def.js"></script>
+<script type="text/javascript" src="../lib/Arrow.js"></script>
+<script type="text/javascript" src="../lib/Edge.js"></script>
+<script type="text/javascript" src="../lib/EdgeManager.js"></script>
+<script type="text/javascript" src="../lib/Node.js"></script>
+<script type="text/javascript" src="../lib/Shape.js"></script>
+<script type="text/javascript" src="../lib/shape/Ellipse.js"></script>
+<script type="text/javascript" src="../lib/shape/Rect.js"></script>
+
+<script type="text/javascript" src="../lib/Node/DataNode.js"></script>
+<script type="text/javascript" src="../lib/Node/FuncNode.js"></script>
+<script type="text/javascript" src="../lib/NodeManager.js"></script>
+
+<script type="text/javascript" src="../lib/Graph.js"></script>
+
+<script type="text/javascript">
+	var input, output, func;
+	//绘制链接线的状态
+	var STATE = {
+		DRAW : "draw",
+		CONNECT : "connect",
+		NONE : "none"
+	}
+	var CONNECT_STATE = {		
+		READY : "ready",
+		CONNECTING : "connecting",
+		NONE : "none"	
+	}
+	var g_state = STATE.CONNECT;
+	var g_connect_state = CONNECT_STATE.NONE;
+
+	//创建Raphael对象
+	var graph = new Graph("canvas");
+	initGraph();
+
+	var input_2_1, func_2;
+
+	function initGraph(){
+		
+		input_2_1 = graph.createDatumNode(50, 300, 100, 50);
+		input_2_1.draggable();
+		func_2    = graph.createFuncNode(200, 300, 100, 50);
+		func_2.draggable();
+		var output_2  = graph.createDatumNode(350, 300, 100, 50);
+		output_2.draggable();
+		var conn_2_1  = graph.createEdge(input_2_1, func_2);
+		var conn_2_2  = graph.createEdge(func_2, output_2);
+
+		
+	}
+
+	function onDrag(){		
+		graph.draggable();
+	}
+
+	function onConnect(){
+		graph.undrag();
+	}
+
+</script>
