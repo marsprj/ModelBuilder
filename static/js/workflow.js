@@ -112,7 +112,18 @@ function initMenuEvents(){
 		g_graph.startConnecting();
 	})
 	$("#save").click(function(){
+		var model = g_graph.export();
 		document.getElementById("result").innerHTML = g_graph.export();
+		$.ajax({
+			type:"POST",
+			url:"/model/model/save/",
+			data : model,
+			contentType: "text/plain",
+			dataType : "text",
+			success:function(data){
+				alert(data);
+			}
+		});
 	})
 	$("#load").click(function(){
 		//alert("load");

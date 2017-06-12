@@ -24,4 +24,5 @@ class Process(models.Model):
     task = models.ForeignKey(Task, to_field='uuid')
     name = models.CharField(max_length=64)
     start_time = models.DateTimeField()
-    end_time = models.DateTimeField()
+    end_time = models.DateTimeField(null=True)
+    state = models.IntegerField(default=0)

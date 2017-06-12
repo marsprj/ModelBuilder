@@ -2,11 +2,14 @@ from django.shortcuts import render
 from django.http import HttpResponse
 
 from . import models
-from .models import Model
+from .models import Model, Task
 
-import time, json
+from django.utils import timezone
 
-#from .models import Model
+import time, json, uuid, datetime
+
+from .Graph import Graph
+
 
 # Create your views here.
 
@@ -29,12 +32,61 @@ def model_save(request):
 def model_get(request, model_id):
     try:
         model = GModel.objects.get(pk=model_id)
-    except GModel.DoesNotExist:
+    except Model.DoesNotExist:
         raise Http404("Model does not exist")
     return HttpResponse(model.text)
 
-def model_run(request):
+#启动模型计算
+#返回Task的uuid
+def model_run(request, model_id):
 
-    return HttpResponse("dsfsdf")
+    try:
+        models = Model.objects.filter(uuid=model_id)
+    except:
+        return HttpResponse("Error")
+
+    if not models:
+        return HttpResponse("Error")
 
 
+
+    str1 = start_task(model_id)
+
+    #return HttpResponse("{0}".format(task.uuid))
+    return HttpResponse(str1)
+
+#启动模型计算
+def start_task(model_id):
+    model = Model.objects.filter(uuid=model_id)[0]
+
+    graph = Graph()
+    if not graph.load(model.text):
+        pass
+    else:
+        #创建task
+        task = model.task_set.create(
+            uuid=uuid.uuid4(),
+            name=model.name,
+            start_time=timezone.now(),
+            end_time=timezone.now(),
+        )
+        task.save()
+
+        #生成执行计划
+        flow = graph.plan()
+        if flow:
+            #生成执行步骤及其状态
+            for func in flow:
+                process = task.process_set.create(
+                    name = func.getName(),
+                    start_time = timezone.now(),
+                    end_time = timezone.now()
+                )
+                process.save()
+
+        # str1 = ""
+        # for s in flow:
+        #     str1 += s.getID()
+        #     str1 += " --> "
+        #
+        # return str1
