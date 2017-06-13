@@ -49,7 +49,8 @@ $().ready(function(){
 	initMenuEvents();
 	initNodeEvents();
 
-	initGraph();
+	// initGraph();
+	initGraph_2();
 
 	// g_dlg = new StretchDialog();
 	// g_dlg = new FileDialog();
@@ -89,6 +90,49 @@ function initGraph(){
 
 	output_3.setPath("/raster/model/output.tif");
 }
+
+function initGraph_2(){
+
+	var input_1_1 = g_graph.createDatumNode(50, 50, 100, 50);
+	var input_1_2 = g_graph.createDatumNode(50, 150, 100, 50);
+	var output_1  = g_graph.createDatumNode(350, 100, 100, 50);
+	var func_1    = g_graph.createFuncNode(FUNCTION_TYPE.Fusion, 200, 100, 100, 50);
+	var conn_1_1  = g_graph.createEdge(input_1_1, func_1);
+	var conn_1_2  = g_graph.createEdge(input_1_2, func_1);
+	var conn_1_3  = g_graph.createEdge(func_1, output_1);
+
+	var input_2_1 = g_graph.createDatumNode(50, 300, 100, 50);
+	//var func_2    = g_graph.createFuncNode(200, 300, 100, 50);
+	var func_2    = g_graph.createFuncNode(FUNCTION_TYPE.Stretch, 200, 300, 100, 50);
+	var output_2  = g_graph.createDatumNode(350, 300, 100, 50);
+	var conn_2_1  = g_graph.createEdge(input_2_1, func_2);
+	var conn_2_2  = g_graph.createEdge(func_2, output_2);
+
+	var func_3    = g_graph.createFuncNode(FUNCTION_TYPE.Fusion, 600, 200, 100, 50);
+	var output_3  = g_graph.createDatumNode(800, 200, 100, 50);
+	var conn_3_1  = g_graph.createEdge(output_1, func_3);
+	var conn_3_2  = g_graph.createEdge(output_2, func_3);
+	var conn_3_3  = g_graph.createEdge(func_3, output_3);
+
+
+	var func_4 = g_graph.createFuncNode(FUNCTION_TYPE.Stretch, 50, 400, 100, 50);
+	var input_4 = g_graph.createDatumNode(50, 500, 100, 50);
+	var conn_4_1 = g_graph.createEdge(input_4,func_4);
+	var conn_4_2 = g_graph.createEdge(func_4,input_2_1);
+
+	//设置值
+	input_1_1.setPath("/raster/fusion1_raster_1.tif");
+	input_1_2.setPath("/raster/fusion1_raster_2.tif");
+	output_1.setPath("/raster/fusion1_output_1.tif");
+
+	input_2_1.setPath("/raster/stretch/stretch_1.tif");
+	output_2.setPath("/raster/stretch/stretch_output_1.tif");
+
+	output_3.setPath("/raster/model/output.tif");
+
+	input_4.setPath("/raster/stretch/stretch_2.tif");
+}
+
 
 function initMenuEvents(){
 	// $("#add").click(function(){
@@ -157,5 +201,6 @@ function loadFunctions(){
 function loadGraph(){
 
 	var text = '{"name":"my model","functions":[{"id":"dflgo","name":"Fusion","inputs":[{"id":"wyfzh"},{"id":"dwqe4"}],"output":{"id":"zbcqk"}},{"id":"4tgfo","name":"Stretch","inputs":[{"id":"4f152"}],"output":{"id":"ryqdc"}},{"id":"5fa6f","name":"Fusion","inputs":[{"id":"zbcqk"},{"id":"ryqdc"}],"output":{"id":"nwyes"}}],"data":[{"id":"wyfzh","path":"/raster/fusion1_raster_1.tif"},{"id":"dwqe4","path":"/raster/fusion1_raster_2.tif"},{"id":"zbcqk","path":"/raster/fusion1_output_1.tif"},{"id":"4f152","path":"/raster/stretch/stretch_1.tif"},{"id":"ryqdc","path":"/raster/stretch/stretch_output_1.tif"},{"id":"nwyes","path":"/raster/model/output.tif"}],"connections":[{"from":"wyfzh","to":"dflgo"},{"from":"dwqe4","to":"dflgo"},{"from":"dflgo","to":"zbcqk"},{"from":"4f152","to":"4tgfo"},{"from":"4tgfo","to":"ryqdc"},{"from":"zbcqk","to":"5fa6f"},{"from":"ryqdc","to":"5fa6f"},{"from":"5fa6f","to":"nwyes"}]}';
+	// var text = '{"name":"my model","functions":[{"id":"x1foc","name":"Fusion","inputs":[{"id":"la4rx"},{"id":"ttjqe"}],"output":{"id":"pikgl"}}],"data":[{"id":"la4rx","path":"/raster/fusion1_raster_1.tif"},{"id":"ttjqe","path":"/raster/fusion1_raster_2.tif"},{"id":"pikgl","path":"/raster/fusion1_output_1.tif"}],"connections":[{"from":"la4rx","to":"x1foc"},{"from":"ttjqe","to":"x1foc"},{"from":"x1foc","to":"pikgl"}]}';
 	g_graph.load(text);	
 }

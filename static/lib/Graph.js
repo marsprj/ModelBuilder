@@ -140,7 +140,7 @@ Graph.prototype.load = function(json){
 	});
 
 	model.functions.forEach(function(f){
-		f.node = graph.createFuncNode(f.name, 200, 300, 100, 50);
+		f.node = graph.createFuncNode(f.name, 50, 50, 100, 50);
 	});
 
 	model.connections.forEach(function(c){
@@ -150,6 +150,96 @@ Graph.prototype.load = function(json){
 			graph.createEdge(from.node, to.node);
 		}
 	});
+
+
+	// 重绘所有的连接线
+	this._connManager.clear();
+
+	// level 是横向的级别,每一个funNode都算一个级别
+	// rowCount是纵向的级别
+	var level = 0;
+	var rowCount = 0;
+	var functions = this._nodeManager.getFuncNodes();
+	functions.forEach(function(f){
+		var fLevel = 1;
+		var inputs = f.getInputs();
+		inputs.forEach(function(i){
+			var inputLevel = 1;
+			var from = i.getFrom();
+			if(from){		
+				return;
+			}
+			var next = f;
+			while(true){
+				var output = next.getOutput();
+				if(output.getTo()){
+					inputLevel += 1;
+					next = output.getTo(); 
+				}else{
+					break;
+				}
+			}
+			fLevel = fLevel< inputLevel ? inputLevel : fLevel;
+		});
+		if(inputs.length > 1){
+			rowCount += inputs.length;
+		}
+		level = level < fLevel ? fLevel : level;
+	});
+
+	// 一个块的大小
+	var blockWidth = 150,blockHeight = 100;
+
+
+	// 先处理尾节点
+	var tail = this.findLastFunction();
+	var output = tail.getOutput();
+	var tailOffset_x = 300* (level-1)+blockWidth;
+	var tailOffset_y = blockHeight*rowCount /2 -50;
+	tail.offset(tailOffset_x,tailOffset_y);
+	output.offset(300*level,tailOffset_y);
+
+	var conn = output.getFromEdge();
+	conn.remove();
+	this.createEdge(tail,output);
+
+
+	var graph = this;
+	// 调整方法节点和节点前的输入，并进行递归，直到前面没有输入
+	function repositionFunNode(node,offsetX,offsetY,level){
+		if(node == null || offsetX == null || offsetY == null || level == null){
+			return;
+		}
+		var inputs = node.getInputs();
+		if(inputs == null){
+			return;
+		}
+
+		// 上下输入节点间的间隙
+		var rowDelta = rowCount * blockHeight  / inputs.length/level;
+		var first = offsetY -  rowDelta* (inputs.length-1)/2;
+		offsetX -= blockWidth;
+		for(var i = 0;  i < inputs.length;++i){
+			var inputOffsetY = first + i*rowDelta;
+			var input = inputs[i];
+			input.offset(offsetX,inputOffsetY);
+			var conn = input.getToEdge();
+			conn.remove();
+			graph.createEdge(input,node);
+
+			var funFrom = input.getFrom();
+			if(funFrom){
+				var funOffsetX = offsetX - blockWidth;
+				funFrom.offset(funOffsetX,inputOffsetY);
+				var fromConn = input.getFromEdge();
+				fromConn.remove();
+				graph.createEdge(funFrom,input);
+				repositionFunNode(funFrom,funOffsetX,inputOffsetY,level + 1);
+			}
+		}
+	}
+
+	repositionFunNode(tail,tailOffset_x,tailOffset_y,1);
 
 	return true;
 }
