@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script type="text/javascript" src="../js/jquery-3.2.1.min.js"></script>
+    <style type="text/css">
+    	.wrapper{
+    		float: left;
+    		margin: 10px;
+    		width: 30%;
+    		height: 800px;    		
+    	}
+
+    	.w_10 {
+    		width: 10%;
+    	}
+
+    	.w_30 {
+    		width: 30%;
+    	}
+
+    	.w_50 {
+    		width: 50%;
+    	}
+
+    	.container{    		
+    		width: calc(100%-2px);
+    		height: 100%;
+    		border: 1px solid #ccc;
+    	}
+    	.title{
+    		width: 100%;
+    		height: 30px;
+    		line-height: 30px;
+    		text-align: center;
+    		background-color: #ccc;
+    	}
+    	ul{
+    		list-style:none;
+    		padding: 0px;
+    		margin: 10px 0px;
+    	}
+    	li{
+    		height: 30px;
+    		line-height: 30px;
+    		text-align: left;
+    		padding-left: 30px;
+    	}
+    	li:hover{
+    		background-color: #eee;
+    		cursor: pointer;
+    	}
+    	table{
+    		border: 1px solid #aaa;
+    	}
+    	td{
+    		border: 1px solid #aaa;
+    	}
+    </style>
+    <title>Model</title>
+</head>
+<body>
+	<div class="wrapper w_10">
+		<div class="title">Model</div>
+		<div id="models" class="container"></div>
+	</div>
+	<div class="wrapper w_30">
+		<div class="title">Task</div>
+		<div id="tasks" class="container"></div>
+	</div>
+	<div class="wrapper w_50">
+		<div class="title">Task State</div>
+		<div id="processes" class="container"></div>
+	</div>
+</body>
+</html>
+
+
+<script type="text/javascript">
+	$().ready(function(){
+		populateModel()
+	})
+
+	//获取所有Model
+	function populateModel(){
+		$.get("/model/models/", function(models, status){
+			var html = "<ul>";
+			models.forEach(function(model){
+				html += "<li id='" + model.uuid + "'>" + model.name + "</li>";
+			})
+			html += "</ul>";
+			document.getElementById("models").innerHTML = html;
+
+			$("#models li").click(function(){
+				var uuid = $(this).attr("id")
+
+				populateTask(uuid);
+				get_model_json(uuid);
+			})
+		})
+	}
+
+	function populateTask(model_id){
+		$.get("/model/model/" + model_id + "/tasks/", function(tasks, status){
+			var html = "<ul>";
+			tasks.forEach(function(task){
+				html += "<li id='" + task.uuid + "'>" + task.uuid + "</li>";
+			})
+			html += "</ul>";
+			document.getElementById("tasks").innerHTML = html;
+
+			$("#tasks li").click(function(){
+				var uuid = $(this).attr("id")
+
+				populateTaskState(uuid);
+			})
+		})
+	}
+
+	function populateTaskState(task_id){
+		$.get("/model/task/" + task_id + "/state/", function(task, status){
+			var html = "<table>";
+			html += "<tr><td>Name</td><td>State</td><td>Start</td><td>End</td></tr>";
+			task.processes.forEach(function(p){
+				state = get_state(p.state)
+				html += "<tr><td>" + p.name + "</td><td>" + state + "</td><td>" + p.start_time + "</td><td>" + p.end_time + "</td></tr>";
+			})
+			html += "</table>";
+			document.getElementById("processes").innerHTML = html;
+
+			// $("#tasks li").click(function(){
+			// 	var uuid = $(this).attr("id")
+
+			// 	populateProcess(uuid);
+			// })
+		})
+	}
+
+	function get_state(state){
+		switch(state){
+			case 0:
+				return "stop";
+			case 1:
+				return "running";
+			case 2:
+				return "complete";
+		}
+	}
+
+	function get_model_json(model_id){
+		$.get("/model/model/" + model_id + "/", function(model, status){
+			alert(JSON.stringify(model));
+		});
+	}
+
+</script>
