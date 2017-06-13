@@ -11,6 +11,14 @@ class Model(models.Model):
     description = models.CharField(max_length=1024)
     text = models.TextField()
 
+    def exportToJson(self):
+        return {
+            "name" : self.name,
+            "uuid" : str(self.uuid),
+            "description" : self.description,
+            "create_time" : str(self.create_time)
+        }
+
 class Task(models.Model):
     id = models.AutoField(primary_key=True)
     uuid = models.UUIDField(default=uuid.uuid4, editable=False, null=False, unique=True)
@@ -18,6 +26,20 @@ class Task(models.Model):
     name = models.CharField(max_length=64)
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
+    state = models.IntegerField(default=0)
+
+    def exportToJson(self):
+        obj = {
+            "id" : self.id,
+            "name" : self.name,
+            "uuid" : str(self.uuid),
+            "model" : str(self.model_id),
+            "state" : self.state,
+            "start_time" : str(self.start_time),
+            "end_time" : str(self.end_time),
+        }
+        return obj
+
 
 class Process(models.Model):
     id = models.AutoField(primary_key=True)
@@ -26,3 +48,14 @@ class Process(models.Model):
     start_time = models.DateTimeField()
     end_time = models.DateTimeField(null=True)
     state = models.IntegerField(default=0)
+
+    def exportToJson(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            # "uuid": str(self.uuid),
+            "task": str(self.task_id),
+            "state": self.state,
+            "start_time": str(self.start_time),
+            "end_time": str(self.end_time),
+        }
