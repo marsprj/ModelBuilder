@@ -82,6 +82,12 @@ DataNode.prototype.offset = function(dx, dy){
 	}
 }
 
+DataNode.prototype.scale = function(sx,sy){
+	if(this._shape){
+		this._shape.scale(sx,sy);
+	}
+}
+
 Node.prototype.export = function(){
 	return {
 		id : this._id,

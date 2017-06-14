@@ -89,3 +89,9 @@ FuncNode.prototype.offset = function(dx, dy){
 		this._output.offsetStart(dx, dy);
 	}
 }
+
+FuncNode.prototype.scale = function(sx,sy){
+	if(this._shape){
+		this._shape.scale(sx,sy);
+	}
+}

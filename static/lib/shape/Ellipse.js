@@ -126,3 +126,18 @@ Ellipse.prototype.offset = function(dx, dy){
 		});	
 	}
 }
+
+Ellipse.prototype.scale = function(sx,sy){
+	if(this._shape){
+		this._shape.scale(sx,sy);
+
+		var bbox = this._shape.getBBox();
+		this._xmin = bbox.x;
+		this._ymin = bbox.y;
+		this._xmax = bbox.x + bbox.width;
+		this._ymax = bbox.y + bbox.height;		
+
+		this._a = Math.abs(this._xmax - this._xmin) / 2;
+		this._b = Math.abs(this._ymax - this._ymin) / 2;
+	}
+}

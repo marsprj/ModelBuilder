@@ -134,6 +134,8 @@ Graph.prototype.load = function(json){
 
 	this.clear();
 	var graph = this;
+	var centerx = Math.round(this._width/2 + 0.5);
+	var centery = Math.round(this._height/2 + 0.5); 
 	model.data.forEach(function(d){
 		d.node = graph.createDatumNode(50, 50, 100, 50);
 		d.node.setPath(d.path);
@@ -188,16 +190,40 @@ Graph.prototype.load = function(json){
 	});
 
 	// 一个块的大小
-	var blockWidth = 150,blockHeight = 100;
+	var blockWidth = 150,blockHeight = 100,connWidth = 50;
+
+	var validWidth = level * blockWidth*2 + blockWidth;
+	var validHeight = rowCount * blockHeight;
+
+
+	var scale = 1;
+ 	if(validWidth > this._width || validHeight > this._height){
+ 		var scaleX = this._width / validWidth;
+ 		var scaleY = this._height / validHeight;
+ 		var scale = scaleY > scaleX ? scaleX : scaleY;
+ 		blockWidth = blockWidth * scale;
+ 		blockHeight = blockHeight * scale;
+ 		validWidth = validWidth * scale;
+ 		validHeight = validHeight * scale;
+ 		connWidth = connWidth*scale;
+ 	}
+	
 
 
 	// 先处理尾节点
 	var tail = this.findLastFunction();
 	var output = tail.getOutput();
-	var tailOffset_x = 300* (level-1)+blockWidth;
-	var tailOffset_y = blockHeight*rowCount /2 -50;
+
+	var tailOffset_x = blockWidth*2* (level-1)+blockWidth + centerx - validWidth/2 - (blockWidth/scale - blockWidth)/4 + connWidth/4;
+	var tailOffset_y = blockHeight*rowCount /2 -connWidth + centery - validHeight/2;
 	tail.offset(tailOffset_x,tailOffset_y);
-	output.offset(300*level,tailOffset_y);
+	if(scale != 1){
+		tail.scale(scale,scale);
+	}
+	output.offset(tailOffset_x + blockWidth,tailOffset_y);
+	if(scale != 1){
+		output.scale(scale,scale);
+	}
 
 	var conn = output.getFromEdge();
 	conn.remove();
@@ -223,6 +249,9 @@ Graph.prototype.load = function(json){
 			var inputOffsetY = first + i*rowDelta;
 			var input = inputs[i];
 			input.offset(offsetX,inputOffsetY);
+			if(scale != 1){
+				input.scale(scale,scale);
+			}
 			var conn = input.getToEdge();
 			conn.remove();
 			graph.createEdge(input,node);
@@ -231,6 +260,9 @@ Graph.prototype.load = function(json){
 			if(funFrom){
 				var funOffsetX = offsetX - blockWidth;
 				funFrom.offset(funOffsetX,inputOffsetY);
+				if(scale != 1){
+					funFrom.scale(scale,scale);
+				}
 				var fromConn = input.getFromEdge();
 				fromConn.remove();
 				graph.createEdge(funFrom,input);

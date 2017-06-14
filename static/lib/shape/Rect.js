@@ -109,3 +109,17 @@ Rect.prototype.offset = function(dx, dy){
 		});	
 	}
 }
+
+Rect.prototype.scale = function(sx,sy){
+	if(this._shape){
+		this._shape.scale(sx,sy);
+		var bbox = this._shape.getBBox();
+		this._xmin = bbox.x;
+		this._ymin = bbox.y;
+		this._xmax = bbox.x + bbox.width;
+		this._ymax = bbox.y + bbox.height;
+
+		this._width = this._xmax - this._xmin;
+		this._height = this._ymax - this._ymin;
+	}
+}
