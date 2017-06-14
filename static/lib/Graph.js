@@ -154,9 +154,6 @@ Graph.prototype.load = function(json){
 	});
 
 
-	// 重绘所有的连接线
-	this._connManager.clear();
-
 	// level 是横向的级别,每一个funNode都算一个级别
 	// rowCount是纵向的级别
 	var level = 0;
@@ -225,10 +222,6 @@ Graph.prototype.load = function(json){
 		output.scale(scale,scale);
 	}
 
-	var conn = output.getFromEdge();
-	conn.remove();
-	this.createEdge(tail,output);
-
 
 	var graph = this;
 	// 调整方法节点和节点前的输入，并进行递归，直到前面没有输入
@@ -252,9 +245,6 @@ Graph.prototype.load = function(json){
 			if(scale != 1){
 				input.scale(scale,scale);
 			}
-			var conn = input.getToEdge();
-			conn.remove();
-			graph.createEdge(input,node);
 
 			var funFrom = input.getFrom();
 			if(funFrom){
@@ -263,9 +253,6 @@ Graph.prototype.load = function(json){
 				if(scale != 1){
 					funFrom.scale(scale,scale);
 				}
-				var fromConn = input.getFromEdge();
-				fromConn.remove();
-				graph.createEdge(funFrom,input);
 				repositionFunNode(funFrom,funOffsetX,inputOffsetY,level + 1);
 			}
 		}

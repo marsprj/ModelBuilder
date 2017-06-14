@@ -49,8 +49,9 @@ $().ready(function(){
 	initMenuEvents();
 	initNodeEvents();
 
-	// initGraph();
-	initGraph_2();
+	initGraph();
+	// initGraph_2();
+	// loadGraph();
 
 	// g_dlg = new StretchDialog();
 	// g_dlg = new FileDialog();
