@@ -4,10 +4,11 @@ from django.http import HttpResponse
 from . import models
 from .models import Model, Task
 from .Graph import Graph
+import ModelFlow
 
 from django.utils import timezone
 
-import time, json, uuid, datetime
+import time, json, uuid, datetime, os, os.path
 
 # Create your views here.
 
@@ -17,15 +18,33 @@ def index(request):
 def model_save(request):
 
     text = request.body.decode('utf-8')
-    create_time = time.strftime("%Y-%m-%d %H:%M:%S")
+    create_time = timezone.now()
     obj = json.loads(text)
-    obj["create_time"] = create_time
+    obj["create_time"] = str(create_time)
     name = obj["name"]
 
-    model = models.Model(name=name, description=name, create_time=create_time, text=json.dumps(obj))
+    #生成Model
+    model = Model(
+        name=name,
+        description=name,
+        create_time=create_time,
+        text=json.dumps(obj))
     model.save();
 
-    return HttpResponse(name)
+    #创建model目录(不要了)
+    # model_folder = os.path.join(
+    #     os.path.join(
+    #         os.path.join(
+    #             os.path.join(ModelFlow.settings.BASE_DIR, "static"),
+    #             "data"
+    #         ),
+    #         "model",
+    #     ),
+    #     str(model.uuid)
+    # )
+    #os.mkdir(model_path)
+
+    return HttpResponse(model.uuid)
 
 """
 返回所有的Model
@@ -194,7 +213,8 @@ def start_task(model_id):
                 process.save()
 
                 #time.sleep(5)
-                #processing
+                func = flow[i]
+                #processing func
 
                 #更新process的状态为结束，并记录结束时间
                 process.end_time = timezone.now()
