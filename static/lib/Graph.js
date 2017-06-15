@@ -617,8 +617,9 @@ Graph.prototype.startConnecting = function(){
 					that._connection = null;
 				}
 				else if(node.getType() == that._start_node.getType()){
+					that._conn_end = node.findSnap(evt.offsetX, evt.offsetY);
 					that._connection.update(that._conn_start.x, that._conn_start.y, 
-											evt.offsetX, 		evt.offsetY);
+											that._conn_end.x,that._conn_end.y);
 
 				}
 				else{

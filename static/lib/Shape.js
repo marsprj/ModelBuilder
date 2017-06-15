@@ -272,6 +272,9 @@ Shape.prototype.startSnapping = function(){
 
 	this._snap_hover_in = function(evt){		//hover in
 
+		if(that._onSelectedChanged){
+			that._onSelectedChanged(that);
+		}
 		that.showSnap();
 
 		// 判断周边的snap离开的状态
@@ -280,6 +283,9 @@ Shape.prototype.startSnapping = function(){
 				console.log("snap")
 				if(!that._shape.isPointInside(e.layerX,e.layerY)){
 					that.hideSnap();
+					if(that._onSelectedChanged){
+						that._onSelectedChanged(null);
+					}
 				}
 			};
 			s.hover(null,mouseout);
@@ -309,6 +315,9 @@ Shape.prototype.startSnapping = function(){
 		// 无遮挡，则删除snap
 		if(!inShape){
 			that.hideSnap();
+			if(that._onSelectedChanged){
+				that._onSelectedChanged(null);
+			}
 		}
 	}
 
@@ -327,17 +336,18 @@ Shape.prototype.stopSnapping = function(){
 
 Shape.prototype.startConnecting = function(onSelectChanged){
 	var that = this;
-	this._shape.hover(
-		function(){
-			if(onSelectChanged){
-				onSelectChanged(that);
-			}
-		},
-		function(){
-			if(onSelectChanged){
-				onSelectChanged(null);
-			}
-		});
+	// this._shape.hover(
+	// 	function(){
+	// 		if(onSelectChanged){
+	// 			onSelectChanged(that);
+	// 		}
+	// 	},
+	// 	function(){
+	// 		if(onSelectChanged){
+	// 			onSelectChanged(null);
+	// 		}
+	// 	});
+	this._onSelectedChanged = onSelectChanged;
 	// this._shape.hover(
 	// 	that._connection_listener.in,
 	// 	that._connection_listener.out
