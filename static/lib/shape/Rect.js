@@ -19,10 +19,10 @@ var Rect = function(r, xmin, ymin, width, height){
 	this._snap_r= 3;
 
 	this._shape = this._r.rect(this._xmin, this._ymin, this._width, this._height, this._round);
-	this._shape.attr(
-		"fill", "#f00",
-		"stroke", "#fff"
-	);
+	this._shape.attr({
+		"fill": "#f00",
+		"stroke":"#000",
+	});
 	this._id = this._shape.id;
 }
 

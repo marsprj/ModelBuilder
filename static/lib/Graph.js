@@ -554,7 +554,7 @@ Graph.prototype.stopSnapping = function(){
 // }
 
 Graph.prototype.startConnecting = function(){
-	this.startSnapping();
+	// this.startSnapping();
 	// start node connecting
 	var that = this;
 	//var nodeManger = NodeManager.getInstance();

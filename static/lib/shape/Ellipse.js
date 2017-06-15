@@ -20,10 +20,14 @@ var Ellipse = function(r, xmin, ymin, width, height){
 	this._snap_r= 3;
 
 	this._shape = this._r.ellipse(this._centerx, this._centery, this._a, this._b);
-	this._shape.attr(
-		"fill", "#0f0",
-		"stroke", "#fff"
-	);
+	// this._shape.attr(
+	// 	"fill", "#ff0",
+	// 	"stroke", "#f0f"
+	// );
+	this._shape.attr({
+		"fill": "#0f0",
+		"stroke":"#000",
+	});
 	this._id = this._shape.id;
 
 	var cx = this._shape.attr("cx");
