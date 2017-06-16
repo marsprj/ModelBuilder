@@ -139,3 +139,9 @@ Node.prototype.stopConnecting = function(){
 		this._shape.stopConnecting();
 	}
 }
+
+Node.prototype.hideSnap = function(){
+	if(this._shape){
+		this._shape.hideSnap();
+	}
+}

@@ -617,9 +617,9 @@ Graph.prototype.startConnecting = function(){
 					that._connection = null;
 				}
 				else if(node.getType() == that._start_node.getType()){
-					that._conn_end = node.findSnap(evt.offsetX, evt.offsetY);
-					that._connection.update(that._conn_start.x, that._conn_start.y, 
-											that._conn_end.x,that._conn_end.y);
+					// 同一类型的连接没有意义
+					that._connection.remove();
+					that._connection = null;
 
 				}
 				else{
@@ -641,6 +641,8 @@ Graph.prototype.startConnecting = function(){
 														 	 	 , that._conn_end.x,   that._conn_end.y);
 						that._connection.setEnds(that._start_node, that._end_node);
 						that._connManager.add(that._connection);
+						that._start_node.hideSnap();
+						that._end_node.hideSnap();
 					}
 				}
 			}else{
