@@ -660,20 +660,20 @@ Graph.prototype.startConnecting = function(){
 }
 
 Graph.prototype.stopConnecting = function(){
-	this.stopSnapping();
+	// this.stopSnapping();
 	// stop node connecting
 	//var nodeManger = NodeManager.getInstance();
 	//var nodes = nodeManger.getNodes();
 	var nodes = this._nodeManager.getNodes();
 	nodes.forEach(function(n){
-		//n.stopConnecting();
+		n.stopConnecting();
 		n.stopSnapping();
 	})
 
 	//unbind listener
-	$("#"+this._container_id).unbind("mousedown", this.onMouseDown);
-	$("#"+this._container_id).unbind("mousemove", this.onMouseMove);
-	$("#"+this._container_id).unbind("mouseup",   this.onMouseUp);	
+	$("#"+this._container_id).unbind("mousedown", this._onmousedown);
+	$("#"+this._container_id).unbind("mousemove", this._onmousemove);
+	$("#"+this._container_id).unbind("mouseup",   this._onmouseup);	
 }
 
 Graph.prototype.onMouseDown = function(evt){

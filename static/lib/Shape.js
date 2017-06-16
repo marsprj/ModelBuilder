@@ -335,7 +335,7 @@ Shape.prototype.stopSnapping = function(){
 }
 
 Shape.prototype.startConnecting = function(onSelectChanged){
-	var that = this;
+	// var that = this;
 	// this._shape.hover(
 	// 	function(){
 	// 		if(onSelectChanged){
@@ -354,6 +354,9 @@ Shape.prototype.startConnecting = function(onSelectChanged){
 	// );
 }
 
+Shape.prototype.stopConnecting = function(){
+	this._onSelectedChanged = null;
+}
 
 // Shape.prototype.startConnection = function(){
 // 	var that = this;

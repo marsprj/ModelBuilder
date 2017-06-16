@@ -156,6 +156,10 @@ function initMenuEvents(){
 		g_graph.undrag();
 		g_graph.startConnecting();
 	})
+	$("#unconn").click(function(){
+		g_graph.undrag();
+		g_graph.stopConnecting();
+	});
 	$("#save").click(function(){
 		var model = g_graph.export();
 		document.getElementById("result").innerHTML = g_graph.export();
