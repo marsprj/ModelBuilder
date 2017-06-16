@@ -171,7 +171,7 @@ Graph.prototype.load = function(json){
 			var next = f;
 			while(true){
 				var output = next.getOutput();
-				if(output.getTo()){
+				if(output&&output.getTo()){
 					inputLevel += 1;
 					next = output.getTo(); 
 				}else{
@@ -217,9 +217,11 @@ Graph.prototype.load = function(json){
 	if(scale != 1){
 		tail.scale(scale,scale);
 	}
-	output.offset(tailOffset_x + blockWidth,tailOffset_y);
-	if(scale != 1){
-		output.scale(scale,scale);
+	if(output){
+		output.offset(tailOffset_x + blockWidth,tailOffset_y);
+		if(scale != 1){
+			output.scale(scale,scale);
+		}
 	}
 
 

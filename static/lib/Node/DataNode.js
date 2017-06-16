@@ -32,6 +32,9 @@ DataNode.prototype.setPath = function(path){
 	if(sep>=0){
 		text = path.substring(sep+1);
 	}
+	if(text == ""){
+		text = "data";
+	}
 	this.setName(text);
 	//this.showText();
 }
