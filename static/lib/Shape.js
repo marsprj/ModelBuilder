@@ -10,6 +10,7 @@ var Shape = function(r){
 
 	this._snap_hover_in = null;
 	this._snap_hover_out = null;
+	this._text_out = null;
 
 	var that = this;
 	var connection = null;
@@ -280,7 +281,6 @@ Shape.prototype.startSnapping = function(){
 		// 判断周边的snap离开的状态
 		that._snaps.forEach(function(s){
 			var mouseout = function(e){
-				console.log("snap")
 				if(!that._shape.isPointInside(e.layerX,e.layerY)){
 					that.hideSnap();
 					if(that._onSelectedChanged){
@@ -325,6 +325,17 @@ Shape.prototype.startSnapping = function(){
 		this._snap_hover_in,
 		this._snap_hover_out
 	);
+
+	this._text_out = function(evt){
+		if(!that._shape.isPointInside(evt.layerX,evt.layerY)){
+			that.hideSnap();
+			if(that._onSelectedChanged){
+				that._onSelectedChanged(null);
+			}
+		}
+	};
+
+	this._text.hover(null,this._text_out);
 }
 
 Shape.prototype.stopSnapping = function(){
@@ -332,6 +343,8 @@ Shape.prototype.stopSnapping = function(){
 		this._snap_hover_in,
 		this._snap_hover_out
 	);
+
+	this._text.unhover(null,this._text_out);
 }
 
 Shape.prototype.startConnecting = function(onSelectChanged){
