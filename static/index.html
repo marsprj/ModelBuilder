@@ -3,6 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<link rel="stylesheet" type="text/css" href="css/workflow.css">
+	<link rel="stylesheet" type="text/css" href="css/fonts/font-awesome.min.css">
 	<link rel="stylesheet" type="text/css" href="lib/css/dialog.css">
 	<title>Workflow</title>
 </head>
@@ -34,16 +35,46 @@
 	</div>
 
 	<div id="center">
-		<div id="funcs">
-			<div class="titlebar">算法库</div>
-			<div id="func_container" class="func_container">				
+		<div id="models">
+			<div class="titlebar">模型库</div>
+			<div id="models_container">
 			</div>
 		</div>
 		<div id="main">
-			<div id="canvas"></div>
+			<div class="float-menu">
+				<i class="fa fa-file-o menu-new" aria-hidden="true"></i>
+				<i class="fa fa-floppy-o menu-save" aria-hidden="true"></i>
+				<i class="fa fa-upload" aria-hidden="true"></i>
+			</div>
+			<div id="main_top">
+				<div id="funcs">
+					<div class="titlebar">算法库</div>
+					<div id="func_container" class="func_container">	
+					</div>
+				</div>
+				<div id="canvas"></div>
+			</div>
 			<div id="result_panel">
 				<div class="titlebar">输出</div>
-				<div id="result">输出结果</div>
+				<div id="result">
+
+					<div class="table">
+						<div class="row header">
+							<div class="cell">
+								名称
+							</div>
+							<div class="cell">
+								状态
+							</div>
+							<div class="cell">
+								开始时间
+							</div>
+							<div class="cell">
+								结束时间
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -143,7 +174,8 @@
 <script type="text/javascript" src="lib/Dialog/StretchDialog.js"></script>
 
 <script type="text/javascript" src="js/workflow.js"></script>
-
+<script type="text/javascript" src="js/model.js"></script>
+<script type="text/javascript" src="js/menu.js"></script>
 <script type="text/javascript">
 
 

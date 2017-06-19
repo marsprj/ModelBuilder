@@ -49,7 +49,14 @@ $().ready(function(){
 	initMenuEvents();
 	initNodeEvents();
 
-	initGraph();
+	getModels();
+
+	var taskId = "e6d0c288-98af-4cd2-80f0-bcda591439ad";
+	getTaskState(taskId);
+
+	menuEvent();
+
+	// initGraph();
 	// initGraph_2();
 	// loadGraph();
 
