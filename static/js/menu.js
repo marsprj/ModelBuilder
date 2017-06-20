@@ -3,16 +3,22 @@ function menuEvent(){
 		if($(this).hasClass("menu-new")){
 			createModel();
 		}else if($(this).hasClass("menu-save")){
-			saveModel();
+			var text = g_graph.export();
+			saveModel(text,function(uuid){
+				if(uuid.length == 36){
+					alert("保存成功");
+				}
+			});
 		}
 
 	});
 }
 
 function createModel(){
-	g_graph.clear();
+	var dlg = new CreateModelDialog(function(uuid){
+		g_new_model = uuid;
+		getModels();
+	});
+	dlg.show();
 }
 
-function saveModel(){
-	alert("save");
-}

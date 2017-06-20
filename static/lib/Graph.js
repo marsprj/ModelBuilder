@@ -87,6 +87,14 @@ Graph.prototype.setState = function(state){
 	this._state = state;
 }
 
+Graph.prototype.setName = function(name){
+	this._name = name;
+}
+
+Graph.prototype.setDescription = function(description){
+	this._descripiton = description;
+}
+
 /*
  * 序列化workflow，形成可以执行的
  */
@@ -105,6 +113,9 @@ Graph.prototype.load = function(json){
 	if(!model){
 		return false;
 	}
+
+	this.setName(model.name);
+	this.setDescription(model.description);
 
 	var findNodeByID = function(data, funcs, id){
 		var target = null;
@@ -209,21 +220,22 @@ Graph.prototype.load = function(json){
 
 	// 先处理尾节点
 	var tail = this.findLastFunction();
-	var output = tail.getOutput();
-
-	var tailOffset_x = blockWidth*2* (level-1)+blockWidth + centerx - validWidth/2 - (blockWidth/scale - blockWidth)/4 + connWidth/4;
-	var tailOffset_y = blockHeight*rowCount /2 -connWidth + centery - validHeight/2;
-	tail.offset(tailOffset_x,tailOffset_y);
-	if(scale != 1){
-		tail.scale(scale,scale);
-	}
-	if(output){
-		output.offset(tailOffset_x + blockWidth,tailOffset_y);
+	if(tail){
+		var tailOffset_x = blockWidth*2* (level-1)+blockWidth + centerx - validWidth/2 - (blockWidth/scale - blockWidth)/4 + connWidth/4;
+		var tailOffset_y = blockHeight*rowCount /2 -connWidth + centery - validHeight/2;
+		tail.offset(tailOffset_x,tailOffset_y);
 		if(scale != 1){
-			output.scale(scale,scale);
+			tail.scale(scale,scale);
 		}
-	}
 
+		var output = tail.getOutput();
+		if(output){
+			output.offset(tailOffset_x + blockWidth,tailOffset_y);
+			if(scale != 1){
+				output.scale(scale,scale);
+			}
+		}
+	}	
 
 	var graph = this;
 	// 调整方法节点和节点前的输入，并进行递归，直到前面没有输入
@@ -270,7 +282,8 @@ Graph.prototype.export = function(){
 	var tail = this.findLastFunction();
 	
 	var model = {
-		name : "my model",
+		name : this._name,
+		description : this._descripiton,
 		functions : [
 		],
 		data : [

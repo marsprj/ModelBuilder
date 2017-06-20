@@ -3,7 +3,9 @@
 <head>
 	<meta charset="utf-8">
 	<link rel="stylesheet" type="text/css" href="css/workflow.css">
+	<link rel="stylesheet" type="text/css" href="css/dialog.css">
 	<link rel="stylesheet" type="text/css" href="css/fonts/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="css/jquery-ui.min.css">
 	<link rel="stylesheet" type="text/css" href="lib/css/dialog.css">
 	<title>Workflow</title>
 </head>
@@ -46,11 +48,19 @@
 				<i class="fa fa-floppy-o menu-save" aria-hidden="true"></i>
 				<i class="fa fa-upload" aria-hidden="true"></i>
 			</div>
+			<div id="funcs">
+				<div class="titlebar">
+					<span>算法库</span>
+					<i class="fa fa-window-maximize funcs-resize" aria-hidden="true"></i>
+				</div>
+				<div id="func_container">	
+				</div>
+			</div>
 			<div id="main_top">
-				<div id="funcs">
-					<div class="titlebar">算法库</div>
-					<div id="func_container" class="func_container">	
-					</div>
+
+				<div id="tasks">
+					<div class="titlebar">任务进程</div>
+					<div id="tasks_container"></div>
 				</div>
 				<div id="canvas"></div>
 			</div>
@@ -152,6 +162,7 @@
 
 <script type="text/javascript" src="js/raphael.js"></script>
 <script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="js/3rd/jquery-ui.min.js"></script>
 <!-- <script type="text/javascript" src="lib/def.js"></script> -->
 <script type="text/javascript" src="lib/Arrow.js"></script>
 <script type="text/javascript" src="lib/Edge.js"></script>
@@ -173,9 +184,11 @@
 <script type="text/javascript" src="lib/Dialog/FusionDialog.js"></script>
 <script type="text/javascript" src="lib/Dialog/StretchDialog.js"></script>
 
+
 <script type="text/javascript" src="js/workflow.js"></script>
 <script type="text/javascript" src="js/model.js"></script>
 <script type="text/javascript" src="js/menu.js"></script>
+<script type="text/javascript" src="js/CreateModelDialog.js"></script>
 <script type="text/javascript">
 
 
@@ -183,3 +196,4 @@
 
 <!-- <script type="text/javascript" src="input.js"></script>
 <script type="text/javascript" src="func.js"></script> -->
+

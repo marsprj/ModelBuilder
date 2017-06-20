@@ -1,0 +1,22 @@
+.create-model-dialog {
+    position: absolute;
+    left: 500px;
+    top: 300px;
+    width: 360px;
+    font-size: 12px;
+    border: 1px solid #888888;
+    background-color: white;
+    box-shadow: 2px 2px 5px 2px #888888;
+}
+
+.create-model-dialog .titlebar{
+    cursor: move;
+}
+
+.create-model-dialog .dialog_item{
+	line-height: 30px;
+}
+
+.create-model-dialog input,.create-model-dialog textarea{
+	width: 290px;
+}

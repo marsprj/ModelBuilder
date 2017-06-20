@@ -25,11 +25,40 @@ html, body{
 }
 
 #funcs{
+	position: absolute;
+    width: 220px;
+    border: 1px solid #999999;
+    box-shadow: 1px 1px 3px #292929;
+    right: 30px;
+    top: 20px;
+	z-index: 1001;
+	/*height: 500px;*/
+}
+
+#funcs .titlebar{
+	cursor: move;
+}
+.funcs-resize{
+    float: right;
+    margin-top: 6px;
+    margin-right: 6px;
+    cursor: pointer;
+}
+.funcs-resize:hover{
+	font-weight: bold;
+}
+
+#tasks{
 	float: left;
-	width: 200px;
+	width: 280px;
 	height: 100%;
-	border-right: 1px solid #999999;
-	/*box-shadow:1px 1px 3px #292929;*/
+	border-right: 1px solid #999999;	
+}
+
+#tasks_container{
+	height: calc(100% - 30px);
+	overflow-y: auto;
+	font-size: 12px;
 }
 
 #models{
@@ -39,25 +68,22 @@ html, body{
 	border-right: 1px solid #999999;
 }
 
-.model-item{
-    height: 40px;
+.model-item,.task-item{
+    height: 30px;
     border-bottom: 1px solid #eee;
-    line-height: 40px;
+    line-height: 30px;
     padding-left: 12px;
     cursor: pointer;
 }
 
-.model-item:hover{
-	background-color: #fbfbfb;
+.model-item i,.task-item i{
+	color: #1d9d74;
+    font-size: 16px;
 }
 
-.model-icon{
-    background-image: url(../images/model.png);
-    width: 26px;
-    height: 26px;
-    display: inline-block;
-    background-position: center;
-    margin-bottom: -8px;
+.model-item:hover,.task-item:hover,
+.model-item.active,.task-item.active{
+	background-color: #fbfbfb;
 }
 
 .model-name{
@@ -91,7 +117,7 @@ html, body{
 }
 
 #canvas{
-	width: calc(100% - 201px);
+	width: calc(100% - 281px);
 	height: 100%;
 	-moz-user-select:none;/*火狐*/
 	-webkit-user-select:none;/*webkit浏览器*/
@@ -170,6 +196,7 @@ html, body{
 #models_container{
 	width: 100%;
 	height: calc(100% - 30px);
+	font-size: 12px;
 }
 
 #models_container.loading{
@@ -177,10 +204,15 @@ html, body{
 	background-position: center;
 	background-image: url(../images/spin2.gif);
 }
-.func_container{
+#func_container{
 	width: 100%;
-	height: calc(100%-30px);
-	background-color: red;
+	height: 500px;
+	/*height: calc(100% - 30px);*/
+	background-color: #fff;
+	border: 1px solid #999999;
+    box-shadow: 1px 1px 3px #292929;
+    border-top: none;
+    display: none;
 }
 
 .func_wrapper{
@@ -188,11 +220,11 @@ html, body{
 	height: 30px;
 	background-color: white;
 	border-bottom: 1px solid #eeeeee;
+	cursor : pointer;
 }
 
-.func_wrapper:hover{
+.func_wrapper:hover,.func_wrapper.active{
 	background-color: #dff1f9;
-	cursor : pointer;
 }
 
 .func_icon{
@@ -267,7 +299,7 @@ html, body{
 .float-menu{
     position: absolute;
     top: 30px;
-    left: 220px;
+    left: 300px;
     height: 40px;
     line-height: 40px;
     box-shadow: 1px 1px 2px #c3c3c3;
