@@ -249,7 +249,7 @@ Graph.prototype.export = function(){
 	var tail = this.findLastFunction();
 	
 	var model = {
-		name : "my model",
+		name : "my_model_2",
 		functions : [
 		],
 		data : [

@@ -18,18 +18,43 @@ def index(request):
 def model_save(request):
 
     text = request.body.decode('utf-8')
-    create_time = timezone.now()
-    obj = json.loads(text)
-    obj["create_time"] = str(create_time)
-    name = obj["name"]
 
-    #生成Model
-    model = Model(
-        name=name,
-        description=name,
-        create_time=create_time,
-        text=json.dumps(obj))
-    model.save();
+    #解析Model的json对象
+    try:
+        obj = json.loads(text)
+    except JSONDecodeError:
+        return http_error_response("Model的json对象解析失败")
+
+    #检索数据库，看当前Model是否已经存在
+    model_name = obj["name"]
+    try:
+        models = Model.objects.filter(name=model_name)
+    except:
+        return http_error_response("Model查询失败")
+
+
+    if len(models)>0:
+        #Model已经存在，修改Model的数据
+        #return http_error_response("Model[{0}]已经存在".format(model_name))
+        model = models[0]
+        model.text = json.dumps(obj)
+        model.save();
+    else:
+        #Model不存在，创建新的Model
+        create_time = timezone.now()
+        obj["create_time"] = str(create_time)
+        #生成Model
+        model = Model(
+            name=model_name,
+            description=model_name,
+            create_time=create_time,
+            text=json.dumps(obj))
+
+    try:
+        model.save()
+        return HttpResponse(model.uuid)
+    except OperationalError:
+        return http_error_response("Model保存失败")
 
     #创建model目录(不要了)
     # model_folder = os.path.join(
@@ -44,7 +69,7 @@ def model_save(request):
     # )
     #os.mkdir(model_path)
 
-    return HttpResponse(model.uuid)
+
 
 """
 返回所有的Model
@@ -149,6 +174,34 @@ def task_state(request, task_id):
 
 
 """
+创建Model的Task
+返回Task的uuid
+"""
+def task_create(request, model_id):
+
+    try:
+        models = Model.objects.filter(uuid=model_id)
+    except:
+        return HttpResponse("Error")
+
+    if not models:
+        return HttpResponse("Error")
+
+    task = model.task_set.create(
+        uuid=uuid.uuid4(),
+        name=model.name,
+        start_time=timezone.now(),
+        end_time=timezone.now(),
+    )
+    task.save()
+
+    obj = {
+        "uuid" : str(task.uuid)
+    }
+    return HttpResponse(json.dumps(obj))
+
+
+"""
 启动模型计算
 返回Task的uuid
 """
@@ -225,3 +278,13 @@ def start_task(model_id):
         task.state = 2
         task.save()
     return task.uuid
+
+"""
+返回http错误信息
+"""
+def http_error_response(error):
+    obj = {
+        "status" : "error",
+        "message" : error
+    }
+    return HttpResponse(json.dumps(obj), content_type="application/json")
