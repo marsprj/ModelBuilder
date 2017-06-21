@@ -21,6 +21,9 @@ var g_connect_state = CONNECT_STATE.NONE;
 var g_graph = null;
 var g_func_type = null;
 
+// 新建的模型
+var g_new_model = null;
+
 var g_functions = [{
 		name : "Stretch",
 		description : "拉伸"
@@ -47,10 +50,18 @@ $().ready(function(){
 
 	loadFunctions();
 	initMenuEvents();
-	initNodeEvents();
+	initFunsEvents();
+
+	getModels();
+
+	// var taskId = "e6d0c288-98af-4cd2-80f0-bcda591439ad";
+	// getTaskState(taskId);
+
+	menuEvent();
 
 	// initGraph();
-	initGraph_2();
+	// initGraph_2();
+	// loadGraph();
 
 	// g_dlg = new StretchDialog();
 	// g_dlg = new FileDialog();
@@ -155,22 +166,25 @@ function initMenuEvents(){
 		g_graph.undrag();
 		g_graph.startConnecting();
 	})
+	$("#unconn").click(function(){
+		g_graph.undrag();
+		g_graph.stopConnecting();
+	});
 	$("#save").click(function(){
-		var model = g_graph.export();
-		document.getElementById("result").innerHTML = g_graph.export();
-		$.ajax({
-			type:"POST",
-			url:"/model/model/save/",
-			data : model,
-			contentType: "text/plain",
-			dataType : "text",
-			success:function(data){
-				alert(data);
-			}
-		});
+		// var model = g_graph.export();
+		// document.getElementById("result").innerHTML = g_graph.export();
+		// $.ajax({
+		// 	type:"POST",
+		// 	url:"/model/model/save/",
+		// 	data : model,
+		// 	contentType: "text/plain",
+		// 	dataType : "text",
+		// 	success:function(data){
+		// 		alert(data);
+		// 	}
+		// });
 	})
 	$("#load").click(function(){
-		//alert("load");
 		loadGraph();		
 	})
 	$("#run").click(function(){
@@ -187,14 +201,37 @@ function initMenuEvents(){
 	})
 }
 
-function initNodeEvents(){
+function initFunsEvents(){
+
+	$("#funcs").draggable({
+		handle : ".titlebar",
+		start : function(event,ui){
+			$(this).css("height","30px");
+			$(this).find(".funcs-resize").removeClass("fa-window-restore").addClass("fa-window-maximize");
+			$("#func_container").slideUp();
+		}
+	});
+
+
 	$(".func").click(function(){
 		g_func_type = $(this).attr("id");
 		console.log(g_func_type);
 
-		$(".func_wrapper").css("background-color", "#ffffff");
-		$(this).parent().css("background-color", "#dff1f9");
+		// $(".func_wrapper").css("background-color", "#ffffff");
+		// $(this).parent().css("background-color", "#dff1f9");
+		$(".func_wrapper").removeClass("active");
+		$(this).parent().addClass("active");
 	})
+
+	$(".funcs-resize").click(function(){
+		if($(this).hasClass("fa-window-restore")){
+			$(this).removeClass("fa-window-restore").addClass("fa-window-maximize");
+			$("#func_container").slideUp();
+		}else{
+			$(this).removeClass("fa-window-maximize").addClass("fa-window-restore");
+			$("#func_container").slideDown();
+		}
+	});
 }
 
 function loadFunctions(){

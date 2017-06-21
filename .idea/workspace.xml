@@ -2,10 +2,33 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ac37dfb7-7c13-4d7d-a101-64ef4a8b8d82" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/model/urls.py" afterPath="$PROJECT_DIR$/model/urls.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/model/views.py" afterPath="$PROJECT_DIR$/model/views.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/lib/Graph.js" afterPath="$PROJECT_DIR$/static/lib/Graph.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/css/fonts/FontAwesome.otf" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/css/fonts/fontawesome-webfont.eot" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/css/fonts/fontawesome-webfont.ttf" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/css/fonts/fontawesome-webfont.woff" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/css/fonts/fontawesome-webfont.woff2" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/images/model.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/images/spin.gif" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/images/spin2.gif" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/css/dialog.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/css/fonts/font-awesome.min.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/css/fonts/fontawesome-webfont.svg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/css/jquery-ui.min.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/js/3rd/jquery-ui.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/js/CreateModelDialog.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/js/menu.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/js/model.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/css/workflow.css" afterPath="$PROJECT_DIR$/static/css/workflow.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/index.html" afterPath="$PROJECT_DIR$/static/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/js/workflow.js" afterPath="$PROJECT_DIR$/static/js/workflow.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/lib/EdgeManager.js" afterPath="$PROJECT_DIR$/static/lib/EdgeManager.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/lib/Node.js" afterPath="$PROJECT_DIR$/static/lib/Node.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/lib/Node/DataNode.js" afterPath="$PROJECT_DIR$/static/lib/Node/DataNode.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/lib/Node/FuncNode.js" afterPath="$PROJECT_DIR$/static/lib/Node/FuncNode.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/lib/Shape.js" afterPath="$PROJECT_DIR$/static/lib/Shape.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/lib/css/dialog.css" afterPath="$PROJECT_DIR$/static/lib/css/dialog.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/lib/shape/Ellipse.js" afterPath="$PROJECT_DIR$/static/lib/shape/Ellipse.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/lib/shape/Rect.js" afterPath="$PROJECT_DIR$/static/lib/shape/Rect.js" />
     </list>
     <ignored path="ModelFlow.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -628,6 +651,7 @@
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.16624473" sideWeight="0.49421486" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3292683" sideWeight="0.49367088" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25831485" sideWeight="0.31729957" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.23375528" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3292683" sideWeight="0.49029535" order="7" side_tool="false" content_ui="tabs" />

@@ -32,6 +32,9 @@ DataNode.prototype.setPath = function(path){
 	if(sep>=0){
 		text = path.substring(sep+1);
 	}
+	if(text == ""){
+		text = "data";
+	}
 	this.setName(text);
 	//this.showText();
 }
@@ -74,11 +77,20 @@ DataNode.prototype.offset = function(dx, dy){
 	if(this._shape){
 		this._shape.offset(dx, dy);
 	}
+	var connManager = new ConnectionManager();
 	if(this._from){
-		this._from.offsetEnd(dx, dy);
+		var points = connManager.getClosePoints(this._from.getFrom(),this);
+		this._from.update(points[0].x,points[0].y,points[1].x,points[1].y);
 	}
 	if(this._to){
-		this._to.offsetStart(dx, dy);
+		var points = connManager.getClosePoints(this,this._to.getTo());
+		this._to.update(points[0].x,points[0].y,points[1].x,points[1].y);	
+	}
+}
+
+DataNode.prototype.scale = function(sx,sy){
+	if(this._shape){
+		this._shape.scale(sx,sy);
 	}
 }
 

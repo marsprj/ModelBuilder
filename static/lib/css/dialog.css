@@ -22,7 +22,8 @@
 	margin-right:10px;
 	background-image: url('../images/exit_12.png');
 	background-repeat: no-repeat;
-	background-position: center;	
+	background-position: center;
+	cursor: pointer;	
 }
 
 

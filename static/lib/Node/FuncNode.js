@@ -81,11 +81,20 @@ FuncNode.prototype.offset = function(dx, dy){
 	if(this._shape){
 		this._shape.offset(dx, dy);
 	}
-
+	var connManager = new ConnectionManager();
+	var that = this;
 	this._inputs.forEach(function(c){
-		c.offsetEnd(dx, dy);
+		var points = connManager.getClosePoints(c.getFrom(),that);
+		c.update(points[0].x,points[0].y,points[1].x,points[1].y);
 	})
 	if(this._output){
-		this._output.offsetStart(dx, dy);
+		var points = connManager.getClosePoints(that,this._output.getTo());
+		this._output.update(points[0].x,points[0].y,points[1].x,points[1].y);
+	}
+}
+
+FuncNode.prototype.scale = function(sx,sy){
+	if(this._shape){
+		this._shape.scale(sx,sy);
 	}
 }

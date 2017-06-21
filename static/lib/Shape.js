@@ -10,6 +10,7 @@ var Shape = function(r){
 
 	this._snap_hover_in = null;
 	this._snap_hover_out = null;
+	this._text_out = null;
 
 	var that = this;
 	var connection = null;
@@ -193,6 +194,9 @@ Shape.prototype.getSnapPos = function(){
 }
 
 Shape.prototype.showSnap = function(){
+	if(this._snaps.length != 0){
+		this.hideSnap();
+	}
 	this._snapxy = this.getSnapPos();
 	
 	var that = this;
@@ -201,7 +205,7 @@ Shape.prototype.showSnap = function(){
 		var c = that._r.circle(s.x, s.y, that._snap_r).attr({
 				"fill" : "#FFF",
 				"stroke" : "#0F0"
-			});		
+			});	
 		that._snaps.push(c);
 	});
 }
@@ -266,30 +270,72 @@ Shape.prototype.findSnap = function(x, y){
 
 Shape.prototype.startSnapping = function(){
 	var that = this;
-	// var onmousemove = function(evt){
-	// 	var index = that.findSnap(evt.offsetX, evt.offsetY);
-	// 	if(index){
-	// 		console.log("[snap]:" + index);
-	// 	}
-	// }
+
 	this._snap_hover_in = function(evt){		//hover in
-			that.showSnap();
 
-			// var container = $("#canvas");
-			// container.on("mousemove", onmousemove);
+		if(that._onSelectedChanged){
+			that._onSelectedChanged(that);
+		}
+		that.showSnap();
 
+		// 判断周边的snap离开的状态
+		that._snaps.forEach(function(s){
+			var mouseout = function(e){
+				if(!that._shape.isPointInside(e.layerX,e.layerY)){
+					that.hideSnap();
+					if(that._onSelectedChanged){
+						that._onSelectedChanged(null);
+					}
+				}
+			};
+			s.hover(null,mouseout);
+		});
 	};
 
 	this._snap_hover_out = function(evt){		//hover out
-		that.hideSnap();
-		// var container = $("#canvas");
-		// container.unbind("mousemove", onmousemove);
+		// 判断是不是被其它上层的元素遮盖
+		var bbox = that._shape.getBBox();
+		var xmin = bbox.x,
+			ymin = bbox.y,
+			xmax = bbox.x2,
+			ymax = bbox.y2;
+		var x = evt.layerX, y = evt.layerY;
+		var inShape = false;
+		if(x < xmax && x > xmin && y < ymax && y > ymin){
+			var elements = that._shape.paper.getElementsByPoint(x,y);
+			elements.forEach(function(e){
+				if(e.id == that._id){
+					// 证明鼠标还在该图形上，但是被其它的元素遮挡了
+					inShape = true;
+					return;
+				}
+			});
+		}
+
+		// 无遮挡，则删除snap
+		if(!inShape){
+			that.hideSnap();
+			if(that._onSelectedChanged){
+				that._onSelectedChanged(null);
+			}
+		}
 	}
 
 	this._shape.hover(
 		this._snap_hover_in,
 		this._snap_hover_out
 	);
+
+	this._text_out = function(evt){
+		if(!that._shape.isPointInside(evt.layerX,evt.layerY)){
+			that.hideSnap();
+			if(that._onSelectedChanged){
+				that._onSelectedChanged(null);
+			}
+		}
+	};
+
+	this._text.hover(null,this._text_out);
 }
 
 Shape.prototype.stopSnapping = function(){
@@ -297,27 +343,33 @@ Shape.prototype.stopSnapping = function(){
 		this._snap_hover_in,
 		this._snap_hover_out
 	);
+
+	this._text.unhover(null,this._text_out);
 }
 
 Shape.prototype.startConnecting = function(onSelectChanged){
-	var that = this;
-	this._shape.hover(
-		function(){
-			if(onSelectChanged){
-				onSelectChanged(that);
-			}
-		},
-		function(){
-			if(onSelectChanged){
-				onSelectChanged(null);
-			}
-		});
+	// var that = this;
+	// this._shape.hover(
+	// 	function(){
+	// 		if(onSelectChanged){
+	// 			onSelectChanged(that);
+	// 		}
+	// 	},
+	// 	function(){
+	// 		if(onSelectChanged){
+	// 			onSelectChanged(null);
+	// 		}
+	// 	});
+	this._onSelectedChanged = onSelectChanged;
 	// this._shape.hover(
 	// 	that._connection_listener.in,
 	// 	that._connection_listener.out
 	// );
 }
 
+Shape.prototype.stopConnecting = function(){
+	this._onSelectedChanged = null;
+}
 
 // Shape.prototype.startConnection = function(){
 // 	var that = this;
