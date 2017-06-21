@@ -5,7 +5,7 @@ function getModels(){
 	$.ajax({
 		url : url,
 		dataType : "text",
-		async : false,
+		async : true,
 		success : function(json,textStatus){
 			showModels(JSON.parse(json));
 		},
@@ -63,7 +63,7 @@ function getModel(uuid){
 	$.ajax({
 		url : url,
 		dataType : "text",
-		async : false,
+		async : true,
 		success : function(json,textStatus){
 			showModel(json);
 		},
@@ -89,7 +89,7 @@ function getTaskState(taskId){
 	$.ajax({
 		url : url,
 		dataType : "text",
-		async : false,
+		async : true,
 		success : function(json,textStatus){
 			stateJson = JSON.parse(json);
 			showTaskState(stateJson);
@@ -149,7 +149,7 @@ function getTasks(modelId){
 	$.ajax({
 		url : url,
 		dataType : "text",
-		async : false,
+		async : true,
 		success : function(json,textStatus){
 			showTasks(JSON.parse(json));
 		},
