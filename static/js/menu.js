@@ -9,6 +9,8 @@ function menuEvent(){
 					alert("保存成功");
 				}
 			});
+		}else if($(this).hasClass("menu-refresh")){
+			refreshModel();
 		}
 
 	});
@@ -22,3 +24,13 @@ function createModel(){
 	dlg.show();
 }
 
+
+// 刷新模型
+function refreshModel(){
+	if(!confirm("刷新前请保存模型，否则将丢失，确定要刷新么？")){
+		return;
+	}
+	var modelItem = $(".model-item.active");
+	getModel(modelItem.attr("uuid"));
+	getTasks(modelItem.attr("uuid"));
+}
