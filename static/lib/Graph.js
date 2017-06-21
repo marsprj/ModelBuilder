@@ -765,3 +765,16 @@ Graph.prototype.findLastFunction = function(){
 	return last;
 }
 
+// 是否可以编辑
+Graph.prototype.setEditable = function(isEditable){
+	var backdrop = "backdrop";
+	if(isEditable){
+		$("#" + this._container_id).find("#" + backdrop).remove();
+	}else{
+		var backdropHtml = "<div id='" + backdrop + "' style='position: absolute;top: 0px;"
+		+	"bottom: 0px;right: 0px;left: 0px;cursor: not-allowed;z-index: 1000;'></div>";
+		$("#" + this._container_id).append(backdropHtml);
+		g_graph.undrag();
+		g_graph.stopConnecting();
+	}
+}
