@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script type="text/javascript" src="../../js/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript">
+    	function onCreate(){
+    		var path = document.getElementById("path").value;
+	    	var data = '{"path":"' + path + '"}';
+
+	    	$.ajax({
+				type:"POST",
+				url:"/file/create/",
+				data : data,//JSON.stringify(data),
+				//data : JSON.stringify(data),
+				contentType: "text/plain",
+				dataType : "application/json",
+				success:function(result){
+					alert(result.status);
+				}
+			});
+    	}
+    </script>
+    <title>file create folder</title>
+</head>
+<body>
+	<input type="input" id="path" size="50" value="/user1/cuda"/>
+	<input type="button" value="create" onclick="onCreate()"/ >
+</form>
+</body>
+</html>

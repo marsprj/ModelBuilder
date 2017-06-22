@@ -70,7 +70,6 @@ def model_save(request):
     #os.mkdir(model_path)
 
 
-
 """
 返回所有的Model
 """
@@ -92,6 +91,17 @@ def model_get(request, model_id):
     except Model.DoesNotExist:
         raise Http404("Model does not exist")
     return HttpResponse(model.text, content_type="application/json")
+
+"""
+删除制定id的Model
+"""
+def model_delete(request):
+    try:
+        model = Model.objects.get(uuid=model_id)
+    except Model.DoesNotExist:
+        return HttpResponse("Model不存在", content_type="application/json")
+    model.delete()
+    return http_success_response()
 
 def model_plan(request, model_id):
     model = Model.objects.filter(uuid=model_id)[0]
@@ -286,5 +296,11 @@ def http_error_response(error):
     obj = {
         "status" : "error",
         "message" : error
+    }
+    return HttpResponse(json.dumps(obj), content_type="application/json")
+
+def http_success_response():
+    obj = {
+        "status" : "success"
     }
     return HttpResponse(json.dumps(obj), content_type="application/json")

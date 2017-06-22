@@ -97,6 +97,7 @@ FileDialog.prototype.setPath = function(path){
 	else{
 		folder = path.substring(0, path.lastIndexOf("/")+1);
 	}
+
 	$(".dialog_folder_path").attr("value", folder);
 }
 
@@ -109,41 +110,77 @@ FileDialog.prototype.getFilePath = function(){
 }
 
 FileDialog.prototype.populateFolders = function(){
-	var json = [{
-			name : "raster",
-			type : "folder"
-		},{
-			name : "dem",
-			type : "folder"
-		},{
-			name : "vector",
-			type : "folder"
-		},{
-			name : "sar",
-			type : "folder"
-		},{
-			name : "world-1.tif",
-			type : "file"
-		},{
-			name : "world-2.jpg",
-			type : "file"
-		},{
-			name : "world-3.png",
-			type : "file"
-		}
-	];
+	// var json = [{
+	// 		name : "raster",
+	// 		type : "folder"
+	// 	},{
+	// 		name : "dem",
+	// 		type : "folder"
+	// 	},{
+	// 		name : "vector",
+	// 		type : "folder"
+	// 	},{
+	// 		name : "sar",
+	// 		type : "folder"
+	// 	},{
+	// 		name : "world-1.tif",
+	// 		type : "file"
+	// 	},{
+	// 		name : "world-2.jpg",
+	// 		type : "file"
+	// 	},{
+	// 		name : "world-3.png",
+	// 		type : "file"
+	// 	}
+	// ];
+	// 
+	// 
+	var that = this;
+	var data = '{"path":"' + this._path + '"}';
+	
+	$.ajax({
+			type:"POST",
+			url:"/file/list/",
+			data : data,//JSON.stringify(data),
+			//data : JSON.stringify(data),
+			contentType: "text/plain",
+			dataType : "text",
+			success:function(data){
+				json = JSON.parse(data)
+				var html = "";
+				for(var i in json){
+					var o = json[i];
+					var icon = (o.type == "folder" ? "folder_item_icon" : "file_item_icon");
+					html += "<div class='item_container' type='" + o.type + "'>";
+					html += "<div class='" + icon + "'></div>";
+					html += "<div class='folder_item_text'>" + o.name + "</div>";
+					html += "</div>";
+				}
+				document.getElementById("dialog_file_ctrl").innerHTML = html;
+				that.initFileEvent();
+				// html  = "<table border='1'>";
+				// obj.forEach(function(f){
+				// 	html += "<tr>";
+				// 	html += "<td>" + f.name + "</td>";
+				// 	html += "<td>" + f.type + "</td>";
+				// 	html += "</tr>";
+				// })
+				// html += "</table>";
+				// document.getElementById("result").innerHTML = html;
+			}
+		});
 
-	var html = "";
-	for(var i in json){
-		var o = json[i];
-		var icon = (o.type == "folder" ? "folder_item_icon" : "file_item_icon");
-		html += "<div class='item_container' type='" + o.type + "'>";
-		html += "<div class='" + icon + "'></div>";
-		html += "<div class='folder_item_text'>" + o.name + "</div>";
-		html += "</div>";
-	}
-	document.getElementById("dialog_file_ctrl").innerHTML = html;
-	this.initFileEvent();
+	// var html = "";
+	// for(var i in json){
+	// 	var o = json[i];
+	// 	var icon = (o.type == "folder" ? "folder_item_icon" : "file_item_icon");
+	// 	html += "<div class='item_container' type='" + o.type + "'>";
+	// 	html += "<div class='" + icon + "'></div>";
+	// 	html += "<div class='folder_item_text'>" + o.name + "</div>";
+	// 	html += "</div>";
+	// }
+	// document.getElementById("dialog_file_ctrl").innerHTML = html;
+	// this.initFileEvent();
 }
 
 FileDialog.prototype.upwards = function(){

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script type="text/javascript" src="../../js/jquery-3.2.1.min.js"></script>
+    <title>Title</title>
+</head>
+<body>
+path:<input type="text" id="path" value="/" size="20">
+<input type="button" value="list" onclick="onList()">
+<br><br>
+<div id="result" style="width: 600px;height: 400px;border: 1px solid #000000">
+</body>
+</html>
+
+<script type="text/javascript">
+	function onList(){
+    	var path = document.getElementById("path").value;
+    	var data = '{"path":"' + path + '"}';
+
+    	$.ajax({
+			type:"POST",
+			url:"/file/list/",
+			data : data,//JSON.stringify(data),
+			//data : JSON.stringify(data),
+			contentType: "text/plain",
+			dataType : "text",
+			success:function(data){
+				obj = JSON.parse(data)
+				html  = "<table border='1'>";
+				obj.forEach(function(f){
+					html += "<tr>";
+					html += "<td>" + f.name + "</td>";
+					html += "<td>" + f.type + "</td>";
+					html += "</tr>";
+				})
+				html += "</table>";
+				document.getElementById("result").innerHTML = html;
+			}
+		});
+    }
+</script>

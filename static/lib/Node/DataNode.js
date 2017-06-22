@@ -5,7 +5,7 @@ var DataNode = function(r, xmin, ymin, width, height){
 	this._r = r;
 	this._type = "data";
 	this._name = "data";
-	this._path = "/raster/";
+	this._path = "/";
 
 	this._shape = new Ellipse(r, xmin, ymin, width, height);
 	this._id = this._shape.getID();
