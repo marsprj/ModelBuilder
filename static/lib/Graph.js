@@ -57,6 +57,7 @@ Graph.prototype.initCanvasEvent = function(){
 		var x = evt.offsetX;
 		var y = evt.offsetY;
 		var target = graph._r.getElementByPoint(evt.pageX,evt.pageY);
+		// var target = graph._r.getElementByPoint(evt.offsetX,evt.offsetY);
 		if(target){
 
 		}
@@ -87,6 +88,14 @@ Graph.prototype.setState = function(state){
 	this._state = state;
 }
 
+Graph.prototype.setName = function(name){
+	this._name = name;
+}
+
+Graph.prototype.setDescription = function(description){
+	this._descripiton = description;
+}
+
 /*
  * 序列化workflow，形成可以执行的
  */
@@ -105,6 +114,9 @@ Graph.prototype.load = function(json){
 	if(!model){
 		return false;
 	}
+
+	this.setName(model.name);
+	this.setDescription(model.description);
 
 	var findNodeByID = function(data, funcs, id){
 		var target = null;
@@ -134,6 +146,8 @@ Graph.prototype.load = function(json){
 
 	this.clear();
 	var graph = this;
+	var centerx = Math.round(this._width/2 + 0.5);
+	var centery = Math.round(this._height/2 + 0.5); 
 	model.data.forEach(function(d){
 		d.node = graph.createDatumNode(50, 50, 100, 50);
 		d.node.setPath(d.path);
@@ -152,9 +166,6 @@ Graph.prototype.load = function(json){
 	});
 
 
-	// 重绘所有的连接线
-	this._connManager.clear();
-
 	// level 是横向的级别,每一个funNode都算一个级别
 	// rowCount是纵向的级别
 	var level = 0;
@@ -172,7 +183,7 @@ Graph.prototype.load = function(json){
 			var next = f;
 			while(true){
 				var output = next.getOutput();
-				if(output.getTo()){
+				if(output&&output.getTo()){
 					inputLevel += 1;
 					next = output.getTo(); 
 				}else{
@@ -188,21 +199,44 @@ Graph.prototype.load = function(json){
 	});
 
 	// 一个块的大小
-	var blockWidth = 150,blockHeight = 100;
+	var blockWidth = 150,blockHeight = 100,connWidth = 50;
+
+	var validWidth = level * blockWidth*2 + blockWidth;
+	var validHeight = rowCount * blockHeight;
+
+
+	var scale = 1;
+ 	if(validWidth > this._width || validHeight > this._height){
+ 		var scaleX = this._width / validWidth;
+ 		var scaleY = this._height / validHeight;
+ 		var scale = scaleY > scaleX ? scaleX : scaleY;
+ 		blockWidth = blockWidth * scale;
+ 		blockHeight = blockHeight * scale;
+ 		validWidth = validWidth * scale;
+ 		validHeight = validHeight * scale;
+ 		connWidth = connWidth*scale;
+ 	}
+	
 
 
 	// 先处理尾节点
 	var tail = this.findLastFunction();
-	var output = tail.getOutput();
-	var tailOffset_x = 300* (level-1)+blockWidth;
-	var tailOffset_y = blockHeight*rowCount /2 -50;
-	tail.offset(tailOffset_x,tailOffset_y);
-	output.offset(300*level,tailOffset_y);
+	if(tail){
+		var tailOffset_x = blockWidth*2* (level-1)+blockWidth + centerx - validWidth/2 - (blockWidth/scale - blockWidth)/4 + connWidth/4;
+		var tailOffset_y = blockHeight*rowCount /2 -connWidth + centery - validHeight/2;
+		tail.offset(tailOffset_x,tailOffset_y);
+		if(scale != 1){
+			tail.scale(scale,scale);
+		}
 
-	var conn = output.getFromEdge();
-	conn.remove();
-	this.createEdge(tail,output);
-
+		var output = tail.getOutput();
+		if(output){
+			output.offset(tailOffset_x + blockWidth,tailOffset_y);
+			if(scale != 1){
+				output.scale(scale,scale);
+			}
+		}
+	}	
 
 	var graph = this;
 	// 调整方法节点和节点前的输入，并进行递归，直到前面没有输入
@@ -223,17 +257,17 @@ Graph.prototype.load = function(json){
 			var inputOffsetY = first + i*rowDelta;
 			var input = inputs[i];
 			input.offset(offsetX,inputOffsetY);
-			var conn = input.getToEdge();
-			conn.remove();
-			graph.createEdge(input,node);
+			if(scale != 1){
+				input.scale(scale,scale);
+			}
 
 			var funFrom = input.getFrom();
 			if(funFrom){
 				var funOffsetX = offsetX - blockWidth;
 				funFrom.offset(funOffsetX,inputOffsetY);
-				var fromConn = input.getFromEdge();
-				fromConn.remove();
-				graph.createEdge(funFrom,input);
+				if(scale != 1){
+					funFrom.scale(scale,scale);
+				}
 				repositionFunNode(funFrom,funOffsetX,inputOffsetY,level + 1);
 			}
 		}
@@ -249,7 +283,8 @@ Graph.prototype.export = function(){
 	var tail = this.findLastFunction();
 	
 	var model = {
-		name : "my_model_2",
+		name : this._name,
+		description : this._descripiton,
 		functions : [
 		],
 		data : [
@@ -535,7 +570,7 @@ Graph.prototype.stopSnapping = function(){
 // }
 
 Graph.prototype.startConnecting = function(){
-	this.startSnapping();
+	// this.startSnapping();
 	// start node connecting
 	var that = this;
 	//var nodeManger = NodeManager.getInstance();
@@ -598,8 +633,9 @@ Graph.prototype.startConnecting = function(){
 					that._connection = null;
 				}
 				else if(node.getType() == that._start_node.getType()){
-					that._connection.update(that._conn_start.x, that._conn_start.y, 
-											evt.offsetX, 		evt.offsetY);
+					// 同一类型的连接没有意义
+					that._connection.remove();
+					that._connection = null;
 
 				}
 				else{
@@ -621,6 +657,8 @@ Graph.prototype.startConnecting = function(){
 														 	 	 , that._conn_end.x,   that._conn_end.y);
 						that._connection.setEnds(that._start_node, that._end_node);
 						that._connManager.add(that._connection);
+						that._start_node.hideSnap();
+						that._end_node.hideSnap();
 					}
 				}
 			}else{
@@ -640,20 +678,20 @@ Graph.prototype.startConnecting = function(){
 }
 
 Graph.prototype.stopConnecting = function(){
-	this.stopSnapping();
+	// this.stopSnapping();
 	// stop node connecting
 	//var nodeManger = NodeManager.getInstance();
 	//var nodes = nodeManger.getNodes();
 	var nodes = this._nodeManager.getNodes();
 	nodes.forEach(function(n){
-		//n.stopConnecting();
+		n.stopConnecting();
 		n.stopSnapping();
 	})
 
 	//unbind listener
-	$("#"+this._container_id).unbind("mousedown", this.onMouseDown);
-	$("#"+this._container_id).unbind("mousemove", this.onMouseMove);
-	$("#"+this._container_id).unbind("mouseup",   this.onMouseUp);	
+	$("#"+this._container_id).unbind("mousedown", this._onmousedown);
+	$("#"+this._container_id).unbind("mousemove", this._onmousemove);
+	$("#"+this._container_id).unbind("mouseup",   this._onmouseup);	
 }
 
 Graph.prototype.onMouseDown = function(evt){
@@ -728,3 +766,16 @@ Graph.prototype.findLastFunction = function(){
 	return last;
 }
 
+// 是否可以编辑
+Graph.prototype.setEditable = function(isEditable){
+	var backdrop = "backdrop";
+	if(isEditable){
+		$("#" + this._container_id).find("#" + backdrop).remove();
+	}else{
+		var backdropHtml = "<div id='" + backdrop + "' style='position: absolute;top: 0px;"
+		+	"bottom: 0px;right: 0px;left: 0px;cursor: not-allowed;z-index: 1000;'></div>";
+		$("#" + this._container_id).append(backdropHtml);
+		g_graph.undrag();
+		g_graph.stopConnecting();
+	}
+}
