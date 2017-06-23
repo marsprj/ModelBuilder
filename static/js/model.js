@@ -1,7 +1,7 @@
 // 获取模型列表
 function getModels(){
 	$("#models_container").addClass("loading").empty();
-	g_graph.setEditable(true);
+	// g_graph.setEditable(true);
 	var url = "/model/models/";
 	$.ajax({
 		url : url,
@@ -60,7 +60,7 @@ function getModel(uuid){
 		return;
 	}
 	g_graph.clear();
-	g_graph.setEditable(true);
+	// g_graph.setEditable(true);
 	var url = "/model/model/" + uuid;
 	$.ajax({
 		url : url,
