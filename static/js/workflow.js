@@ -188,8 +188,8 @@ function initMenuEvents(){
 		loadGraph();		
 	})
 	$("#run").click(function(){
-		g_graph.serialize();
-		document.getElementById("result").innerHTML = g_graph.getWorkflowText();
+		//g_graph.serialize();
+		//document.getElementById("result").innerHTML = g_graph.getWorkflowText();
 		
 	})
 

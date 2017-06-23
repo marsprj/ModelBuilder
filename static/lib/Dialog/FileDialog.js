@@ -1,8 +1,10 @@
 var FileDialog = function(path, onOK){
 
 	Dialog.apply(this, arguments);
-
-	this._file_path = null;
+	
+	this._folder_path = "";
+	this._file_path = "";
+	this._file_name = "";
 	this._onOK = onOK;
 
 	this.setPath(path ? path : "/");
@@ -89,16 +91,18 @@ FileDialog.prototype.initOkEvent = function(){
 
 
 FileDialog.prototype.setPath = function(path){
-	this._path = path;
-	var folder = "/";
+	this._file_path = path;
+	this._folder_path = "/";
 	if(path[path.length-1]=="/"){
-		folder = path;
+		this._folder_path = path;
+		this._file_name = "";
 	}
 	else{
-		folder = path.substring(0, path.lastIndexOf("/")+1);
+		this._folder_path = path.substring(0, path.lastIndexOf("/")+1);
+		this._file_name = path.substring(path.lastIndexOf("/")+1, path.length);
 	}
 
-	$(".dialog_folder_path").attr("value", folder);
+	$(".dialog_folder_path").attr("value", this._folder_path);
 }
 
 FileDialog.prototype.getPath = function(path){
@@ -136,7 +140,7 @@ FileDialog.prototype.populateFolders = function(){
 	// 
 	// 
 	var that = this;
-	var data = '{"path":"' + this._path + '"}';
+	var data = '{"path":"' + this._folder_path + '"}';
 	
 	$.ajax({
 			type:"POST",
@@ -226,46 +230,46 @@ FileDialog.prototype.create = function(){
 			+"			<div class='dialog_folder_up'></div>"
 			+"		</div>"
 			+"		<div id='dialog_file_ctrl'>"
-			+"			<div class='item_container' type='folder'>"
-			+"				<div class='folder_item_icon'></div>"
-			+"				<div class='folder_item_text'>raster</div>"
-			+"			</div>"
-			+"			<div class='item_container' type='folder'>"
-			+"				<div class='folder_item_icon'></div>"
-			+"				<div class='folder_item_text'>dem</div>"
-			+"			</div>"
-			+"			<div class='item_container' type='folder'>"
-			+"				<div class='folder_item_icon'></div>"
-			+"				<div class='folder_item_text'>world-2.tif</div>"
-			+"			</div>"
-			+"			<div class='item_container' type='folder'>"
-			+"				<div class='folder_item_icon'></div>"
-			+"				<div class='folder_item_text'>world-2.tif</div>"
-			+"			</div>"
-			+"			<div class='item_container' type='folder'>"
-			+"				<div class='folder_item_icon'></div>"
-			+"				<div class='folder_item_text'>world-2.tif</div>"
-			+"			</div>"
-			+"			<div class='item_container' type='file'>"
-			+"				<div class='file_item_icon'></div>"
-			+"				<div class='folder_item_text'>raster</div>"
-			+"			</div>"
-			+"			<div class='item_container' type='file'>"
-			+"				<div class='file_item_icon'></div>"
-			+"				<div class='folder_item_text'>dem</div>"
-			+"			</div>"
-			+"			<div class='item_container' type='file'>"
-			+"				<div class='file_item_icon'></div>"
-			+"				<div class='folder_item_text'>world-2.tif</div>"
-			+"			</div>"
-			+"			<div class='item_container' type='file'>"
-			+"				<div class='file_item_icon'></div>"
-			+"				<div class='folder_item_text'>world-2.tif</div>"
-			+"			</div>"
-			+"			<div class='item_container' type='file'>"
-			+"				<div class='file_item_icon'></div>"
-			+"				<div class='folder_item_text'>world-2.tif</div>"
-			+"			</div>"
+			// +"			<div class='item_container' type='folder'>"
+			// +"				<div class='folder_item_icon'></div>"
+			// +"				<div class='folder_item_text'>raster</div>"
+			// +"			</div>"
+			// +"			<div class='item_container' type='folder'>"
+			// +"				<div class='folder_item_icon'></div>"
+			// +"				<div class='folder_item_text'>dem</div>"
+			// +"			</div>"
+			// +"			<div class='item_container' type='folder'>"
+			// +"				<div class='folder_item_icon'></div>"
+			// +"				<div class='folder_item_text'>world-2.tif</div>"
+			// +"			</div>"
+			// +"			<div class='item_container' type='folder'>"
+			// +"				<div class='folder_item_icon'></div>"
+			// +"				<div class='folder_item_text'>world-2.tif</div>"
+			// +"			</div>"
+			// +"			<div class='item_container' type='folder'>"
+			// +"				<div class='folder_item_icon'></div>"
+			// +"				<div class='folder_item_text'>world-2.tif</div>"
+			// +"			</div>"
+			// +"			<div class='item_container' type='file'>"
+			// +"				<div class='file_item_icon'></div>"
+			// +"				<div class='folder_item_text'>raster</div>"
+			// +"			</div>"
+			// +"			<div class='item_container' type='file'>"
+			// +"				<div class='file_item_icon'></div>"
+			// +"				<div class='folder_item_text'>dem</div>"
+			// +"			</div>"
+			// +"			<div class='item_container' type='file'>"
+			// +"				<div class='file_item_icon'></div>"
+			// +"				<div class='folder_item_text'>world-2.tif</div>"
+			// +"			</div>"
+			// +"			<div class='item_container' type='file'>"
+			// +"				<div class='file_item_icon'></div>"
+			// +"				<div class='folder_item_text'>world-2.tif</div>"
+			// +"			</div>"
+			// +"			<div class='item_container' type='file'>"
+			// +"				<div class='file_item_icon'></div>"
+			// +"				<div class='folder_item_text'>world-2.tif</div>"
+			// +"			</div>"
 			+"		</div>"
 			+"	</div>"
 			+"	<div class='dialog_bottom'>"
