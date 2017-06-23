@@ -136,7 +136,7 @@ StretchDialog.prototype.create = function(){
 			+"		</li>"
 			+"	</ul>"
 			+"</div>";
-			
+	$(".func_dialog").remove();		
 	var dlg = $(html);
 	$('body').append(dlg);
 	return dlg;
