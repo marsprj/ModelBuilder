@@ -145,3 +145,7 @@ Node.prototype.hideSnap = function(){
 		this._shape.hideSnap();
 	}
 }
+
+Node.prototype.onClick = function(){
+	
+}

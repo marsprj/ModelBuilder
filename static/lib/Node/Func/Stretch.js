@@ -5,33 +5,7 @@ var Stretch = function(){
 	this._name = "Stretch";
 
 	var that = this;
-	this._shape.dblclick(function(){
-		var input, outout;
-		if(that._inputs){
-			var conn_in = that._inputs[0];
-			if(conn_in){
-				var from = conn_in.getFrom();
-				if(from){
-					input = from.getPath();
-				}
-			}	
-		}
-		if(that._output){
-			var conn_out = that._output;
-			if(conn_out){
-				var to = conn_out.getTo();
-				if(to){
-					output = to.getPath();
-				}
-			}	
-		}
 
-		var dlg = new StretchDialog(input, output, function(){	//onOK
-			that.updateInputNode(dlg.getInput());
-			that.updateOutputNode(dlg.getOutput());
-		});
-		dlg.show();
-	});
 }
 
 extend(Stretch, FuncNode);
@@ -81,4 +55,33 @@ Stretch.prototype.export = function(){
 		obj.output.id = output.getID()
 	}
 	return obj;
+}
+
+
+Stretch.prototype.onClick = function(){
+	var input, outout;
+	if(this._inputs){
+		var conn_in = this._inputs[0];
+		if(conn_in){
+			var from = conn_in.getFrom();
+			if(from){
+				input = from.getPath();
+			}
+		}	
+	}
+	if(this._output){
+		var conn_out = this._output;
+		if(conn_out){
+			var to = conn_out.getTo();
+			if(to){
+				output = to.getPath();
+			}
+		}	
+	}
+
+	var dlg = new StretchDialog(input, output, function(){	//onOK
+		this.updateInputNode(dlg.getInput());
+		this.updateOutputNode(dlg.getOutput());
+	});
+	dlg.show();
 }
