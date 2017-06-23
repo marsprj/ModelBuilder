@@ -96,6 +96,7 @@ CreateModelDialog.prototype.create = function(){
 		+'	</div>'
 		+'</div>';
 	var dlg = $(html);
+	$(".create-model-dialog").remove()
 	$('body').append(dlg);
 	return dlg;
 };

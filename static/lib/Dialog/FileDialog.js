@@ -284,6 +284,7 @@ FileDialog.prototype.create = function(){
 			+"	</div>"
 			+"</div>";					
 	var dlg = $(html);
+	$(".file_dialog").remove();
 	$('body').append(dlg);
 	return dlg;
 }

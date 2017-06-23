@@ -57,9 +57,11 @@ Graph.prototype.initCanvasEvent = function(){
 		var x = evt.offsetX;
 		var y = evt.offsetY;
 		var target = graph._r.getElementByPoint(evt.pageX,evt.pageY);
-		// var target = graph._r.getElementByPoint(evt.offsetX,evt.offsetY);
 		if(target){
-
+			var node = g_graph._nodeManager.getNodeById(target.id);
+			if(node){
+				node.onClick();
+			}
 		}
 		else{
 			//var nodeManager = NodeManager.getInstance();

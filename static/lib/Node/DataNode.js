@@ -12,14 +12,6 @@ var DataNode = function(r, xmin, ymin, width, height){
 
 	this._from = null;
 	this._to   = null;
-
-	var node = this;
-	this._shape.dblclick(function(){
-		var dlg = new FileDialog(node.getPath(), function(){
-			node.setPath(dlg.getFilePath());
-		});
-		dlg.show();
-	});
 }
 
 extend(DataNode, Node);
@@ -128,3 +120,11 @@ Node.prototype.export = function(){
 // 		}
 // 	}
 // }
+
+
+DataNode.prototype.onClick = function(){
+	var dlg = new FileDialog(this.getPath(), function(){
+		this.setPath(dlg.getFilePath());
+	});
+	dlg.show();
+}
