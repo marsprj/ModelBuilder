@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<link rel="stylesheet" type="text/css" href="css/workflow2.css">
+	<link rel="stylesheet" type="text/css" href="css/fonts/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="css/jquery-ui.min.css">
+	<link rel="stylesheet" type="text/css" href="lib/css/dialog.css">
+	<title>Workflow</title>
+</head>
+
+<body>
+	
+	<div id="header">
+		<div class="title-icon"></div>
+		<div class="title">
+			工作流系统
+		</div>
+	</div>
+	<div id="main">
+		<div id="left" class="panel">
+			<div class="titlebar">
+				<div class="titlebar-title">模型库</div>
+				<div class="titlebar-tools">
+					<button>新建</button>
+					<button>删除</button>
+				</div>
+			</div>
+			<div class="panel-contaniner" id="models_container">
+				<div class="model-item">
+					道路提取
+				</div>
+				<div class="model-item">
+					车牌识别
+				</div>
+				<div class="model-item">
+					投影变换
+				</div>
+				<div class="model-item">
+					地图绘制
+				</div>
+			</div>
+		</div>
+		<div id="right">
+			<div class="titlebar">
+				<div class="titlebar-title">[道路提取]计算任务</div>
+				<div class="titlebar-tools">
+					<button id="new-task">新建</button>
+				</div>
+			</div>
+			<div id="task_table">
+				<div class="table">
+					<div class="row header task-header">
+						<div class="cell" style="width: 30px; padding: 0px">
+						</div>
+						<div class="cell">
+							名称
+						</div>
+						<div class="cell">
+							状态
+						</div>
+						<div class="cell">
+							开始时间
+						</div>
+						<div class="cell">
+							完成时间
+						</div>
+						<div class="cell">
+							完成度
+						</div>
+						<div class="cell">
+						</div>
+					</div>
+					<div class="row running-row">
+						<div class="cell">
+
+						</div>
+						<div class="cell">
+							20170621102023
+						</div>
+						<div class="cell">
+							running
+						</div>
+						<div class="cell">
+							2017:06:22 09:31:23
+						</div>
+						<div class="cell">
+						</div>
+						<div class="cell">
+							87%
+						</div>
+						<div class="cell">
+							<button>运行</button>
+						</div>					
+					</div>
+					<div class="row completed-row">
+						<div class="cell">
+
+						</div>
+						<div class="cell">
+							20170621102023
+						</div>
+						<div class="cell">
+							completed
+						</div>
+						<div class="cell">
+							2017:06:14 09:31:23
+						</div>
+						<div class="cell">
+							2017:06:14 12:31:23
+						</div>
+						<div class="cell">
+							100%
+						</div>
+						<div class="cell">
+							<button>运行</button>
+						</div>					
+					</div>
+					<div class="row not-started-row active-row">
+						<div class="cell">
+
+						</div>
+						<div class="cell">
+							road_extract_01
+						</div>
+						<div class="cell">
+							not started
+						</div>
+						<div class="cell">
+						</div>
+						<div class="cell">
+						</div>
+						<div class="cell">
+							0%
+						</div>
+						<div class="cell">
+							<button>运行</button>
+						</div>					
+					</div>
+					<div class="row failed-row">
+						<div class="cell">
+
+						</div>
+						<div class="cell">
+							projecteion_01
+						</div>
+						<div class="cell">
+							failed
+						</div>
+						<div class="cell">
+							2017:06:22 09:31:23
+						</div>
+						<div class="cell">
+							2017:06:22 09:35:23
+						</div>
+						<div class="cell">
+							39%
+						</div>
+						<div class="cell">
+							<button>运行</button>
+						</div>					
+					</div>
+				</div>
+			</div>
+			<!-- 进程 -->
+			<div class="process-div">
+				<div class="process-left">
+					<div class="icon-left">
+					</div>
+					<div class="name-right">计算过程
+					</div>
+				</div>
+				<div class="process-right">
+					<div class="table">
+						<div class="row header process-header">
+							<div class="cell">
+							</div>
+							<div class="cell">
+								名称
+							</div>
+							<div class="cell">
+								状态
+							</div>
+							<div class="cell">
+								开始时间
+							</div>
+							<div class="cell">
+								完成时间
+							</div>
+							<div class="cell">
+								完成度
+							</div>
+						</div>
+						<div class="row">
+							<div class="cell">
+								1
+							</div>
+							<div class="cell">
+								拉伸
+							</div>
+							<div class="cell">
+								running
+							</div>
+							<div class="cell">
+								2017:06:22 09:31:23
+							</div>
+							<div class="cell">
+							</div>
+							<div class="cell">
+								87%
+							</div>
+						</div>
+						<div class="row">
+							<div class="cell">
+								2
+							</div>
+							<div class="cell">
+								融合
+							</div>
+							<div class="cell">
+								completed
+							</div>
+							<div class="cell">
+								2017:06:14 09:31:23
+							</div>
+							<div class="cell">
+								2017:06:14 12:31:23
+							</div>
+							<div class="cell">
+								100%
+							</div>
+						</div>
+						<div class="row">
+							<div class="cell">
+								3
+							</div>
+							<div class="cell">
+								投影
+							</div>
+							<div class="cell">
+								not started
+							</div>
+							<div class="cell">
+								-
+							</div>
+							<div class="cell">
+								-
+							</div>
+							<div class="cell">
+								0%
+							</div>
+						</div>	
+						<div class="row">
+							<div class="cell">
+								4
+							</div>
+							<div class="cell">
+								入库
+							</div>
+							<div class="cell">
+								failed
+							</div>
+							<div class="cell">
+								2017:06:14 09:31:23
+							</div>
+							<div class="cell">
+								2017:06:14 09:35:23
+							</div>
+							<div class="cell">
+								39%
+							</div>
+						</div>			
+					</div>
+				</div>
+			</div>
+			
+			<div id="canvas_div">
+				<div id="canvas">
+				</div>
+				<div id="state_div">
+					<div class="state-name">状态</div>
+					<select>
+						<option>不可编辑</option>
+						<option>可编辑</option>
+					</select>
+				</div>
+				<!-- 算法库 -->
+				<div id="funcs">
+					<div class="titlebar">
+						算法库
+					</div>
+					<div class="funcs_container">
+						<div class="func_wrapper">
+							拉伸
+						</div>
+						<div class="func_wrapper">
+							融合
+						</div>
+						<div class="func_wrapper">
+							镶嵌
+						</div>
+						<div class="func_wrapper">
+							……
+						</div>
+						<div class="func_wrapper">
+							识别
+						</div>
+					</div>
+				</div>
+				<!-- 工具栏 -->
+				<div id="tools">
+					<div class="tool connect-tool"></div>
+					<div class="tool node-tool"></div>
+					<div class="tool run-tool"></div>
+				</div>
+				<div id="resize_div">
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+
+
+<script type="text/javascript" src="js/raphael.js"></script>
+<script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="js/3rd/jquery-ui.min.js"></script>
+<!-- <script type="text/javascript" src="lib/def.js"></script> -->
+<script type="text/javascript" src="lib/Arrow.js"></script>
+<script type="text/javascript" src="lib/Edge.js"></script>
+<script type="text/javascript" src="lib/EdgeManager.js"></script>
+<script type="text/javascript" src="lib/Node.js"></script>
+<script type="text/javascript" src="lib/Shape.js"></script>
+<script type="text/javascript" src="lib/shape/Ellipse.js"></script>
+<script type="text/javascript" src="lib/shape/Rect.js"></script>
+
+<script type="text/javascript" src="lib/Node/DataNode.js"></script>
+<script type="text/javascript" src="lib/Node/FuncNode.js"></script>
+<script type="text/javascript" src="lib/Node/Func/Fusion.js"></script>
+<script type="text/javascript" src="lib/Node/Func/Stretch.js"></script>
+<script type="text/javascript" src="lib/NodeManager.js"></script>
+
+<script type="text/javascript" src="lib/Graph.js"></script>
+<script type="text/javascript" src="lib/Dialog.js"></script>
+<script type="text/javascript" src="lib/Dialog/FileDialog.js"></script>
+<script type="text/javascript" src="lib/Dialog/FusionDialog.js"></script>
+<script type="text/javascript" src="lib/Dialog/StretchDialog.js"></script>
+
+
+<!-- <script type="text/javascript" src="js/workflow.js"></script> -->
+<script type="text/javascript" src="js/model.js"></script>
+<script type="text/javascript" src="js/menu.js"></script>
+<script type="text/javascript" src="js/CreateModelDialog.js"></script>
+<script type="text/javascript">
+	$().ready(function(){
+		g_graph = new Graph("canvas");
+		var text = '{"name":"my model","functions":[{"id":"dflgo","name":"Fusion","inputs":[{"id":"wyfzh"},{"id":"dwqe4"}],"output":{"id":"zbcqk"}},{"id":"4tgfo","name":"Stretch","inputs":[{"id":"4f152"}],"output":{"id":"ryqdc"}},{"id":"5fa6f","name":"Fusion","inputs":[{"id":"zbcqk"},{"id":"ryqdc"}],"output":{"id":"nwyes"}}],"data":[{"id":"wyfzh","path":"/raster/fusion1_raster_1.tif"},{"id":"dwqe4","path":"/raster/fusion1_raster_2.tif"},{"id":"zbcqk","path":"/raster/fusion1_output_1.tif"},{"id":"4f152","path":"/raster/stretch/stretch_1.tif"},{"id":"ryqdc","path":"/raster/stretch/stretch_output_1.tif"},{"id":"nwyes","path":"/raster/model/output.tif"}],"connections":[{"from":"wyfzh","to":"dflgo"},{"from":"dwqe4","to":"dflgo"},{"from":"dflgo","to":"zbcqk"},{"from":"4f152","to":"4tgfo"},{"from":"4tgfo","to":"ryqdc"},{"from":"zbcqk","to":"5fa6f"},{"from":"ryqdc","to":"5fa6f"},{"from":"5fa6f","to":"nwyes"}]}';
+	// var text = '{"name":"my model","functions":[{"id":"x1foc","name":"Fusion","inputs":[{"id":"la4rx"},{"id":"ttjqe"}],"output":{"id":"pikgl"}}],"data":[{"id":"la4rx","path":"/raster/fusion1_raster_1.tif"},{"id":"ttjqe","path":"/raster/fusion1_raster_2.tif"},{"id":"pikgl","path":"/raster/fusion1_output_1.tif"}],"connections":[{"from":"la4rx","to":"x1foc"},{"from":"ttjqe","to":"x1foc"},{"from":"x1foc","to":"pikgl"}]}';
+	g_graph.load(text);	
+	});
+</script>

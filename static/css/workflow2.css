@@ -1,0 +1,297 @@
+html,body{
+	margin: 0px;
+	padding: 0px;
+	width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+#header{
+	height: 60px;
+	width: 100%;
+	background-color: #32cbcb;
+	font-size: 26px;
+	line-height: 60px;
+	border-bottom: 2px solid #787878;
+}
+
+.title-icon{
+	width: 40px;
+	height: 40px;
+	background-image: url(../images/logo.png);
+	display: inline-block;
+	float: left;
+	top: 8px;
+	position: absolute;
+}
+.title{
+	display: inline-block;
+	margin-left: 46px;
+}
+
+#main{
+	width: 100%;
+	height: calc(100% - 60px);
+}
+
+#left{
+	float: left;
+	height: 100%;
+	width: 210px;
+	border-right: 2px solid #787878;
+}
+
+#right{
+    float: left;
+    height: 100%;
+    width: calc(100% - 212px);
+}
+
+.titlebar{
+	height: 42px;
+	line-height: 42px;
+	background-color: #cdcdcd;
+	border-bottom: 2px solid #787878;
+}
+
+.titlebar-title{
+	display: inline-block;
+	margin-left: 10px;
+}
+
+.titlebar-tools{
+	display: inline-block;
+	float: right;
+	margin-right: 3px;
+}
+
+.titlebar-tools button{
+	width: 52px;
+	height: 30px;
+	border-radius: 4px;
+	background-color: #169bd5;
+	color: #fff;
+	border: none;
+	cursor: pointer;
+}
+
+.panel-contaniner{
+	height: calc(100% - 42px);
+	width: 100%;
+}
+
+.model-item{
+	height: 36px;
+	line-height: 36px;
+	border-bottom: 1px solid #787878;
+	font-size: 14px;
+	text-align: center;
+}
+
+.model-item:hover{
+	background-color: #787878;
+	cursor: pointer;
+	color: #fff;
+}
+
+#new-task{
+	width: 92px;
+	margin-right: 64px;
+}
+
+.table {
+    margin: 0 0 0px 0;
+    width: 100%;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    display: table;
+    font-family: "Microsoft YaHei";
+}
+
+.row {
+    display: table-row;
+
+}
+
+.cell {
+    padding: 6px 12px;
+    display: table-cell;
+    border-bottom: 1px solid #787878;
+    border-right: 1px solid #787878;
+	text-align: center;
+}
+.task-header{
+	background-color: #99cdff;
+}
+
+.running-row{
+	color: #ffd634;
+}
+
+.completed-row{
+	color: #7c9a37;
+}
+
+.not-started-row{
+
+}
+
+.failed-row{
+	color: #ff0034;
+}
+
+.active-row{
+	background-color: #32ffff;
+}
+
+.process-header{
+	background-color: #ff9900;
+}
+
+.process-div{
+	max-height:  180px;
+	overflow-y: auto;
+	border-bottom: 1px solid #787878;
+}
+.process-left{
+	width: 60px;
+	height: 180px;
+	float: left;
+	border-right: 1px solid #787878;
+	position: relative;
+}
+.process-right{
+	height: 100%;
+	width: calc(100% - 61px);
+	float: left;
+}
+
+.icon-left{
+	float: left;
+	width: 30px;
+	border-right: 1px solid #787878;
+	border-bottom: 1px solid #787878;
+	height: 100%;
+}
+
+.name-right{
+/*	float: left;
+	width: calc(100% - 31px);
+	height: 100%;
+*/
+    float: left;
+    width: calc(100% - 31px);
+    height: 100%;
+    margin: auto;
+    position: absolute;
+    right: -6px;
+    top: 50%;
+    bottom: 0px;
+}
+
+#task_table{
+	height: 170px;
+	overflow-y: auto;
+	border-bottom: 1px solid #787878;
+}
+#canvas_div{
+	width: 100%;
+	height: calc(100% - 396px);
+	overflow: hidden;
+	position: relative;
+}
+
+#canvas{
+	width: 100%;
+	height: 100%;
+}
+
+
+#state_div{
+	position: absolute;
+	left: 35px;
+	top: 25px;
+	height: 20px;
+	width: 200px;
+}
+
+#state_div  .state-name{
+	display: inline-block;
+    border: 1px solid #aaaaaa;
+    width: 43px;
+    text-align: center;
+}
+
+#state_div select{
+	padding: 2px;
+    margin-left: -5px;
+}
+
+.state-tool{
+	height: 22px;
+	width: 22px;
+	border: 1px solid #787878;
+	display: inline-block;
+}
+
+#funcs{
+	position: absolute;
+	left: 35px;
+	top: 66px;
+	width: 130px;
+	border: 2px solid #787878;
+}
+#funcs .titlebar{
+	background-color: #cd9999;
+	padding-left: 10px;
+	height: 20px;
+	line-height: 20px;
+}
+.func_wrapper{
+	text-align: center;
+	height: 18px;
+	line-height: 18px;
+	border-bottom: 1px solid #787878;
+}
+
+#tools{
+	position: absolute;
+	left: 338px;
+	top: 25px;
+}
+
+.tool{
+	width: 20px;
+	height: 20px;
+	border: 1px solid #787878;
+	float: left;
+	margin-right: 3px;
+	cursor: pointer;
+	background-position: center;
+	background-repeat: no-repeat;
+}
+
+.tool:hover{
+	border: 1px solid #32cbcb;
+}
+
+.connect-tool{
+	background-image: url(../images/mouse.png);
+}
+
+.node-tool{
+	background-image: url(../images/node.png);
+}
+
+.run-tool{
+	background-image: url(../images/run.png);
+}
+
+#resize_div{
+	position: absolute;
+	right: 24px;
+	top: 22px;
+	width: 40px;
+	height: 40px;
+	background-image: url(../images/resize.png);
+	cursor: pointer;
+}
