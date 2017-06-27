@@ -1,8 +1,10 @@
 var FileDialog = function(path, onOK){
 
 	Dialog.apply(this, arguments);
-
-	this._file_path = null;
+	
+	this._folder_path = "";
+	this._file_path = "";
+	this._file_name = "";
 	this._onOK = onOK;
 
 	this.setPath(path ? path : "/");
@@ -89,15 +91,18 @@ FileDialog.prototype.initOkEvent = function(){
 
 
 FileDialog.prototype.setPath = function(path){
-	this._path = path;
-	var folder = "/";
+	this._file_path = path;
+	this._folder_path = "/";
 	if(path[path.length-1]=="/"){
-		folder = path;
+		this._folder_path = path;
+		this._file_name = "";
 	}
 	else{
-		folder = path.substring(0, path.lastIndexOf("/")+1);
+		this._folder_path = path.substring(0, path.lastIndexOf("/")+1);
+		this._file_name = path.substring(path.lastIndexOf("/")+1, path.length);
 	}
-	$(".dialog_folder_path").attr("value", folder);
+
+	$(".dialog_folder_path").attr("value", this._folder_path);
 }
 
 FileDialog.prototype.getPath = function(path){
@@ -109,41 +114,77 @@ FileDialog.prototype.getFilePath = function(){
 }
 
 FileDialog.prototype.populateFolders = function(){
-	var json = [{
-			name : "raster",
-			type : "folder"
-		},{
-			name : "dem",
-			type : "folder"
-		},{
-			name : "vector",
-			type : "folder"
-		},{
-			name : "sar",
-			type : "folder"
-		},{
-			name : "world-1.tif",
-			type : "file"
-		},{
-			name : "world-2.jpg",
-			type : "file"
-		},{
-			name : "world-3.png",
-			type : "file"
-		}
-	];
+	// var json = [{
+	// 		name : "raster",
+	// 		type : "folder"
+	// 	},{
+	// 		name : "dem",
+	// 		type : "folder"
+	// 	},{
+	// 		name : "vector",
+	// 		type : "folder"
+	// 	},{
+	// 		name : "sar",
+	// 		type : "folder"
+	// 	},{
+	// 		name : "world-1.tif",
+	// 		type : "file"
+	// 	},{
+	// 		name : "world-2.jpg",
+	// 		type : "file"
+	// 	},{
+	// 		name : "world-3.png",
+	// 		type : "file"
+	// 	}
+	// ];
+	// 
+	// 
+	var that = this;
+	var data = '{"path":"' + this._folder_path + '"}';
+	
+	$.ajax({
+			type:"POST",
+			url:"/file/list/",
+			data : data,//JSON.stringify(data),
+			//data : JSON.stringify(data),
+			contentType: "text/plain",
+			dataType : "text",
+			success:function(data){
+				json = JSON.parse(data)
+				var html = "";
+				for(var i in json){
+					var o = json[i];
+					var icon = (o.type == "folder" ? "folder_item_icon" : "file_item_icon");
+					html += "<div class='item_container' type='" + o.type + "'>";
+					html += "<div class='" + icon + "'></div>";
+					html += "<div class='folder_item_text'>" + o.name + "</div>";
+					html += "</div>";
+				}
+				document.getElementById("dialog_file_ctrl").innerHTML = html;
+				that.initFileEvent();
+				// html  = "<table border='1'>";
+				// obj.forEach(function(f){
+				// 	html += "<tr>";
+				// 	html += "<td>" + f.name + "</td>";
+				// 	html += "<td>" + f.type + "</td>";
+				// 	html += "</tr>";
+				// })
+				// html += "</table>";
+				// document.getElementById("result").innerHTML = html;
+			}
+		});
 
-	var html = "";
-	for(var i in json){
-		var o = json[i];
-		var icon = (o.type == "folder" ? "folder_item_icon" : "file_item_icon");
-		html += "<div class='item_container' type='" + o.type + "'>";
-		html += "<div class='" + icon + "'></div>";
-		html += "<div class='folder_item_text'>" + o.name + "</div>";
-		html += "</div>";
-	}
-	document.getElementById("dialog_file_ctrl").innerHTML = html;
-	this.initFileEvent();
+	// var html = "";
+	// for(var i in json){
+	// 	var o = json[i];
+	// 	var icon = (o.type == "folder" ? "folder_item_icon" : "file_item_icon");
+	// 	html += "<div class='item_container' type='" + o.type + "'>";
+	// 	html += "<div class='" + icon + "'></div>";
+	// 	html += "<div class='folder_item_text'>" + o.name + "</div>";
+	// 	html += "</div>";
+	// }
+	// document.getElementById("dialog_file_ctrl").innerHTML = html;
+	// this.initFileEvent();
 }
 
 FileDialog.prototype.upwards = function(){
@@ -189,46 +230,46 @@ FileDialog.prototype.create = function(){
 			+"			<div class='dialog_folder_up'></div>"
 			+"		</div>"
 			+"		<div id='dialog_file_ctrl'>"
-			+"			<div class='item_container' type='folder'>"
-			+"				<div class='folder_item_icon'></div>"
-			+"				<div class='folder_item_text'>raster</div>"
-			+"			</div>"
-			+"			<div class='item_container' type='folder'>"
-			+"				<div class='folder_item_icon'></div>"
-			+"				<div class='folder_item_text'>dem</div>"
-			+"			</div>"
-			+"			<div class='item_container' type='folder'>"
-			+"				<div class='folder_item_icon'></div>"
-			+"				<div class='folder_item_text'>world-2.tif</div>"
-			+"			</div>"
-			+"			<div class='item_container' type='folder'>"
-			+"				<div class='folder_item_icon'></div>"
-			+"				<div class='folder_item_text'>world-2.tif</div>"
-			+"			</div>"
-			+"			<div class='item_container' type='folder'>"
-			+"				<div class='folder_item_icon'></div>"
-			+"				<div class='folder_item_text'>world-2.tif</div>"
-			+"			</div>"
-			+"			<div class='item_container' type='file'>"
-			+"				<div class='file_item_icon'></div>"
-			+"				<div class='folder_item_text'>raster</div>"
-			+"			</div>"
-			+"			<div class='item_container' type='file'>"
-			+"				<div class='file_item_icon'></div>"
-			+"				<div class='folder_item_text'>dem</div>"
-			+"			</div>"
-			+"			<div class='item_container' type='file'>"
-			+"				<div class='file_item_icon'></div>"
-			+"				<div class='folder_item_text'>world-2.tif</div>"
-			+"			</div>"
-			+"			<div class='item_container' type='file'>"
-			+"				<div class='file_item_icon'></div>"
-			+"				<div class='folder_item_text'>world-2.tif</div>"
-			+"			</div>"
-			+"			<div class='item_container' type='file'>"
-			+"				<div class='file_item_icon'></div>"
-			+"				<div class='folder_item_text'>world-2.tif</div>"
-			+"			</div>"
+			// +"			<div class='item_container' type='folder'>"
+			// +"				<div class='folder_item_icon'></div>"
+			// +"				<div class='folder_item_text'>raster</div>"
+			// +"			</div>"
+			// +"			<div class='item_container' type='folder'>"
+			// +"				<div class='folder_item_icon'></div>"
+			// +"				<div class='folder_item_text'>dem</div>"
+			// +"			</div>"
+			// +"			<div class='item_container' type='folder'>"
+			// +"				<div class='folder_item_icon'></div>"
+			// +"				<div class='folder_item_text'>world-2.tif</div>"
+			// +"			</div>"
+			// +"			<div class='item_container' type='folder'>"
+			// +"				<div class='folder_item_icon'></div>"
+			// +"				<div class='folder_item_text'>world-2.tif</div>"
+			// +"			</div>"
+			// +"			<div class='item_container' type='folder'>"
+			// +"				<div class='folder_item_icon'></div>"
+			// +"				<div class='folder_item_text'>world-2.tif</div>"
+			// +"			</div>"
+			// +"			<div class='item_container' type='file'>"
+			// +"				<div class='file_item_icon'></div>"
+			// +"				<div class='folder_item_text'>raster</div>"
+			// +"			</div>"
+			// +"			<div class='item_container' type='file'>"
+			// +"				<div class='file_item_icon'></div>"
+			// +"				<div class='folder_item_text'>dem</div>"
+			// +"			</div>"
+			// +"			<div class='item_container' type='file'>"
+			// +"				<div class='file_item_icon'></div>"
+			// +"				<div class='folder_item_text'>world-2.tif</div>"
+			// +"			</div>"
+			// +"			<div class='item_container' type='file'>"
+			// +"				<div class='file_item_icon'></div>"
+			// +"				<div class='folder_item_text'>world-2.tif</div>"
+			// +"			</div>"
+			// +"			<div class='item_container' type='file'>"
+			// +"				<div class='file_item_icon'></div>"
+			// +"				<div class='folder_item_text'>world-2.tif</div>"
+			// +"			</div>"
 			+"		</div>"
 			+"	</div>"
 			+"	<div class='dialog_bottom'>"

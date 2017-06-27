@@ -16,7 +16,7 @@ class Model(models.Model):
             "name" : self.name,
             "uuid" : str(self.uuid),
             "description" : self.description,
-            "create_time" : str(self.create_time)
+            "create_time" : self.create_time.strftime("%Y-%m-%d %H:%M:%S"),
         }
 
 class Task(models.Model):
@@ -25,7 +25,7 @@ class Task(models.Model):
     model = models.ForeignKey(Model, to_field='uuid')
     name = models.CharField(max_length=64)
     start_time = models.DateTimeField()
-    end_time = models.DateTimeField()
+    end_time = models.DateTimeField(null=True)
     state = models.IntegerField(default=0)
 
     def exportToJson(self):
@@ -35,8 +35,8 @@ class Task(models.Model):
             "uuid" : str(self.uuid),
             "model" : str(self.model_id),
             "state" : self.state,
-            "start_time" : str(self.start_time),
-            "end_time" : str(self.end_time),
+            "start_time": self.start_time.strftime("%Y-%m-%d %H:%M:%S"),
+            "end_time" : "-" if self.end_time==None else self.end_time.strftime("%Y-%m-%d %H:%M:%S"),
         }
         return obj
 
@@ -56,6 +56,6 @@ class Process(models.Model):
             # "uuid": str(self.uuid),
             "task": str(self.task_id),
             "state": self.state,
-            "start_time": str(self.start_time),
-            "end_time": str(self.end_time),
+            "start_time": self.start_time.strftime("%Y-%m-%d %H:%M:%S"),
+            "end_time": "-" if self.end_time==None else self.end_time.strftime("%Y-%m-%d %H:%M:%S"),
         }

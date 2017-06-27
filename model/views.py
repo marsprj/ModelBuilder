@@ -1,10 +1,13 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 
+
 from . import models
-from .models import Model, Task
+from . import functions
+from .models import Model, Task, Process
 from .Graph import Graph
 import ModelFlow
+
 
 from django.utils import timezone
 
@@ -70,7 +73,6 @@ def model_save(request):
     #os.mkdir(model_path)
 
 
-
 """
 返回所有的Model
 """
@@ -92,6 +94,17 @@ def model_get(request, model_id):
     except Model.DoesNotExist:
         raise Http404("Model does not exist")
     return HttpResponse(model.text, content_type="application/json")
+
+"""
+删除制定id的Model
+"""
+def model_delete(request):
+    try:
+        model = Model.objects.get(uuid=model_id)
+    except Model.DoesNotExist:
+        return HttpResponse("Model不存在", content_type="application/json")
+    model.delete()
+    return http_success_response()
 
 def model_plan(request, model_id):
     model = Model.objects.filter(uuid=model_id)[0]
@@ -162,8 +175,8 @@ def task_state(request, task_id):
         "uuid": str(task.uuid),
         "model": str(task.model_id),
         "state": task.state,
-        "start_time": str(task.start_time),
-        "end_time": str(task.end_time),
+        "start_time": task.start_time.strftime("%Y-%m-%d %H:%M:%S"),
+        "end_time": "-" if task.end_time==None else task.end_time.strftime("%Y-%m-%d %H:%M:%S"),
         "processes" : []
     }
 
@@ -187,11 +200,13 @@ def task_create(request, model_id):
     if not models:
         return HttpResponse("Error")
 
+    model = models[0]
+
     task = model.task_set.create(
         uuid=uuid.uuid4(),
         name=model.name,
         start_time=timezone.now(),
-        end_time=timezone.now(),
+        #end_time=timezone.now(),
     )
     task.save()
 
@@ -204,54 +219,133 @@ def task_create(request, model_id):
 """
 启动模型计算
 返回Task的uuid
+@deprecated
 """
-def model_run(request, model_id):
+# def model_run(request, model_id):
+#
+#     try:
+#         models = Model.objects.filter(uuid=model_id)
+#     except:
+#         return HttpResponse("Error")
+#
+#     if not models:
+#         return HttpResponse("Error")
+#
+#     model = models[0]
+#
+#     str1 = start_task(model)
+#
+#     #return HttpResponse("{0}".format(task.uuid))
+#     return HttpResponse(str1)
+#
+# """
+# 启动模型计算
+# @deprecated
+# """
+# def start_task(model):
+#     #model = Model.objects.filter(uuid=model_id)[0]
+#
+#     graph = Graph()
+#     if not graph.load(model.text):
+#         pass
+#     else:
+#         #创建task
+#         task = model.task_set.create(
+#             uuid=uuid.uuid4(),
+#             name=model.name,
+#             start_time=timezone.now(),
+#             end_time=timezone.now(),
+#         )
+#         task.state = 1
+#         task.save()
+#
+#         #生成执行计划
+#         flow = graph.plan()
+#         if flow:
+#             #生成执行步骤及其状态,记录Process的状态
+#             processes = []
+#             for func in flow:
+#                 process = task.process_set.create(
+#                     name = func.getName(),
+#                     start_time = timezone.now(),
+#                     end_time = timezone.now()
+#                 )
+#                 process.save()
+#                 processes.append(process)
+#
+#             #执行Plan
+#             count = len(processes)
+#             for i in range(count):
+#                 #执行func
+#                 #更新process的状态为正在执行
+#                 process = processes[i]
+#                 process.state = 1
+#                 process.save()
+#
+#                 #time.sleep(5)
+#                 func = flow[i]
+#                 #processing func
+#                 run_process(func)
+#
+#                 #更新process的状态为结束，并记录结束时间
+#                 process.end_time = timezone.now()
+#                 process.state = 2
+#                 process.save()
+#                 pass
+#
+#         task.state = 2
+#         task.save()
+#     return task.uuid
 
+
+"""
+运行task
+"""
+def task_run(request, task_id):
     try:
-        models = Model.objects.filter(uuid=model_id)
+        tasks = Task.objects.filter(uuid=task_id)
     except:
-        return HttpResponse("Error")
+        return http_error_response("no task")
 
-    if not models:
-        return HttpResponse("Error")
+    if not tasks:
+        return http_error_response("no task")
 
-    str1 = start_task(model_id)
+    task = tasks[0]
+
+    str1 = start_task_2(task)
 
     #return HttpResponse("{0}".format(task.uuid))
     return HttpResponse(str1)
 
-
-
 """
 启动模型计算
 """
-def start_task(model_id):
-    model = Model.objects.filter(uuid=model_id)[0]
+def start_task_2(task):
+    #model = Model.objects.filter(uuid=model_id)[0]
 
+    success = True
     graph = Graph()
-    if not graph.load(model.text):
+    if not graph.load(task.model.text):
         pass
     else:
-        #创建task
-        task = model.task_set.create(
-            uuid=uuid.uuid4(),
-            name=model.name,
-            start_time=timezone.now(),
-            end_time=timezone.now(),
-        )
+
         task.state = 1
         task.save()
 
         #生成执行计划
         flow = graph.plan()
         if flow:
+
+            #task.process_set.delete()
+            Process.objects.filter(task=task).delete()
+
             #生成执行步骤及其状态,记录Process的状态
             processes = []
             for func in flow:
                 process = task.process_set.create(
                     name = func.getName(),
                     start_time = timezone.now(),
-                    end_time = timezone.now()
+                    #end_time = timezone.now()
                 )
                 process.save()
                 processes.append(process)
@@ -268,16 +362,31 @@ def start_task(model_id):
                 #time.sleep(5)
                 func = flow[i]
                 #processing func
+                success = functions.dispatch(func)
 
-                #更新process的状态为结束，并记录结束时间
-                process.end_time = timezone.now()
-                process.state = 2
-                process.save()
-                pass
+                if success == True:
+                    # 更新process的状态为结束，并记录结束时间
+                    process.end_time = timezone.now()
+                    process.state = 2   #success
+                    process.save()
+                else:
+                    # 更新process的状态为结束，并记录结束时间
+                    process.state = 3   #failure
+                    process.save()
+                    break
 
-        task.state = 2
+        if success==True:
+            task.state = 2
+            task.end_time = timezone.now()
+        else:
+            task.state =  3  # 设置task的状态
+
         task.save()
-    return task.uuid
+
+    if success==False:
+        return http_error_response("Task执行错误")
+
+    return http_success_response()
 
 """
 返回http错误信息
@@ -288,3 +397,24 @@ def http_error_response(error):
         "message" : error
     }
     return HttpResponse(json.dumps(obj), content_type="application/json")
+
+def http_success_response():
+    obj = {
+        "status" : "success"
+    }
+    return HttpResponse(json.dumps(obj), content_type="application/json")
+
+def json_text_strip(text):
+    striped_text = text
+    if striped_text[0] == '"':
+        striped_text = striped_text[1:]
+    if striped_text[-1] == '"':
+        striped_text = striped_text[:-1]
+
+    return striped_text
+
+# def run_process(process):
+#     if process.name == "Stretch":
+#         print(process.name)
+#     elif process.name == "Fusion":
+#         pass

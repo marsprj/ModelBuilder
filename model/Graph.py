@@ -55,6 +55,9 @@ class Datum(Node):
             return self._to.getTo()
         return None
 
+    def getPath(self):
+        return self._path
+
 
 """
 Function Node Class
