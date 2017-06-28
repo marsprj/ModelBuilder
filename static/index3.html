@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<link rel="stylesheet" type="text/css" href="css/workflow2.css">
+	<link rel="stylesheet" type="text/css" href="css/dialog.css">
+	<link rel="stylesheet" type="text/css" href="css/fonts/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="css/jquery-ui.min.css">
+	<link rel="stylesheet" type="text/css" href="lib/css/dialog.css">
+	<title>Workflow</title>
+</head>
+
+<body>
+	
+	<div id="header">
+		<div class="title-icon"></div>
+		<div class="title">
+			工作流系统
+		</div>
+	</div>
+	<div id="main">
+		<div id="left" class="panel">
+			<div class="titlebar">
+				<div class="titlebar-title">模型库</div>
+				<div class="titlebar-tools">
+					<button class="new-model-btn">新建</button>
+					<button class="delete-model-btn">删除</button>
+				</div>
+			</div>
+			<div class="panel-contaniner" id="models_container">
+			</div>
+		</div>
+		<div id="right">
+			<div class="titlebar">
+				<div class="titlebar-title"><span></span>计算任务</div>
+				<div class="titlebar-tools">
+					<button id="new-task">新建</button>
+				</div>
+			</div>
+			<div id="task_table">
+				<div class="table">
+					<div class="row header task-header">
+						<div class="cell" style="width: 30px; padding: 0px">
+						</div>
+						<div class="cell">
+							名称
+						</div>
+						<div class="cell">
+							状态
+						</div>
+						<div class="cell">
+							开始时间
+						</div>
+						<div class="cell">
+							完成时间
+						</div>
+						<div class="cell">
+							完成度
+						</div>
+						<div class="cell">
+						</div>
+					</div>
+				</div>
+			</div>
+			<div id="canvas_div">
+				<div id="canvas">
+				</div>
+				<div id="state_div">
+					<div class="state-name">状态</div>
+					<select>
+						<option value="yes">可编辑</option>
+						<option value="not">不可编辑</option>
+					</select>
+				</div>
+				<div id="data_div">
+				</div>
+				<!-- 算法库 -->
+				<div id="funcs">
+					<div class="titlebar">
+						算法库
+					</div>
+					<div class="funcs_container">
+						<div class="func_wrapper" ftype="Stretch">
+							拉伸
+						</div>
+						<div class="func_wrapper" ftype="Fusion">
+							融合
+						</div>
+						<div class="func_wrapper">
+							镶嵌
+						</div>
+						<div class="func_wrapper">
+							……
+						</div>
+						<div class="func_wrapper">
+							识别
+						</div>
+					</div>
+				</div>
+				<!-- 工具栏 -->
+				<div id="tools">
+					<div class="tool move-tool"></div>
+					<div class="tool connect-tool"></div>
+					<div class="tool run-tool"></div>
+				</div>
+				<div id="resize_div">
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+
+
+<script type="text/javascript" src="js/raphael.js"></script>
+<script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="js/3rd/jquery-ui.min.js"></script>
+<script type="text/javascript" src="js/3rd/ElementQueries.js"></script>
+<script type="text/javascript" src="js/3rd/ResizeSensor.js"></script>
+<!-- <script type="text/javascript" src="lib/def.js"></script> -->
+<script type="text/javascript" src="lib/Arrow.js"></script>
+<script type="text/javascript" src="lib/Edge.js"></script>
+<script type="text/javascript" src="lib/EdgeManager.js"></script>
+<script type="text/javascript" src="lib/Node.js"></script>
+<script type="text/javascript" src="lib/Shape.js"></script>
+<script type="text/javascript" src="lib/shape/Ellipse.js"></script>
+<script type="text/javascript" src="lib/shape/Rect.js"></script>
+
+<script type="text/javascript" src="lib/Node/DataNode.js"></script>
+<script type="text/javascript" src="lib/Node/FuncNode.js"></script>
+<script type="text/javascript" src="lib/Node/Func/Fusion.js"></script>
+<script type="text/javascript" src="lib/Node/Func/Stretch.js"></script>
+<script type="text/javascript" src="lib/NodeManager.js"></script>
+
+<script type="text/javascript" src="lib/Graph.js"></script>
+<script type="text/javascript" src="lib/Dialog.js"></script>
+<script type="text/javascript" src="lib/Dialog/FileDialog.js"></script>
+<script type="text/javascript" src="lib/Dialog/FusionDialog.js"></script>
+<script type="text/javascript" src="lib/Dialog/StretchDialog.js"></script>
+
+
+<!-- <script type="text/javascript" src="js/workflow.js"></script> -->
+<!-- <script type="text/javascript" src="js/model.js"></script>
+<script type="text/javascript" src="js/menu.js"></script> -->
+<script type="text/javascript" src="js/init.js"></script>
+<script type="text/javascript" src="js/graph.js"></script>
+<script type="text/javascript" src="js/models.js"></script>
+<script type="text/javascript" src="js/CreateModelDialog.js"></script>
+<script type="text/javascript">
+	
+</script>

@@ -775,9 +775,31 @@ Graph.prototype.setEditable = function(isEditable){
 		$("#" + backdrop).remove();
 	}else{
 		var backdropHtml = "<div id='" + backdrop + "' style='position: absolute;top: 0px;"
-		+	"bottom: 200px;right: 0px;left: 280px;cursor: not-allowed;z-index: 1000;'></div>";
+		+	"bottom: 0px;right: 0px;left: 0px;cursor: not-allowed;z-index: 1000;'></div>";
 		$("#" + this._container_id).after(backdropHtml);
 		g_graph.undrag();
 		g_graph.stopConnecting();
 	}
+}
+
+// 设置大小
+Graph.prototype.setSize = function(width,height){
+	if(width == null || height == null){
+		return;
+	}
+
+	this._width = width;
+	this._height = height;
+
+	this._r.setSize(width,height);
+
+	this.load(this.export());
+}
+
+Graph.prototype.getWidth = function(){
+	return this._width;
+}
+
+Graph.prototype.getHeight = function(){
+	return this._height;
 }

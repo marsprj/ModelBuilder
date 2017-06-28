@@ -45,10 +45,12 @@ html,body{
     float: left;
     height: 100%;
     width: calc(100% - 212px);
+    font-size: 14px;
 }
 
 .titlebar{
 	height: 42px;
+	padding-left: 10px;
 	line-height: 42px;
 	background-color: #cdcdcd;
 	border-bottom: 2px solid #787878;
@@ -56,7 +58,6 @@ html,body{
 
 .titlebar-title{
 	display: inline-block;
-	margin-left: 10px;
 }
 
 .titlebar-tools{
@@ -88,8 +89,8 @@ html,body{
 	text-align: center;
 }
 
-.model-item:hover{
-	background-color: #787878;
+.model-item:hover,.model-item.active{
+	background-color: #cdcdcd;
 	cursor: pointer;
 	color: #fff;
 }
@@ -109,7 +110,6 @@ html,body{
 
 .row {
     display: table-row;
-
 }
 
 .cell {
@@ -139,8 +139,26 @@ html,body{
 	color: #ff0034;
 }
 
-.active-row{
+.state-icon{
+	background-position: center;
+    background-repeat: no-repeat;
+}
+
+.running-icon{
+	background-image: url(../images/play.png);
+}
+.not-started-icon{
+	background-image: url(../images/stop.png);
+}
+.failed-icon{
+	background-image: url(../images/red.png);
+}
+.completed-icon{
+	background-image: url(../images/green.png);
+}
+#task_table .row.active-row, #task_table .row:hover{
 	background-color: #32ffff;
+	cursor: pointer;
 }
 
 .process-header{
@@ -148,13 +166,20 @@ html,body{
 }
 
 .process-div{
-	max-height:  180px;
-	overflow-y: auto;
-	border-bottom: 1px solid #787878;
+	height:  120px;
+	border: 1px solid #787878;
+	background-color: #fff;
+	box-shadow: 0 5px 10px rgba(0,0,0,.5);
+	position: absolute;
+    left: 212px;
+    right: 0px;
+    top: 174px;
+    display: none;
+    z-index: 1001;
 }
 .process-left{
 	width: 60px;
-	height: 180px;
+	height: 100%;
 	float: left;
 	border-right: 1px solid #787878;
 	position: relative;
@@ -163,8 +188,31 @@ html,body{
 	height: 100%;
 	width: calc(100% - 61px);
 	float: left;
+	overflow-y: auto;
 }
 
+.process-close-btn{
+	position: absolute;
+    top: -34px;
+    right: 0px;
+    width: 38px;
+    height: 32px;
+    border: 2px solid #787878;
+    background-color: #f90;
+    border-bottom: 0;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    line-height: 30px;
+    font-size: 26px;
+    text-align: center;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;	
+}
+
+.process-close-btn:hover{
+	color: #cdcdcd;
+}
 .icon-left{
 	float: left;
 	width: 30px;
@@ -174,10 +222,6 @@ html,body{
 }
 
 .name-right{
-/*	float: left;
-	width: calc(100% - 31px);
-	height: 100%;
-*/
     float: left;
     width: calc(100% - 31px);
     height: 100%;
@@ -191,18 +235,25 @@ html,body{
 #task_table{
 	height: 170px;
 	overflow-y: auto;
-	border-bottom: 1px solid #787878;
+	border-bottom: 2px solid #787878;
 }
 #canvas_div{
 	width: 100%;
-	height: calc(100% - 396px);
+	height: calc(100% - 216px);
 	overflow: hidden;
 	position: relative;
+}
+
+ #canvas_div:-webkit-full-screen {
+  width: 100%;
+  height: 100%;
 }
 
 #canvas{
 	width: 100%;
 	height: 100%;
+	position: relative;
+	user-select: none;
 }
 
 
@@ -210,8 +261,8 @@ html,body{
 	position: absolute;
 	left: 35px;
 	top: 25px;
-	height: 20px;
-	width: 200px;
+	font-size: 16px;
+	z-index: 1001;
 }
 
 #state_div  .state-name{
@@ -231,6 +282,25 @@ html,body{
 	width: 22px;
 	border: 1px solid #787878;
 	display: inline-block;
+	z-index: 1001;
+}
+
+#data_div{
+	height: 20px;
+	width: 20px;
+	top: 25px;
+	left: 200px;
+	border: 1px solid #787878;
+	position: absolute;
+	cursor: pointer;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-image: url(../images/elipse.png);
+	z-index: 1001;
+}
+
+#data_div:hover, #data_div.active{
+	border: 1px solid #32cbcb;
 }
 
 #funcs{
@@ -239,6 +309,7 @@ html,body{
 	top: 66px;
 	width: 130px;
 	border: 2px solid #787878;
+	z-index: 1001;
 }
 #funcs .titlebar{
 	background-color: #cd9999;
@@ -253,10 +324,20 @@ html,body{
 	border-bottom: 1px solid #787878;
 }
 
+.func_wrapper:hover, .func_wrapper.active{
+	cursor: pointer;
+    background-color: #cdcdcd;
+    color: #fff;
+}
+.func_wrapper:last-child{
+	border-bottom: 0;
+}
+
 #tools{
 	position: absolute;
 	left: 338px;
 	top: 25px;
+	z-index: 1001;
 }
 
 .tool{
@@ -270,15 +351,15 @@ html,body{
 	background-repeat: no-repeat;
 }
 
-.tool:hover{
+.tool:hover,.tool.active{
 	border: 1px solid #32cbcb;
 }
 
-.connect-tool{
+.move-tool{
 	background-image: url(../images/mouse.png);
 }
 
-.node-tool{
+.connect-tool{
 	background-image: url(../images/node.png);
 }
 
@@ -294,4 +375,5 @@ html,body{
 	height: 40px;
 	background-image: url(../images/resize.png);
 	cursor: pointer;
+	z-index: 1001;
 }
