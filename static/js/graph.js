@@ -34,6 +34,11 @@ function initGraphEvent(){
 			g_graph.startConnecting();
 		}else if($(this).hasClass("run-tool")){
 			alert("run");
+		}else if($(this).hasClass("save-tool")){
+			var text = g_graph.export();
+			saveModel(text,function(result){
+				alert(result);
+			});
 		}
 	});
 
@@ -102,7 +107,9 @@ function setFullScreen(){
 		document.mozFullScreenElement ||  document.webkitFullscreenElement;
 	if(fullscreenElement){
 		exitFullscreen();
+		$("#resize_div").attr("title","全屏");
 	}else{
 		launchFullscreen(document.getElementById("canvas_div"));
+		$("#resize_div").attr("title","退出全屏");
 	}
 }

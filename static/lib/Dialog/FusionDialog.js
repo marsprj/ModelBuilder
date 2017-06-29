@@ -125,7 +125,7 @@ FusionDialog.prototype.getOutput = function(){
 }
 
 FusionDialog.prototype.create = function(){
-	var html =   "<div class='func_dialog'>"
+	var html =   "<div class='func_dialog dialog'>"
 			+"<div class='titlebar'>"
 			+"	<div class='dialog_title'>融合</div>"
 			+"	<div class='dialog_exit'></div>"

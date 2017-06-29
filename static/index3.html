@@ -34,7 +34,7 @@
 			<div class="titlebar">
 				<div class="titlebar-title"><span></span>计算任务</div>
 				<div class="titlebar-tools">
-					<button id="new-task">新建</button>
+					<button class="new-task-btn">新建</button>
 				</div>
 			</div>
 			<div id="task_table">
@@ -72,7 +72,7 @@
 						<option value="not">不可编辑</option>
 					</select>
 				</div>
-				<div id="data_div">
+				<div id="data_div" title="数据节点">
 				</div>
 				<!-- 算法库 -->
 				<div id="funcs">
@@ -99,11 +99,12 @@
 				</div>
 				<!-- 工具栏 -->
 				<div id="tools">
-					<div class="tool move-tool"></div>
-					<div class="tool connect-tool"></div>
-					<div class="tool run-tool"></div>
+					<div class="tool move-tool" title="移动"></div>
+					<div class="tool connect-tool" title="连接"></div>
+					<div class="tool save-tool" title="保存"></div>
+					<div class="tool run-tool" title="运行"></div>
 				</div>
-				<div id="resize_div">
+				<div id="resize_div" title="全屏">
 				</div>
 			</div>
 		</div>
@@ -145,6 +146,7 @@
 <script type="text/javascript" src="js/graph.js"></script>
 <script type="text/javascript" src="js/models.js"></script>
 <script type="text/javascript" src="js/CreateModelDialog.js"></script>
+<script type="text/javascript" src="js/CreateTaskDialog.js"></script>
 <script type="text/javascript">
 	
 </script>

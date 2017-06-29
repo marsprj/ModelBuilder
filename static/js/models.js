@@ -114,18 +114,29 @@ function showTasks(json){
 			+	'	<div class="cell">' + t.start_time + '</div>'
 			+	'	<div class="cell">' + t.end_time + '</div>'
 			+	'	<div class="cell">' + '100%' + '</div>'
-			+	'	<div class="cell"><button>运行</button></div>'
+			+	'	<div class="cell"><button class="run-btn">运行</button></div>'
 			+ 	'</div>';
 	});
 
  	$("#task_table .task-header").after(html);
 
-	$("#task_table .row:not(.header)").click(function(){
+	$("#task_table .row:not(.header)").click(function(evt){
+		if(evt.target instanceof HTMLButtonElement){
+			return;
+		}
 		var uuid = $(this).attr("uuid");
 		$("#task_table .row").removeClass("active-row");
 		$(this).addClass("active-row");
 		getTaskState(uuid);
 	});
+
+	$("#task_table .run-btn").click(function(){
+		var taskId = $(this).parents(".row").attr("uuid");
+		runTask(taskId,function(){
+
+		});
+	});
+
 }
 
 
@@ -300,4 +311,63 @@ function saveModel(text,callback){
 			}
 		}
 	});	
+}
+
+
+// 删除模型
+function deleteModel(uuid,callback){
+	var url = "/model/model/" + uuid + "/delete";
+	$.ajax({
+		type:"get",
+		url:url,
+		contentType: "text/plain",
+		dataType : "text",
+		success:function(){
+			if(callback){
+				callback();
+			}
+		}
+	});
+}
+
+
+// 创任务
+function createTask(modelId,callback){
+	if(modelId == null){
+		return ;
+	}
+	var url = "/model/task/create/" + modelId;
+	$.ajax({
+		type:"get",
+		url:url,
+		contentType: "text/plain",
+		dataType : "text",
+		success:function(result){
+			if(callback){
+				callback(JSON.parse(result));
+			}
+		}
+	});
+}
+
+
+// 任务运行
+function runTask(taskId,callback){
+	if(taskId == null){
+		return;
+	}
+	var url = "/model/task/"+ taskId + "/run";
+	$.ajax({
+		type:"get",
+		url:url,
+		contentType: "text/plain",
+		dataType : "text",
+		success:function(result){
+			console.log(result);
+			if(callback){
+				callback(JSON.parse(result));
+			}
+		}
+	});
+
 }

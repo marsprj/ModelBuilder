@@ -99,7 +99,7 @@ StretchDialog.prototype.setOutput = function(output){
 }
 
 StretchDialog.prototype.create = function(){
-	var html =   "<div class='func_dialog'>"
+	var html =   "<div class='func_dialog dialog'>"
 			+"<div class='titlebar'>"
 			+"	<div class='dialog_title'>拉伸</div>"
 			+"	<div class='dialog_exit'></div>"

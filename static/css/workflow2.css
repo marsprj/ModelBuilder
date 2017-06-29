@@ -95,8 +95,8 @@ html,body{
 	color: #fff;
 }
 
-#new-task{
-	width: 92px;
+.new-task-btn{
+	width: 92px !important;
 	margin-right: 64px;
 }
 
@@ -156,7 +156,7 @@ html,body{
 .completed-icon{
 	background-image: url(../images/green.png);
 }
-#task_table .row.active-row, #task_table .row:hover{
+#task_table .row.active-row, #task_table .row:not(.header):hover{
 	background-color: #32ffff;
 	cursor: pointer;
 }
@@ -175,7 +175,7 @@ html,body{
     right: 0px;
     top: 174px;
     display: none;
-    z-index: 1001;
+    z-index: 1002;
 }
 .process-left{
 	width: 60px;
@@ -365,6 +365,10 @@ html,body{
 
 .run-tool{
 	background-image: url(../images/run.png);
+}
+
+.save-tool{
+	background-image: url(../images/save.png);	
 }
 
 #resize_div{
