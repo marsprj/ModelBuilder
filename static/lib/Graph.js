@@ -659,6 +659,26 @@ Graph.prototype.startConnecting = function(){
 														 	 	 , that._conn_end.x,   that._conn_end.y);
 						that._connection.setEnds(that._start_node, that._end_node);
 						that._connManager.add(that._connection);
+						switch(that._start_node.getType()){
+							case NODE_TYPE.DATA:{
+								that._start_node.setToEdge(that._connection);
+							}
+							break;
+							case NODE_TYPE.FUNC:{
+								that._start_node.setOutputEdge(that._connection);
+							}
+							break;
+						}
+						switch(that._end_node.getType()){
+							case NODE_TYPE.DATA:{
+								that._end_node.setFromEdge(that._connection);
+							}
+							break;
+							case NODE_TYPE.FUNC:{
+								that._end_node.addInputEdge(that._connection);
+							}
+							break;	
+						}
 						that._start_node.hideSnap();
 						that._end_node.hideSnap();
 					}

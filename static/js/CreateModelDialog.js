@@ -69,7 +69,7 @@ CreateModelDialog.prototype.initDragEvent = function(){
 }
 
 CreateModelDialog.prototype.create = function(){
-	var html = '<div class="create-model-dialog">'
+	var html = '<div class="create-model-dialog dialog">'
 		+'	<div class="titlebar">'
 		+'		<div class="dialog_title">新建模型</div>'
 		+'		<div class="dialog_exit"></div>'
