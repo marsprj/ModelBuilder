@@ -13,151 +13,104 @@
 <body>
 	
 	<div id="header">
-		<div class="title">工作流系统</div>
-		<div class="toolbar">
-			<ul>
-				<li id="adddata">数据</li>
-				<li id="addfunc">算法</li>
-				<!-- <li id="add">
-					添加
-					<ul>
-						<li id="adddata">数据</li>
-						<li id="addfunc">算法</li>
-					</ul>
-				</li> -->
-				<li></li>
-				<li id="sel">移动</li>
-				<li id="conn">连接</li>
-				<li id="unconn">停止连接</li>				
-				<li id="save">保存</li>				
-				<li id="load">加载</li>
-				<li id="run">运行</li>
-			</ul>
+		<div class="title-icon"></div>
+		<div class="title">
+			工作流系统
 		</div>
 	</div>
-
-	<div id="center">
-		<div id="models">
-			<div class="titlebar">模型库</div>
-			<div id="models_container">
+	<div id="main">
+		<div id="left" class="panel">
+			<div class="titlebar">
+				<div class="titlebar-title">模型库</div>
+				<div class="titlebar-tools">
+					<button class="new-model-btn">新建</button>
+					<button class="delete-model-btn">删除</button>
+				</div>
+			</div>
+			<div class="panel-contaniner" id="models_container">
 			</div>
 		</div>
-		<div id="main">
-			<div class="float-menu">
-				<i class="fa fa-file-o menu-new" aria-hidden="true" title="新建"></i>
-				<i class="fa fa-floppy-o menu-save" aria-hidden="true" title="保存"></i>
-				<i class="fa fa-refresh menu-refresh" aria-hidden="true" title="刷新"></i>
-			</div>
-			<div id="funcs">
-				<div class="titlebar">
-					<span>算法库</span>
-					<i class="fa fa-window-maximize funcs-resize" aria-hidden="true"></i>
-				</div>
-				<div id="func_container">	
+		<div id="right">
+			<div class="titlebar">
+				<div class="titlebar-title"><span></span>计算任务</div>
+				<div class="titlebar-tools">
+					<button class="new-task-btn">新建</button>
 				</div>
 			</div>
-			<div id="main_top">
-
-				<div id="tasks">
-					<div class="titlebar">任务进程</div>
-					<div id="tasks_container"></div>
-				</div>
-				<div id="canvas"></div>
-			</div>
-			<div id="result_panel">
-				<div class="titlebar">输出</div>
-				<div id="result">
-
-					<div class="table">
-						<div class="row header">
-							<div class="cell">
-								名称
-							</div>
-							<div class="cell">
-								状态
-							</div>
-							<div class="cell">
-								开始时间
-							</div>
-							<div class="cell">
-								结束时间
-							</div>
+			<div id="task_table">
+				<div class="table">
+					<div class="row header task-header">
+						<div class="cell" style="width: 30px; padding: 0px">
+						</div>
+						<div class="cell">
+							名称
+						</div>
+						<div class="cell">
+							状态
+						</div>
+						<div class="cell">
+							开始时间
+						</div>
+						<div class="cell">
+							完成时间
+						</div>
+						<div class="cell">
+							完成度
+						</div>
+						<div class="cell">
 						</div>
 					</div>
 				</div>
 			</div>
+			<div id="canvas_div">
+				<div id="canvas">
+				</div>
+				<div id="state_div">
+					<div class="state-name">状态</div>
+					<select>
+						<option value="yes">可编辑</option>
+						<option value="not">不可编辑</option>
+					</select>
+				</div>
+				<div id="data_div" title="数据节点">
+				</div>
+				<!-- 算法库 -->
+				<div id="funcs">
+					<div class="titlebar">
+						算法库
+					</div>
+					<div class="funcs_container">
+						<div class="func_wrapper" ftype="Stretch">
+							拉伸
+						</div>
+						<div class="func_wrapper" ftype="Fusion">
+							融合
+						</div>
+						<div class="func_wrapper">
+							镶嵌
+						</div>
+						<div class="func_wrapper">
+							……
+						</div>
+						<div class="func_wrapper">
+							识别
+						</div>
+					</div>
+				</div>
+				<!-- 工具栏 -->
+				<div id="tools">
+					<div class="tool move-tool" title="移动"></div>
+					<div class="tool connect-tool" title="连接"></div>
+					<div class="tool remove-tool" title="删除"></div>
+					<div class="tool save-tool" title="保存"></div>
+					
+				</div>
+				<div id="resize_div" title="全屏">
+				</div>
+			</div>
 		</div>
 	</div>
-
-	<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
-<!-- 	<div class="func_dialog file_dialog">
-		<div class='titlebar'>
-			<div class="dialog_title">文件</div>
-			<div class="dialog_exit"></div>
-		</div>
-		<div class="dialog_main">
-			<div class="dialog_file_path_wrapper">
-				<span>路径:</span>
-				<input type="text" class='dialog_folder_path' readonly="readonly">
-				<div class="dialog_folder_up"></div>
-			</div>
-			<div class='dialog_file_ctrl'>
-				<div class="item_container">
-					<div class="folder_item_icon"></div>
-					<div class="folder_item_text">raster</div>
-				</div>
-				<div class="item_container">
-					<div class="folder_item_icon"></div>
-					<div class="folder_item_text">dem</div>
-				</div>
-				<div class="item_container">
-					<div class="folder_item_icon"></div>
-					<div class="folder_item_text">world-2.tif</div>
-				</div>
-				<div class="item_container">
-					<div class="folder_item_icon"></div>
-					<div class="folder_item_text">world-2.tif</div>
-				</div>
-				<div class="item_container">
-					<div class="folder_item_icon"></div>
-					<div class="folder_item_text">world-2.tif</div>
-				</div>
-				<div class="item_container">
-					<div class="file_item_icon"></div>
-					<div class="folder_item_text">raster</div>
-				</div>
-				<div class="item_container">
-					<div class="file_item_icon"></div>
-					<div class="folder_item_text">dem</div>
-				</div>
-				<div class="item_container">
-					<div class="file_item_icon"></div>
-					<div class="folder_item_text">world-2.tif</div>
-				</div>
-				<div class="item_container">
-					<div class="file_item_icon"></div>
-					<div class="folder_item_text">world-2.tif</div>
-				</div>
-				<div class="item_container">
-					<div class="file_item_icon"></div>
-					<div class="folder_item_text">world-2.tif</div>
-				</div>
-			</div>		
-		</div>	
-		<div class="dialog_bottom">
-			<ul>
-				<li>
-					<a href="javascript:void(0)">确定</a>
-				</li>
-				<li>
-					<a href="javascript:void(0)">取消</a>
-				</li>
-			</ul>
-		</div>
-	</div> -->
-	<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
 </body>
-</html>
 
 
 <script type="text/javascript" src="js/raphael.js"></script>
@@ -185,15 +138,14 @@
 <script type="text/javascript" src="lib/Dialog/StretchDialog.js"></script>
 
 
-<script type="text/javascript" src="js/workflow.js"></script>
-<script type="text/javascript" src="js/model.js"></script>
-<script type="text/javascript" src="js/menu.js"></script>
+<!-- <script type="text/javascript" src="js/workflow.js"></script> -->
+<!-- <script type="text/javascript" src="js/model.js"></script>
+<script type="text/javascript" src="js/menu.js"></script> -->
+<script type="text/javascript" src="js/init.js"></script>
+<script type="text/javascript" src="js/graph.js"></script>
+<script type="text/javascript" src="js/models.js"></script>
 <script type="text/javascript" src="js/CreateModelDialog.js"></script>
+<script type="text/javascript" src="js/createTaskDialog.js"></script>
 <script type="text/javascript">
-
-
+	
 </script>
-
-<!-- <script type="text/javascript" src="input.js"></script>
-<script type="text/javascript" src="func.js"></script> -->
-
