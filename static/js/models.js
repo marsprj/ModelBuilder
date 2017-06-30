@@ -129,21 +129,29 @@ function showTasks(json){
 		var uuid = $(this).attr("uuid");
 		$("#task_table .row").removeClass("active-row");
 		$(this).addClass("active-row");
-		getTaskState(uuid);
+		// 展开或者收缩状态面板
+		expandTaskState(uuid);
 	});
 
+	// 运行
 	$("#task_table .run-btn").click(function(){
 		var taskId = $(this).parents(".row").attr("uuid");
-		runTask(taskId,function(){
+		runTask(taskId,function(obj){
+			if(obj.status == "success"){
 
+			}else if(obj.status == "error"){
+
+			}
 		});
+
+		// 开始运行就开始获取运行状态
+		getRunningState(taskId);
 	});
 
 	// 是否有新建的task
 	if(g_new_task){
 		$("#task_table .row").removeClass("active-row");
 		$("#task_table .row[uuid='" + g_new_task + "']").addClass("active-row");
-		getTaskState(g_new_task);
 		g_new_task = null;
 	}
 
@@ -192,13 +200,42 @@ function getStateIcon(state){
 	}		
 }
 
-
-// 获取运行状态
-function getTaskState(taskId){
+// 获取运行时的状态
+function getRunningState(taskId){
 	if(taskId == null){
 		return;
 	}
 
+	// 展开当前面板
+	var processDiv = $(".process-div");
+	if(processDiv.length == 1){
+		var processId = processDiv.attr("uuid");
+		if(processId != taskId){
+			processDiv.slideUp(400,function(){
+				processDiv.remove();
+			});
+		}
+	}
+
+	// 展示下面的进程窗口
+	showTaskStateDiv(taskId);	
+
+
+	// 循环获取状态
+	var int = setInterval(function(){
+		getTaskState(taskId,function(result){
+			if(result == "completed" || result == "failed"){
+				window.clearInterval(int);
+			}
+		})
+	},200);
+}
+
+// 展开运行对话框
+function expandTaskState(taskId){
+	if(taskId == null){
+		return;
+	}
 	var processDiv = $(".process-div");
 	if(processDiv.length == 1){
 		var processId = processDiv.attr("uuid");
@@ -214,48 +251,16 @@ function getTaskState(taskId){
 		}
 	}
 
-	$("#result .table .row:not(.header)").remove();
-	$("#result").addClass("loading");
-	var url = "/model/task/" + taskId + "/state";
-	$.ajax({
-		url : url,
-		dataType : "text",
-		async : true,
-		success : function(json,textStatus){
-			stateJson = JSON.parse(json);
-			showTaskState(stateJson);
-		},
-		error : function(){
+	// 展示下面的进程窗口
+	showTaskStateDiv(taskId);
 
-		}		
-	});
+	getTaskState(taskId);
+
 }
 
-function showTaskState(json){
-	if(json == null){
-		return;
-	}
 
-	var processes = json.processes;
-	if(processes == null){
-		return;
-	}
-	var count = processes.length;
-
-	var processesHtml = '';
-	for(var i = 0; i < processes.length;++i){
-		var process = processes[i];
-		var state = getState(process.state);
-		processesHtml += '<div class="row">'
-						+'	<div class="cell">' + process.id + '</div>'
-						+'	<div class="cell">' + process.name + '</div>'
-						+'	<div class="cell">' + state + '</div>'
-						+'	<div class="cell">' + process.start_time + '</div>'
-						+'	<div class="cell">' + process.end_time + '</div>'
-						+'	<div class="cell">' + '100%' + '</div>'
-						+'</div>';
-	}
-	var uuid = json.uuid;
+// 弹出进程状态窗口
+function showTaskStateDiv(uuid){
 	var html = '<div class="process-div" uuid="' + uuid + '">'
 			+	'	<div class="process-left">'
 			+	'		<div class="icon-left">'
@@ -284,26 +289,88 @@ function showTaskState(json){
 			+	'					完成度'
 			+	'				</div>'
 			+	'			</div>'
-			+				processesHtml
 			+	'		</div>'
 			+	'	</div>'
 			+	'	<div class="process-close-btn">×</div>'
-			+	'</div>';
+			+	'</div>';	
 
-	
 	var row = $("#task_table .row[uuid='" + uuid + "']");
 	$("#task_table").after(html);
 	var rect = row[0].getClientRects()[0];
 	var top = rect.top + rect.height;
 	var left = rect.left;
-	$(".process-div").css("left",left + "px").css("top",top + "px").slideDown();
-
+	$(".process-div").css("left",left + "px").css("top",top + "px").slideDown();	
+	
 	$(".process-div .process-close-btn").click(function(){
 		var processDiv = $(".process-div");
 		processDiv.slideUp(400,function(){
 			processDiv.remove();
 		});
+	});		
+}
+
+
+// 获取运行状态
+function getTaskState(taskId,callback){
+	$(".process-div .row:not('.header')").remove()
+	var url = "/model/task/" + taskId + "/state";
+	$.ajax({
+		url : url,
+		dataType : "text",
+		async : true,
+		success : function(json,textStatus){
+			stateJson = JSON.parse(json);
+			var result = showTaskState(stateJson);
+			if(callback){
+				callback(result);
+			}
+		},
+		error : function(){
+
+		}		
 	});
+}
+
+
+// 填充运行状态
+function showTaskState(json){
+	if(json == null){
+		return "failed";
+	}
+
+	var processes = json.processes;
+	if(processes == null){
+		return;
+	}
+	var count = processes.length;
+
+	var result = "";
+
+	var processesHtml = '';
+	for(var i = 0; i < processes.length;++i){
+		var process = processes[i];
+		var state = getState(process.state);
+		processesHtml += '<div class="row">'
+						+'	<div class="cell">' + process.id + '</div>'
+						+'	<div class="cell">' + process.name + '</div>'
+						+'	<div class="cell">' + state + '</div>'
+						+'	<div class="cell">' + process.start_time + '</div>'
+						+'	<div class="cell">' + process.end_time + '</div>'
+						+'	<div class="cell">' + '100%' + '</div>'
+						+'</div>';
+		if(state == "failed" || (i == processes.length - 1 && state == "completed")){
+			result = state;
+		}
+	}
+	var uuid = json.uuid;
+	
+	var row = $("#task_table .row[uuid='" + uuid + "']");
+	$(".process-div .process-header").after(processesHtml);
+	var rect = row[0].getClientRects()[0];
+	var top = rect.top + rect.height;
+	var left = rect.left;
+	$(".process-div").css("left",left + "px").css("top",top + "px").slideDown();
+	return result;
 }
 
 
@@ -323,7 +390,6 @@ function saveModel(text,callback){
 	});	
 }
 
-
 // 删除模型
 function deleteModel(uuid,callback){
 	var url = "/model/model/" + uuid + "/delete";
@@ -341,7 +407,7 @@ function deleteModel(uuid,callback){
 }
 
 
-// 创任务
+// 创建任务
 function createTask(modelId,callback){
 	if(modelId == null){
 		return ;
@@ -379,5 +445,4 @@ function runTask(taskId,callback){
 			}
 		}
 	});
-
 }
