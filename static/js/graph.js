@@ -58,58 +58,28 @@ function initGraphEvent(){
 		}
 	});
 
-	new ResizeSensor(jQuery('#canvas_div'), function(){ 
-	    console.log( + "," +  g_graph.getWidth());
-	    var canvasWidth = $('#canvas_div').width();
-	    var canvasHeight = $('#canvas_div').height();
-	    var graphWidth = g_graph.getWidth();
-	    var graphHeight = g_graph.getHeight();
-
-	    if(canvasWidth == graphWidth && canvasHeight == graphHeight){
-	    	return;
-	    }
-
-	    g_graph.setSize(canvasWidth,canvasHeight);
-
-	});
-}
-
-// 设置全屏
-function launchFullscreen(element) {
-  if(element.requestFullscreen) {
-    element.requestFullscreen();
-  } else if(element.mozRequestFullScreen) {
-    element.mozRequestFullScreen();
-  } else if(element.msRequestFullscreen){
-    element.msRequestFullscreen();
-  } else if(element.webkitRequestFullscreen) {
-    element.webkitRequestFullScreen();
-  }
-}
-
-
-// 取消全屏
-function exitFullscreen() {
-  if (document.exitFullscreen) {
-    document.exitFullscreen();
-  } else if (document.msExitFullscreen) {
-    document.msExitFullscreen();
-  } else if (document.mozCancelFullScreen) {
-    document.mozCancelFullScreen();
-  } else if (document.webkitExitFullscreen) {
-    document.webkitExitFullscreen();
-  }
 }
 
 // 全屏处理
 function setFullScreen(){
-	var fullscreenElement =  document.fullscreenElement ||
-		document.mozFullScreenElement ||  document.webkitFullscreenElement;
-	if(fullscreenElement){
-		exitFullscreen();
-		$("#resize_div").attr("title","全屏");
+	if($("#canvas_div").hasClass("full-screen")){
+		$("#resize_div").removeClass("full-screen").attr("title","全屏");
+		$("#left").removeClass("full-screen");
+		$("#right").removeClass("full-screen");
+		$("#right .titlebar").removeClass("full-screen");
+		$("#task_table").removeClass("full-screen");
+		$("#canvas_div").removeClass("full-screen");
 	}else{
-		launchFullscreen(document.getElementById("canvas_div"));
-		$("#resize_div").attr("title","退出全屏");
+		$("#resize_div").addClass("full-screen").attr("title","退出全屏");
+		$("#left").addClass("full-screen");
+		$("#right").addClass("full-screen");
+		$("#right .titlebar").addClass("full-screen");
+		$("#task_table").addClass("full-screen");
+		$("#canvas_div").addClass("full-screen");
 	}
+
+	var height = $("#canvas_div").height();
+	var width = $("#canvas_div").width();
+
+	g_graph.setSize(width,height);
 }

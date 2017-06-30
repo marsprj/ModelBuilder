@@ -79,6 +79,7 @@ html,body{
 .panel-contaniner{
 	height: calc(100% - 42px);
 	width: 100%;
+	overflow-y: auto;
 }
 
 .model-item{
@@ -363,8 +364,8 @@ html,body{
 	background-image: url(../images/node.png);
 }
 
-.run-tool{
-	background-image: url(../images/run.png);
+.remove-tool{
+	background-image: url(../images/remove.png);
 }
 
 .save-tool{
@@ -377,7 +378,34 @@ html,body{
 	top: 22px;
 	width: 40px;
 	height: 40px;
-	background-image: url(../images/resize.png);
+	background: url(../images/fullscreen.png) center no-repeat;
 	cursor: pointer;
 	z-index: 1001;
+}
+
+#resize_div.full-screen{
+	background: url(../images/fullscreen_exit.png) center no-repeat;
+}
+
+
+#left.full-screen {
+	display: none;
+}
+
+#right.full-screen{
+	width: 100% !important;
+}
+
+#right .titlebar.full-screen{
+	display: none;
+}
+
+
+#task_table.full-screen{
+	display: none;
+}
+
+
+#canvas_div.full-screen{
+	height: 100%;
 }

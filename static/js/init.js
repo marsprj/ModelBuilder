@@ -1,6 +1,7 @@
 var g_graph = null;
 var g_new_model = null;
 var g_func_type = null;
+var g_new_task = null;
 
 $().ready(function(){
 	g_graph = new Graph("canvas");
@@ -38,7 +39,8 @@ function initPageEvent(){
 
 	// 新建任务
 	$(".new-task-btn").click(function(){
-		var dlg = new CreateTaskDialog(function(){
+		var dlg = new CreateTaskDialog(function(taskId){
+			g_new_task= taskId;
 			var uuid = $("#models_container .model-item.active").attr("uuid");
 			getTasks(uuid);
 		});

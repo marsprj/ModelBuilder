@@ -795,7 +795,7 @@ Graph.prototype.setEditable = function(isEditable){
 		$("#" + backdrop).remove();
 	}else{
 		var backdropHtml = "<div id='" + backdrop + "' style='position: absolute;top: 0px;"
-		+	"bottom: 0px;right: 0px;left: 0px;cursor: not-allowed;z-index: 1000;'></div>";
+		+	"bottom: 0px;right: 0px;left: 0px;z-index: 1000;'></div>";
 		$("#" + this._container_id).after(backdropHtml);
 		g_graph.undrag();
 		g_graph.stopConnecting();

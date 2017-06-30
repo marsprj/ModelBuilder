@@ -73,6 +73,8 @@ function getModel(uuid){
 
 function showModel(json){
 	g_graph.load(json);
+	g_graph.setEditable(false);
+	$("#state_div select option[value='not']").prop("selected",true);
 }
 
 // 获取计算任务
@@ -136,6 +138,14 @@ function showTasks(json){
 
 		});
 	});
+
+	// 是否有新建的task
+	if(g_new_task){
+		$("#task_table .row").removeClass("active-row");
+		$("#task_table .row[uuid='" + g_new_task + "']").addClass("active-row");
+		getTaskState(g_new_task);
+		g_new_task = null;
+	}
 
 }
 
