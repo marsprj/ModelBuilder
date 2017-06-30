@@ -10,6 +10,14 @@
 	display: none;
 }
 
+.titlebar{
+	width: calc(100%-10px);
+	padding-left: 10px;
+	height: 30px;
+	line-height: 30px;
+	background-color: #eeeeee;
+}
+
 .dialog_title{
 	float:left;
 	
@@ -125,8 +133,27 @@
     padding: 0px 10px;
 }
 
+/*.dialog_file_path_wrapper span{
+    float: left;
+}
+
+.dialog_file_path_wrapper input{
+    float: left;
+}*/
+
 .dialog_folder_path{
-    width: 620px;
+    width: 570px;
+}
+
+.dialog_file_path_wrapper ul{
+	padding: 0px;
+	margin: 0px;
+	float: right;
+}
+
+.dialog_file_path_wrapper li{
+	float: left;
+	list-style-type:none
 }
 
 .dialog_folder_up{
@@ -139,6 +166,32 @@
 }
 
 .dialog_folder_up:hover{
+	background-color: #e0ecf6;
+}
+
+.dialog_folder_add{
+	float: right;
+    width: 20px	;
+    height: 20px	;
+    background-image: url(../images/folder_add_16.png);
+    background-repeat: no-repeat;
+	background-position: center;
+}
+
+.dialog_folder_add:hover{
+	background-color: #e0ecf6;
+}
+
+.dialog_folder_delete{
+	float: right;
+    width: 20px	;
+    height: 20px	;
+    background-image: url(../images/folder_delete_16.png);
+    background-repeat: no-repeat;
+	background-position: center;
+}
+
+.dialog_folder_delete:hover{
 	background-color: #e0ecf6;
 }
 

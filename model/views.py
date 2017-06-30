@@ -12,6 +12,7 @@ import ModelFlow
 from django.utils import timezone
 
 import time, json, uuid, datetime, os, os.path
+from json import JSONDecodeError
 
 # Create your views here.
 
@@ -190,7 +191,23 @@ def task_state(request, task_id):
 创建Model的Task
 返回Task的uuid
 """
-def task_create(request, model_id):
+def task_create(request):
+
+    text = request.body.decode('utf-8')
+
+    # 解析Model的json对象
+    try:
+        obj = json.loads(text)
+    except JSONDecodeError:
+        return http_error_response("Task的json对象解析失败")
+
+    start_time = timezone.now()
+
+    model_id = obj["model"]
+    if "name" in obj:
+        task_name = obj["name"]
+    else:
+        task_name = start_time.strftime("%Y%m%d%H%M%S")
 
     try:
         models = Model.objects.filter(uuid=model_id)
@@ -204,8 +221,8 @@ def task_create(request, model_id):
 
     task = model.task_set.create(
         uuid=uuid.uuid4(),
-        name=model.name,
-        start_time=timezone.now(),
+        name=task_name,
+        start_time=start_time,
         #end_time=timezone.now(),
     )
     task.save()

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script type="text/javascript" src="../js/jquery-3.2.1.min.js"></script>
+	<script type="text/javascript">
+		function onCreateTask(){
+			var text = '{"model":"36e31579-baa4-4abf-a7e0-8882ca750ede"}';
+			$.ajax({
+				type:"POST",
+				url:"/model/task/create/",
+				data : text,
+				contentType: "text/plain",
+				dataType : "text",
+				success:function(data){
+					alert(data);
+				}
+			});
+		}
+	</script>
+	<title>create task</title>
+</head>
+<body>
+<input type="button" value="create task" onclick="onCreateTask()">
+</body>
+</html>

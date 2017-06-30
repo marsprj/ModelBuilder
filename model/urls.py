@@ -15,7 +15,8 @@ urlpatterns = [
 
 
     url(r'^tasks/$', views.tasks, name='tasks'),
-    url(r'^task/create/(?P<model_id>[-A-Za-z0-9]+)/$', views.task_create, name='create_task'),
+    url(r'^task/create/$', views.task_create, name='create_task'),
+    #url(r'^task/create/(?P<model_id>[-A-Za-z0-9]+)/$', views.task_create, name='create_task'),
     url(r'^task/(?P<task_id>[-A-Za-z0-9]+)/state/$', views.task_state, name='state'),
     url(r'^task/(?P<task_id>[-A-Za-z0-9]+)/run/$', views.task_run, name='run'),
 

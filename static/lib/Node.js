@@ -1,11 +1,10 @@
 function extend(c, p) {
 
 	var F = function(){};
-　　　　F.prototype = p.prototype;
-　　　　c.prototype = new F();
-　　　　c.prototype.constructor = c;
-　　　　c.uber = p.prototype;
-　
+	F.prototype = p.prototype;
+	c.prototype = new F();
+	c.prototype.constructor = c;
+	c.uber = p.prototype;
 }
 
 var WIDGET_TYPE = {
