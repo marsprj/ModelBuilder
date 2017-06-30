@@ -791,9 +791,9 @@ Graph.prototype.findLastFunction = function(){
 // 是否可以编辑
 Graph.prototype.setEditable = function(isEditable){
 	var backdrop = "backdrop";
-	if(isEditable){
+	$("#" + backdrop).remove();
+	if(!isEditable){
 		$("#" + backdrop).remove();
-	}else{
 		var backdropHtml = "<div id='" + backdrop + "' style='position: absolute;top: 0px;"
 		+	"bottom: 0px;right: 0px;left: 0px;z-index: 1000;'></div>";
 		$("#" + this._container_id).after(backdropHtml);
