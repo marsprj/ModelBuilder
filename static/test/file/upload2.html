@@ -3,30 +3,31 @@
 <head>
 	<meta charset="utf-8">
 	<link rel="stylesheet" type="text/css" href="lib/css/dialog.css">
-	<link rel="stylesheet" type="text/css" href="css/workflow.css">
 
 	<script type="text/javascript" src="js/raphael.js"></script>
 	<script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
 	<script type="text/javascript" src="js/3rd/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="js/3rd/ElementQueries.js"></script>
+	<script type="text/javascript" src="js/3rd/ResizeSensor.js"></script>
 
 	<script type="text/javascript" src="lib/Node.js"></script>
 	<script type="text/javascript" src="lib/Dialog.js"></script>
 	<script type="text/javascript" src="lib/Dialog/FileDialog.js"></script>
 	<script type="text/javascript" src="lib/Dialog/FileDialog2.js"></script>
-	<script type="text/javascript" src="lib/Dialog/UploadDialog.js"></script>
 
 	<script type="text/javascript">
-		$().ready(function(){
-			dlg = new UploadDialog();
+		function onFile(){
+			
+			dlg = new FileDialog();
 			dlg.show();
-		})
+		}
 	</script>
 
 	<title>文件上传</title>
 </head>
-<body>
+<body　onload="onFile()">
 
-<!-- <input type="button" value="文件上传" onclick="onFile()"> -->
+<input type="button" value="文件对话框" onclick="onFile()">
 
 </body>
 

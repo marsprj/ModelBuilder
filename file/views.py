@@ -12,22 +12,17 @@ def file_upload(request):
     if request.method != "POST":
         return HttpResponse("error")
 
-    file_path = request.POST['file_path']
-    file_body = request.FILES.get("file_name", None)
-    if not file_body:
-        return HttpResponse("no file upload")
+    file_path = request.POST['dlg_upoad_path']
 
-    # file_folder = os.path.join(
-    #         os.path.join(settings.BASE_DIR, "static"),
-    #         "uploads"
-    # )
     file_root = get_file_root()
     local_folder = os.path.join(file_root, file_path[1:])
 
-    local_path = os.path.join(local_folder, file_body.name)
-    with open(local_path, "wb+") as f:
-        for chunk in file_body.chunks():
-            f.write(chunk)
+    files = request.FILES.getlist("dlg_upoad_files", None)
+    for file in files:
+        local_path = os.path.join(local_folder, file.name)
+        with open(local_path, "wb+") as f:
+            for chunk in file.chunks():
+                f.write(chunk)
 
     return http_success_response()
 
@@ -154,4 +149,5 @@ def http_success_response():
     obj = {
         "status": "success"
     }
-    return HttpResponse(json.dumps(obj), content_type="application/json")
+    response = HttpResponse(json.dumps(obj), content_type="application/json", status=200)
+    return response

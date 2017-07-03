@@ -130,7 +130,7 @@
 
 .dialog_file_path_wrapper{
     margin: 10px 0px;
-    padding: 0px 10px;
+    padding: 0px 0px 0px 10px;
 }
 
 /*.dialog_file_path_wrapper span{
@@ -195,6 +195,21 @@
 	background-color: #e0ecf6;
 }
 
+.dlg_folder_open{
+	float: right;
+    width: 20px	;
+    height: 20px	;
+    background-image: url(../images/folder_24.png);
+    background-repeat: no-repeat;
+	background-position: center;
+}
+}
+
+.dlg_folder_open:hover{
+	background-color: #e0ecf6;
+}
+
+
 #dialog_file_ctrl{
 	height: 340px;
     margin: 0px 10px;
@@ -239,4 +254,104 @@
 .folder_item_text{
 	height: 30px;
 	line-height: 30px;
+}
+
+/********************************************************************/
+/*    file upload dialog
+/********************************************************************/
+.upload_dialog{
+	left: 300px;
+	top: 80px;
+	width: 700px;
+	height: 500px;
+}
+
+.dlg_upload_main{
+	float: left;
+	width: 640px;
+	height: 400px;
+	font-size: 12px;
+	/*border:1px solid #000000;*/
+}
+
+.dlg_file_up_main_wrapper{
+	/*width: calc(100%-20px);*/
+	height: 400px;
+    margin: 0px 10px;
+    /*border: 1px solid #aaaaaa;*/
+}
+
+#dlg_file_up_ls_ctrl{
+	float: left;
+	width: 590px;
+    height: 100%;
+    margin: 0px 0px 0px 40px;
+    padding: 0px;
+    border: 1px solid #aaaaaa;
+}
+
+#dlg_file_up_ls_ctrl ul{
+	list-style:none;
+	margin: 0px 0px;
+	padding: 0px 10px;
+}
+
+#dlg_file_up_ls_ctrl ul li{
+	height: 30px;
+	line-height: 30px;
+}
+
+#dlg_file_up_ls_ctrl ul li:hover{
+	background-color: #e0ecf6;
+}
+
+#dlg_file_up_ls_ctrl ul li span{
+	width: 300px;
+}
+
+
+
+.dlg_file_up_bar{
+	float: right;
+	width: 50px;
+	height: 100%;
+    margin: 0px;
+    padding: 0px;
+    /*border: 1px solid #aaaaaa;	*/
+}
+
+.dlg_file_up_add{
+	width: 50px;
+	height: 50px;
+	background-image: url(../images/add_36.png);
+	background-repeat: no-repeat;
+	background-position: center;
+}
+
+/*.dlg_file_up_remove{*/
+.dlg_folder_open_2{
+	width: 50px;
+	height: 50px;
+	background-image: url(../images/folder_open_36.png);
+	background-repeat: no-repeat;
+	background-position: center;
+}
+
+.dlg_file_up_load{
+	width: 50px;
+	height: 50px;
+	margin-top:20px;
+	background-image: url(../images/import_36.png);
+	background-repeat: no-repeat;
+	background-position: center;
+}
+
+.dlg_file_up_bar div:hover{
+	background-color: #e0ecf6;
+	border: 1px solid #aaaaaa;
+}
+
+#dlg_upoad_files{
+	width: 50px;
+	height: 50px;
 }

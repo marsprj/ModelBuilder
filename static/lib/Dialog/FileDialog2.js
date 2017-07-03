@@ -75,7 +75,7 @@ FileDialog2.prototype.initFileEvent = function(){
 					var fldName = $(this).find('.folder_item_text:first').text();
 					var newPath = dlg.makeFolderPath(curPath, fldName);
 					dlg._file_path = newPath;
-					dlg._file_name = newPath;
+					dlg._file_name = fldName;
 					dlg._file_type = "folder";
 					$("#dialog_file_ctrl .item_container").css("background-color", "#ffffff");
 					$(this).css("background-color", "#e0ecf6");
@@ -232,7 +232,7 @@ FileDialog2.prototype.upwards = function(){
 	}
 
 	var pos = curPath.lastIndexOf("/", curPath.length-2);
-	if( pos>0 ){
+	if( pos>=0 ){
 		var parentPath = curPath.substring(0, pos) + "/";
 		this.setPath(parentPath);
 		this.populateFolders();
@@ -240,15 +240,42 @@ FileDialog2.prototype.upwards = function(){
 }
 
 FileDialog2.prototype.createFolder = function(){
-
-}
-
-FileDialog2.prototype.deleteFolder = function(){
 	if(!this._file_path){
 		return;
 	}
 
-	var data = '{"path":"' + this._file_path + '"}';
+	var that = this;
+	var fname = Math.random().toString(36).substr(2);
+	var fpath = this.makeFolderPath(this._file_path, fname);
+
+	var data = '{"path":"' + fpath + '"}';
+
+	$.ajax({
+		type:"POST",
+		url:"/file/create/",
+		data : data,//JSON.stringify(data),
+		//data : JSON.stringify(data),
+		contentType: "text/plain",
+		dataType : "application/json",
+		success : function(result,status_code){
+			alert(result.status);
+		},
+		complete : function(request){
+			//alert("complete")
+			that.populateFolders();
+		}
+	});
+
+}
+
+FileDialog2.prototype.deleteFolder = function(){
+	if((!this._file_path)||(!this._file_name)){
+		return;
+	}
+
+	var dlg = this;
+	fpath = this.makeFolderPath(this._folder_path, this._file_name);
+	var data = '{"path":"' + fpath + '"}';
 
 	$.ajax({
 		type:"POST",
@@ -259,6 +286,9 @@ FileDialog2.prototype.deleteFolder = function(){
 		dataType : "application/json",
 		success:function(result){
 			alert(result.status);
+		},
+		complete:function(){
+			dlg.populateFolders();
 		}
 	});
 }
