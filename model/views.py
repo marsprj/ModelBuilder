@@ -99,7 +99,7 @@ def model_get(request, model_id):
 """
 删除制定id的Model
 """
-def model_delete(request):
+def model_delete(request,model_id):
     try:
         model = Model.objects.get(uuid=model_id)
     except Model.DoesNotExist:

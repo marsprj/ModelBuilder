@@ -254,6 +254,7 @@
 .folder_item_text{
 	height: 30px;
 	line-height: 30px;
+	overflow: hidden;
 }
 
 /********************************************************************/
