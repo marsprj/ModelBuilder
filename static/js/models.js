@@ -408,14 +408,17 @@ function deleteModel(uuid,callback){
 
 
 // 创建任务
-function createTask(modelId,callback){
+function createTask(modelId,taskName,callback){
 	if(modelId == null){
 		return ;
 	}
-	var url = "/model/task/create/" + modelId;
+
+	var text = '{"model":"' + modelId + '","name":"' + taskName + '"}';
+	var url = "/model/task/create/";
 	$.ajax({
-		type:"get",
+		type:"POST",
 		url:url,
+		data:text,
 		contentType: "text/plain",
 		dataType : "text",
 		success:function(result){

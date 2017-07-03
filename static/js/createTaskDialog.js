@@ -41,7 +41,7 @@ CreateTaskDialog.prototype.initOkEvent = function(){
 		}
 
 		var modelId = $("#models_container .model-item.active").attr("uuid");
-		createTask(modelId,function(obj){
+		createTask(modelId,name,function(obj){
 			dlg.destory();
 			if(dlg._onOK){
 				dlg._onOK(obj.uuid);

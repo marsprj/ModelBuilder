@@ -55,6 +55,10 @@ html,body{
 	background-color: #cdcdcd;
 	border-bottom: 2px solid #787878;
 }
+#left .titlebar,#right .titlebar,#funcs .titlebar{
+	height: 42px;
+	line-height: 42px;
+}
 
 .titlebar-title{
 	display: inline-block;
@@ -237,6 +241,7 @@ html,body{
 	height: 170px;
 	overflow-y: auto;
 	border-bottom: 2px solid #787878;
+	width: 100%;
 }
 #canvas_div{
 	width: 100%;
