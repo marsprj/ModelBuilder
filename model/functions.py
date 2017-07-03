@@ -12,7 +12,8 @@ def dispatch(func):
     elif fname == "Fusion":
         pass
 
-    return result
+    #return result
+    return True
 
 def process_stretch(func):
     inputs = func.getInputs()

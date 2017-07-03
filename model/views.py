@@ -11,7 +11,7 @@ import ModelFlow
 
 from django.utils import timezone
 
-import time, json, uuid, datetime, os, os.path
+import time, json, uuid, datetime, os, os.path, logging
 from json import JSONDecodeError
 
 # Create your views here.
@@ -340,6 +340,8 @@ def task_run(request, task_id):
 def start_task_2(task):
     #model = Model.objects.filter(uuid=model_id)[0]
 
+    logger = logging.getLogger('model.app')
+
     success = True
     graph = Graph()
     if not graph.load(task.model.text):
@@ -361,7 +363,7 @@ def start_task_2(task):
             for func in flow:
                 process = task.process_set.create(
                     name = func.getName(),
-                    start_time = timezone.now(),
+                    #start_time = timezone.now(),
                     #end_time = timezone.now()
                 )
                 process.save()
@@ -374,17 +376,22 @@ def start_task_2(task):
                 #更新process的状态为正在执行
                 process = processes[i]
                 process.state = 1
+                process.complete_percent = 0
+                process.start_time = timezone.now()
                 process.save()
 
-                #time.sleep(5)
+                time.sleep(10)
                 func = flow[i]
                 #processing func
+                logger.debug(func.getName())
+
                 success = functions.dispatch(func)
 
                 if success == True:
                     # 更新process的状态为结束，并记录结束时间
                     process.end_time = timezone.now()
                     process.state = 2   #success
+                    process.complete_percent = 100
                     process.save()
                 else:
                     # 更新process的状态为结束，并记录结束时间

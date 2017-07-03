@@ -240,13 +240,13 @@ FileDialog2.prototype.upwards = function(){
 }
 
 FileDialog2.prototype.createFolder = function(){
-	if(!this._file_path){
+	if(!this._folder_path){
 		return;
 	}
 
 	var that = this;
 	var fname = Math.random().toString(36).substr(2);
-	var fpath = this.makeFolderPath(this._file_path, fname);
+	var fpath = this.makeFolderPath(this._folder_path, fname);
 
 	var data = '{"path":"' + fpath + '"}';
 

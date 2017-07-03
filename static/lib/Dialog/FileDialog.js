@@ -2,15 +2,18 @@ var FileDialog = function(path, onOK){
 
 	Dialog.apply(this, arguments);
 	
-	this._folder_path = "";
-	this._file_path = "";
-	this._file_name = "";
+	this._folder_path = "";	//地址栏里的路径
+	this._file_path = "";	//选中的完整文件路径
+	this._file_name = "";	//选中的文件名
+	this._file_type = "";	//选中的文件类型[文件(file)|文件夹(folder)]
 	this._onOK = onOK;
 
 	this.setPath(path ? path : "/");
 	this.populateFolders();
 
 	this.initUpwardEvent();
+	this.initCreateFolderEvent();
+	this.initDeleteFolderEvent();
 }
 
 extend(FileDialog, Dialog)
@@ -33,6 +36,22 @@ FileDialog.prototype.initUpwardEvent = function(){
 	});
 }
 
+FileDialog.prototype.initCreateFolderEvent = function(){
+
+	var dlg = this;
+	this._win.find(".dialog_folder_add:first").click(function(){
+		dlg.createFolder();
+	});
+}
+
+FileDialog.prototype.initDeleteFolderEvent = function(){
+
+	var dlg = this;
+	this._win.find(".dialog_folder_delete:first").click(function(){
+		dlg.deleteFolder();
+	});
+}
+
 FileDialog.prototype.initFileEvent = function(){
 	var dlg = this;
 	this._win.find(".item_container").each(function(){
@@ -41,6 +60,7 @@ FileDialog.prototype.initFileEvent = function(){
 		switch(type){
 			case "folder":{
 				$(this).dblclick(function(){
+					//双击文件夹，进入该目录
 					var curPath = dlg.getPath();
 					var fldName = $(this).find('.folder_item_text:first').text();
 					var newPath = dlg.makeFolderPath(curPath, fldName);
@@ -48,13 +68,28 @@ FileDialog.prototype.initFileEvent = function(){
 					dlg.populateFolders();
 					dlg._file_path = null;
 				});
+
+				$(this).click(function(){
+					//单击文件夹，选中该文件夹
+					var curPath = dlg.getPath();
+					var fldName = $(this).find('.folder_item_text:first').text();
+					var newPath = dlg.makeFolderPath(curPath, fldName);
+					dlg._file_path = newPath;
+					dlg._file_name = fldName;
+					dlg._file_type = "folder";
+					$("#dialog_file_ctrl .item_container").css("background-color", "#ffffff");
+					$(this).css("background-color", "#e0ecf6");
+				});
 			}
 			break;
 			case "file":{
 				$(this).click(function(){
+					//单击文件，选中该文件
 					var curPath = dlg.getPath();
 					var filName = $(this).find('.folder_item_text:first').text();
 					dlg._file_path = dlg.makeFilePath(curPath, filName);
+					dlg._file_name = filName;
+					dlg._file_type = "file";
 
 					$("#dialog_file_ctrl .item_container").css("background-color", "#ffffff");
 					$(this).css("background-color", "#e0ecf6");
@@ -197,11 +232,65 @@ FileDialog.prototype.upwards = function(){
 	}
 
 	var pos = curPath.lastIndexOf("/", curPath.length-2);
-	if( pos>0 ){
+	if( pos>=0 ){
 		var parentPath = curPath.substring(0, pos) + "/";
 		this.setPath(parentPath);
 		this.populateFolders();
 	}
+}
+
+FileDialog.prototype.createFolder = function(){
+	if(!this._folder_path){
+		return;
+	}
+
+	var that = this;
+	var fname = Math.random().toString(36).substr(2);
+	var fpath = this.makeFolderPath(this._folder_path, fname);
+
+	var data = '{"path":"' + fpath + '"}';
+
+	$.ajax({
+		type:"POST",
+		url:"/file/create/",
+		data : data,//JSON.stringify(data),
+		//data : JSON.stringify(data),
+		contentType: "text/plain",
+		dataType : "application/json",
+		success : function(result,status_code){
+			alert(result.status);
+		},
+		complete : function(request){
+			//alert("complete")
+			that.populateFolders();
+		}
+	});
+
+}
+
+FileDialog.prototype.deleteFolder = function(){
+	if((!this._file_path)||(!this._file_name)){
+		return;
+	}
+
+	var dlg = this;
+	fpath = this.makeFolderPath(this._folder_path, this._file_name);
+	var data = '{"path":"' + fpath + '"}';
+
+	$.ajax({
+		type:"POST",
+		url:"/file/remove/",
+		data : data,//JSON.stringify(data),
+		//data : JSON.stringify(data),
+		contentType: "text/plain",
+		dataType : "application/json",
+		success:function(result){
+			alert(result.status);
+		},
+		complete:function(){
+			dlg.populateFolders();
+		}
+	});
 }
 
 FileDialog.prototype.makeFolderPath = function(folderPath, folderame){
@@ -227,7 +316,14 @@ FileDialog.prototype.create = function(){
 			+"		<div class='dialog_file_path_wrapper'>"
 			+"			<span>路径:</span>"
 			+"			<input type='text' class='dialog_folder_path' readonly='readonly' value='/'>"
-			+"			<div class='dialog_folder_up'></div>"
+			+"			<ul>"
+			+"				<li><div class='dialog_folder_up'></div></li>"
+			+"				<li><div class='dialog_folder_add'></div></li>"
+			+"				<li><div class='dialog_folder_delete'></div></li>"
+			+"			</ul>"
+			// +"			<div class='dialog_folder_up'></div>"
+			// +"			<div class='dialog_folder_add'></div>"
+			// +"			<div class='dialog_folder_delete'></div>"
 			+"		</div>"
 			+"		<div id='dialog_file_ctrl'>"
 			// +"			<div class='item_container' type='folder'>"

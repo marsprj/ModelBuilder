@@ -52,7 +52,7 @@ html,body{
 	height: 42px;
 	padding-left: 10px;
 	line-height: 42px;
-	background-color: #cdcdcd;
+	background-color: #eeeeee;
 	/*border-bottom: 2px solid #787878;*/
 	border-bottom: 1px solid #dddddd;
 }
@@ -414,4 +414,20 @@ html,body{
 
 #canvas_div.full-screen{
 	height: 100%;
+}
+
+.bg-red{
+	background-color: red;
+}
+
+.bg-green{
+	background-color: #00ff00;
+}
+
+.bg-yellow{
+	background-color: yellow;
+}
+
+.bg-white{
+	background-color: white;
 }

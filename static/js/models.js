@@ -312,7 +312,7 @@ function showTaskStateDiv(uuid){
 
 // 获取运行状态
 function getTaskState(taskId,callback){
-	$(".process-div .row:not('.header')").remove()
+	// $(".process-div .row:not('.header')").remove()
 	var url = "/model/task/" + taskId + "/state";
 	$.ajax({
 		url : url,
@@ -320,6 +320,7 @@ function getTaskState(taskId,callback){
 		async : true,
 		success : function(json,textStatus){
 			stateJson = JSON.parse(json);
+			$(".process-div .row:not('.header')").remove()
 			var result = showTaskState(stateJson);
 			if(callback){
 				callback(result);
@@ -350,13 +351,15 @@ function showTaskState(json){
 	for(var i = 0; i < processes.length;++i){
 		var process = processes[i];
 		var state = getState(process.state);
-		processesHtml += '<div class="row">'
+		var bgcolor = getBgColor(state);
+		processesHtml += '<div class="row ' + bgcolor + '">'
 						+'	<div class="cell">' + process.id + '</div>'
 						+'	<div class="cell">' + process.name + '</div>'
 						+'	<div class="cell">' + state + '</div>'
 						+'	<div class="cell">' + process.start_time + '</div>'
 						+'	<div class="cell">' + process.end_time + '</div>'
-						+'	<div class="cell">' + '100%' + '</div>'
+						//+'	<div class="cell">' + '100%' + '</div>'
+						+'	<div class="cell">' + process.percent + '</div>'
 						+'</div>';
 		if(state == "failed" || (i == processes.length - 1 && state == "completed")){
 			result = state;
@@ -371,6 +374,18 @@ function showTaskState(json){
 	var left = rect.left;
 	$(".process-div").css("left",left + "px").css("top",top + "px").slideDown();
 	return result;
+}
+
+function getBgColor(state){
+	switch(state){
+		case "failed":
+			return "bg-red";
+		case "completed":
+			return "bg-green";
+		case "running":
+			return "bg-yellow";
+	}
+	return "bg-white";
 }
 
 
