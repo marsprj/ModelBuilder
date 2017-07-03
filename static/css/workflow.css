@@ -53,7 +53,8 @@ html,body{
 	padding-left: 10px;
 	line-height: 42px;
 	background-color: #cdcdcd;
-	border-bottom: 2px solid #787878;
+	/*border-bottom: 2px solid #787878;*/
+	border-bottom: 1px solid #dddddd;
 }
 #left .titlebar,#right .titlebar,#funcs .titlebar{
 	height: 42px;
