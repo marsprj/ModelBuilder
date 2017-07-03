@@ -45,7 +45,7 @@ html,body{
     float: left;
     height: 100%;
     width: calc(100% - 212px);
-    font-size: 14px;
+    font-size: 12px;
 }
 
 .titlebar{
@@ -87,10 +87,10 @@ html,body{
 }
 
 .model-item{
-	height: 36px;
-	line-height: 36px;
+	height: 25px;
+	line-height: 25px;
 	border-bottom: 1px solid #787878;
-	font-size: 14px;
+	font-size: 12px;
 	text-align: center;
 }
 
@@ -118,7 +118,7 @@ html,body{
 }
 
 .cell {
-    padding: 6px 12px;
+    padding: 1px 12px;
     display: table-cell;
     border-bottom: 1px solid #787878;
     border-right: 1px solid #787878;
