@@ -109,6 +109,11 @@ function showTasks(json){
 		var state = getState(t.state);
 		var stateClass = getStateClass(t.state);
 		var stateIcon = getStateIcon(t.state);
+		var btnHtml = '	<div class="cell"><button class="run-btn">运行</button></div>';
+		if(t.state == 1){
+			btnHtml = '	<div class="cell"><button class="run-btn stop-btn">停止</button></div>';
+		}
+		
 		html += '<div class="row ' + stateClass + ' " uuid="' + t.uuid+ '">'
 			+	'	<div class="cell state-icon ' + stateIcon + ' "></div>'
 			+	'	<div class="cell">' + t.name + '</div>'
@@ -116,7 +121,7 @@ function showTasks(json){
 			+	'	<div class="cell">' + t.start_time + '</div>'
 			+	'	<div class="cell">' + t.end_time + '</div>'
 			+	'	<div class="cell">' + '100%' + '</div>'
-			+	'	<div class="cell"><button class="run-btn">运行</button></div>'
+			+	btnHtml
 			+ 	'</div>';
 	});
 
@@ -136,16 +141,36 @@ function showTasks(json){
 	// 运行
 	$("#task_table .run-btn").click(function(){
 		var taskId = $(this).parents(".row").attr("uuid");
-		runTask(taskId,function(obj){
-			if(obj.status == "success"){
-				alert("运行成功")
-			}else if(obj.status == "error"){
-				alert(obj.message);
-			}
-		});
+		
 
-		// 开始运行就开始获取运行状态
-		getRunningState(taskId);
+		if($(this).hasClass("stop-btn")){
+			// 点击停止按钮
+			$(this).removeClass("stop-btn");
+			$(this).html("运行");
+			// 
+			// stopTask();
+			window.clearInterval(g_state_int);
+
+		}else{
+			// 点击运行按钮
+			$(this).addClass("stop-btn");
+			$(this).html("停止");
+			runTask(taskId,function(obj){
+				if(obj.status == "success"){
+					alert("运行成功")
+				}else if(obj.status == "error"){
+					alert(obj.message);
+				}
+				window.clearInterval(g_state_int);
+				getTaskState(taskId);
+				$("#task_table .run-btn").removeClass("stop-btn");
+				$("#task_table .run-btn").html("运行");
+			});
+
+			// 开始运行就开始获取运行状态
+			getRunningState(taskId);
+		}
+		
 	});
 
 	// 是否有新建的task
@@ -210,22 +235,32 @@ function getRunningState(taskId){
 	var processDiv = $(".process-div");
 	if(processDiv.length == 1){
 		var processId = processDiv.attr("uuid");
-		processDiv.slideUp(400,function(){
-			processDiv.remove();
-		});
+		if(processId != taskId){
+			processDiv.slideUp(400,function(){
+				processDiv.remove();
+				// 展示下面的进程窗口
+				showTaskStateDiv(taskId);	
+			});
+		}
+	}else{
+		// 展示下面的进程窗口
+		showTaskStateDiv(taskId);	
 	}
 
-	// 展示下面的进程窗口
-	showTaskStateDiv(taskId);	
-
+	
 	// 循环获取状态
-	var int = setInterval(function(){
+	var startTime = new Date();
+	g_state_int = setInterval(function(){
 		getTaskState(taskId,function(result){
-			console.log("int"+ int);
-			if(result != 1){
-				window.clearInterval(int);
+			if(result != 1 ){
+				window.clearInterval(g_state_int);
 			}
 		})
+		var time = new Date();
+		var delta = time  - startTime;
+		if(delta > 10*60*1000){
+			window.clearInterval(g_state_int);	
+		}
 	},1000);
 }
 
@@ -470,6 +505,12 @@ function runTask(taskId,callback){
 			console.log(result);
 			if(callback){
 				callback(JSON.parse(result));
+			}
+		},
+		error :function(XMLHttpRequest, textStatus, errorThrown) {
+			console.log(XMLHttpRequest.status);
+			if(callback){
+				callback(JSON.parse('{"status":"error","message":XMLHttpRequest.status}'));
 			}
 		}
 	});

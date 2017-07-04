@@ -3,6 +3,9 @@ var g_new_model = null;
 var g_func_type = null;
 var g_new_task = null;
 
+// 状态获取的循环器
+var g_state_int = null;
+
 $().ready(function(){
 	g_graph = new Graph("canvas");
 	initPageEvent();
