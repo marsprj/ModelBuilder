@@ -172,3 +172,13 @@ Arrow.prototype.remove = function(){
 		this._line.remove();
 	}
 }
+
+
+
+Arrow.prototype.getID = function(){
+	if(this._line){
+		return this._line.id;
+	}else{
+		return null;
+	}
+}

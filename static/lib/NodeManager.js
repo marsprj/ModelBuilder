@@ -106,3 +106,17 @@ NodeManager.getInstance = function(){
 	}
 	return this._instance;
 }
+
+
+NodeManager.prototype.removeNodeByID = function(id){
+	var len = this._nodes.length;
+	for(var i=0; i<len; i++){
+		var wid = this._nodes[i].getID();
+		
+		if(this._nodes[i].getID() == id){
+			this._nodes[i].remove();
+			this._nodes.splice(i,1);
+			return;
+		}
+	}	
+}

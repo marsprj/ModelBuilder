@@ -32,8 +32,8 @@ function initGraphEvent(){
 		}else if($(this).hasClass("connect-tool")){
 			g_graph.undrag();
 			g_graph.startConnecting();
-		}else if($(this).hasClass("run-tool")){
-			alert("run");
+		}else if($(this).hasClass("remove-tool")){
+			g_graph.remove();
 		}else if($(this).hasClass("save-tool")){
 			var text = g_graph.export();
 			saveModel(text,function(result){

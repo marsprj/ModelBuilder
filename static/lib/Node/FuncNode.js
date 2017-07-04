@@ -44,6 +44,10 @@ FuncNode.prototype.getOutputEdge = function(i){
 	return null;
 }
 
+FuncNode.prototype.getInputsEdge = function(){
+	return this._inputs;
+}
+
 FuncNode.prototype.setOutputEdge = function(output){
 	this._output = output;
 }

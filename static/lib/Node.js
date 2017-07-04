@@ -46,6 +46,7 @@ Node.prototype.draggable = function(){
 	var that = this;
 	var start = function(){
 		ex=0, ey=0;
+		this.attr({"stroke-width":5});
 	};
 	var move = function(dx, dy){
 		if(that._shape){			
@@ -56,7 +57,7 @@ Node.prototype.draggable = function(){
 		ey = dy;
 	}
 	var end = function(){
-
+		this.attr({"stroke-width":1});
 	}
 
 	if(this._shape){

@@ -7,7 +7,7 @@ var ConnectionManager = function(){
 ConnectionManager.prototype.getConnectionById = function(id){
 	var len = this._connections.length;
 	for(var i=0; i<len; i++){
-		if(this._connections[i]._id == id){
+		if(this._connections[i].getID() == id){
 			return this._connections[i];
 		}
 	}
@@ -104,4 +104,16 @@ ConnectionManager.prototype.getClosePoints = function(from,to){
 	var cs = f_snaps[f];
 	var ce = t_snaps[t];
 	return [cs,ce];	
+}
+
+
+ConnectionManager.prototype.removeConnectionByID = function(id){
+	var len = this._connections.length;
+	for(var i=0; i<len; i++){
+		if(this._connections[i].getID() == id){
+			this._connections[i].remove();
+			this._connections.splice(i,1);
+			return;
+		}
+	}	
 }

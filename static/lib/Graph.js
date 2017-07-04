@@ -41,6 +41,9 @@ var Graph = function(container_id){
 	this._nodeManager = new NodeManager();
 	this._connManager = new ConnectionManager();
 
+	// 选择的节点或者线段
+	this._selected = null;
+
 	this.initCanvasEvent();
 
 	var that = this;
@@ -58,7 +61,7 @@ Graph.prototype.initCanvasEvent = function(){
 		var y = evt.offsetY;
 		var target = graph._r.getElementByPoint(evt.pageX,evt.pageY);
 		if(target){
-			var node = g_graph._nodeManager.getNodeById(target.id);
+			var node = graph._nodeManager.getNodeById(target.id);
 			if(node){
 				node.onClick();
 			}
@@ -79,6 +82,35 @@ Graph.prototype.initCanvasEvent = function(){
 			}
 		}
 	})
+
+
+	$("#" + this._container_id).click(function(evt){
+		var x = evt.offsetX;
+		var y = evt.offsetY;
+		var target = graph._r.getElementByPoint(evt.pageX,evt.pageY);
+		if(graph._selected){
+			if(graph._selected instanceof Node){
+				graph._selected._shape._shape.attr({"stroke-width":1});
+			}else if(graph._selected instanceof Connection){
+				graph._selected._arrow._line.attr({"stroke-width":2});
+			}
+		}
+		if(target){
+			var node = graph._nodeManager.getNodeById(target.id);
+			if(node){
+				node._shape._shape.attr({"stroke-width":3});
+				graph._selected = node;
+			}
+
+			var connection = graph._connManager.getConnectionById(target.id);
+			if(connection){
+				connection._arrow._line.attr({"stroke-width":5});
+				graph._selected = connection;
+			}
+		}else{
+			graph._selected = null;
+		}
+	});
 }
 
 
@@ -822,4 +854,46 @@ Graph.prototype.getWidth = function(){
 
 Graph.prototype.getHeight = function(){
 	return this._height;
+}
+
+/**
+ * 删除节点或者连接线
+ */
+Graph.prototype.remove = function(){
+	if(!this._selected){
+		alert("请选择一个节点或者连接线");
+		return;
+	}
+
+	var that = this;
+	if(this._selected instanceof Node){
+		var id = this._selected.getID();
+		this._nodeManager.removeNodeByID(id);
+		if(this._selected instanceof FuncNode){
+			var inputsConn = this._selected.getInputsEdge();
+			inputsConn.forEach(function(c){
+				var id = c.getID();
+				that._connManager.removeConnectionByID(id);
+			});
+
+			var outputConn = this._selected.getOutputEdge();
+			if(outputConn){
+				that._connManager.removeConnectionByID(outputConn.getID());
+			}
+		}else if(this._selected instanceof DataNode){
+			var fromConn = this._selected.getFromEdge();
+			if(fromConn){
+				this._connManager.removeConnectionByID(fromConn.getID());
+			}
+			var toConn = this._selected.getToEdge();
+			if(toConn){
+				this._connManager.removeConnectionByID(toConn.getID());
+			}
+		}
+	}
+
+	if(this._selected instanceof Connection){
+		var id = this._selected.getID();
+		this._connManager.removeConnectionByID(id);
+	}
 }
