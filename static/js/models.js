@@ -138,9 +138,9 @@ function showTasks(json){
 		var taskId = $(this).parents(".row").attr("uuid");
 		runTask(taskId,function(obj){
 			if(obj.status == "success"){
-
+				alert("运行成功")
 			}else if(obj.status == "error"){
-
+				alert(obj.message);
 			}
 		});
 
@@ -210,25 +210,23 @@ function getRunningState(taskId){
 	var processDiv = $(".process-div");
 	if(processDiv.length == 1){
 		var processId = processDiv.attr("uuid");
-		if(processId != taskId){
-			processDiv.slideUp(400,function(){
-				processDiv.remove();
-			});
-		}
+		processDiv.slideUp(400,function(){
+			processDiv.remove();
+		});
 	}
 
 	// 展示下面的进程窗口
 	showTaskStateDiv(taskId);	
 
-
 	// 循环获取状态
 	var int = setInterval(function(){
 		getTaskState(taskId,function(result){
-			if(result == "completed" || result == "failed"){
+			console.log("int"+ int);
+			if(result != 1){
 				window.clearInterval(int);
 			}
 		})
-	},200);
+	},1000);
 }
 
 // 展开运行对话框
@@ -293,7 +291,6 @@ function showTaskStateDiv(uuid){
 			+	'	</div>'
 			+	'	<div class="process-close-btn">×</div>'
 			+	'</div>';	
-
 	var row = $("#task_table .row[uuid='" + uuid + "']");
 	$("#task_table").after(html);
 	var rect = row[0].getClientRects()[0];
@@ -312,7 +309,6 @@ function showTaskStateDiv(uuid){
 
 // 获取运行状态
 function getTaskState(taskId,callback){
-	// $(".process-div .row:not('.header')").remove()
 	var url = "/model/task/" + taskId + "/state";
 	$.ajax({
 		url : url,
@@ -345,9 +341,12 @@ function showTaskState(json){
 	}
 	var count = processes.length;
 
-	var result = "";
+	var taskState = json.state;
 
 	var processesHtml = '';
+	processes.sort(function(a,b){
+		return a.id - b.id;
+	});
 	for(var i = 0; i < processes.length;++i){
 		var process = processes[i];
 		var state = getState(process.state);
@@ -358,12 +357,8 @@ function showTaskState(json){
 						+'	<div class="cell">' + state + '</div>'
 						+'	<div class="cell">' + process.start_time + '</div>'
 						+'	<div class="cell">' + process.end_time + '</div>'
-						//+'	<div class="cell">' + '100%' + '</div>'
 						+'	<div class="cell">' + process.percent + '</div>'
 						+'</div>';
-		if(state == "failed" || (i == processes.length - 1 && state == "completed")){
-			result = state;
-		}
 	}
 	var uuid = json.uuid;
 	
@@ -373,7 +368,22 @@ function showTaskState(json){
 	var top = rect.top + rect.height;
 	var left = rect.left;
 	$(".process-div").css("left",left + "px").css("top",top + "px").slideDown();
-	return result;
+
+	// 是否更新改行
+	var row = $("#task_table .row[uuid='" + uuid + "']");
+	var rowState = row.find(".cell:eq(2)").html();
+	var state = getState(taskState);
+	if(state != rowState){
+		// 状态改变了，修改改行
+		var stateClass = getStateClass(taskState);
+		var stateIcon = getStateIcon(taskState);
+		row.removeClass().addClass(stateClass + " row active-row");
+		row.find(".cell:eq(0)").removeClass().addClass("cell state-icon "+ stateIcon);
+		row.find(".cell:eq(2)").html(state);
+		row.find(".cell:eq(3)").html(json.start_time);
+		row.find(".cell:eq(4)").html(json.end_time);
+	}
+	return taskState;
 }
 
 function getBgColor(state){
