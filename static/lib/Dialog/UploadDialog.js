@@ -1,13 +1,16 @@
-var UploadDialog = function(path, onOK){
+var UploadDialog = function(path, onOK, onClose){
 
 	Dialog.apply(this, arguments);
 	
-	this._folder_path = "";	//地址栏里的路径
-	this._file_path = "";	//选中的完整文件路径
-	this._file_name = "";	//选中的文件名
-	this._file_type = "";	//选中的文件类型[文件(file)|文件夹(folder)]
+	// this._folder_path = "";	//地址栏里的路径
+	// this._file_path = "";	//选中的完整文件路径
+	// this._file_name = "";	//选中的文件名
+	// this._file_type = "";	//选中的文件类型[文件(file)|文件夹(folder)]
 	this._onOK = onOK;
+	this._onClose = onClose;
 
+
+	this.setUploadPath(path);
 	this.initEvents();
 	this.initFolderOpenEvents();
 	this.initUploadEvents();
@@ -72,6 +75,9 @@ UploadDialog.prototype.initCloseEvent = function(){
 	var dlg = this;
 	this._win.find(".dialog_exit:first").click(function(){
 		dlg.destory();
+		if(dlg._onClose){
+			dlg._onClose();
+		}
 	});
 
 	// this._win.find("#dlg_btn_exit:first").click(function(){
@@ -119,7 +125,7 @@ UploadDialog.prototype.create = function(){
 			+"		</div>"
 			+"	</div>"
 			+"</div>"
-			+"<form id='dlg_file_up_form' hidden='true' style='display:none' enctype='multipart/form-data' action='/file/upload/' method='post'>"
+			+"<form id='dlg_file_up_form' hidden='true' style='display:none' enctype='multipart/form-data' action='/file/upload/' method='post' target='_blank'>"
 			+"	<input id='dlg_upoad_path'  name='dlg_upoad_path'  type='input' style='display:none' value='/'>"
 			+"	<input id='dlg_upoad_files' name='dlg_upoad_files' type='file' style='display:none' multiple >"
 			+"	<input type='submit' value='upload'/ style='display:none' >"
@@ -180,7 +186,7 @@ UploadDialog.prototype.create = function(){
 // }
 
 UploadDialog.prototype.setUploadPath = function(path){
-	this._win.find("#upload_folder:first").value = path;
+	this._win.find("#upload_folder:first").val(path);
 }
 
 UploadDialog.prototype.echo = function(){
