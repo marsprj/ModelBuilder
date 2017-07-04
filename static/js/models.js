@@ -20,6 +20,7 @@ function showModels(json){
 	var html = "";
 	json.forEach(function(model){
 		html += '<div class="model-item" uuid="' + model.uuid + '" mname="' + model.name + '">'
+			 +  '	<div class="model-icon"></div>'
 			 +  '	<div class="model-name">'  + model.name + "</div>"
 			 + 	'</div>'
 	});

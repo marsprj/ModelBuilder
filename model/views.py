@@ -328,11 +328,10 @@ def task_run(request, task_id):
         return http_error_response("no task")
 
     task = tasks[0]
+    if task.state == 1: #running
+        return http_error_response("Task正在运行")
 
-    str1 = start_task_2(task)
-
-    #return HttpResponse("{0}".format(task.uuid))
-    return HttpResponse(str1)
+    return start_task_2(task)
 
 """
 启动模型计算

@@ -58,8 +58,8 @@ html,body{
 	border-bottom: 1px solid #dddddd;
 }
 #left .titlebar,#right .titlebar,#funcs .titlebar{
-	height: 42px;
-	line-height: 42px;
+	height: 30px;
+	line-height: 30px;
 }
 
 .titlebar-title{
@@ -74,7 +74,7 @@ html,body{
 
 .titlebar-tools button{
 	width: 52px;
-	height: 30px;
+	height: 20px;
 	border-radius: 4px;
 	background-color: #169bd5;
 	color: #fff;
@@ -91,15 +91,28 @@ html,body{
 .model-item{
 	height: 25px;
 	line-height: 25px;
-	border-bottom: 1px solid #787878;
+	border-bottom: 1px dotted #aaaaaa;
 	font-size: 12px;
-	text-align: center;
+	text-align: left;
 }
 
 .model-item:hover,.model-item.active{
 	background-color: #cdcdcd;
 	cursor: pointer;
 	color: #fff;
+}
+
+.model-item div{
+	float: left;
+}
+
+.model-icon{
+	width: 16px;
+	height: 25px;
+	padding-left:20px;
+	background-image: url(../images/gear_16.png);
+	background-repeat: no-repeat;
+	background-position: center;
 }
 
 .new-task-btn{
