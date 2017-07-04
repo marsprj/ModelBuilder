@@ -45,6 +45,8 @@ function showModels(json){
 		// 默认打开第一个
 		var modelFirst = $("#models_container .model-item:first");
 		if(modelFirst.attr("uuid")){
+			var name =modelFirst.attr("mname");
+			$(".titlebar-title span").html("[" + name + "]");
 			modelFirst.addClass("active");
 			getModel(modelFirst.attr("uuid"));
 			getTasks(modelFirst.attr("uuid"));
