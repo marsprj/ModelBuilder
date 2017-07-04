@@ -32,7 +32,12 @@ function initPageEvent(){
 		var uuid = row.attr("uuid");
 		if(uuid){
 			deleteModel(uuid,function(result){
-				alert(result);
+				if(result.status == "success"){
+					alert("删除成功");
+					loadModels();
+				}else{
+					alert(result.error);
+				}
 			});
 		}
 	});

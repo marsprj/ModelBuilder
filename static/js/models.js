@@ -413,9 +413,9 @@ function deleteModel(uuid,callback){
 		url:url,
 		contentType: "text/plain",
 		dataType : "text",
-		success:function(){
+		success:function(result){
 			if(callback){
-				callback();
+				callback(JSON.parse(result));
 			}
 		}
 	});
