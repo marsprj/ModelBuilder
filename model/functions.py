@@ -4,44 +4,45 @@ from .Graph import Function, Datum
 import os.path
 import shutil
 
-def dispatch(func):
-    result = True
-    fname = func.getName()
-    if fname == "Stretch":
-        result = process_stretch(func)
-    elif fname == "Fusion":
-        pass
-
-    #return result
-    return True
-
+"""
+处理图像拉伸
+"""
 def process_stretch(func):
+    #获取输入参数
     inputs = func.getInputs()
     if len(inputs) == 0:
         return False
+    ipath = inputs[0].getPath()
+
+    # 获取输出参数
     output = func.getOutput()
     if output == None:
         return False
-    ipath = inputs[0].getPath()
     opath = output.getPath()
 
+    # 执行具体的计算任务
     return raster_stretch(ipath, opath)
 
 
 def raster_stretch(ipath, opath):
 
-
     local_ipath = build_local_path(ipath)
     local_opath = build_local_path(opath)
 
-    if not os.path.exists(local_ipath):
-        return False
+    # if not os.path.exists(local_ipath):
+    #     return False
 
     # if not os.path.exists(local_opath):
     #     return False
 
-    shutil.copy2(local_ipath, local_opath)
+    #shutil.copy2(local_ipath, local_opath)
 
+    return True
+
+"""
+处理图像融合
+"""
+def process_fusion(func):
     return True
 
 def build_local_path(path):

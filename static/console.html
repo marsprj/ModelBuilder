@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<link rel="stylesheet" type="text/css" href="css/workflow.css">
+	<link rel="stylesheet" type="text/css" href="css/filesys.css">
+	<link rel="stylesheet" type="text/css" href="css/dialog.css">
+	<link rel="stylesheet" type="text/css" href="lib/css/dialog.css">
+
+	<title>文件管理</title>
+</head>
+
+<body>
+	
+	<div id="header">
+		<div class="title-icon"></div>
+		<div class="title">文件管理</div>
+	</div>
+	<div id="main">
+		<div id="fs-loc-wrapper">
+			<div id="fs-loc-title">路径:</div>
+			<div id="fs-loc-box">
+				<input type="input" name="fs-location" id="fs-location" readonly="true" value="/">
+			</div>
+			<div id="fs-loc-toolbar">	
+				<div id="fs-upward"></div>
+				<div id="fs-create"></div>
+				<div id="fs-remove"></div>
+				<div id="fs-upload"></div>
+
+			</div>
+		</div>
+		<div　id="fs-continer">
+			<div id="fs-folder">
+<!-- 				<div class="fs-folder-item">
+					<div class="fs-folder-icon"></div>
+					<div class="fs-folder-text">发生时的发</div>
+				</div>
+				<div class="fs-folder-item">
+					<div class="fs-folder-icon"></div>
+					<div class="fs-folder-text">发生时的发</div>
+				</div> -->
+			</div>
+			<div id="fs-files"></div>
+		</div>
+	</div>
+</body>
+
+<script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="js/filesys.js"></script>
+
+<script type="text/javascript" src="lib/Node.js"></script>
+<script type="text/javascript" src="lib/Dialog.js"></script>
+<script type="text/javascript" src="lib/Dialog/FileDialog.js"></script>
+<script type="text/javascript" src="lib/Dialog/FileDialog.js"></script>
+<script type="text/javascript" src="lib/Dialog/UploadDialog.js"></script>

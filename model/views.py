@@ -328,11 +328,10 @@ def task_run(request, task_id):
         return http_error_response("no task")
 
     task = tasks[0]
+    if task.state == 1: #running
+        return http_error_response("Task正在运行")
 
-    str1 = start_task_2(task)
-
-    #return HttpResponse("{0}".format(task.uuid))
-    return HttpResponse(str1)
+    return start_task_2(task)
 
 """
 启动模型计算
@@ -380,13 +379,36 @@ def start_task_2(task):
                 process.start_time = timezone.now()
                 process.save()
 
-                time.sleep(10)
+
+                ###################################################
+                # 执行计算任务 Begin
+                ###################################################
                 func = flow[i]
                 #processing func
                 logger.debug(func.getName())
 
-                success = functions.dispatch(func)
+                success = False
+                errmsg  = ""
+                process_func_name = "process_" + func.getName()
+                #检查是否存在相应的处理函数
+                if hasattr(functions, process_func_name.lower()):
+                    #如果存在相应的处理函数，则获取该处理函数
+                    f = getattr(functions, process_func_name.lower())
+                    #处理计算任务
+                    success = f(func)
+                else:
+                    errmsg = "方法[{0}]尚未在系统中注册".format(func.getName());
+                    logger.error(errmsg)
+                    success = False
 
+                time.sleep(5)
+                ###################################################
+                # 执行计算任务 End
+                ###################################################
+
+                ###################################################
+                # 设置Process的状态 Begin
+                ###################################################
                 if success == True:
                     # 更新process的状态为结束，并记录结束时间
                     process.end_time = timezone.now()
@@ -398,20 +420,39 @@ def start_task_2(task):
                     process.state = 3   #failure
                     process.save()
                     break
+                ###################################################
+                # 设置Process的状态 End
+                ###################################################
 
+        ###################################################
+        # 设置Task的状态 Begin
+        ###################################################
         if success==True:
             task.state = 2
             task.end_time = timezone.now()
         else:
             task.state =  3  # 设置task的状态
-
         task.save()
+        ###################################################
+        # 设置Task的状态 End
+        ###################################################
 
-    if success==False:
-        return http_error_response("Task执行错误")
+    return http_success_response() if success==True else http_error_response(errmsg)
 
+def task_stop(request, task_id):
+    try:
+        tasks = Task.objects.filter(uuid=task_id)
+    except:
+        return http_error_response("no task")
+
+    if not tasks:
+        return http_error_response("no task")
+
+    task = tasks[0]
+    if task.state == 1: #running状态
+        task.state = 3
+        task.save()
     return http_success_response()
-
 """
 返回http错误信息
 """
