@@ -1,4 +1,4 @@
-var FileDialog = function(path, onOK){
+var FileDialog = function(path,mode,onOK){
 
 	Dialog.apply(this, arguments);
 	
@@ -7,6 +7,7 @@ var FileDialog = function(path, onOK){
 	this._file_name = "";	//选中的文件名
 	this._file_type = "";	//选中的文件类型[文件(file)|文件夹(folder)]
 	this._onOK = onOK;
+	this.setMode(mode);		
 
 	this.setPath(path ? path : "/");
 	this.populateFolders();
@@ -18,15 +19,17 @@ var FileDialog = function(path, onOK){
 
 extend(FileDialog, Dialog)
 
-// FileDialog.prototype.initEvents = function(){
-	
-// 	//打开文件的点击事件
-// 	this.initUpwardEvent();
-// 	this.initFileEvent();
-// 	this.initCloseEvent();
-// 	this.initOkEvent();
-// }
 
+//选中模式(choose)还是输入文件名模式(new)
+FileDialog.prototype.setMode =function(mode){
+	this._mode = mode;
+	if(this._mode == "choose"){
+		this._win.find(".dialog_title").html("选择一个文件");
+		this._win.find("#dlg_file_name").prop("readonly","readonly");
+	}else if(this._mode == "new"){
+		this._win.find(".dialog_title").html("选择要输出的位置");
+	}
+}
 
 FileDialog.prototype.initUpwardEvent = function(){
 
@@ -67,18 +70,22 @@ FileDialog.prototype.initFileEvent = function(){
 					dlg.setPath(newPath);
 					dlg.populateFolders();
 					dlg._file_path = null;
+					dlg._win.find("#dlg_file_name").val("");
 				});
 
 				$(this).click(function(){
 					//单击文件夹，选中该文件夹
-					var curPath = dlg.getPath();
-					var fldName = $(this).find('.folder_item_text:first').text();
-					var newPath = dlg.makeFolderPath(curPath, fldName);
-					dlg._file_path = newPath;
-					dlg._file_name = fldName;
+					// var curPath = dlg.getPath();
+					// var fldName = $(this).find('.folder_item_text:first').text();
+					// var newPath = dlg.makeFolderPath(curPath, fldName);
+					// dlg._file_path = newPath;
+					// dlg._file_name = fldName;
+					dlg._file_name = "";
 					dlg._file_type = "folder";
-					$("#dialog_file_ctrl .item_container").css("background-color", "#ffffff");
-					$(this).css("background-color", "#e0ecf6");
+					
+					dlg._win.find(".item_container").removeClass("active");
+					$(this).addClass("active");
+					dlg._win.find("#dlg_file_name").val(dlg._file_name);
 				});
 			}
 			break;
@@ -91,8 +98,9 @@ FileDialog.prototype.initFileEvent = function(){
 					dlg._file_name = filName;
 					dlg._file_type = "file";
 
-					$("#dialog_file_ctrl .item_container").css("background-color", "#ffffff");
-					$(this).css("background-color", "#e0ecf6");
+					dlg._win.find("#dlg_file_name").val(dlg._file_name);
+					dlg._win.find(".item_container").removeClass("active");
+					$(this).addClass("active");
 				});
 			}
 		}
@@ -115,8 +123,28 @@ FileDialog.prototype.initOkEvent = function(){
 	this._ok = true;
 	
 	this._win.find("#dlg_btn_ok:first").click(function(){
-		dlg.destory();
+		if(dlg._mode == "choose"){
+			if(dlg._file_name == ""){
+				alert("请选择一个文件");
+				return;
+			}
+		}else if(dlg._mode == "new"){
+			var name = dlg._win.find("#dlg_file_name").val();
+			if(name == ""){
+				alert("请输入一个文件");
+				return;
+			}
 
+			var result = dlg.hasFile(name);
+			if(result){
+				if(!confirm("是否替换已经存在的[" + name + "]?")){
+					return;
+				}
+			}
+			dlg._file_path = dlg.makeFilePath(dlg._folder_path,name);
+		}
+
+		dlg.destory();
 		if(dlg._onOK){
 			dlg._onOK();
 		}
@@ -136,8 +164,8 @@ FileDialog.prototype.setPath = function(path){
 		this._folder_path = path.substring(0, path.lastIndexOf("/")+1);
 		this._file_name = path.substring(path.lastIndexOf("/")+1, path.length);
 	}
-
-	$(".dialog_folder_path").attr("value", this._folder_path);
+	this._win.find("#dlg_file_name").val(this._file_name);
+	this._win.find(".dialog_folder_path").attr("value", this._folder_path);
 }
 
 FileDialog.prototype.getPath = function(path){
@@ -149,39 +177,13 @@ FileDialog.prototype.getFilePath = function(){
 }
 
 FileDialog.prototype.populateFolders = function(){
-	// var json = [{
-	// 		name : "raster",
-	// 		type : "folder"
-	// 	},{
-	// 		name : "dem",
-	// 		type : "folder"
-	// 	},{
-	// 		name : "vector",
-	// 		type : "folder"
-	// 	},{
-	// 		name : "sar",
-	// 		type : "folder"
-	// 	},{
-	// 		name : "world-1.tif",
-	// 		type : "file"
-	// 	},{
-	// 		name : "world-2.jpg",
-	// 		type : "file"
-	// 	},{
-	// 		name : "world-3.png",
-	// 		type : "file"
-	// 	}
-	// ];
-	// 
-	// 
 	var that = this;
 	var data = '{"path":"' + this._folder_path + '"}';
 	
 	$.ajax({
 			type:"POST",
 			url:"/file/list/",
-			data : data,//JSON.stringify(data),
-			//data : JSON.stringify(data),
+			data : data,
 			contentType: "text/plain",
 			dataType : "text",
 			success:function(data){
@@ -197,29 +199,8 @@ FileDialog.prototype.populateFolders = function(){
 				}
 				document.getElementById("dialog_file_ctrl").innerHTML = html;
 				that.initFileEvent();
-				// html  = "<table border='1'>";
-				// obj.forEach(function(f){
-				// 	html += "<tr>";
-				// 	html += "<td>" + f.name + "</td>";
-				// 	html += "<td>" + f.type + "</td>";
-				// 	html += "</tr>";
-				// })
-				// html += "</table>";
-				// document.getElementById("result").innerHTML = html;
 			}
 		});
-
-	// var html = "";
-	// for(var i in json){
-	// 	var o = json[i];
-	// 	var icon = (o.type == "folder" ? "folder_item_icon" : "file_item_icon");
-	// 	html += "<div class='item_container' type='" + o.type + "'>";
-	// 	html += "<div class='" + icon + "'></div>";
-	// 	html += "<div class='folder_item_text'>" + o.name + "</div>";
-	// 	html += "</div>";
-	// }
-	// document.getElementById("dialog_file_ctrl").innerHTML = html;
-	// this.initFileEvent();
 }
 
 FileDialog.prototype.upwards = function(){
@@ -253,15 +234,13 @@ FileDialog.prototype.createFolder = function(){
 	$.ajax({
 		type:"POST",
 		url:"/file/create/",
-		data : data,//JSON.stringify(data),
-		//data : JSON.stringify(data),
+		data : data,
 		contentType: "text/plain",
 		dataType : "application/json",
 		success : function(result,status_code){
 			alert(result.status);
 		},
 		complete : function(request){
-			//alert("complete")
 			that.populateFolders();
 		}
 	});
@@ -269,27 +248,28 @@ FileDialog.prototype.createFolder = function(){
 }
 
 FileDialog.prototype.deleteFolder = function(){
-	if((!this._file_path)||(!this._file_name)){
-		return;
-	}
 
+	var chooseName = this._win.find(".item_container.active .folder_item_text").html()
 	var dlg = this;
-	fpath = this.makeFolderPath(this._folder_path, this._file_name);
+	fpath = this.makeFolderPath(this._folder_path, chooseName);
 	var data = '{"path":"' + fpath + '"}';
 
 	$.ajax({
 		type:"POST",
 		url:"/file/remove/",
-		data : data,//JSON.stringify(data),
-		//data : JSON.stringify(data),
+		data : data,
 		contentType: "text/plain",
-		dataType : "application/json",
-		success:function(result){
-			alert(result.status);
+		dataType : "text",
+		async : true,
+		success:function(json){
+			var result = JSON.parse(json);
+			if(result.status == "success"){
+				alert("删除成功");
+				dlg.populateFolders();
+			}else if(result.status == "error"){
+				alert(result.message);
+			}
 		},
-		complete:function(){
-			dlg.populateFolders();
-		}
 	});
 }
 
@@ -321,54 +301,13 @@ FileDialog.prototype.create = function(){
 			+"				<li><div class='dialog_folder_add'></div></li>"
 			+"				<li><div class='dialog_folder_delete'></div></li>"
 			+"			</ul>"
-			// +"			<div class='dialog_folder_up'></div>"
-			// +"			<div class='dialog_folder_add'></div>"
-			// +"			<div class='dialog_folder_delete'></div>"
 			+"		</div>"
 			+"		<div id='dialog_file_ctrl'>"
-			// +"			<div class='item_container' type='folder'>"
-			// +"				<div class='folder_item_icon'></div>"
-			// +"				<div class='folder_item_text'>raster</div>"
-			// +"			</div>"
-			// +"			<div class='item_container' type='folder'>"
-			// +"				<div class='folder_item_icon'></div>"
-			// +"				<div class='folder_item_text'>dem</div>"
-			// +"			</div>"
-			// +"			<div class='item_container' type='folder'>"
-			// +"				<div class='folder_item_icon'></div>"
-			// +"				<div class='folder_item_text'>world-2.tif</div>"
-			// +"			</div>"
-			// +"			<div class='item_container' type='folder'>"
-			// +"				<div class='folder_item_icon'></div>"
-			// +"				<div class='folder_item_text'>world-2.tif</div>"
-			// +"			</div>"
-			// +"			<div class='item_container' type='folder'>"
-			// +"				<div class='folder_item_icon'></div>"
-			// +"				<div class='folder_item_text'>world-2.tif</div>"
-			// +"			</div>"
-			// +"			<div class='item_container' type='file'>"
-			// +"				<div class='file_item_icon'></div>"
-			// +"				<div class='folder_item_text'>raster</div>"
-			// +"			</div>"
-			// +"			<div class='item_container' type='file'>"
-			// +"				<div class='file_item_icon'></div>"
-			// +"				<div class='folder_item_text'>dem</div>"
-			// +"			</div>"
-			// +"			<div class='item_container' type='file'>"
-			// +"				<div class='file_item_icon'></div>"
-			// +"				<div class='folder_item_text'>world-2.tif</div>"
-			// +"			</div>"
-			// +"			<div class='item_container' type='file'>"
-			// +"				<div class='file_item_icon'></div>"
-			// +"				<div class='folder_item_text'>world-2.tif</div>"
-			// +"			</div>"
-			// +"			<div class='item_container' type='file'>"
-			// +"				<div class='file_item_icon'></div>"
-			// +"				<div class='folder_item_text'>world-2.tif</div>"
-			// +"			</div>"
 			+"		</div>"
 			+"	</div>"
 			+"	<div class='dialog_bottom'>"
+			+"		<span>文件名：</span>"
+			+"		<input type='text' id='dlg_file_name'></input>"
 			+"		<ul>"
 			+"			<li>"
 			+"				<a href='javascript:void(0)' id='dlg_btn_ok'>确定</a>"
@@ -387,4 +326,20 @@ FileDialog.prototype.create = function(){
 
 FileDialog.prototype.echo = function(){
 	alert("file dialog");
+}
+
+// 判断是否有该文件
+FileDialog.prototype.hasFile = function(fileName){
+	var items = this._win.find(".item_container");
+	for(var i = 0; i < items.length; ++i){
+		var item = items[i];
+		var type = $(item).attr("type");
+		if(type == "file"){
+			var name = $(item).find(".folder_item_text").html();
+			if(name == fileName){
+				return true;
+			}
+		}
+	}
+	return false;
 }

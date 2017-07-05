@@ -224,6 +224,11 @@
 	height: 30px;
 	margin: 0px 5px 0px 0px;
 	/*border: 1px solid #000000;*/
+	background-color: #fff;
+}
+
+#dialog_file_ctrl .item_container.active{
+	background-color: rgb(224, 236, 246);
 }
 
 #dialog_file_ctrl .item_container:hover{
@@ -255,6 +260,12 @@
 	height: 30px;
 	line-height: 30px;
 	overflow: hidden;
+}
+.file_dialog .dialog_bottom span{
+	margin-left: 14px;
+}
+#dlg_file_name{
+	width: 400px;
 }
 
 /********************************************************************/
