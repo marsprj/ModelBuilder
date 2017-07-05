@@ -129,7 +129,7 @@ function showTasks(json){
 			+	'	<div class="cell">' + state + '</div>'
 			+	'	<div class="cell">' + t.start_time + '</div>'
 			+	'	<div class="cell">' + t.end_time + '</div>'
-			+	'	<div class="cell">' + '100%' + '</div>'
+			+	'	<div class="cell">' + t.percent + '</div>'
 			+	btnHtml
 			+ 	'</div>';
 	});
@@ -156,7 +156,6 @@ function showTasks(json){
 			// 点击停止按钮
 			$(this).removeClass("stop-btn");
 			$(this).html("运行");
-			// 
 			// stopTask();
 			window.clearInterval(g_state_int);
 
@@ -165,15 +164,20 @@ function showTasks(json){
 			$(this).addClass("stop-btn");
 			$(this).html("停止");
 			runTask(taskId,function(obj){
-				if(obj.status == "success"){
-					alert("运行成功")
-				}else if(obj.status == "error"){
-					alert(obj.message);
-				}
 				window.clearInterval(g_state_int);
-				getTaskState(taskId);
+				getTaskState(taskId,function(){
+					console.log(new Date());
+					setTimeout(function(){
+						if(obj.status == "success"){
+							alert("运行成功")
+						}else if(obj.status == "error"){
+							alert(obj.message);
+						}
+					},10);
+				});
 				$("#task_table .run-btn").removeClass("stop-btn");
 				$("#task_table .run-btn").html("运行");
+
 			});
 
 			// 开始运行就开始获取运行状态
@@ -413,11 +417,13 @@ function showTaskState(json){
 	var left = rect.left;
 	$(".process-div").css("left",left + "px").css("top",top + "px").slideDown();
 
-	// 是否更新改行
+	// 是否更新该行
 	var row = $("#task_table .row[uuid='" + uuid + "']");
 	var rowState = row.find(".cell:eq(2)").html();
+	var rowPercent = row.find(".cell:eq(5)").html();
 	var state = getState(taskState);
-	if(state != rowState){
+	var percent = json.percent;
+	if(state != rowState || rowPercent != percent){
 		// 状态改变了，修改改行
 		var stateClass = getStateClass(taskState);
 		var stateIcon = getStateIcon(taskState);
@@ -426,6 +432,8 @@ function showTaskState(json){
 		row.find(".cell:eq(2)").html(state);
 		row.find(".cell:eq(3)").html(json.start_time);
 		row.find(".cell:eq(4)").html(json.end_time);
+		row.find(".cell:eq(5)").html(json.percent);
+		console.log(new Date());
 	}
 	return taskState;
 }
