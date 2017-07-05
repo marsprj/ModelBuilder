@@ -27,6 +27,7 @@ class Task(models.Model):
     start_time = models.DateTimeField()
     end_time = models.DateTimeField(null=True)
     state = models.IntegerField(default=0)
+    complete_percent = models.IntegerField(default=0)
 
     def exportToJson(self):
         obj = {
@@ -37,6 +38,7 @@ class Task(models.Model):
             "state" : self.state,
             "start_time": self.start_time.strftime("%Y-%m-%d %H:%M:%S"),
             "end_time" : "-" if self.end_time==None else self.end_time.strftime("%Y-%m-%d %H:%M:%S"),
+            "percent": "{0}%".format(self.complete_percent),
         }
         return obj
 

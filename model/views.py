@@ -36,13 +36,12 @@ def model_save(request):
     except:
         return http_error_response("Model查询失败")
 
-
     if len(models)>0:
         #Model已经存在，修改Model的数据
         #return http_error_response("Model[{0}]已经存在".format(model_name))
         model = models[0]
         model.text = json.dumps(obj)
-        model.save();
+        #model.save();
     else:
         #Model不存在，创建新的Model
         create_time = timezone.now()
@@ -54,25 +53,21 @@ def model_save(request):
             create_time=create_time,
             text=json.dumps(obj))
 
+    # 创建model的目录
+    model_path = os.path.join(ModelFlow.settings.MODEL_ROOT, str(model.uuid))
+    if not os.path.exists(model_path):
+        try:
+            os.makedirs(model_path)
+        except OSError as e:
+            logging.getLogger('model.app').error(e.strerror)
+
+    # 保存model
     try:
         model.save()
+
         return HttpResponse(model.uuid)
     except OperationalError:
         return http_error_response("Model保存失败")
-
-    #创建model目录(不要了)
-    # model_folder = os.path.join(
-    #     os.path.join(
-    #         os.path.join(
-    #             os.path.join(ModelFlow.settings.BASE_DIR, "static"),
-    #             "data"
-    #         ),
-    #         "model",
-    #     ),
-    #     str(model.uuid)
-    # )
-    #os.mkdir(model_path)
-
 
 """
 返回所有的Model
@@ -103,7 +98,7 @@ def model_delete(request,model_id):
     try:
         model = Model.objects.get(uuid=model_id)
     except Model.DoesNotExist:
-        return HttpResponse("Model不存在", content_type="application/json")
+        return http_error_response("Model不存在")
     model.delete()
     return http_success_response()
 
@@ -169,6 +164,7 @@ def task_state(request, task_id):
         return HttpResponse("Error")
 
     processes = task.process_set.all()
+    percent = 0
 
     obj = {
         "id": task.id,
@@ -178,7 +174,8 @@ def task_state(request, task_id):
         "state": task.state,
         "start_time": task.start_time.strftime("%Y-%m-%d %H:%M:%S"),
         "end_time": "-" if task.end_time==None else task.end_time.strftime("%Y-%m-%d %H:%M:%S"),
-        "processes" : []
+        "processes" : [],
+        "percent": "{0}%".format(task.complete_percent),
     }
 
     for process in processes:
@@ -203,6 +200,7 @@ def task_create(request):
 
     start_time = timezone.now()
 
+    #初始化task_name，如果没有指定task_name，则用当前时间作为task_name
     model_id = obj["model"]
     if "name" in obj:
         task_name = obj["name"]
@@ -212,10 +210,10 @@ def task_create(request):
     try:
         models = Model.objects.filter(uuid=model_id)
     except:
-        return HttpResponse("Error")
+        return http_error_response("Error")
 
     if not models:
-        return HttpResponse("Error")
+        return http_error_response("Error")
 
     model = models[0]
 
@@ -230,7 +228,7 @@ def task_create(request):
     obj = {
         "uuid" : str(task.uuid)
     }
-    return HttpResponse(json.dumps(obj))
+    return HttpResponse(json.dumps(obj), content_type="application/json")
 
 
 """
@@ -415,6 +413,10 @@ def start_task_2(task):
                     process.state = 2   #success
                     process.complete_percent = 100
                     process.save()
+
+                    # 更新task的percent
+                    task.complete_percent = 100 * i / count
+                    task.save()
                 else:
                     # 更新process的状态为结束，并记录结束时间
                     process.state = 3   #failure
@@ -430,6 +432,7 @@ def start_task_2(task):
         if success==True:
             task.state = 2
             task.end_time = timezone.now()
+            task.complete_percent = 100
         else:
             task.state =  3  # 设置task的状态
         task.save()

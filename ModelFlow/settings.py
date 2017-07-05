@@ -139,6 +139,9 @@ USE_TZ = True
 STATIC_URL = '/static/'
 SITE_ROOT = os.path.join(BASE_DIR, "static")
 
+DATA_ROOT = os.path.join(SITE_ROOT, "data")
+MODEL_ROOT = os.path.join(DATA_ROOT, "model")
+
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
     #os.path.join(BASE_DIR, "modeler/static"),
