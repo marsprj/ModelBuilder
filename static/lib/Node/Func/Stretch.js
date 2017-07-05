@@ -79,9 +79,10 @@ Stretch.prototype.onClick = function(){
 		}	
 	}
 
+	var that = this;
 	var dlg = new StretchDialog(input, output, function(){	//onOK
-		this.updateInputNode(dlg.getInput());
-		this.updateOutputNode(dlg.getOutput());
+		that.updateInputNode(dlg.getInput());
+		that.updateOutputNode(dlg.getOutput());
 	});
 	dlg.show();
 }
