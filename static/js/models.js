@@ -1,6 +1,6 @@
 // 获取模型列表
 function loadModels(){
-	$("#models_container").empty();
+	$("#models_container").empty().addClass("loading");
 	var url = "/model/models/";
 	$.ajax({
 		url : url,
@@ -10,13 +10,15 @@ function loadModels(){
 			showModels(JSON.parse(json));
 		},
 		error : function(){
-
+			alert("获取模型列表失败");
+			showModels([]);
 		}
 	});
 }
 
 // 展示模型列表
 function showModels(json){
+	$("#models_container").removeClass("loading");
 	var html = "";
 	json.forEach(function(model){
 		html += '<div class="model-item" uuid="' + model.uuid + '" mname="' + model.name + '">'
@@ -32,7 +34,7 @@ function showModels(json){
 		$("#models_container .model-item").removeClass("active");
 		$(this).addClass("active");
 		var name = $(this).attr("mname");
-		$(".titlebar-title span").html("[" + name + "]");
+		$("#right .titlebar-title span").html("[" + name + "]");
 		getModel(uuid);
 		getTasks(uuid);
 	});
@@ -41,12 +43,16 @@ function showModels(json){
 		$("#models_container .model-item").removeClass("active");
 		$("#models_container .model-item[uuid='" + g_new_model + "']").addClass("active");
 		g_new_model = null;
+		var name = $("#models_container .model-item.active").attr("mname");
+		$("#right .titlebar-title span").html("[" + name + "]");
+		$(".process-div").remove();
+		$("#task_table .table .row:not(.header)").remove();
 	}else{
 		// 默认打开第一个
 		var modelFirst = $("#models_container .model-item:first");
 		if(modelFirst.attr("uuid")){
 			var name =modelFirst.attr("mname");
-			$(".titlebar-title span").html("[" + name + "]");
+			$("#right .titlebar-title span").html("[" + name + "]");
 			modelFirst.addClass("active");
 			getModel(modelFirst.attr("uuid"));
 			getTasks(modelFirst.attr("uuid"));
