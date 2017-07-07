@@ -15,6 +15,7 @@ var FileDialog = function(path,mode,onOK){
 	this.initUpwardEvent();
 	this.initCreateFolderEvent();
 	this.initDeleteFolderEvent();
+	this.initUploadEvent();
 }
 
 extend(FileDialog, Dialog)
@@ -52,6 +53,19 @@ FileDialog.prototype.initDeleteFolderEvent = function(){
 	var dlg = this;
 	this._win.find(".dialog_folder_delete:first").click(function(){
 		dlg.deleteFolder();
+	});
+}
+
+FileDialog.prototype.initUploadEvent = function(){
+	var dlg = this;
+	this._win.find(".dialog_file_upload").click(function(){
+		var uploadDlg = new UploadDialog(dlg._folder_path,function(){
+			// ok
+		},function(){
+			// close
+			dlg.populateFolders();
+		});
+		uploadDlg.show();
 	});
 }
 
@@ -297,9 +311,10 @@ FileDialog.prototype.create = function(){
 			+"			<span>路径:</span>"
 			+"			<input type='text' class='dialog_folder_path' readonly='readonly' value='/'>"
 			+"			<ul>"
-			+"				<li><div class='dialog_folder_up'></div></li>"
-			+"				<li><div class='dialog_folder_add'></div></li>"
-			+"				<li><div class='dialog_folder_delete'></div></li>"
+			+"				<li><div class='folder-tool dialog_folder_up' title='上一级'></div></li>"
+			+"				<li><div class='folder-tool dialog_folder_add' title='新建文件夹'></div></li>"
+			+"				<li><div class='folder-tool dialog_folder_delete' title='删除'></div></li>"
+			+"				<li><div class='folder-tool dialog_file_upload' title='上传文件'></div></li>"
 			+"			</ul>"
 			+"		</div>"
 			+"		<div id='dialog_file_ctrl'>"

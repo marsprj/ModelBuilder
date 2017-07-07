@@ -1,18 +1,20 @@
 var UploadDialog = function(path, onOK, onClose){
 
 	Dialog.apply(this, arguments);
-	
+	this._upload_path = null;
+
 	// this._folder_path = "";	//地址栏里的路径
 	// this._file_path = "";	//选中的完整文件路径
 	// this._file_name = "";	//选中的文件名
 	// this._file_type = "";	//选中的文件类型[文件(file)|文件夹(folder)]
 	this._onOK = onOK;
 	this._onClose = onClose;
-
+	this._uploader = null;
 
 	this.setUploadPath(path);
+	this.initUploader();
 	this.initEvents();
-	this.initFolderOpenEvents();
+	// this.initFolderOpenEvents();
 	this.initUploadEvents();
 }
 
@@ -46,6 +48,94 @@ UploadDialog.prototype.initEvents = function(){
 	});
 }
 
+UploadDialog.prototype.initUploader = function(){
+	var dlg = this;
+	this._uploader = WebUploader.create({
+
+	    // 选完文件后，是否自动上传。
+	    auto: false,
+
+	    // 文件接收服务端。
+	    server: '/file/upload/',
+
+	    // 选择文件的按钮。可选。
+	    // 内部根据当前运行是创建，可能是input元素，也可能是flash.
+	    pick: '#filePicker',
+
+	    formData :{
+	    	dlg_upoad_path : dlg._upload_path
+	    }
+
+	    // 只允许选择图片文件。
+	    // accept: {
+	    //     title: 'Images',
+	    //     extensions: 'gif,jpg,jpeg,bmp,png,tif',
+	    //     mimeTypes: 'image/*'
+	    // }
+	});
+
+	// 当有文件添加进来的时候
+	this._uploader.on('fileQueued', function( file ) {
+	    var html = '<div class="file-item" id="' + file.id+ '">'
+			    +	'	<div class="file-name">'
+			    +			file.name
+			    +	'	</div>'
+			    +	'	<div class="progress">'
+			    +	'		<div class="progress-bar"></div>'
+			    +	'	</div>'
+			    + 	'	<div class="state">等待上传</div>'
+			    +	'</div>';
+	    dlg._win.find("#fileList").append(html);
+	});
+
+
+	// 文件上传过程中创建进度条实时显示。
+	this._uploader.on('uploadProgress', function( file, percentage ) {
+	   	var progressbar = dlg._win.find("#" + file.id + " .progress-bar");
+	    progressbar.css( 'width', percentage * 100 + '%' );
+	   dlg._win.find("#" + file.id + " .state").html("上传中");
+	});
+
+	// 文件上传成功
+	this._uploader.on( 'uploadSuccess', function( file ) {
+	    dlg._win.find("#" + file.id + " .state").html("上传成功");
+	});
+
+	// 文件上传失败，显示上传出错。
+	this._uploader.on( 'uploadError', function( file ) {
+		dlg._win.find("#" + file.id + " .state").html("上传失败");
+	});
+
+	// 上传按钮
+	this._uploadBtn = $(".upload-btn");
+	this._uploadBtn.click(function(){
+		if(dlg._uploadState === 'uploading' ) {
+			// 暂停上传
+            dlg._uploader.stop();
+        }else{
+        	// 上传
+            dlg._uploader.upload();
+        }
+	});	
+
+	// 整体上传事件
+    this._uploader.on( 'all', function( type ) {
+        if ( type === 'startUpload' ) {
+            dlg._uploadState = 'uploading';
+        } else if ( type === 'stopUpload' ) {
+            dlg._uploadState = 'paused';
+        } else if ( type === 'uploadFinished' ) {
+            dlg._uploadState = 'done';
+        }
+
+        if ( dlg._uploadState === 'uploading' ) {
+            dlg._uploadBtn.text('暂停上传');
+        } else {
+            dlg._uploadBtn.text('开始上传');
+        }
+    });
+}
+
 UploadDialog.prototype.initUploadEvents = function(){
 	$(".dlg_file_up_load").click(function(){
 		var files = document.getElementById("dlg_upoad_files").files;
@@ -60,16 +150,16 @@ UploadDialog.prototype.initUploadEvents = function(){
 	});
 }
 
-UploadDialog.prototype.initFolderOpenEvents = function(){
-	var that = this;
-	$(".dlg_folder_open_2").click(function(){
-		var curPath = that._win.find(".dialog_folder_path:first").val();
-		var fdlg = new FileDialog2(curPath, function(){
-			that.setUploadPath(fdlg.getPath())
-		});
-		fdlg.show();
-	});
-}
+// UploadDialog.prototype.initFolderOpenEvents = function(){
+// 	var that = this;
+// 	$(".dlg_folder_open_2").click(function(){
+// 		var curPath = that._win.find(".dialog_folder_path:first").val();
+// 		var fdlg = new FileDialog2(curPath, function(){
+// 			that.setUploadPath(fdlg.getPath())
+// 		});
+// 		fdlg.show();
+// 	});
+// }
 
 UploadDialog.prototype.initCloseEvent = function(){
 	var dlg = this;
@@ -104,34 +194,39 @@ UploadDialog.prototype.onOK = function(func){
 }
 
 UploadDialog.prototype.create = function(){
-	var html = "<div class='func_dialog upload_dialog dialog'>"
+	var html = "<div class='upload_dialog dialog'>"
 			+"	<div class='titlebar'>"
 			+"		<div class='dialog_title'>文件上传</div>"
 			+"		<div class='dialog_exit'></div>"
 			+"	</div>"
-			+"	<div class='dlg_upload_main'>"
-			+"		<div class='dialog_file_path_wrapper'>"
-			+"			<span>路径:</span>"
-			+"			<input type='text' id='upload_folder' class='dialog_folder_path' readonly='readonly' value='/' style='width:590px'>"
-			+"		</div>"
-			+"		<div id='dlg_file_up_ls_ctrl'></div>"
-			+"	</div>"
-			+"	<div class='dlg_file_up_main_wrapper'>"
-			+"		<div class='dlg_file_up_bar'>"
-			+"			<div class='dlg_folder_open_2'></div>"
-			+"			<div class='dlg_file_up_add'></div>"
-			+"			<div class='dlg_file_up_load'></div>"
-			+"			<div class='dlg_file_up_exit'></div>"
-			+"		</div>"
-			+"	</div>"
-			+"</div>"
-			+"<form id='dlg_file_up_form' hidden='true' style='display:none' enctype='multipart/form-data' action='/file/upload/' method='post' target='_blank'>"
-			+"	<input id='dlg_upoad_path'  name='dlg_upoad_path'  type='input' style='display:none' value='/'>"
-			+"	<input id='dlg_upoad_files' name='dlg_upoad_files' type='file' style='display:none' multiple >"
-			+"	<input type='submit' value='upload'/ style='display:none' >"
-			+"</form/>";
+			+"	<div class='file-oper-row'>"
+			+"		<div id='filePicker'>选择文件</div>"
+    		+"		<a href='javascript:void(0)' class='upload-btn'>开始上传</a>"
+    		+"	</div>"
+    		+"	<div id='fileList' class='uploader-list'>"
+			// +"	<div class='dlg_upload_main'>"
+			// +"		<div class='dialog_file_path_wrapper'>"
+			// +"			<span>路径:</span>"
+			// +"			<input type='text' id='upload_folder' class='dialog_folder_path' readonly='readonly' value='/' style='width:590px'>"
+			// +"		</div>"
+			// +"		<div id='dlg_file_up_ls_ctrl'></div>"
+			// +"	</div>"
+			// +"	<div class='dlg_file_up_main_wrapper'>"
+			// +"		<div class='dlg_file_up_bar'>"
+			// +"			<div class='dlg_folder_open_2'></div>"
+			// +"			<div class='dlg_file_up_add'></div>"
+			// +"			<div class='dlg_file_up_load'></div>"
+			// +"			<div class='dlg_file_up_exit'></div>"
+			// +"		</div>"
+			// +"	</div>"
+			// +"</div>"
+			// +"<form id='dlg_file_up_form' hidden='true' style='display:none' enctype='multipart/form-data' action='/file/upload/' method='post' target='_blank'>"
+			// +"	<input id='dlg_upoad_path'  name='dlg_upoad_path'  type='input' style='display:none' value='/'>"
+			// +"	<input id='dlg_upoad_files' name='dlg_upoad_files' type='file' style='display:none' multiple >"
+			// +"	<input type='submit' value='upload'/ style='display:none' >"
+			// +"</form/>";
 	var dlg = $(html);
-	$(".file_dialog").remove();
+	$(".upload_dialog").remove();
 	$('body').append(dlg);
 	//$("#dlg_file_up_form").css("display", "none");
 	return dlg;
@@ -186,7 +281,7 @@ UploadDialog.prototype.create = function(){
 // }
 
 UploadDialog.prototype.setUploadPath = function(path){
-	this._win.find("#upload_folder:first").val(path);
+	this._upload_path = path;
 }
 
 UploadDialog.prototype.echo = function(){

@@ -142,12 +142,12 @@
 }*/
 
 .dialog_folder_path{
-    width: 570px;
+    width: 550px;
 }
 
 .dialog_file_path_wrapper ul{
 	padding: 0px;
-	margin: 0px;
+	margin: 0px 10px 0px 0px;
 	float: right;
 }
 
@@ -156,43 +156,35 @@
 	list-style-type:none
 }
 
-.dialog_folder_up{
+.folder-tool{
+	cursor: pointer;
 	float: right;
-    width: 20px	;
-    height: 20px	;
-    background-image: url(../images/upward_16.png);
+    width: 20px;
+    height: 20px;
     background-repeat: no-repeat;
 	background-position: center;
 }
 
-.dialog_folder_up:hover{
-	background-color: #e0ecf6;
+.folder-tool:hover{
+	background-color: #e0ecf6;	
 }
+
+.dialog_folder_up{
+    background-image: url(../images/upward_16.png);
+}
+
 
 .dialog_folder_add{
-	float: right;
-    width: 20px	;
-    height: 20px	;
     background-image: url(../images/folder_add_16.png);
-    background-repeat: no-repeat;
-	background-position: center;
 }
 
-.dialog_folder_add:hover{
-	background-color: #e0ecf6;
-}
 
 .dialog_folder_delete{
-	float: right;
-    width: 20px	;
-    height: 20px	;
     background-image: url(../images/folder_delete_16.png);
-    background-repeat: no-repeat;
-	background-position: center;
 }
 
-.dialog_folder_delete:hover{
-	background-color: #e0ecf6;
+.dialog_file_upload{
+	background-image: url(../images/upload_16.png);	
 }
 
 .dlg_folder_open{
@@ -276,94 +268,86 @@
 	top: 80px;
 	width: 700px;
 	height: 500px;
+	background-color: #fff;
 }
 
-.dlg_upload_main{
+.upload_dialog #filePicker{
+	display: inline-block;
+}
+
+.upload_dialog .file-oper-row{
+	margin: 16px;
+}
+
+.upload_dialog .upload-btn{
+	text-decoration: none;
+	display: inline-block;
+    padding: 8px 15px;
+    margin-bottom: 0;
+    font-weight: 400;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-image: none;
+    border: 1px solid rgba(0, 0, 0, 0);
+    border-radius: 3px;
+    color: #fff;
+    background-color: #5cb85c;
+    border-color: #4cae4c;
+    margin-top: -29px;
+} 
+.upload_dialog #fileList{
+	width: 666px;
+    margin: 0 auto;
+    height: 380px;
+    border: 1px solid #aaa;
+    overflow-y: auto;
+}
+
+.upload_dialog .file-item{
+    height: 40px;
+    line-height: 40px;
+    border-bottom: 1px #aaa dotted;
+    padding: 0 6px;
+}
+.upload_dialog .file-name{
+	width: 200px;
+	text-overflow: ellipsis;
+	word-break: break-word;
+	white-space: nowrap;
+	overflow: hidden;
 	float: left;
-	width: 640px;
-	height: 400px;
-	font-size: 12px;
-	/*border:1px solid #000000;*/
 }
 
-.dlg_file_up_main_wrapper{
-	/*width: calc(100%-20px);*/
-	height: 400px;
-    margin: 0px 10px;
-    /*border: 1px solid #aaaaaa;*/
-}
-
-#dlg_file_up_ls_ctrl{
+.upload_dialog .progress{
+	width: 360px;
 	float: left;
-	width: 590px;
-    height: 100%;
-    margin: 0px 0px 0px 40px;
-    padding: 0px;
-    border: 1px solid #aaaaaa;
+	border: 1px solid #ccc;
+	margin-top: 10px;
+	border-radius: 4px;
+	height: 20px;
+	margin-top: 10px;
 }
-
-#dlg_file_up_ls_ctrl ul{
-	list-style:none;
-	margin: 0px 0px;
-	padding: 0px 10px;
-}
-
-#dlg_file_up_ls_ctrl ul li{
-	height: 30px;
-	line-height: 30px;
-}
-
-#dlg_file_up_ls_ctrl ul li:hover{
-	background-color: #e0ecf6;
-}
-
-#dlg_file_up_ls_ctrl ul li span{
-	width: 300px;
-}
-
-
-
-.dlg_file_up_bar{
-	float: right;
-	width: 50px;
+.upload_dialog .progress-bar{
 	height: 100%;
-    margin: 0px;
-    padding: 0px;
-    /*border: 1px solid #aaaaaa;	*/
+	width: 0%;
+    background-image: linear-gradient(45deg,rgba(255,255,255,.15) 25%,rgba(0, 0, 0, 0) 25%,rgba(0, 0, 0, 0) 50%,rgba(255,255,255,.15) 50%,rgba(255,255,255,.15) 75%,rgba(0, 0, 0, 0) 75%,rgba(0, 0, 0, 0));
+    background-color: #337ab7;
+    font-size: 12px;
+    line-height: 20px;
+    background-repeat: repeat-x; 
+    background-size: 40px 40px;
+    border-radius: 4px;
+    transition: width .6s ease;
 }
-
-.dlg_file_up_add{
-	width: 50px;
-	height: 50px;
-	background-image: url(../images/add_36.png);
-	background-repeat: no-repeat;
-	background-position: center;
-}
-
-/*.dlg_file_up_remove{*/
-.dlg_folder_open_2{
-	width: 50px;
-	height: 50px;
-	background-image: url(../images/folder_open_36.png);
-	background-repeat: no-repeat;
-	background-position: center;
-}
-
-.dlg_file_up_load{
-	width: 50px;
-	height: 50px;
-	margin-top:20px;
-	background-image: url(../images/import_36.png);
-	background-repeat: no-repeat;
-	background-position: center;
-}
-
-.dlg_file_up_bar div:hover{
-	background-color: #e0ecf6;
-	border: 1px solid #aaaaaa;
-}
-
-#dlg_upoad_files{
-	width: 50px;
-	height: 50px;
+.upload_dialog .state{
+	float: right;
+    width: 60px;
+    text-align: center;
 }
