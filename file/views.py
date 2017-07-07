@@ -17,7 +17,7 @@ def file_upload(request):
     file_root = get_file_root()
     local_folder = os.path.join(file_root, file_path[1:])
 
-    files = request.FILES.getlist("dlg_upoad_files", None)
+    files = request.FILES.getlist("file", None)
     for file in files:
         local_path = os.path.join(local_folder, file.name)
         with open(local_path, "wb+") as f:
