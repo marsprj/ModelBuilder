@@ -509,3 +509,17 @@ Shape.prototype.remove = function(){
 		this._text.remove();	
 	}
 }
+
+
+Shape.prototype.getFillColor = function(){
+	if(this._shape){
+		return this._shape.attrs.fill;
+	}
+	return null;
+}
+
+Shape.prototype.animate = function(obj,time){
+	if(this._shape){
+		this._shape.animate(obj,time);
+	}
+}

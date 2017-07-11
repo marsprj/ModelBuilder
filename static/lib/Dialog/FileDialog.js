@@ -27,8 +27,10 @@ FileDialog.prototype.setMode =function(mode){
 	if(this._mode == "choose"){
 		this._win.find(".dialog_title").html("选择一个文件");
 		this._win.find("#dlg_file_name").prop("readonly","readonly");
+		this._win.find(".file-dialog-backup").hide();
 	}else if(this._mode == "new"){
 		this._win.find(".dialog_title").html("选择要输出的位置");
+		this._win.find(".file-dialog-backup").show();
 	}
 }
 
@@ -320,6 +322,7 @@ FileDialog.prototype.create = function(){
 			+"		<div id='dialog_file_ctrl'>"
 			+"		</div>"
 			+"	</div>"
+			+"	<div class='file-dialog-backup'></div>"
 			+"	<div class='dialog_bottom'>"
 			+"		<span>文件名：</span>"
 			+"		<input type='text' id='dlg_file_name'></input>"

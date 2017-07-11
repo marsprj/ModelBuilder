@@ -897,3 +897,20 @@ Graph.prototype.remove = function(){
 		this._connManager.removeConnectionByID(id);
 	}
 }
+
+/**
+ * 校验
+ */
+Graph.prototype.verify = function(){
+	// 校验节点
+	var data = this.getData();
+	for(var i = 0; i < data.length;++i){
+		var d = data[i];
+		if(!d.getPath() || d.getName() == "data"){
+			d.blink(200,2)
+			return "请设置节点的路径和名称";
+		}
+	}
+
+	return "success";
+}

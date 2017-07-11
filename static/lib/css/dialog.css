@@ -219,6 +219,16 @@
 	background-color: #fff;
 }
 
+.file-dialog-backup{
+	position: absolute;
+    height: 401px;
+    top: 31px;
+    left: 0px;
+    width: 100%;
+    z-index: 1007;
+    display: none;	
+}
+
 #dialog_file_ctrl .item_container.active{
 	background-color: rgb(224, 236, 246);
 }

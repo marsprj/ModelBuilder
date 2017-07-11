@@ -149,3 +149,42 @@ Node.prototype.hideSnap = function(){
 Node.prototype.onClick = function(){
 	
 }
+
+Node.prototype.getFillColor = function(){
+	if(this._shape){
+		return  this._shape.getFillColor();
+	}
+}
+
+Node.prototype.blink = function(time,number){
+	if(time == null){
+		time = 1000;
+	}
+	if(number == null){
+		number = 1;
+	}
+
+	var fillColor = this.getFillColor();
+
+	this._shape.animate({"fill":"#fff"},time);
+
+	var i = 0;
+	var that = this;
+	var int = setInterval(function(){
+		var obj = null;
+		if(i % 2 == 1){
+			obj = {
+				"fill": "#fff"
+			};
+		}else{
+			obj = {
+				"fill":fillColor
+			};
+		}
+		that._shape.animate(obj,time);
+		i++;
+		if(i == (number*2 -1)){
+			window.clearInterval(int);
+		}
+	},time);
+}

@@ -160,6 +160,12 @@ function showTasks(json){
 			window.clearInterval(g_state_int);
 
 		}else{
+			// 先校验任务是否已经设定了
+			var result = g_graph.verify();
+			if(result != "success"){
+				alert(result);
+				return;
+			}
 			// 点击运行按钮
 			$(this).addClass("stop-btn");
 			$(this).html("停止");
