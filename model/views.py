@@ -6,12 +6,13 @@ from . import models
 from . import functions
 from .models import Model, Task, Process
 from .Graph import Graph
+from ModelFlow import settings
 import ModelFlow
 
 
 from django.utils import timezone
 
-import time, json, uuid, datetime, os, os.path, logging
+import time, json, uuid, datetime, os, os.path, logging,shutil
 from json import JSONDecodeError
 
 # Create your views here.
@@ -348,6 +349,13 @@ def start_task_2(task):
         task.state = 1
         task.save()
 
+        #文件夹处理
+        file_root = get_file_root()
+        task_path = os.path.join(file_root,str(task.uuid))
+        if os.path.exists(task_path):
+            shutil.rmtree(task_path)
+        os.mkdir(task_path)
+
         #生成执行计划
         flow = graph.plan()
         if flow:
@@ -359,7 +367,7 @@ def start_task_2(task):
             processes = []
             for func in flow:
                 process = task.process_set.create(
-                    name = func.getName(),
+                    name = func.getID(),
                     #start_time = timezone.now(),
                     #end_time = timezone.now()
                 )
@@ -393,7 +401,7 @@ def start_task_2(task):
                     #如果存在相应的处理函数，则获取该处理函数
                     f = getattr(functions, process_func_name.lower())
                     #处理计算任务
-                    success = f(func)
+                    success = f(func,str(task.uuid))
                 else:
                     errmsg = "方法[{0}]尚未在系统中注册".format(func.getName());
                     logger.error(errmsg)
@@ -486,3 +494,12 @@ def json_text_strip(text):
 #         print(process.name)
 #     elif process.name == "Fusion":
 #         pass
+
+def get_file_root():
+    return os.path.join(
+        os.path.join(
+            os.path.join(settings.BASE_DIR, "static"),
+            "data"
+        ),
+        "uploads"
+    )
