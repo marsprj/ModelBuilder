@@ -87,8 +87,16 @@ Node.prototype.getType = function(){
 	return this._type;
 }
 
+Node.prototype.setID = function(id){
+	this._id = id;
+	if(this._shape){
+		this._shape.setID(id);
+	}
+}
+
 Node.prototype.getID = function(){
-	return this._shape ? this._shape.getID() : "";
+	// return this._shape ? this._shape.getID() : "";
+	return this._id ? this._id : "";
 }
 
 
@@ -156,21 +164,19 @@ Node.prototype.getFillColor = function(){
 	}
 }
 
-Node.prototype.blink = function(time,number){
-	if(time == null){
-		time = 1000;
+Node.prototype.blink = function(){
+	if(this._blink_int){
+		return;
 	}
-	if(number == null){
-		number = 1;
-	}
-
+	var time = 200;
 	var fillColor = this.getFillColor();
+	this._blink_color = fillColor;
 
 	this._shape.animate({"fill":"#fff"},time);
 
 	var i = 0;
 	var that = this;
-	var int = setInterval(function(){
+	this._blink_int = setInterval(function(){
 		var obj = null;
 		if(i % 2 == 1){
 			obj = {
@@ -183,8 +189,16 @@ Node.prototype.blink = function(time,number){
 		}
 		that._shape.animate(obj,time);
 		i++;
-		if(i == (number*2 -1)){
-			window.clearInterval(int);
-		}
 	},time);
+}
+
+Node.prototype.stopBlink = function(){
+	if(this._blink_int){
+		window.clearInterval(this._blink_int);
+		this._shape.animate({
+			"fill":this._blink_color
+		},200);
+		this._blink_int = null;
+		this._blink_color = null;		
+	}
 }

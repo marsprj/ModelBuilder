@@ -150,8 +150,6 @@ function showTasks(json){
 	// 运行
 	$("#task_table .run-btn").click(function(){
 		var taskId = $(this).parents(".row").attr("uuid");
-		
-
 		if($(this).hasClass("stop-btn")){
 			// 点击停止按钮
 			$(this).removeClass("stop-btn");
@@ -166,28 +164,30 @@ function showTasks(json){
 				alert(result);
 				return;
 			}
-			// 点击运行按钮
-			$(this).addClass("stop-btn");
-			$(this).html("停止");
-			runTask(taskId,function(obj){
-				window.clearInterval(g_state_int);
-				getTaskState(taskId,function(){
-					console.log(new Date());
-					setTimeout(function(){
-						if(obj.status == "success"){
-							alert("运行成功")
-						}else if(obj.status == "error"){
-							alert(obj.message);
-						}
-					},10);
+			// 先保存再运行
+			var text = g_graph.export();
+			saveModel(text,function(result){
+				$(this).addClass("stop-btn");
+				$(this).html("停止");
+				runTask(taskId,function(obj){
+					window.clearInterval(g_state_int);
+					getTaskState(taskId,function(){
+						setTimeout(function(){
+							if(obj.status == "success"){
+								alert("运行成功")
+							}else if(obj.status == "error"){
+								alert(obj.message);
+							}
+						},10);
+					});
+					$("#task_table .run-btn").removeClass("stop-btn");
+					$("#task_table .run-btn").html("运行");
+
 				});
-				$("#task_table .run-btn").removeClass("stop-btn");
-				$("#task_table .run-btn").html("运行");
 
+				// 开始运行就开始获取运行状态
+				getRunningState(taskId);
 			});
-
-			// 开始运行就开始获取运行状态
-			getRunningState(taskId);
 		}
 		
 	});
@@ -413,6 +413,17 @@ function showTaskState(json){
 						+'	<div class="cell">' + process.end_time + '</div>'
 						+'	<div class="cell">' + process.percent + '</div>'
 						+'</div>';
+		// 闪烁running的node
+		var nodeID = process.node_id;
+		var node = g_graph.getNodeById(nodeID);
+		if(node){
+			if(process.state == 1){
+				node.blink();
+			}else{
+				node.stopBlink();
+			}
+		}
+		
 	}
 	var uuid = json.uuid;
 	
@@ -439,7 +450,6 @@ function showTaskState(json){
 		row.find(".cell:eq(3)").html(json.start_time);
 		row.find(".cell:eq(4)").html(json.end_time);
 		row.find(".cell:eq(5)").html(json.percent);
-		console.log(new Date());
 	}
 	return taskState;
 }
@@ -533,7 +543,8 @@ function runTask(taskId,callback){
 		error :function(XMLHttpRequest, textStatus, errorThrown) {
 			console.log(XMLHttpRequest.status);
 			if(callback){
-				callback(JSON.parse('{"status":"error","message":XMLHttpRequest.status}'));
+				var result = '{"status":"error","message":"'  + XMLHttpRequest.status + '"}';
+				callback(JSON.parse(result));
 			}
 		}
 	});
