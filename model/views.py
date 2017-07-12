@@ -367,7 +367,8 @@ def start_task_2(task):
             processes = []
             for func in flow:
                 process = task.process_set.create(
-                    name = func.getID(),
+                    name = func.getName(),
+                    node_id = func.getID()
                     #start_time = timezone.now(),
                     #end_time = timezone.now()
                 )

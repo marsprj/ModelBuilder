@@ -51,6 +51,7 @@ class Process(models.Model):
     end_time = models.DateTimeField(null=True)
     state = models.IntegerField(default=0)
     complete_percent = models.IntegerField(default=0)
+    node_id = models.CharField(max_length=64)
 
     def exportToJson(self):
         return {
@@ -62,4 +63,5 @@ class Process(models.Model):
             "start_time": "-" if self.start_time==None else self.start_time.strftime("%Y-%m-%d %H:%M:%S"),
             "end_time": "-" if self.end_time==None else self.end_time.strftime("%Y-%m-%d %H:%M:%S"),
             "percent" : "{0}%".format(self.complete_percent),
+            "node_id": self.node_id
         }
