@@ -919,7 +919,10 @@ Graph.prototype.verify = function(){
 
 	return "success";
 }
-
+/**
+ * 根据id获取节点
+ */
 Graph.prototype.getNodeById = function(id){
 	return this._nodeManager.getNodeById(id);
 }
+

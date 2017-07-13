@@ -123,3 +123,11 @@ Rect.prototype.scale = function(sx,sy){
 		this._height = this._ymax - this._ymin;
 	}
 }
+
+
+Rect.prototype.getCenter = function(){
+	return {
+		x : (this._xmin + this._xmax)/2,
+		y : (this._ymax + this._ymin)/2
+	}
+}

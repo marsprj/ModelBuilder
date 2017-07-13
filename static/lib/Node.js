@@ -202,3 +202,11 @@ Node.prototype.stopBlink = function(){
 		this._blink_color = null;		
 	}
 }
+
+
+Node.prototype.getCenter = function(){
+	if(this._shape){
+		return this._shape.getCenter();
+	}
+	return null;
+}
