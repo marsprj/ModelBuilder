@@ -504,3 +504,46 @@ def get_file_root():
         ),
         "uploads"
     )
+
+def task_download(request,task_id,node_id):
+    try:
+        tasks = Task.objects.filter(uuid=task_id)
+    except:
+        return  http_error_response("no task")
+    if not tasks:
+        return  http_error_response("no task")
+
+    task = tasks[0]
+
+    graph = Graph()
+    if not graph.load(task.model.text):
+        pass
+    else:
+        node = graph.findNodeById(node_id)
+    if not node:
+        return  http_error_response("no node")
+
+
+    file_root = get_file_root()
+    node_path = node.getPath()
+    if node.getFrom():
+        file_path = os.path.join(os.path.join(file_root,task_id),node_path[1:])
+    else:
+        file_path = os.path.join(file_root,node_path[1:])
+
+    if os.path.exists(file_path):
+        index = file_path.rfind('.')
+        if index != -1:
+            postfix = file_path[index:]
+            if postfix == '.tiff' or  postfix == '.tif':
+                return  http_error_response("tiff")
+
+        with open(file_path, 'rb') as fh:
+            response = HttpResponse(fh.read(), content_type="image/jpeg")
+            response['Content-Disposition'] = 'inline; filename=' + os.path.basename(file_path)
+            return response
+    else:
+        return  http_error_response("no file")
+
+    return http_success_response()
+
