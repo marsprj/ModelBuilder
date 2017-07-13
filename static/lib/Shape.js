@@ -173,6 +173,15 @@ Shape.prototype.getID = function(){
 	return this._shape ? this._shape.id : "";
 }
 
+Shape.prototype.setID = function(id){
+	if(this._shape){
+		this._shape.id = id;
+		if(this._shape.node){
+			this._shape.node.raphaelid = id;
+		}
+	}
+}
+
 Shape.prototype.getElement = function(){
 	return this._shape;
 }

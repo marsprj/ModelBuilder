@@ -185,10 +185,12 @@ Graph.prototype.load = function(json){
 	model.data.forEach(function(d){
 		d.node = graph.createDatumNode(50, 50, 100, 50);
 		d.node.setPath(d.path);
+		d.node.setID(d.id);
 	});
 
 	model.functions.forEach(function(f){
 		f.node = graph.createFuncNode(f.name, 50, 50, 100, 50);
+		f.node.setID(f.id);
 	});
 
 	model.connections.forEach(function(c){
@@ -907,10 +909,20 @@ Graph.prototype.verify = function(){
 	for(var i = 0; i < data.length;++i){
 		var d = data[i];
 		if(!d.getPath() || d.getName() == "data"){
-			d.blink(200,2)
+			d.blink();
+			setTimeout(function(){
+				d.stopBlink();
+			},2000);
 			return "请设置节点的路径和名称";
 		}
 	}
 
 	return "success";
 }
+/**
+ * 根据id获取节点
+ */
+Graph.prototype.getNodeById = function(id){
+	return this._nodeManager.getNodeById(id);
+}
+

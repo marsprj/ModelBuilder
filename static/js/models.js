@@ -118,7 +118,8 @@ function showTasks(json){
 		var state = getState(t.state);
 		var stateClass = getStateClass(t.state);
 		var stateIcon = getStateIcon(t.state);
-		var btnHtml = '	<div class="cell"><button class="run-btn">运行</button></div>';
+		var btnHtml = '	<div class="cell"><button class="run-btn">运行</button>'
+					+ '<button class="show-results-btn">查看结果</button></div>';
 		if(t.state == 1){
 			btnHtml = '	<div class="cell"><button class="run-btn stop-btn">停止</button></div>';
 		}
@@ -150,8 +151,6 @@ function showTasks(json){
 	// 运行
 	$("#task_table .run-btn").click(function(){
 		var taskId = $(this).parents(".row").attr("uuid");
-		
-
 		if($(this).hasClass("stop-btn")){
 			// 点击停止按钮
 			$(this).removeClass("stop-btn");
@@ -166,30 +165,40 @@ function showTasks(json){
 				alert(result);
 				return;
 			}
-			// 点击运行按钮
-			$(this).addClass("stop-btn");
-			$(this).html("停止");
-			runTask(taskId,function(obj){
-				window.clearInterval(g_state_int);
-				getTaskState(taskId,function(){
-					console.log(new Date());
-					setTimeout(function(){
-						if(obj.status == "success"){
-							alert("运行成功")
-						}else if(obj.status == "error"){
-							alert(obj.message);
-						}
-					},10);
+			// 设置为不可编辑状态
+			g_graph.setEditable(false);
+			$("#state_div select option[value='not']").prop("selected",true);
+			// 先保存再运行
+			var text = g_graph.export();
+			saveModel(text,function(result){
+				$(this).addClass("stop-btn");
+				$(this).html("停止");
+				runTask(taskId,function(obj){
+					window.clearInterval(g_state_int);
+					getTaskState(taskId,function(){
+						setTimeout(function(){
+							if(obj.status == "success"){
+								alert("运行成功")
+							}else if(obj.status == "error"){
+								alert(obj.message);
+							}
+						},10);
+					});
+					$("#task_table .run-btn").removeClass("stop-btn");
+					$("#task_table .run-btn").html("运行");
+
 				});
-				$("#task_table .run-btn").removeClass("stop-btn");
-				$("#task_table .run-btn").html("运行");
 
+				// 开始运行就开始获取运行状态
+				getRunningState(taskId);
 			});
+		}		
+	});
 
-			// 开始运行就开始获取运行状态
-			getRunningState(taskId);
-		}
-		
+	// 查看结果
+	$("#task_table .show-results-btn").click(function(){
+		var taskId = $(this).parents(".row").attr("uuid");
+		showResultIcons(taskId);
 	});
 
 	// 是否有新建的task
@@ -413,6 +422,17 @@ function showTaskState(json){
 						+'	<div class="cell">' + process.end_time + '</div>'
 						+'	<div class="cell">' + process.percent + '</div>'
 						+'</div>';
+		// 闪烁running的node
+		var nodeID = process.node_id;
+		var node = g_graph.getNodeById(nodeID);
+		if(node){
+			if(process.state == 1){
+				node.blink();
+			}else{
+				node.stopBlink();
+			}
+		}
+		
 	}
 	var uuid = json.uuid;
 	
@@ -439,7 +459,6 @@ function showTaskState(json){
 		row.find(".cell:eq(3)").html(json.start_time);
 		row.find(".cell:eq(4)").html(json.end_time);
 		row.find(".cell:eq(5)").html(json.percent);
-		console.log(new Date());
 	}
 	return taskState;
 }
@@ -533,8 +552,86 @@ function runTask(taskId,callback){
 		error :function(XMLHttpRequest, textStatus, errorThrown) {
 			console.log(XMLHttpRequest.status);
 			if(callback){
-				callback(JSON.parse('{"status":"error","message":XMLHttpRequest.status}'));
+				var result = '{"status":"error","message":"'  + XMLHttpRequest.status + '"}';
+				callback(JSON.parse(result));
 			}
 		}
+	});
+}
+
+// 显示运行结果
+function showResultIcons(taskId){
+	if(taskId == null){
+		return;
+	}
+
+	// 先设置为不可编辑状态，否则展示没有意义
+	g_graph.setEditable(false);
+	$("#state_div select option[value='not']").prop("selected",true);
+
+	var nodes = g_graph.getData();
+	var html = "";
+	var iconWidth = 48;
+	var iconHeight = 48;
+	for(var i = 0; i < nodes.length; ++i){
+		var node = nodes[i];
+		if(node){
+			var center = node.getCenter();
+			if(center){
+				var x = center.x;
+				var y = center.y;
+				x -= iconWidth/2;
+				y -= iconHeight;
+				html += '<div class="image-icon" style="top:' + y + 'px;left:' 
+					+  x + 'px" tid="' + taskId + '" nid="' +  node.getID() +'"></div>'
+			}
+		}
+	}
+	$("#backdrop").html(html);
+	// 点击弹出窗口
+	$("#backdrop .image-icon").click(function(){
+		var taskID = $(this).attr("tid");
+		var nodeID = $(this).attr("nid");
+		var src = "/model/task/" + taskId + "/download/" + nodeID;
+   		$.ajax({
+			type:"get",
+			url:src,
+			// contentType: "image/jpeg",
+			dataType : "text",
+			success:function(result){
+				function isJson(str){
+					try{
+						JSON.parse(result);
+					}
+					catch(e){
+						return false;
+					}
+					return true;
+				}
+				var modal = document.getElementById('myModal');
+				var modalImg = document.getElementById("img01");
+				var caption = $(".modal #caption");
+				if(isJson(result)){
+					var message = JSON.parse(result).message;
+					var html = "暂不提供预览";
+					if(message == "no task"){
+						html = "没有该任务";
+					}else if(message == "no node"){
+						html = "没有该节点";
+					}else if(message == "no file"){
+						html = "没有该文件";
+					}else if(message == "tiff"){
+						html = "暂时不提供tiff文件的预览";
+					}
+					modal.style.display = "block";
+					caption.html(html);
+					modalImg.src = "";
+				}else{
+					modal.style.display = "block";
+			   		modalImg.src = src;
+			   		caption.html("");
+				}
+			}
+		});
 	});
 }

@@ -145,3 +145,10 @@ Ellipse.prototype.scale = function(sx,sy){
 		this._b = Math.abs(this._ymax - this._ymin) / 2;
 	}
 }
+
+Ellipse.prototype.getCenter = function(){
+	return {
+		x : this._centerx,
+		y : this._centery
+	}
+}

@@ -10,6 +10,7 @@ var FuncNode = function(r, xmin, ymin, width, height){
 	this._output = null;
 
 	this._shape = new Rect(r, xmin, ymin, width, height);
+	this._id = this._shape.getID();
 
 	var that = this;
 	// this._shape.dblclick(function(){
