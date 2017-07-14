@@ -118,11 +118,15 @@ function showTasks(json){
 		var state = getState(t.state);
 		var stateClass = getStateClass(t.state);
 		var stateIcon = getStateIcon(t.state);
-		var btnHtml = '	<div class="cell"><button class="run-btn">运行</button>'
-					+ '<button class="show-results-btn">查看结果</button></div>';
+		var btnHtml = '';
 		if(t.state == 1){
-			btnHtml = '	<div class="cell"><button class="run-btn stop-btn">停止</button></div>';
+			btnHtml = '	<div class="cell"><button class="run-btn stop-btn">停止</button>'
+			+ '<button class="show-results-btn">查看结果</button></div>';
+		}else{
+			btnHtml = '	<div class="cell"><button class="run-btn">运行</button>'
+					+ '<button class="show-results-btn">查看结果</button></div>';
 		}
+		
 		
 		html += '<div class="row ' + stateClass + ' " uuid="' + t.uuid+ '">'
 			+	'	<div class="cell state-icon ' + stateIcon + ' "></div>'
@@ -576,14 +580,20 @@ function showResultIcons(taskId){
 	for(var i = 0; i < nodes.length; ++i){
 		var node = nodes[i];
 		if(node){
+			var name = node.getName();
+			var flag = false;
+			if(name.lastIndexOf(".tiff")!= -1 || name.lastIndexOf(".tif") != -1){
+				flag = true;
+			}
 			var center = node.getCenter();
 			if(center){
 				var x = center.x;
 				var y = center.y;
 				x -= iconWidth/2;
-				y -= iconHeight;
+				y -= iconHeight +10;
 				html += '<div class="image-icon" style="top:' + y + 'px;left:' 
-					+  x + 'px" tid="' + taskId + '" nid="' +  node.getID() +'"></div>'
+					+  x + 'px" tid="' + taskId + '" nid="' +  node.getID() 
+					+ '" '+  (!flag?"": 'tiff="true"' )+ '></div>';
 			}
 		}
 	}
@@ -593,12 +603,21 @@ function showResultIcons(taskId){
 		var taskID = $(this).attr("tid");
 		var nodeID = $(this).attr("nid");
 		var src = "/model/task/" + taskId + "/download/" + nodeID;
+		var tiff = $(this).attr("tiff");
+		var modal = document.getElementById('myModal');
+		var modalImg = document.getElementById("img01");
+		var caption = $(".modal #caption");
+		modalImg.src = "";
+		caption.html("");
+		modal.style.display = "block";
+		$(modal).addClass("loading");
    		$.ajax({
 			type:"get",
 			url:src,
 			// contentType: "image/jpeg",
 			dataType : "text",
 			success:function(result){
+				$(modal).removeClass("loading");
 				function isJson(str){
 					try{
 						JSON.parse(result);
@@ -608,9 +627,7 @@ function showResultIcons(taskId){
 					}
 					return true;
 				}
-				var modal = document.getElementById('myModal');
-				var modalImg = document.getElementById("img01");
-				var caption = $(".modal #caption");
+				
 				if(isJson(result)){
 					var message = JSON.parse(result).message;
 					var html = "暂不提供预览";
@@ -620,16 +637,22 @@ function showResultIcons(taskId){
 						html = "没有该节点";
 					}else if(message == "no file"){
 						html = "没有该文件";
-					}else if(message == "tiff"){
-						html = "暂时不提供tiff文件的预览";
+					}else if(message == "not a file"){
+						html = "该路径不是一个文件";
 					}
-					modal.style.display = "block";
 					caption.html(html);
 					modalImg.src = "";
 				}else{
-					modal.style.display = "block";
-			   		modalImg.src = src;
-			   		caption.html("");
+					
+					var html = "";
+					if(tiff == "true"){
+						modalImg.src = "";
+						html += "<div>暂时不支持tif文件的预览</div>"
+					}else{
+						modalImg.src = src;								   			
+					}
+					html += "<a href='" +  src + "' download='img.png'>下载文件</a>";
+			   		caption.html(html);
 				}
 			}
 		});

@@ -150,6 +150,9 @@ html,body{
     border-right: 1px solid #787878;
 	text-align: center;
 }
+.cell button{
+	margin-right: 6px;
+}
 .task-header{
 	background-color: #99cdff;
 }
@@ -168,6 +171,13 @@ html,body{
 
 .failed-row{
 	color: #ff0034;
+}
+
+.completed-row .show-results-btn, .failed-row .show-results-btn{
+	display: inline-block;
+}
+.not-started-row .show-results-btn,.running-row .show-results-btn{
+	display: none;
 }
 
 .state-icon{
@@ -469,7 +479,28 @@ html,body{
 	width: 48px;
 	height: 48px;
 	cursor: pointer;
-	background: url(../images/bubble.png) no-repeat;
+	background: url(../images/image.png) no-repeat;
+	animation: myfirst 0.5s;
+	-moz-animation: myfirst  0.5s;	/* Firefox */
+	-webkit-animation: myfirst 0.5s;	/* Safari 和 Chrome */
+	-o-animation: myfirst  0.5s;	
+}
+.image-icon:hover{
+	transform: scale(0.9);
+}
+@keyframes myfirst
+{
+	0%   {transform:translate(0px,-100px);}
+	50%   {transform:translate(0px,0px);}
+	75%   {transform:translate(0px,-30px);}
+	100% {transform:translate(0px,0px);}
+}
+@-webkit-keyframes myfirst
+{
+	0%   {transform:translate(0px,-100px);}
+	50%   {transform:translate(0px,0px);}
+	75%   {transform:translate(0px,-30px);}
+	100% {transform:translate(0px,0px);}
 }
 
 /* The Modal (background) */
@@ -486,12 +517,20 @@ html,body{
     background-color: rgb(0,0,0); /* Fallback color */
     background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
 }
+
+.modal.loading .loading-svg{
+	display: block;
+}
+.loading-svg{
+	margin: 0 auto;
+	display: none;
+}
 /* Modal Content (Image) */
 .modal-content {
     margin: auto;
     display: block;
-    width: 80%;
-    max-width: 700px;
+    /*width: 80%;*/
+    min-height: 400px;
 }
 
 #caption {
@@ -502,9 +541,20 @@ html,body{
     text-align: center;
     color: #ccc;
     padding: 10px 0;
-    height: 150px;
-    font-size: 16px;
+    height: 60px;
+    font-size: 20px;
+    line-height: 60px;
 }
+#caption a{
+	color: #fff;
+	text-decoration: none;
+}
+
+#caption a:hover{
+	color: #ddd;
+	text-shadow: 2px 2px 4px #fff;
+}
+
 /* Add Animation - Zoom in the Modal */
 .modal-content, #caption { 
     -webkit-animation-name: zoom;
