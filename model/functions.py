@@ -60,7 +60,7 @@ def raster_stretch(ipath, opath):
 """
 处理图像融合
 """
-def process_fusion(func):
+def process_fusion(func,task_idss):
     return True
 
 def build_local_path(path):
