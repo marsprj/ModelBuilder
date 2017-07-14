@@ -16,6 +16,7 @@ var FileDialog = function(path,mode,onOK){
 	this.initCreateFolderEvent();
 	this.initDeleteFolderEvent();
 	this.initUploadEvent();
+	this.initNameInputEvent();
 }
 
 extend(FileDialog, Dialog)
@@ -118,6 +119,10 @@ FileDialog.prototype.initFileEvent = function(){
 					dlg._win.find(".item_container").removeClass("active");
 					$(this).addClass("active");
 				});
+
+				$(this).dblclick(function(){
+					dlg._win.find("#dlg_btn_ok:first").click();
+				});
 			}
 		}
 	});	
@@ -150,12 +155,10 @@ FileDialog.prototype.initOkEvent = function(){
 				alert("请输入一个文件");
 				return;
 			}
-
-			var result = dlg.hasFile(name);
-			if(result){
-				if(!confirm("是否替换已经存在的[" + name + "]?")){
-					return;
-				}
+			var nameReg =  /^.\.(?:jpg|jpeg|png|tif|tiff)$/;
+			if(!nameReg.test(name)){
+				alert("请输入有效的后缀名");
+				return;
 			}
 			dlg._file_path = dlg.makeFilePath(dlg._folder_path,name);
 		}
@@ -360,4 +363,13 @@ FileDialog.prototype.hasFile = function(fileName){
 		}
 	}
 	return false;
+}
+
+FileDialog.prototype.initNameInputEvent = function(){
+	var that = this;
+	this._win.find("#dlg_file_name").keydown(function(e){
+		if(e.keyCode == 13){
+			that._win.find("#dlg_btn_ok:first").click();
+		}
+	});
 }
