@@ -37,6 +37,11 @@ def raster_stretch(ipath, opath):
     #模拟生成一个新的图片
     image = Image.open(ipath)
     image_out = Image.new(image.mode, image.size)
+    index = ipath.rfind('.')
+    if index != -1:
+        postfix = ipath[index:]
+        if postfix == '.tiff' or postfix == '.tif':
+            return True
 
     pixels = list(image.getdata())
     image_out.putdata(pixels)

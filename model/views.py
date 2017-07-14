@@ -532,14 +532,10 @@ def task_download(request,task_id,node_id):
         file_path = os.path.join(file_root,node_path[1:])
 
     if os.path.exists(file_path):
-        index = file_path.rfind('.')
-        if index != -1:
-            postfix = file_path[index:]
-            if postfix == '.tiff' or  postfix == '.tif':
-                return  http_error_response("tiff")
-
+        if not os.path.isfile(file_path):
+            return  http_error_response("not a file")
         with open(file_path, 'rb') as fh:
-            response = HttpResponse(fh.read(), content_type="image/jpeg")
+            response = HttpResponse(fh.read(), content_type="application/x-tif")
             response['Content-Disposition'] = 'inline; filename=' + os.path.basename(file_path)
             return response
     else:
