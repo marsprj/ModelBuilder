@@ -174,9 +174,11 @@ function showTasks(json){
 			$("#state_div select option[value='not']").prop("selected",true);
 			// 先保存再运行
 			var text = g_graph.export();
+			var btn = this;
 			saveModel(text,function(result){
-				$(this).addClass("stop-btn");
-				$(this).html("停止");
+				$(btn).addClass("stop-btn");
+				$(btn).html("停止");
+				$(btn).parents(".row:first").removeClass().addClass("row active-row running-row");
 				runTask(taskId,function(obj){
 					window.clearInterval(g_state_int);
 					getTaskState(taskId,function(){
@@ -208,7 +210,13 @@ function showTasks(json){
 	// 是否有新建的task
 	if(g_new_task){
 		$("#task_table .row").removeClass("active-row");
-		$("#task_table .row[uuid='" + g_new_task + "']").addClass("active-row");
+		var row = $("#task_table .row[uuid='" + g_new_task + "']");
+		row.addClass("active-row");
+		// 滚动到新的位置
+		var div = $('#task_table');
+		div.animate({
+		    scrollTop: row.offset().top - div.offset().top + div.scrollTop()
+		},1000)
 		g_new_task = null;
 	}
 

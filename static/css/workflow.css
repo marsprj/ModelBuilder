@@ -152,6 +152,7 @@ html,body{
 }
 .cell button{
 	margin-right: 6px;
+	cursor: pointer;
 }
 .task-header{
 	background-color: #99cdff;
