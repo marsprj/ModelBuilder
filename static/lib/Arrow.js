@@ -21,7 +21,7 @@ var Arrow = function(r, startx, starty, endx, endy){
 
 	//style of arrow
 	this._stroke = {
-		color: "#0000FF",
+		color: "#585872",
 		width : 2,
 		linecap : "round"
 	};

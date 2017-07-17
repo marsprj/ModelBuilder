@@ -54,4 +54,12 @@ function initPageEvent(){
 		});
 		dlg.show();
 	});
+
+	// 任务div滚动
+	$("#task_table").scroll(function(){
+		var processDiv = $(".process-div");
+		processDiv.slideUp(200,function(){
+
+		});
+	});
 }

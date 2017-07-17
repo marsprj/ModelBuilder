@@ -532,3 +532,16 @@ Shape.prototype.animate = function(obj,time){
 		this._shape.animate(obj,time);
 	}
 }
+
+Shape.prototype.stop = function(){
+	if(this._shape){
+		this._shape.stop();
+	}
+}
+
+
+Shape.prototype.setAttr = function(key,value){
+	if(this._shape){
+		this._shape.attr(key,value);
+	}
+}

@@ -20,7 +20,7 @@ var Rect = function(r, xmin, ymin, width, height){
 
 	this._shape = this._r.rect(this._xmin, this._ymin, this._width, this._height, this._round);
 	this._shape.attr({
-		"fill": "#f00",
+		"fill": "#ffb6bb",
 		"stroke":"#000",
 	});
 	this._id = this._shape.id;

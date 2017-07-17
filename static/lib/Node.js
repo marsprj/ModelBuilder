@@ -195,9 +195,8 @@ Node.prototype.blink = function(){
 Node.prototype.stopBlink = function(){
 	if(this._blink_int){
 		window.clearInterval(this._blink_int);
-		this._shape.animate({
-			"fill":this._blink_color
-		},200);
+		this._shape.stop();
+		this._shape.setAttr("fill",this._blink_color);
 		this._blink_int = null;
 		this._blink_color = null;		
 	}
@@ -209,4 +208,10 @@ Node.prototype.getCenter = function(){
 		return this._shape.getCenter();
 	}
 	return null;
+}
+
+Node.prototype.setShapeAttr =function(key,value){
+	if(this._shape){
+		this._shape.setAttr(key,value);
+	}
 }

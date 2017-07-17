@@ -439,9 +439,17 @@ function showTaskState(json){
 		var node = g_graph.getNodeById(nodeID);
 		if(node){
 			if(process.state == 1){
+				node.setShapeAttr("fill","#ffff00");
 				node.blink();
 			}else{
 				node.stopBlink();
+				if(process.state == 2){
+					node.setShapeAttr("fill","#0f0");
+				}else if(process.state == 0){
+					node.setShapeAttr("fill","#ffb6bb");
+				}else if(process.state == 3){
+					node.setShapeAttr("fill","#da3732");
+				}
 			}
 		}
 		

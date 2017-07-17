@@ -25,7 +25,7 @@ var Ellipse = function(r, xmin, ymin, width, height){
 	// 	"stroke", "#f0f"
 	// );
 	this._shape.attr({
-		"fill": "#0f0",
+		"fill": "#95d5ee",
 		"stroke":"#000",
 	});
 	this._id = this._shape.id;
