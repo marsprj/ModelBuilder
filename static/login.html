@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script type="text/javascript" src="./js/jquery-3.2.1.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/user.css">
+    <title>工作流系统--登录</title>
+</head>
+<body>
+    <div id="header">
+		<div class="title-icon"></div>
+		<div class="title">
+			工作流系统
+		</div>
+        <div class="title-right">
+            <a href="register.html" class="register-btn title-btn">注册</a>
+        </div>
+	</div>
+    <div id="main">
+        <div class="container-heading">登录</div>
+        <div class="account-container">
+            <div class="container-item" style="margin: 0px 10px;">
+                <span class="info">&nbsp;</span>
+            </div>
+            <div class="container-item">
+                <input type="text" id="username" class="form-control" placeholder="请输入用户名">
+            </div>
+            <div class="container-item">
+                <input type="text" id="password" class="form-control" placeholder="请输入密码">
+            </div>
+            <div class="container-item">
+                <button class="account-btn" onclick="onlogin()">登录</button>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
+
+<script type="text/javascript">
+    $().ready(function () {
+        var username = getCookie("username");
+        if(username){
+            window.location.href="index.html";
+        }else{
+            $("#main").show();
+        }
+
+
+    });
+    function getCookie(name){
+        var arr = document.cookie.match(new RegExp("(^| )"+name+"=([^;]*)(;|$)"));
+        if(arr != null) return unescape(arr[2]); return null;
+    }
+
+    function onlogin(){
+        var username = $("#username").val();
+        if(username == ""){
+            $(".info").html("请输入用户名");
+            $("#username").focus();
+            return;
+        }
+        var password = $("#password").val();
+        if(password == "") {
+            $(".info").html("请输入密码");
+            $("#password").focus();
+            return;
+        }
+        var obj = {
+            "username": username,
+            "password": password
+        }
+        var text = JSON.stringify(obj);
+        $(".info").html("登录中……");
+        $.ajax({
+            type:"POST",
+            url:"/model/login/",
+            data : text,
+            contentType: "text/plain",
+            dataType : "text",
+            success:function(result){
+                var text = JSON.parse(result);
+                if(text.status == "error"){
+                    $(".info").html(text.message);
+                }else{
+                    $(".info").html("登录成功，正在跳转……");
+                    window.location.href = "/static/index.html";
+                }
+            }
+        });
+    }
+
+</script>

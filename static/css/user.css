@@ -1,0 +1,117 @@
+html,body{
+    margin: 0px;
+    padding: 0px;
+    overflow: hidden;
+    font-size:12px;
+    width:100%;
+    height:100%;
+}
+
+#header{
+	height: 60px;
+	width: 100%;
+	background-color: #32cbcb;
+	font-size: 26px;
+	line-height: 60px;
+	border-bottom: 2px solid #787878;
+}
+
+.title-icon{
+	width: 40px;
+	height: 40px;
+	background-image: url(../images/logo.png);
+	display: inline-block;
+	float: left;
+	top: 8px;
+	position: absolute;
+}
+.title{
+	display: inline-block;
+	margin-left: 46px;
+}
+.title-right{
+    float: right;
+
+}
+
+.title-btn{
+    color: #fff;
+    text-decoration: none;
+    padding: 6px 12px;
+    background: #31b4ed;
+    font-size: 16px;
+    margin-right: 10px;
+    font-weight: bold;
+}
+.title-btn:hover{
+    color: #cdcdcd;
+}
+
+
+#main{
+    height:calc(100% - 60px);
+    background: #f8f8f8;
+    display: none;
+}
+
+
+.container-heading{
+    text-align: center;
+    padding-top: 80px;
+    line-height: 30px;
+    height: 30px;
+    font-size: 28px;
+    letter-spacing: 30px;
+    padding-bottom: 30px;
+    padding-left: 30px;
+}
+.account-container{
+    width:400px;
+    margin:0px  auto;
+    background: #ffffff;
+    padding:20px;
+    box-shadow: 2px 2px 6px 5px #e2dddd;
+
+}
+.container-item{
+    margin: 30px 10px 20px;
+}
+
+.container-item .info{
+    color: #ff3538;
+}
+
+
+.account-btn{
+    width: 100px;
+    height: 38px;
+    border-radius: 4px;
+    background-color: #169bd5;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    letter-spacing: 10px;
+    text-align: center;
+    text-indent: 10px;
+    margin-left: calc(50% - 50px);
+}
+
+.form-control{
+    display: block;
+    font-size: 14px;
+    line-height: 1.428571429;
+    color: #555;
+    width: 100%;
+    height: 34px;
+    padding: 6px 12px;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    -webkit-transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+}
