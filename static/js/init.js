@@ -2,20 +2,44 @@ var g_graph = null;
 var g_new_model = null;
 var g_func_type = null;
 var g_new_task = null;
+var g_username = null;
 
 // 状态获取的循环器
 var g_state_int = null;
 
 $().ready(function(){
-	g_graph = new Graph("canvas");
-	initPageEvent();
-	initGraphEvent();
-	loadModels();
-
+	user_init();
 });
 
 
+function user_init() {
+    var username = getCookie("username");
+    if(username){
+		g_username = username;
+		$("#main").show();
+		$(".user-name").html("用户&nbsp;:&nbsp;" + username);
+		g_graph = new Graph("canvas");
+		initPageEvent();
+		initGraphEvent();
+		loadModels();
+    }else{
+        window.location.href = "/static/login.html";
+    }
+}
+
+
+function getCookie(name){
+    var arr = document.cookie.match(new RegExp("(^| )"+name+"=([^;]*)(;|$)"));
+    if(arr != null) return unescape(arr[2]); return null;
+}
+
+
 function initPageEvent(){
+	//退出
+	$(".logout").click(function(){
+		logout();
+	});
+
 	// 新建模型
 	$(".new-model-btn").click(function(){
 		var dlg = new CreateModelDialog(function(uuid){
@@ -61,5 +85,23 @@ function initPageEvent(){
 		processDiv.slideUp(200,function(){
 
 		});
+	});
+}
+
+function logout() {
+	var url = "/model/" + g_username + "/logout/" ;
+	$.ajax({
+		type:"GET",
+		url:url,
+		contentType: "text/plain",
+		dataType : "text",
+		success:function(result){
+			var text = JSON.parse(result);
+			if(text.status == "error"){
+				alert(text.message);
+			}else{
+				window.location.href = "/static/login.html";
+			}
+		}
 	});
 }

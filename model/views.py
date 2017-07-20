@@ -1,10 +1,12 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.shortcuts import render,render_to_response
+from django import  forms
 
 
 from . import models
 from . import functions
-from .models import Model, Task, Process
+from .models import Model, Task, Process,User
 from .Graph import Graph
 from ModelFlow import settings
 import ModelFlow
@@ -543,3 +545,55 @@ def task_download(request,task_id,node_id):
 
     return http_success_response()
 
+
+
+def user_register(request):
+    text = request.body.decode('utf-8')
+    try:
+        obj = json.loads(text)
+    except JSONDecodeError:
+        return http_error_response("参数有错误")
+    username = obj["username"]
+    try:
+        users = User.objects.filter(username=username)
+    except:
+        return http_error_response("用户注册失败")
+
+    if len(users)>0:
+        return http_error_response("该用户存在")
+
+    password = obj["password"]
+    user = User(
+        username=username,
+        password=password
+    )
+    try:
+        user.save()
+        response = http_success_response();
+        response.set_cookie('username', username, 3600)
+        return response
+    except:
+        return  http_error_response("用户注册失败")
+
+
+def user_login(request):
+    text = request.body.decode('utf-8')
+    try:
+        obj = json.loads(text)
+    except JSONDecodeError:
+        return http_error_response("解析失败")
+    username = obj["username"]
+    password = obj["password"]
+    user = User.objects.filter(username=username, password=password)
+    if user:
+        response = http_success_response();
+        response.set_cookie('username', username, 3600)
+        return  response
+    else:
+        return  http_error_response("登录失败")
+
+
+def user_logout(request,username):
+    response = http_success_response()
+    response.delete_cookie("username")
+    return  response

@@ -30,9 +30,27 @@ html,body{
 	margin-left: 46px;
 }
 
+.title-right {
+	float: right;
+    line-height: 20px;
+    font-size: 12px;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+.title-right a {
+	text-decoration: none;
+    margin-right: 10px;
+    color: #061d30;
+}
+.title-right a:hover {
+	color: #f5f4ed;
+}
+
 #main{
 	width: 100%;
 	height: calc(100% - 60px);
+	display: none;
 }
 
 #left{

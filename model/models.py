@@ -65,3 +65,11 @@ class Process(models.Model):
             "percent" : "{0}%".format(self.complete_percent),
             "node_id": self.node_id
         }
+
+
+
+class User(models.Model):
+    id = models.AutoField(primary_key=True)
+    uuid = models.UUIDField(default=uuid.uuid4, editable=False, null=False, unique=True)
+    username = models.CharField(max_length=50)
+    password = models.CharField(max_length=50)
