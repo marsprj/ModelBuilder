@@ -2,6 +2,11 @@ from django.db import models
 import uuid
 
 # Create your models here.
+class User(models.Model):
+    id = models.AutoField(primary_key=True)
+    uuid = models.UUIDField(default=uuid.uuid4, editable=False, null=False, unique=True)
+    username = models.CharField(max_length=50)
+    password = models.CharField(max_length=50)
 
 class Model(models.Model):
     id = models.AutoField(primary_key=True, null=False)
@@ -10,6 +15,7 @@ class Model(models.Model):
     create_time = models.DateTimeField()
     description = models.CharField(max_length=1024)
     text = models.TextField()
+    user = models.ForeignKey(User,to_field='uuid')
 
     def exportToJson(self):
         return {
@@ -68,8 +74,3 @@ class Process(models.Model):
 
 
 
-class User(models.Model):
-    id = models.AutoField(primary_key=True)
-    uuid = models.UUIDField(default=uuid.uuid4, editable=False, null=False, unique=True)
-    username = models.CharField(max_length=50)
-    password = models.CharField(max_length=50)

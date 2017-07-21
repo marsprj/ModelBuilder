@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from ModelFlow import settings
+import  requests
 
 import os
 import json
@@ -14,7 +15,7 @@ def file_upload(request):
 
     file_path = request.POST['dlg_upoad_path']
 
-    file_root = get_file_root()
+    file_root = get_user_file_root(request)
     local_folder = os.path.join(file_root, file_path[1:])
 
     files = request.FILES.getlist("file", None)
@@ -36,6 +37,7 @@ def file_upload(request):
 
 
 def file_list(request):
+
     text = request.body.decode('utf-8')
     # 解析Model的json对象
     try:
@@ -44,9 +46,12 @@ def file_list(request):
         return http_error_response("Model的json对象解析失败")
 
     request_path = obj["path"]
-    file_root = get_file_root()
+
+    file_root = get_user_file_root(request)
 
     file_path = os.path.join(file_root, request_path[1:])
+    if not os.path.exists(file_path):
+        return http_error_response('该路径不存在')
 
     files_json = []
 
@@ -82,7 +87,7 @@ def file_create(request):
         return http_error_response("Model的json对象解析失败")
 
     request_path = obj["path"]
-    file_root = get_file_root()
+    file_root = get_user_file_root(request)
 
     file_path = os.path.join(file_root, request_path[1:])
     try:
@@ -109,7 +114,7 @@ def file_remove(request):
         return http_error_response("Model的json对象解析失败")
 
     request_path = obj["path"]
-    file_root = get_file_root()
+    file_root = get_user_file_root(request)
 
     file_path = os.path.join(file_root, request_path[1:])
     try:
@@ -122,13 +127,16 @@ def file_remove(request):
         return http_error_response(e.strerror)
 
 
-def get_file_root():
+def get_user_file_root(request):
+    username = request.COOKIES['username']
     return os.path.join(
         os.path.join(
-            os.path.join(settings.BASE_DIR, "static"),
-            "data"
-        ),
-        "uploads"
+            os.path.join(
+                os.path.join(settings.BASE_DIR, "static"),
+                "data"
+            ),
+            "uploads"
+        ),username
     )
 
 

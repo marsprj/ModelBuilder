@@ -1,7 +1,7 @@
 // 获取模型列表
 function loadModels(){
 	$("#models_container").empty().addClass("loading");
-	var url = "/model/models/";
+	var url = "/model/" + g_username + "/models/";
 	$.ajax({
 		url : url,
 		dataType : "text",
@@ -500,7 +500,7 @@ function getBgColor(state){
 function saveModel(text,callback){
 	$.ajax({
 		type:"POST",
-		url:"/model/model/save/",
+		url:"/model/" + g_username + "/model/save/",
 		data : text,
 		contentType: "text/plain",
 		dataType : "text",

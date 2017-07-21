@@ -22,7 +22,12 @@ from json import JSONDecodeError
 def index(request):
     return HttpResponse("hello world.")
 
-def model_save(request):
+def model_save(request,username):
+    try:
+        user = User.objects.get(username=username)
+    except:
+        return http_error_response("该用户不存在")
+    user_id = user.uuid
 
     text = request.body.decode('utf-8')
 
@@ -49,12 +54,18 @@ def model_save(request):
         #Model不存在，创建新的Model
         create_time = timezone.now()
         obj["create_time"] = str(create_time)
-        #生成Model
-        model = Model(
-            name=model_name,
+        user = User.objects.get(username=username)
+        model = user.model_set.create(name=model_name,
             description=model_name,
             create_time=create_time,
             text=json.dumps(obj))
+        #生成Model
+        # model = Model(
+        #     name=model_name,
+        #     description=model_name,
+        #     create_time=create_time,
+        #     text=json.dumps(obj),
+        #     user=str(user_id))
 
     # 创建model的目录
     model_path = os.path.join(ModelFlow.settings.MODEL_ROOT, str(model.uuid))
@@ -75,10 +86,16 @@ def model_save(request):
 """
 返回所有的Model
 """
-def models(request):
+def models(request,username):
 
     obj = []
-    models = Model.objects.all()
+    try:
+        user = User.objects.get(username=username)
+    except:
+        return http_error_response("该用户不存在")
+    if not user:
+        return http_error_response("no user")
+    models = user.model_set.all()
     for model in models:
         obj.append(model.exportToJson())
 
@@ -342,6 +359,11 @@ def start_task_2(task):
 
     logger = logging.getLogger('model.app')
 
+    try:
+        username = task.model.user.username
+    except:
+        return http_error_response('用户没有登录')
+
     success = True
     graph = Graph()
     if not graph.load(task.model.text):
@@ -353,7 +375,8 @@ def start_task_2(task):
 
         #文件夹处理
         file_root = get_file_root()
-        task_path = os.path.join(file_root,str(task.uuid))
+        user_root = os.path.join(file_root,username)
+        task_path = os.path.join(user_root,str(task.uuid))
         if os.path.exists(task_path):
             shutil.rmtree(task_path)
         os.mkdir(task_path)
@@ -404,7 +427,7 @@ def start_task_2(task):
                     #如果存在相应的处理函数，则获取该处理函数
                     f = getattr(functions, process_func_name.lower())
                     #处理计算任务
-                    success = f(func,str(task.uuid))
+                    success = f(func,str(task.uuid),username)
                 else:
                     errmsg = "方法[{0}]尚未在系统中注册".format(func.getName());
                     logger.error(errmsg)
@@ -525,13 +548,18 @@ def task_download(request,task_id,node_id):
     if not node:
         return  http_error_response("no node")
 
+    username = request.COOKIES['username']
+    if not username:
+        return http_error_response("no user")
+
 
     file_root = get_file_root()
+    user_root = os.path.join(file_root,username)
     node_path = node.getPath()
     if node.getFrom():
-        file_path = os.path.join(os.path.join(file_root,task_id),node_path[1:])
+        file_path = os.path.join(os.path.join(user_root,task_id),node_path[1:])
     else:
-        file_path = os.path.join(file_root,node_path[1:])
+        file_path = os.path.join(user_root,node_path[1:])
 
     if os.path.exists(file_path):
         if not os.path.isfile(file_path):
@@ -571,6 +599,9 @@ def user_register(request):
         user.save()
         response = http_success_response();
         response.set_cookie('username', username, 3600)
+        file_root = get_file_root()
+        user_root = os.path.join(file_root,username)
+        os.makedirs(user_root)
         return response
     except:
         return  http_error_response("用户注册失败")
@@ -597,3 +628,13 @@ def user_logout(request,username):
     response = http_success_response()
     response.delete_cookie("username")
     return  response
+
+
+def get_file_root():
+    return os.path.join(
+        os.path.join(
+            os.path.join(settings.BASE_DIR, "static"),
+            "data"
+        ),
+        "uploads"
+    )
