@@ -19,29 +19,38 @@ from json import JSONDecodeError
 
 # Create your views here.
 
+logger = logging.getLogger('model.app')
+
 def index(request):
     return HttpResponse("hello world.")
 
 def model_save(request,username):
     try:
         user = User.objects.get(username=username)
-    except:
+    except User.DoesNotExist:
+        logger.error("用户{"+ username + "}不存在")
         return http_error_response("该用户不存在")
+    except OperationalError as e:
+        logger.error("user query failed :" + str(e))
+        return  http_error_response("user query failed")
     user_id = user.uuid
 
     text = request.body.decode('utf-8')
 
     #解析Model的json对象
+    logger.debug("user[" + username + "] model save : " + text)
     try:
         obj = json.loads(text)
-    except JSONDecodeError:
+    except JSONDecodeError as e:
+        logger.error("Model的json对象解析失败:" + e)
         return http_error_response("Model的json对象解析失败")
 
     #检索数据库，看当前Model是否已经存在
     model_name = obj["name"]
     try:
         models = user.model_set.filter(name=model_name)
-    except:
+    except OperationalError as e:
+        logger.error("Model查询失败:" + e)
         return http_error_response("Model查询失败")
 
     if len(models)>0:
@@ -59,27 +68,20 @@ def model_save(request,username):
             description=model_name,
             create_time=create_time,
             text=json.dumps(obj))
-        #生成Model
-        # model = Model(
-        #     name=model_name,
-        #     description=model_name,
-        #     create_time=create_time,
-        #     text=json.dumps(obj),
-        #     user=str(user_id))
-
     # 创建model的目录
     model_path = os.path.join(ModelFlow.settings.MODEL_ROOT, str(model.uuid))
     if not os.path.exists(model_path):
         try:
             os.makedirs(model_path)
         except OSError as e:
-            logging.getLogger('model.app').error(e.strerror)
+            logger.error(e.strerror)
 
     # 保存model
     try:
         model.save()
         return http_success_response()
-    except OperationalError:
+    except OperationalError as e:
+        logger.error("Model保存失败: " + str(e))
         return http_error_response("Model保存失败")
 
 """
@@ -90,11 +92,15 @@ def models(request,username):
     obj = []
     try:
         user = User.objects.get(username=username)
-    except:
-        return http_error_response("该用户不存在")
-    if not user:
+    except User.DoesNotExist:
+        logger.error("no user[" + username + "]")
         return http_error_response("no user")
-    models = user.model_set.all()
+
+    try:
+        models = user.model_set.all()
+    except OperationalError as e:
+        logger.error("get user " + username + " models failed :" + str(e))
+        return  http_error_response("get user models failed")
     for model in models:
         obj.append(model.exportToJson())
 
@@ -107,18 +113,31 @@ def model_get(request, model_id):
     try:
         model = Model.objects.get(uuid=model_id)
     except Model.DoesNotExist:
-        raise Http404("Model does not exist")
+        logger.error("no model [" + model_id + "]")
+        return http_error_response("Model does not exist")
+    except OperationalError as e:
+        logger.error("get model[" + model_id + "] failed:" + str(e))
+        return  http_error_response("get model failed")
     return HttpResponse(model.text, content_type="application/json")
 
 """
-删除制定id的Model
+删除指定id的Model
 """
 def model_delete(request,model_id):
     try:
         model = Model.objects.get(uuid=model_id)
     except Model.DoesNotExist:
+        logger.error("Model does not exist [" + model_id + "]")
         return http_error_response("Model不存在")
-    model.delete()
+    except OperationalError as e:
+        logger.error("query model failed: " + str(e))
+        return  http_error_response("query model failed")
+
+    try:
+        model.delete()
+    except OperationalError as e:
+        logger.error("delete model [" + model_id + "]:" + str(e))
+        return http_error_response("delete model failed")
     return http_success_response()
 
 def model_plan(request, model_id):
@@ -611,6 +630,7 @@ def user_login(request):
     try:
         obj = json.loads(text)
     except JSONDecodeError:
+        logger.error("登录解析失败：" + text)
         return http_error_response("解析失败")
     username = obj["username"]
     password = obj["password"]
@@ -618,14 +638,17 @@ def user_login(request):
     if user:
         response = http_success_response();
         response.set_cookie('username', username, 3600)
+        logger.info("用户{" + username + "}登录成功")
         return  response
     else:
+        logger.error("user login faild : " + username)
         return  http_error_response("登录失败")
 
 
 def user_logout(request,username):
     response = http_success_response()
     response.delete_cookie("username")
+    logger.info("用户{" + username + "}注销")
     return  response
 
 
