@@ -45,6 +45,12 @@
         }else{
             $("#main").show();
         }
+        
+        $("#password").keydown(function (e) {
+            if(e.keyCode == 13){
+                onlogin();
+            }
+        })
 
 
     });

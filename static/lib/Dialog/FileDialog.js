@@ -155,7 +155,7 @@ FileDialog.prototype.initOkEvent = function(){
 				alert("请输入一个文件");
 				return;
 			}
-			var nameReg =  /^.\.(?:jpg|jpeg|png|tif|tiff)$/;
+			var nameReg =  /^.+\.(?:jpg|jpeg|png|tif|tiff)$/;
 			if(!nameReg.test(name)){
 				alert("请输入有效的后缀名");
 				return;

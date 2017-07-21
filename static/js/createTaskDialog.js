@@ -48,6 +48,11 @@ CreateTaskDialog.prototype.initOkEvent = function(){
 			}
 		});
 	});
+	this._win.find(".new-task-name").keydown(function (e) {
+		if(e.keyCode == 13){
+			dlg._win.find("#dlg_btn_ok").click();
+		}
+    })
 }
 
 
