@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.shortcuts import render,render_to_response
 from django import  forms
-
+from django.db.utils import OperationalError
 
 from . import models
 from . import functions
@@ -78,8 +78,7 @@ def model_save(request,username):
     # 保存model
     try:
         model.save()
-
-        return HttpResponse(model.uuid)
+        return http_success_response()
     except OperationalError:
         return http_error_response("Model保存失败")
 
