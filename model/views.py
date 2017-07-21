@@ -40,7 +40,7 @@ def model_save(request,username):
     #检索数据库，看当前Model是否已经存在
     model_name = obj["name"]
     try:
-        models = Model.objects.filter(name=model_name)
+        models = user.model_set.filter(name=model_name)
     except:
         return http_error_response("Model查询失败")
 
