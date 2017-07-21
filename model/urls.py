@@ -5,8 +5,8 @@ import time,json
 
 urlpatterns = [
     url(r'^$', views.index, name='index'),
-    url(r'^models/$', views.models, name='models'),
-    url(r'^model/save/$', views.model_save, name='save'),
+    url(r'^(?P<username>[-A-Za-z0-9]+)/models/$', views.models, name='models'),
+    url(r'^(?P<username>[-A-Za-z0-9]+)/model/save/$', views.model_save, name='save'),
     url(r'^model/(?P<model_id>[-A-Za-z0-9]+)/$', views.model_get, name='get'),
     url(r'^model/(?P<model_id>[-A-Za-z0-9]+)/delete/$', views.model_delete, name='delete'),
     #url(r'^model/(?P<model_id>[-A-Za-z0-9]+)/run/$', views.model_run, name='run'),
@@ -24,4 +24,7 @@ urlpatterns = [
 
     #url(r'^model/(?P<model_id>[0-9]+)/$', views.model_get, name='get'),
     # url(r'^(?P<question_id>[0-9]+)/$', views.detail, name='detail'),
+    url(r'^register/$', views.user_register, name='register'),
+    url(r'^login/$', views.user_login, name='login'),
+    url(r'^(?P<username>[-A-Za-z0-9]+)/logout/$', views.user_logout, name='logout'),
 ]
