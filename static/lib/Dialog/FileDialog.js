@@ -271,10 +271,17 @@ FileDialog.prototype.createFolder = function(){
 }
 
 FileDialog.prototype.deleteFolder = function(){
-
-	var chooseName = this._win.find(".item_container.active .folder_item_text").html()
+	var active = this._win.find(".item_container.active");
+	var type = active.attr("type");
+	var chooseName = active.find(".folder_item_text").html();
+	var fpath = null;
+	if(type == "file"){
+		fpath = this.makeFilePath(this._folder_path, chooseName);
+	}else if(type == "folder"){
+		fpath = this.makeFolderPath(this._folder_path, chooseName);
+	}
 	var dlg = this;
-	fpath = this.makeFolderPath(this._folder_path, chooseName);
+
 	var data = '{"path":"' + fpath + '"}';
 
 	$.ajax({
