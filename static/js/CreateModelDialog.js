@@ -1,7 +1,6 @@
 var CreateModelDialog = function(onOK){
 	Dialog.apply(this, arguments);
 
-	this.initDragEvent();
 	this._onOK = onOK;
 }
 
@@ -60,12 +59,6 @@ CreateModelDialog.prototype.initOkEvent = function(){
 
 		
 	});
-}
-
-CreateModelDialog.prototype.initDragEvent = function(){
-	this._win.draggable({
-	    handle: ".titlebar"
-	});	
 }
 
 CreateModelDialog.prototype.create = function(){

@@ -1,8 +1,7 @@
 var CreateTaskDialog = function(onOK){
 	Dialog.apply(this, arguments);
 
-	this.initDragEvent();
-	this._onOK = onOK;	
+	this._onOK = onOK;
 }
 
 extend(CreateTaskDialog,Dialog);
@@ -24,11 +23,6 @@ CreateTaskDialog.prototype.initCloseEvent = function(){
 	});
 }
 
-CreateTaskDialog.prototype.initDragEvent = function(){
-	this._win.draggable({
-	    handle: ".titlebar"
-	});	
-}
 
 CreateTaskDialog.prototype.initOkEvent = function(){
 	var dlg = this;
