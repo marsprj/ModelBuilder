@@ -1,31 +1,37 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from ModelFlow import settings
-import  requests
+import requests
+from json import JSONDecodeError
 
-import os
+import os,logging
 import json
 
 # Create your views here.
 
-
+logger = logging.getLogger('model.app')
 def file_upload(request):
     if request.method != "POST":
-        return HttpResponse("error")
+        return http_error_response("error")
 
-    file_path = request.POST['dlg_upoad_path']
+    try:
+        file_path = request.POST['dlg_upoad_path']
 
-    file_root = get_user_file_root(request)
-    local_folder = os.path.join(file_root, file_path[1:])
+        file_root = get_user_file_root(request)
+        local_folder = os.path.join(file_root, file_path[1:])
 
-    files = request.FILES.getlist("file", None)
-    for file in files:
-        local_path = os.path.join(local_folder, file.name)
-        with open(local_path, "wb+") as f:
-            for chunk in file.chunks():
-                f.write(chunk)
+        files = request.FILES.getlist("file", None)
+        for file in files:
+            local_path = os.path.join(local_folder, file.name)
+            with open(local_path, "wb+") as f:
+                for chunk in file.chunks():
+                    f.write(chunk)
+                logger.info("upload file[{0}]".format(file.name))
 
-    return http_success_response()
+        return http_success_response()
+    except Exception as e:
+        logger.error("upload file failed: {0}".format(str(e)))
+        return http_error_response("upload file error")
 
 
 """
@@ -42,8 +48,9 @@ def file_list(request):
     # 解析Model的json对象
     try:
         obj = json.loads(text)
-    except JSONDecodeError:
-        return http_error_response("Model的json对象解析失败")
+    except JSONDecodeError as e:
+        logger.error("get file list json{0} parse failed: {1}".format(text,str(e)))
+        return http_error_response("json 解析失败")
 
     request_path = obj["path"]
 
@@ -51,6 +58,7 @@ def file_list(request):
 
     file_path = os.path.join(file_root, request_path[1:])
     if not os.path.exists(file_path):
+        logger.error("folder path[{0}] is not exist".format(file_path))
         return http_error_response('该路径不存在')
 
     files_json = []
@@ -64,7 +72,7 @@ def file_list(request):
             "name": f,
             "type": type
         })
-
+    logger.info("get folder path:{0}".format(json.dumps(files_json)))
     return HttpResponse(
         json.dumps(files_json),
         content_type="application/json")
@@ -76,15 +84,14 @@ def file_list(request):
     "path" : "/folder1/"
 ｝
 """
-
-
 def file_create(request):
     text = request.body.decode('utf-8')
     # 解析Model的json对象
     try:
         obj = json.loads(text)
-    except JSONDecodeError:
-        return http_error_response("Model的json对象解析失败")
+    except JSONDecodeError as e:
+        logger.error("create file json[{0}] parse failed: {1}".format(text, str(e)))
+        return http_error_response("json 解析失败")
 
     request_path = obj["path"]
     file_root = get_user_file_root(request)
@@ -92,8 +99,10 @@ def file_create(request):
     file_path = os.path.join(file_root, request_path[1:])
     try:
         os.makedirs(file_path)
+        logger.info("create file[{0}] success".format(file_path))
         return http_success_response()
     except OSError as e:
+        logger.error("create file[{0}] failed: {1}".format(file_path,str(e)))
         return http_error_response(e.strerror)
 
 
@@ -110,8 +119,9 @@ def file_remove(request):
     # 解析Model的json对象
     try:
         obj = json.loads(text)
-    except JSONDecodeError as err:
-        return http_error_response("Model的json对象解析失败")
+    except JSONDecodeError as e:
+        logger.error("remove file json[{0}] parse failed: {1}".format(text, str(e)))
+        return http_error_response("json 解析失败")
 
     request_path = obj["path"]
     file_root = get_user_file_root(request)
@@ -122,8 +132,10 @@ def file_remove(request):
             os.rmdir(file_path)
         else:
             os.remove(file_path)
+        logger.info("remove file[{0}] success".format(file_path))
         return http_success_response()
     except OSError as e:
+        logger.error("remove file[{0}] failed: {1}".format(file_path,str(e)))
         return http_error_response(e.strerror)
 
 

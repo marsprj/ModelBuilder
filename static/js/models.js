@@ -159,7 +159,14 @@ function showTasks(json){
 			// 点击停止按钮
 			$(this).removeClass("stop-btn");
 			$(this).html("运行");
-			// stopTask();
+			stopTask(taskId,function (result) {
+				if(result.status == "success"){
+					alert("停止成功");
+					getTaskState(taskId,null);
+				}else if(result.status == "error"){
+					alert(result.message);
+				}
+            });
 			window.clearInterval(g_state_int);
 
 		}else{
@@ -672,5 +679,34 @@ function showResultIcons(taskId){
 				}
 			}
 		});
+	});
+}
+
+function stopTask(taskId, callback) {
+	if(taskId == null){
+		if(callback){
+			callback("taskId is null")
+		}
+		return;
+	}
+	var url = "/model/task/"+ taskId + "/stop";
+	$.ajax({
+		type:"get",
+		url:url,
+		contentType: "text/plain",
+		dataType : "text",
+		success:function(result){
+			console.log(result);
+			if(callback){
+				callback(JSON.parse(result));
+			}
+		},
+		error :function(XMLHttpRequest, textStatus, errorThrown) {
+			console.log(XMLHttpRequest.status);
+			if(callback){
+				var result = '{"status":"error","message":"'  + XMLHttpRequest.status + '"}';
+				callback(JSON.parse(result));
+			}
+		}
 	});
 }

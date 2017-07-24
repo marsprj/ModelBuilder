@@ -28,21 +28,21 @@ def model_save(request,username):
     try:
         user = User.objects.get(username=username)
     except User.DoesNotExist:
-        logger.error("用户{"+ username + "}不存在")
+        logger.error("用户{[0]}不存在".format(username))
         return http_error_response("该用户不存在")
     except OperationalError as e:
-        logger.error("user query failed :" + str(e))
+        logger.error("user query failed :{0}".format(str(e)))
         return  http_error_response("user query failed")
     user_id = user.uuid
 
     text = request.body.decode('utf-8')
 
     #解析Model的json对象
-    logger.debug("user[" + username + "] model save : " + text)
+    logger.debug("user[{0}] model save : {1}".format(username,text))
     try:
         obj = json.loads(text)
     except JSONDecodeError as e:
-        logger.error("Model的json对象解析失败:" + e)
+        logger.error("Model的json对象解析失败:{0}".format(str(e)))
         return http_error_response("Model的json对象解析失败")
 
     #检索数据库，看当前Model是否已经存在
@@ -50,7 +50,7 @@ def model_save(request,username):
     try:
         models = user.model_set.filter(name=model_name)
     except OperationalError as e:
-        logger.error("Model查询失败:" + e)
+        logger.error("Model查询失败:{0}".format(str(e)))
         return http_error_response("Model查询失败")
 
     if len(models)>0:
@@ -79,9 +79,13 @@ def model_save(request,username):
     # 保存model
     try:
         model.save()
-        return http_success_response()
+        obj = {
+            "uuid" : str(model.uuid),
+            "status":"success"
+        }
+        return HttpResponse(json.dumps(obj), content_type="application/json")
     except OperationalError as e:
-        logger.error("Model保存失败: " + str(e))
+        logger.error("Model保存失败:{0} ".format(str(e)))
         return http_error_response("Model保存失败")
 
 """
@@ -93,13 +97,13 @@ def models(request,username):
     try:
         user = User.objects.get(username=username)
     except User.DoesNotExist:
-        logger.error("no user[" + username + "]")
+        logger.error("no user[{0}]".format(username))
         return http_error_response("no user")
 
     try:
         models = user.model_set.all()
     except OperationalError as e:
-        logger.error("get user " + username + " models failed :" + str(e))
+        logger.error("get user [{0}] models failed :{1}".format(str(e)))
         return  http_error_response("get user models failed")
     for model in models:
         obj.append(model.exportToJson())
@@ -113,11 +117,11 @@ def model_get(request, model_id):
     try:
         model = Model.objects.get(uuid=model_id)
     except Model.DoesNotExist:
-        logger.error("no model [" + model_id + "]")
+        logger.error("no model [{0}]".format(model_id))
         return http_error_response("Model does not exist")
     except OperationalError as e:
-        logger.error("get model[" + model_id + "] failed:" + str(e))
-        return  http_error_response("get model failed")
+        logger.error("get model[{0}] failed:{1}".format(model_id,str(3)))
+        return http_error_response("get model failed")
     return HttpResponse(model.text, content_type="application/json")
 
 """
@@ -127,16 +131,17 @@ def model_delete(request,model_id):
     try:
         model = Model.objects.get(uuid=model_id)
     except Model.DoesNotExist:
-        logger.error("Model does not exist [" + model_id + "]")
+        logger.error("Model does not exist [{0}]".format(model_id))
         return http_error_response("Model不存在")
     except OperationalError as e:
-        logger.error("query model failed: " + str(e))
-        return  http_error_response("query model failed")
+        logger.error("query model failed: {0}".format(str(e)))
+        return http_error_response("query model failed")
 
     try:
         model.delete()
+        logger.info("delete model [{0}] success".format(model_id))
     except OperationalError as e:
-        logger.error("delete model [" + model_id + "]:" + str(e))
+        logger.error("delete model [{0}]:".format(model_id,str(e)))
         return http_error_response("delete model failed")
     return http_success_response()
 
@@ -157,69 +162,85 @@ def model_plan(request, model_id):
 """
 def model_tasks(request, model_id):
     try:
-        models = Model.objects.filter(uuid=model_id)
+        model = Model.objects.get(uuid=model_id)
+    except Model.DoesNotExist:
+        logger.error("no model [{0}]".format(model_id))
+        return  http_error_response("no model [{0}]".format(model_id))
+    except OperationalError as e:
+        logger.error("get model[{0}] task :".format(str(e)))
+        return http_error_response("get model task failed")
 
-        if len(models) == 0:
-            return HttpResponse("no model [{0}]".format(model_id))
-
-        model = models[0]
+    try:
         tasks = model.task_set.all()
-
         obj = []
         for task in tasks:
             obj.append(task.exportToJson())
         text = json.dumps(obj)
         return HttpResponse(text, content_type="application/json")
     except:
-        return HttpResponse("Error")
+        logger.error("get model[{0}] task failed".format(model_id))
+        return HttpResponse("get model task failed")
 
 
 """
 获取Task的状态
 """
 def tasks(request):
+    try:
+        username = request.COOKIES['username']
+        user = User.objects.get(username=username)
+    except User.DoesNotExist:
+        logger.error("no user[{0}]".format(username))
+        return http_error_response("no user[{0}]".format(username))
 
-    tasks = Task.objects.all()
-
-    obj = []
-    for task in tasks:
-        obj.append(task.exportToJson())
-    text = json.dumps(obj)
-    return HttpResponse(text, content_type="application/json")
+    try:
+        obj = []
+        models = user.model_set.all()
+        for model in models:
+            tasks = model.task_set.all();
+            for task in tasks:
+                obj.append(task.exportToJson())
+        text = json.dumps(obj)
+        return HttpResponse(text, content_type="application/json")
+    except:
+        return http_error_response("")
 
 """
 获取指定Task的状态
 """
 def task_state(request, task_id):
     try:
-        tasks = Task.objects.filter(uuid=task_id)
+        task = Task.objects.get(uuid=task_id)
+    except Task.DoesNotExist:
+        logger.error("task[{0}] does not exist".format(task_id))
+        return http_error_response("task does not exist")
+    except OperationalError as e:
+        logger.error("get task[{0}] state failed".format(task_id))
+        return http_error_response("get task state failed")
 
-        if len(tasks) == 0:
-            return HttpResponse("no task [{0}]".format(model_id))
+    try:
+        processes = task.process_set.all()
+        percent = 0
 
-        task = tasks[0]
-    except:
-        return HttpResponse("Error")
+        obj = {
+            "id": task.id,
+            "name": task.name,
+            "uuid": str(task.uuid),
+            "model": str(task.model_id),
+            "state": task.state,
+            "start_time": task.start_time.strftime("%Y-%m-%d %H:%M:%S"),
+            "end_time": "-" if task.end_time==None else task.end_time.strftime("%Y-%m-%d %H:%M:%S"),
+            "processes" : [],
+            "percent": "{0}%".format(task.complete_percent),
+        }
 
-    processes = task.process_set.all()
-    percent = 0
-
-    obj = {
-        "id": task.id,
-        "name": task.name,
-        "uuid": str(task.uuid),
-        "model": str(task.model_id),
-        "state": task.state,
-        "start_time": task.start_time.strftime("%Y-%m-%d %H:%M:%S"),
-        "end_time": "-" if task.end_time==None else task.end_time.strftime("%Y-%m-%d %H:%M:%S"),
-        "processes" : [],
-        "percent": "{0}%".format(task.complete_percent),
-    }
-
-    for process in processes:
-        obj["processes"].append(process.exportToJson())
-    text = json.dumps(obj)
-    return HttpResponse(text, content_type="application/json")
+        for process in processes:
+            obj["processes"].append(process.exportToJson())
+        text = json.dumps(obj)
+        return HttpResponse(text, content_type="application/json")
+    except OperationalError as e:
+        logger.error("get task[{0}] state failed:{1}".format(task_id,str(e)))
+        return http_error_response("get task state failed")
 
 
 """
@@ -233,7 +254,8 @@ def task_create(request):
     # 解析Model的json对象
     try:
         obj = json.loads(text)
-    except JSONDecodeError:
+    except JSONDecodeError as e:
+        logger.error("parse create task json failed: {0}".format(text))
         return http_error_response("Task的json对象解析失败")
 
     start_time = timezone.now()
@@ -244,111 +266,32 @@ def task_create(request):
         task_name = obj["name"]
     else:
         task_name = start_time.strftime("%Y%m%d%H%M%S")
+    try:
+        model = Model.objects.get(uuid=model_id)
+    except Model.DoesNotExist:
+        logger.error("create task failed: model[{0}] does not exist".format(model_id))
+        return http_error_response("create task failed")
+    except OperationalError as e:
+        logger.error("create task failed : {0}".format(str(e)))
+        return http_error_response("create task failed")
 
     try:
-        models = Model.objects.filter(uuid=model_id)
-    except:
-        return http_error_response("Error")
+        task = model.task_set.create(
+            uuid=uuid.uuid4(),
+            name=task_name,
+            start_time=start_time,
+            #end_time=timezone.now(),
+        )
+        task.save()
 
-    if not models:
-        return http_error_response("Error")
-
-    model = models[0]
-
-    task = model.task_set.create(
-        uuid=uuid.uuid4(),
-        name=task_name,
-        start_time=start_time,
-        #end_time=timezone.now(),
-    )
-    task.save()
-
-    obj = {
-        "uuid" : str(task.uuid)
-    }
-    return HttpResponse(json.dumps(obj), content_type="application/json")
-
-
-"""
-启动模型计算
-返回Task的uuid
-@deprecated
-"""
-# def model_run(request, model_id):
-#
-#     try:
-#         models = Model.objects.filter(uuid=model_id)
-#     except:
-#         return HttpResponse("Error")
-#
-#     if not models:
-#         return HttpResponse("Error")
-#
-#     model = models[0]
-#
-#     str1 = start_task(model)
-#
-#     #return HttpResponse("{0}".format(task.uuid))
-#     return HttpResponse(str1)
-#
-# """
-# 启动模型计算
-# @deprecated
-# """
-# def start_task(model):
-#     #model = Model.objects.filter(uuid=model_id)[0]
-#
-#     graph = Graph()
-#     if not graph.load(model.text):
-#         pass
-#     else:
-#         #创建task
-#         task = model.task_set.create(
-#             uuid=uuid.uuid4(),
-#             name=model.name,
-#             start_time=timezone.now(),
-#             end_time=timezone.now(),
-#         )
-#         task.state = 1
-#         task.save()
-#
-#         #生成执行计划
-#         flow = graph.plan()
-#         if flow:
-#             #生成执行步骤及其状态,记录Process的状态
-#             processes = []
-#             for func in flow:
-#                 process = task.process_set.create(
-#                     name = func.getName(),
-#                     start_time = timezone.now(),
-#                     end_time = timezone.now()
-#                 )
-#                 process.save()
-#                 processes.append(process)
-#
-#             #执行Plan
-#             count = len(processes)
-#             for i in range(count):
-#                 #执行func
-#                 #更新process的状态为正在执行
-#                 process = processes[i]
-#                 process.state = 1
-#                 process.save()
-#
-#                 #time.sleep(5)
-#                 func = flow[i]
-#                 #processing func
-#                 run_process(func)
-#
-#                 #更新process的状态为结束，并记录结束时间
-#                 process.end_time = timezone.now()
-#                 process.state = 2
-#                 process.save()
-#                 pass
-#
-#         task.state = 2
-#         task.save()
-#     return task.uuid
+        obj = {
+            "uuid" : str(task.uuid)
+        }
+        logger.debug("create task success:{0}".format(text))
+        return HttpResponse(json.dumps(obj), content_type="application/json")
+    except OperationalError as e:
+        logger.error("create task failed:{0}".format(str(e)))
+        return http_error_response("create task failed")
 
 
 """
@@ -356,14 +299,14 @@ def task_create(request):
 """
 def task_run(request, task_id):
     try:
-        tasks = Task.objects.filter(uuid=task_id)
-    except:
-        return http_error_response("no task")
+        task = Task.objects.get(uuid=task_id)
+    except Task.DoesNotExist:
+        logger.error("task[{0}] does not exist".format(task_id))
+        return http_error_response("task does not exist")
+    except OperationalError as e:
+        logger.error("task[{0}] query failed:{1}".format(task_id,str(e)))
+        return http_error_response("run task failed")
 
-    if not tasks:
-        return http_error_response("no task")
-
-    task = tasks[0]
     if task.state == 1: #running
         return http_error_response("Task正在运行")
 
@@ -375,11 +318,10 @@ def task_run(request, task_id):
 def start_task_2(task):
     #model = Model.objects.filter(uuid=model_id)[0]
 
-    logger = logging.getLogger('model.app')
-
     try:
         username = task.model.user.username
     except:
+        logger.error("get user failed")
         return http_error_response('用户没有登录')
 
     success = True
@@ -398,6 +340,7 @@ def start_task_2(task):
         if os.path.exists(task_path):
             shutil.rmtree(task_path)
         os.mkdir(task_path)
+        logger.info("create task folder:{0}".format(task_path))
 
         #生成执行计划
         flow = graph.plan()
@@ -445,6 +388,7 @@ def start_task_2(task):
                     #如果存在相应的处理函数，则获取该处理函数
                     f = getattr(functions, process_func_name.lower())
                     #处理计算任务
+                    logger.info("run {0} function".format(process_func_name))
                     success = f(func,str(task.uuid),username)
                 else:
                     errmsg = "方法[{0}]尚未在系统中注册".format(func.getName());
@@ -469,10 +413,12 @@ def start_task_2(task):
                     # 更新task的percent
                     task.complete_percent = 100 * i / count
                     task.save()
+                    logger.info("process[{0}] run success".format(str(process.id)))
                 else:
                     # 更新process的状态为结束，并记录结束时间
                     process.state = 3   #failure
                     process.save()
+                    logger.info("process[{0}] run failed".format(str(process.id)))
                     break
                 ###################################################
                 # 设置Process的状态 End
@@ -485,8 +431,10 @@ def start_task_2(task):
             task.state = 2
             task.end_time = timezone.now()
             task.complete_percent = 100
+            logger.info("task[{0}] run success".format(str(task.uuid)))
         else:
             task.state =  3  # 设置task的状态
+            logger.info("task[{0}] run success".format(str(task.uuid)))
         task.save()
         ###################################################
         # 设置Task的状态 End
@@ -496,18 +444,22 @@ def start_task_2(task):
 
 def task_stop(request, task_id):
     try:
-        tasks = Task.objects.filter(uuid=task_id)
+        task = Task.objects.get(uuid=task_id)
+    except Task.DoesNotExist:
+        logger.error("task[{0}] does not exist".format(task_id))
+        return http_error_response("task does not exist")
+    except OperationalError as e:
+        logger.error("get task[{0}] failed".format(task_id))
+        return http_error_response("stop task failed")
+    try:
+        if task.state == 1: #running状态
+            task.state = 3
+            task.save()
+        logger.debug("stop task[{0}] success".format(task_id))
+        return http_success_response()
     except:
-        return http_error_response("no task")
-
-    if not tasks:
-        return http_error_response("no task")
-
-    task = tasks[0]
-    if task.state == 1: #running状态
-        task.state = 3
-        task.save()
-    return http_success_response()
+        logger.error("stop task[{0}] failed".format(task_id))
+        return http_error_response("stop task failed")
 """
 返回http错误信息
 """
@@ -533,11 +485,6 @@ def json_text_strip(text):
 
     return striped_text
 
-# def run_process(process):
-#     if process.name == "Stretch":
-#         print(process.name)
-#     elif process.name == "Fusion":
-#         pass
 
 def get_file_root():
     return os.path.join(
@@ -550,13 +497,13 @@ def get_file_root():
 
 def task_download(request,task_id,node_id):
     try:
-        tasks = Task.objects.filter(uuid=task_id)
-    except:
-        return  http_error_response("no task")
-    if not tasks:
-        return  http_error_response("no task")
-
-    task = tasks[0]
+        task = Task.objects.get(uuid=task_id)
+    except Task.DoesNotExist:
+        logger.error("task[{0}] does not exist".format(task_id))
+        return http_error_response("task[{0}] does not exist".format(task_id))
+    except OperationalError as e:
+        logger.error("get task[{0}] failed: {1}".format(task_id),str(e))
+        return http_error_response("get task[{0}] failed".format(task_id))
 
     graph = Graph()
     if not graph.load(task.model.text):
@@ -564,10 +511,12 @@ def task_download(request,task_id,node_id):
     else:
         node = graph.findNodeById(node_id)
     if not node:
-        return  http_error_response("no node")
+        logger.error("download task node image :no node[{0}]".format(node_id))
+        return http_error_response("no node[{0}]".format(node_id))
 
     username = request.COOKIES['username']
     if not username:
+        logger.error("no user[{0}]".format(username))
         return http_error_response("no user")
 
 
@@ -578,15 +527,18 @@ def task_download(request,task_id,node_id):
         file_path = os.path.join(os.path.join(user_root,task_id),node_path[1:])
     else:
         file_path = os.path.join(user_root,node_path[1:])
+    logger.debug("task[{0}] node[{1}] path:{2}".format(task_id,node_id,file_path))
 
     if os.path.exists(file_path):
         if not os.path.isfile(file_path):
-            return  http_error_response("not a file")
+            logger.error("file[{0}] does not a file".format(file_path))
+            return http_error_response("not a file")
         with open(file_path, 'rb') as fh:
             response = HttpResponse(fh.read(), content_type="application/x-tif")
             response['Content-Disposition'] = 'inline; filename=' + os.path.basename(file_path)
             return response
     else:
+        logger.error("no file:{0}".format(file_path))
         return  http_error_response("no file")
 
     return http_success_response()
@@ -598,16 +550,18 @@ def user_register(request):
     try:
         obj = json.loads(text)
     except JSONDecodeError:
+        logger.error("register user text:{0}".format(text))
         return http_error_response("参数有错误")
     username = obj["username"]
     try:
         users = User.objects.filter(username=username)
-    except:
-        return http_error_response("用户注册失败")
+    except Exception as e:
+        logger.error("get user[{0}] failed: {1}".format(username,str(e)))
+        return http_error_response("query user failed")
 
     if len(users)>0:
-        return http_error_response("该用户存在")
-
+        logger.error("register user failed: has user named[{0}]".format(username))
+        return  http_error_response("已经有该用户")
     password = obj["password"]
     user = User(
         username=username,
@@ -620,9 +574,11 @@ def user_register(request):
         file_root = get_file_root()
         user_root = os.path.join(file_root,username)
         os.makedirs(user_root)
+        logger.info("register user[{0}]".format(username))
         return response
-    except:
-        return  http_error_response("用户注册失败")
+    except Exception as e:
+        logger.error("register user failed:{0}".format(str(e)))
+        return http_error_response("用户注册失败")
 
 
 def user_login(request):
@@ -634,21 +590,23 @@ def user_login(request):
         return http_error_response("解析失败")
     username = obj["username"]
     password = obj["password"]
-    user = User.objects.filter(username=username, password=password)
-    if user:
-        response = http_success_response();
-        response.set_cookie('username', username, 3600)
-        logger.info("用户{" + username + "}登录成功")
-        return  response
-    else:
-        logger.error("user login faild : " + username)
-        return  http_error_response("登录失败")
-
+    try:
+        user = User.objects.get(username=username, password=password)
+    except User.DoesNotExist:
+        logger.error("user login failed : " + username)
+        return http_error_response("登录失败")
+    except OperationalError as e:
+        logger.error("user login failed : {0}".format(str(e)))
+        return http_error_response("登录失败")
+    response = http_success_response();
+    response.set_cookie('username', username, 3600)
+    logger.info("用户[{0}]登录成功".format(username))
+    return response
 
 def user_logout(request,username):
     response = http_success_response()
     response.delete_cookie("username")
-    logger.info("用户{" + username + "}注销")
+    logger.info("用户[{0}]注销".format(username))
     return  response
 
 

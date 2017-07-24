@@ -259,13 +259,16 @@ FileDialog.prototype.createFolder = function(){
 		url:"/file/create/",
 		data : data,
 		contentType: "text/plain",
-		dataType : "application/json",
-		success : function(result,status_code){
-			alert(result.status);
+		dataType : "text",
+		async : true,
+		success : function(result){
+			var text = JSON.parse(result);
+			if(text.status == "success"){
+				that.populateFolders();
+			}else{
+				alert((text.message));
+			}
 		},
-		complete : function(request){
-			that.populateFolders();
-		}
 	});
 
 }
