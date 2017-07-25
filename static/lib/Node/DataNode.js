@@ -29,6 +29,11 @@ DataNode.prototype.setPath = function(path){
 	}
 	this.setName(text);
 	//this.showText();
+	if(this._path == "/"){
+		this.setShapeAttr("fill","#eef7ff");
+	}else{
+		this.setShapeAttr("fill","#95d5ee");
+	}
 }
 
 DataNode.prototype.getPath = function(){
