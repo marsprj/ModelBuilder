@@ -23,7 +23,7 @@ function user_init() {
 		initGraphEvent();
 		loadModels();
     }else{
-        window.location.href = "/static/login.html";
+        window.location.href = "login.html";
     }
 }
 
@@ -100,7 +100,7 @@ function logout() {
 			if(text.status == "error"){
 				alert(text.message);
 			}else{
-				window.location.href = "/static/login.html";
+				window.location.href = "login.html";
 			}
 		}
 	});

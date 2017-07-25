@@ -565,7 +565,8 @@ def user_register(request):
     password = obj["password"]
     user = User(
         username=username,
-        password=password
+        password=password,
+        uuid=uuid.uuid4()
     )
     try:
         user.save()
