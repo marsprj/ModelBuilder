@@ -8,7 +8,7 @@ import shutil
 """
 处理图像拉伸
 """
-def process_stretch(func,taskId,username):
+def process_stretch(func,taskId,user_uuid):
     #获取输入参数
     inputs = func.getInputs()
     if len(inputs) == 0:
@@ -16,9 +16,9 @@ def process_stretch(func,taskId,username):
     ipath = inputs[0].getPath()
 
     if not inputs[0].getFrom():
-        local_ipath = build_local_path(ipath,username)
+        local_ipath = build_local_path(ipath,user_uuid)
     else :
-        local_ipath = build_task_local_path(ipath,taskId,username)
+        local_ipath = build_task_local_path(ipath,taskId,user_uuid)
 
     # 获取输出参数
     output = func.getOutput()
@@ -26,7 +26,7 @@ def process_stretch(func,taskId,username):
         return False
     opath = output.getPath()
 
-    local_opath = build_task_local_path(opath, taskId,username)
+    local_opath = build_task_local_path(opath, taskId,user_uuid)
 
     # 执行具体的计算任务
     return raster_stretch(local_ipath, local_opath)
@@ -63,7 +63,7 @@ def raster_stretch(ipath, opath):
 def process_fusion(func,task_idss):
     return True
 
-def build_local_path(path,username):
+def build_local_path(path,user_uuid):
     root_path = os.path.join(
         os.path.join(
             os.path.join(settings.BASE_DIR, "static"),
@@ -71,11 +71,11 @@ def build_local_path(path,username):
         ),
         "uploads"
     )
-    user_path = os.path.join(root_path,username)
+    user_path = os.path.join(root_path,user_uuid)
     return os.path.join(
         user_path, path[1:]
     )
-def build_task_local_path(path,taskId,username):
+def build_task_local_path(path,taskId,user_uuid):
     root_path = os.path.join(
         os.path.join(
             os.path.join(settings.BASE_DIR, "static"),
@@ -83,7 +83,7 @@ def build_task_local_path(path,taskId,username):
         ),
         "uploads"
     )
-    user_path = os.path.join(root_path,username)
+    user_path = os.path.join(root_path,user_uuid)
     task_path = os.path.join(user_path,taskId)
     return os.path.join(
         task_path, path[1:]

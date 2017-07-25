@@ -319,128 +319,131 @@ def start_task_2(task):
     #model = Model.objects.filter(uuid=model_id)[0]
 
     try:
-        username = task.model.user.username
+        user_uuid = task.model.user.uuid
     except:
         logger.error("get user failed")
         return http_error_response('用户没有登录')
-
-    success = True
-    graph = Graph()
-    if not graph.load(task.model.text):
-        pass
-    else:
-
-        task.state = 1
-        task.save()
-
-        #文件夹处理
-        file_root = get_file_root()
-        user_root = os.path.join(file_root,username)
-        task_path = os.path.join(user_root,str(task.uuid))
-        if os.path.exists(task_path):
-            shutil.rmtree(task_path)
-        os.mkdir(task_path)
-        logger.info("create task folder:{0}".format(task_path))
-
-        #生成执行计划
-        flow = graph.plan()
-        if flow:
-
-            #task.process_set.delete()
-            Process.objects.filter(task=task).delete()
-
-            #生成执行步骤及其状态,记录Process的状态
-            processes = []
-            for func in flow:
-                process = task.process_set.create(
-                    name = func.getName(),
-                    node_id = func.getID()
-                    #start_time = timezone.now(),
-                    #end_time = timezone.now()
-                )
-                process.save()
-                processes.append(process)
-
-            #执行Plan
-            count = len(processes)
-            for i in range(count):
-                #执行func
-                #更新process的状态为正在执行
-                process = processes[i]
-                process.state = 1
-                process.complete_percent = 0
-                process.start_time = timezone.now()
-                process.save()
-
-
-                ###################################################
-                # 执行计算任务 Begin
-                ###################################################
-                func = flow[i]
-                #processing func
-                logger.debug(func.getName())
-
-                success = False
-                errmsg  = ""
-                process_func_name = "process_" + func.getName()
-                #检查是否存在相应的处理函数
-                if hasattr(functions, process_func_name.lower()):
-                    #如果存在相应的处理函数，则获取该处理函数
-                    f = getattr(functions, process_func_name.lower())
-                    #处理计算任务
-                    logger.info("run {0} function".format(process_func_name))
-                    success = f(func,str(task.uuid),username)
-                else:
-                    errmsg = "方法[{0}]尚未在系统中注册".format(func.getName());
-                    logger.error(errmsg)
-                    success = False
-
-                time.sleep(5)
-                ###################################################
-                # 执行计算任务 End
-                ###################################################
-
-                ###################################################
-                # 设置Process的状态 Begin
-                ###################################################
-                if success == True:
-                    # 更新process的状态为结束，并记录结束时间
-                    process.end_time = timezone.now()
-                    process.state = 2   #success
-                    process.complete_percent = 100
-                    process.save()
-
-                    # 更新task的percent
-                    task.complete_percent = 100 * i / count
-                    task.save()
-                    logger.info("process[{0}] run success".format(str(process.id)))
-                else:
-                    # 更新process的状态为结束，并记录结束时间
-                    process.state = 3   #failure
-                    process.save()
-                    logger.info("process[{0}] run failed".format(str(process.id)))
-                    break
-                ###################################################
-                # 设置Process的状态 End
-                ###################################################
-
-        ###################################################
-        # 设置Task的状态 Begin
-        ###################################################
-        if success==True:
-            task.state = 2
-            task.end_time = timezone.now()
-            task.complete_percent = 100
-            logger.info("task[{0}] run success".format(str(task.uuid)))
+    try:
+        success = True
+        graph = Graph()
+        if not graph.load(task.model.text):
+            pass
         else:
-            task.state =  3  # 设置task的状态
-            logger.info("task[{0}] run success".format(str(task.uuid)))
-        task.save()
-        ###################################################
-        # 设置Task的状态 End
-        ###################################################
 
-    return http_success_response() if success==True else http_error_response(errmsg)
+            task.state = 1
+            task.save()
+
+            #文件夹处理
+            file_root = get_file_root()
+            user_root = os.path.join(file_root,str(user_uuid))
+            task_path = os.path.join(user_root,str(task.uuid))
+            if os.path.exists(task_path):
+                shutil.rmtree(task_path)
+            os.mkdir(task_path)
+            logger.info("create task folder:{0}".format(task_path))
+
+            #生成执行计划
+            flow = graph.plan()
+            if flow:
+
+                #task.process_set.delete()
+                Process.objects.filter(task=task).delete()
+
+                #生成执行步骤及其状态,记录Process的状态
+                processes = []
+                for func in flow:
+                    process = task.process_set.create(
+                        name = func.getName(),
+                        node_id = func.getID()
+                        #start_time = timezone.now(),
+                        #end_time = timezone.now()
+                    )
+                    process.save()
+                    processes.append(process)
+
+                #执行Plan
+                count = len(processes)
+                for i in range(count):
+                    #执行func
+                    #更新process的状态为正在执行
+                    process = processes[i]
+                    process.state = 1
+                    process.complete_percent = 0
+                    process.start_time = timezone.now()
+                    process.save()
+
+
+                    ###################################################
+                    # 执行计算任务 Begin
+                    ###################################################
+                    func = flow[i]
+                    #processing func
+                    logger.debug(func.getName())
+
+                    success = False
+                    errmsg  = ""
+                    process_func_name = "process_" + func.getName()
+                    #检查是否存在相应的处理函数
+                    if hasattr(functions, process_func_name.lower()):
+                        #如果存在相应的处理函数，则获取该处理函数
+                        f = getattr(functions, process_func_name.lower())
+                        #处理计算任务
+                        logger.info("run {0} function".format(process_func_name))
+                        success = f(func,str(task.uuid),str(user_uuid))
+                    else:
+                        errmsg = "方法[{0}]尚未在系统中注册".format(func.getName());
+                        logger.error(errmsg)
+                        success = False
+
+                    time.sleep(5)
+                    ###################################################
+                    # 执行计算任务 End
+                    ###################################################
+
+                    ###################################################
+                    # 设置Process的状态 Begin
+                    ###################################################
+                    if success == True:
+                        # 更新process的状态为结束，并记录结束时间
+                        process.end_time = timezone.now()
+                        process.state = 2   #success
+                        process.complete_percent = 100
+                        process.save()
+
+                        # 更新task的percent
+                        task.complete_percent = 100 * i / count
+                        task.save()
+                        logger.info("process[{0}] run success".format(str(process.id)))
+                    else:
+                        # 更新process的状态为结束，并记录结束时间
+                        process.state = 3   #failure
+                        process.save()
+                        logger.info("process[{0}] run failed".format(str(process.id)))
+                        break
+                    ###################################################
+                    # 设置Process的状态 End
+                    ###################################################
+
+            ###################################################
+            # 设置Task的状态 Begin
+            ###################################################
+            if success==True:
+                task.state = 2
+                task.end_time = timezone.now()
+                task.complete_percent = 100
+                logger.info("task[{0}] run success".format(str(task.uuid)))
+            else:
+                task.state =  3  # 设置task的状态
+                logger.info("task[{0}] run success".format(str(task.uuid)))
+            task.save()
+            ###################################################
+            # 设置Task的状态 End
+            ###################################################
+
+        return http_success_response() if success==True else http_error_response(errmsg)
+    except Exception as e:
+        logger.error("run task failed:{0}".format(str(e)))
+        return http_error_response("run failed")
 
 def task_stop(request, task_id):
     try:
@@ -514,14 +517,14 @@ def task_download(request,task_id,node_id):
         logger.error("download task node image :no node[{0}]".format(node_id))
         return http_error_response("no node[{0}]".format(node_id))
 
-    username = request.COOKIES['username']
-    if not username:
-        logger.error("no user[{0}]".format(username))
+    user_uuid = request.COOKIES['user_uuid']
+    if not user_uuid:
+        logger.error("no user[{0}]".format(user_uuid))
         return http_error_response("no user")
 
 
     file_root = get_file_root()
-    user_root = os.path.join(file_root,username)
+    user_root = os.path.join(file_root,user_uuid)
     node_path = node.getPath()
     if node.getFrom():
         file_path = os.path.join(os.path.join(user_root,task_id),node_path[1:])
@@ -561,19 +564,20 @@ def user_register(request):
 
     if len(users)>0:
         logger.error("register user failed: has user named[{0}]".format(username))
-        return  http_error_response("已经有该用户")
+        return http_error_response("已经有该用户")
     password = obj["password"]
     user = User(
         username=username,
         password=password,
-        uuid=uuid.uuid4()
     )
     try:
         user.save()
-        response = http_success_response();
+        user_uuid = user.uuid
+        response = http_success_response()
         response.set_cookie('username', username, 3600)
+        response.set_cookie('user_uuid', user_uuid, 3600)
         file_root = get_file_root()
-        user_root = os.path.join(file_root,username)
+        user_root = os.path.join(file_root,str(user_uuid))
         os.makedirs(user_root)
         logger.info("register user[{0}]".format(username))
         return response
@@ -601,12 +605,14 @@ def user_login(request):
         return http_error_response("登录失败")
     response = http_success_response();
     response.set_cookie('username', username, 3600)
+    response.set_cookie('user_uuid', str(user.uuid), 3600)
     logger.info("用户[{0}]登录成功".format(username))
     return response
 
 def user_logout(request,username):
     response = http_success_response()
     response.delete_cookie("username")
+    response.delete_cookie("user_uuid")
     logger.info("用户[{0}]注销".format(username))
     return  response
 

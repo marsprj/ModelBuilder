@@ -140,7 +140,7 @@ def file_remove(request):
 
 
 def get_user_file_root(request):
-    username = request.COOKIES['username']
+    user_uuid = request.COOKIES['user_uuid']
     return os.path.join(
         os.path.join(
             os.path.join(
@@ -148,7 +148,7 @@ def get_user_file_root(request):
                 "data"
             ),
             "uploads"
-        ),username
+        ),user_uuid
     )
 
 

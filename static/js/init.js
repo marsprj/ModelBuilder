@@ -72,6 +72,7 @@ function initPageEvent(){
 					});
 					$("#task_table .table .row:not(.header)").remove();
 					$("#right .titlebar-title span").html("");
+					$("#backdrop .image-icon").remove();
 					loadModels();
 				}else{
 					alert(result.error);

@@ -913,7 +913,7 @@ Graph.prototype.verify = function(){
 			setTimeout(function(){
 				d.stopBlink();
 			},2000);
-			return "请设置节点的路径和名称";
+			return "请完善输入和输出信息";
 		}
 	}
 
