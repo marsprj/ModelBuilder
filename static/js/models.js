@@ -528,9 +528,9 @@ function saveModel(text,callback){
 		data : text,
 		contentType: "text/plain",
 		dataType : "text",
-		success:function(uuid){
+		success:function(result){
 			if(callback){
-				callback(uuid);
+				callback(JSON.parse(result));
 			}
 		}
 	});	

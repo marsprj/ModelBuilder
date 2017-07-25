@@ -49,11 +49,11 @@ CreateModelDialog.prototype.initOkEvent = function(){
 		console.log(text);
 
 
-		saveModel(text,function(uuid){
+		saveModel(text,function(result){
 			dlg.destory();
 
 			if(dlg._onOK){
-				dlg._onOK(uuid);
+				dlg._onOK(result);
 			}
 		});
 

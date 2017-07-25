@@ -37,8 +37,7 @@ function initGraphEvent(){
 		}else if($(this).hasClass("save-tool")){
 			var text = g_graph.export();
 			saveModel(text,function(result){
-				var text = JSON.parse(result);
-				if(text.status == "success"){
+				if(result.status == "success"){
 					alert("保存成功");
 				}else {
 					alert(text.message);

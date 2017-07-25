@@ -42,8 +42,12 @@ function initPageEvent(){
 
 	// 新建模型
 	$(".new-model-btn").click(function(){
-		var dlg = new CreateModelDialog(function(uuid){
-			g_new_model = uuid;
+		var dlg = new CreateModelDialog(function(result){
+			if(result.status == "error"){
+				alert(result.message);
+				return;
+			}
+			g_new_model = result.uuid;
 			loadModels();
 		});
 		dlg.show();
@@ -61,6 +65,13 @@ function initPageEvent(){
 			deleteModel(uuid,function(result){
 				if(result.status == "success"){
 					alert("删除成功");
+					g_graph.clear();
+					var processDiv = $(".process-div");
+					processDiv.slideUp(400,function(){
+						processDiv.remove();
+					});
+					$("#task_table .table .row:not(.header)").remove();
+					$("#right .titlebar-title span").html("");
 					loadModels();
 				}else{
 					alert(result.error);
