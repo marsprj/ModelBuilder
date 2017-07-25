@@ -15,7 +15,7 @@ class Model(models.Model):
     create_time = models.DateTimeField()
     description = models.CharField(max_length=1024)
     text = models.TextField()
-    user = models.ForeignKey(User,to_field='uuid')
+    user = models.ForeignKey(User,to_field='uuid', null=True)
 
     def exportToJson(self):
         return {
@@ -57,7 +57,7 @@ class Process(models.Model):
     end_time = models.DateTimeField(null=True)
     state = models.IntegerField(default=0)
     complete_percent = models.IntegerField(default=0)
-    node_id = models.CharField(max_length=64)
+    node_id = models.CharField(max_length=64, null=True)
 
     def exportToJson(self):
         return {

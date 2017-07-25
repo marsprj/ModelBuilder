@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from ModelFlow import settings
-import requests
+#import requests
 from json import JSONDecodeError
 
 import os,logging
