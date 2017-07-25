@@ -67,6 +67,10 @@ function initGraphEvent(){
 
 // 全屏处理
 function setFullScreen(){
+	var processDiv = $(".process-div");
+	processDiv.slideUp(400,function(){
+		processDiv.remove();
+	});
 	if($("#canvas_div").hasClass("full-screen")){
 		$("#resize_div").removeClass("full-screen").attr("title","全屏");
 		$("#left").removeClass("full-screen");
