@@ -35,6 +35,10 @@ CreateTaskDialog.prototype.initOkEvent = function(){
 		}
 
 		var modelId = $("#models_container .model-item.active").attr("uuid");
+		if(modelId == null){
+			alert("请选择一个模型");
+			return;
+		}
 		createTask(modelId,name,function(obj){
 			dlg.destory();
 			if(dlg._onOK){
