@@ -129,7 +129,7 @@ DataNode.prototype.onClick = function(){
 			that.setPath(dlg.getFilePath());
 		});
 	}else{
-		var dlg = new FileDialog("/","choose", function(){
+		var dlg = new FileDialog(this.getPath(),"choose", function(){
 			that.setPath(dlg.getFilePath());
 		});
 	}

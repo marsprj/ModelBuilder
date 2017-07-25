@@ -277,6 +277,10 @@ FileDialog.prototype.deleteFolder = function(){
 	var active = this._win.find(".item_container.active");
 	var type = active.attr("type");
 	var chooseName = active.find(".folder_item_text").html();
+	if(chooseName == null || type == null){
+		alert("请选择一个文件");
+		return;
+	}
 	var fpath = null;
 	if(type == "file"){
 		fpath = this.makeFilePath(this._folder_path, chooseName);
