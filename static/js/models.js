@@ -19,6 +19,10 @@ function loadModels(){
 // 展示模型列表
 function showModels(json){
 	$("#models_container").removeClass("loading");
+	if(json.status == "error"){
+		alert(json.message);
+		return;
+	}
 	var html = "";
 	json.forEach(function(model){
 		html += '<div class="model-item" uuid="' + model.uuid + '" mname="' + model.name + '">'
@@ -81,6 +85,11 @@ function getModel(uuid){
 }
 
 function showModel(json){
+	var result = JSON.parse(json);
+	if(result.status == "error"){
+		alert(result.message);
+		return;
+	}
 	g_graph.load(json);
 	g_graph.setEditable(false);
 	$("#state_div select option[value='not']").prop("selected",true);
@@ -110,6 +119,10 @@ function getTasks(modelId){
 
 function showTasks(json){
 	if(json == null){
+		return;
+	}
+	if(json.status == "error"){
+		alert(json.message);
 		return;
 	}
 
@@ -414,6 +427,10 @@ function getTaskState(taskId,callback){
 // 填充运行状态
 function showTaskState(json){
 	if(json == null){
+		return "failed";
+	}
+	if(json.status == "error"){
+		console.log(json.message);
 		return "failed";
 	}
 
