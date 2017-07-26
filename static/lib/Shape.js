@@ -313,7 +313,7 @@ Shape.prototype.startSnapping = function(){
 		if(x < xmax && x > xmin && y < ymax && y > ymin){
 			var elements = that._shape.paper.getElementsByPoint(x,y);
 			elements.forEach(function(e){
-				if(e.id == that._id){
+				if(e.id == that.getID()){
 					// 证明鼠标还在该图形上，但是被其它的元素遮挡了
 					inShape = true;
 					return;

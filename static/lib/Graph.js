@@ -49,8 +49,6 @@ var Graph = function(container_id){
 	var that = this;
 	this._onNodeSelectChanged = function(node){
 		that._selected_node = node;
-		
-		console.log("[nde]:" + (node ? node.getID() : "nothing"));
 	};
 }
 
@@ -618,12 +616,20 @@ Graph.prototype.startConnecting = function(){
 	})
 
 	this._onmousedown = function(evt){
-		console.log("[graph]:down");
 		if(!that._start_node){
 			var node = that.getSelectedNode();
 			if(node){
-				that._start_node = node;			
-				that._conn_start = node.findSnap(evt.offsetX, evt.offsetY);
+				that._start_node = node;
+				var userAgent = navigator.userAgent;
+				var x,y;
+				if(userAgent.indexOf("Firefox") > -1){
+					x = evt.clientX - $(evt.target).parent().offset().left;
+					y = evt.clientY - $(evt.target).parent().offset().top;
+				}else{
+					x = evt.offsetX;
+					y = evt.offsetY;
+				}
+				that._conn_start = node.findSnap(x,y);
 				that._conn_end   = that._conn_start;
 				that._connection = new Connection(that._r, that._conn_start.x, that._conn_start.y
 														 , that._conn_end.x,   that._conn_end.y);
@@ -633,7 +639,15 @@ Graph.prototype.startConnecting = function(){
 	};
 
 	this._onmousemove = function(evt){
-		console.log("[graph]:move");
+		var x,y;
+		var userAgent = navigator.userAgent;
+		if(userAgent.indexOf("Firefox") > -1){
+			x = evt.clientX - $(evt.target).parent().offset().left;
+			y = evt.clientY - $(evt.target).parent().offset().top;
+		}else{
+			x = evt.offsetX;
+			y = evt.offsetY;
+		}
 
 		if(that._start_node){
 			var node = that.getSelectedNode();
@@ -641,10 +655,10 @@ Graph.prototype.startConnecting = function(){
 				//捕捉到终点
 				if(node.getID() == that._start_node.getID()){
 					that._connection.update(that._conn_start.x, that._conn_start.y, 
-											evt.offsetX, 		evt.offsetY);
+											x, 		y);
 				}
 				else{
-					that._conn_end = node.findSnap(evt.offsetX, evt.offsetY);
+					that._conn_end = node.findSnap(x, y);
 					that._end_node = node;
 					that._connection.update(that._conn_start.x, that._conn_start.y,
 										    that._conn_end.x,   that._conn_end.y);
@@ -654,7 +668,7 @@ Graph.prototype.startConnecting = function(){
 				//未捕捉到终点
 				if(that._connection){
 					that._connection.update(that._conn_start.x, that._conn_start.y, 
-											evt.offsetX, 		evt.offsetY);	
+											x, 		y);
 				}
 			}
 		}
@@ -664,6 +678,15 @@ Graph.prototype.startConnecting = function(){
 		if(that._start_node){
 			var node = that.getSelectedNode();
 			if(node){
+				var userAgent = navigator.userAgent;
+				var x,y;
+				if(userAgent.indexOf("Firefox") > -1){
+					x = evt.clientX - $(evt.target).parent().offset().left;
+					y = evt.clientY - $(evt.target).parent().offset().top;
+				}else{
+					x = evt.offsetX;
+					y = evt.offsetY;
+				}
 				if(node.getID() == that._start_node.getID()){
 					that._connection.remove();
 					that._connection = null;
@@ -688,7 +711,7 @@ Graph.prototype.startConnecting = function(){
 						alert("连接已经存在，不能重复添加");
 					}
 					else{
-						that._conn_end = node.findSnap(evt.offsetX, evt.offsetY);
+						that._conn_end = node.findSnap(x, y);
 						that._connection = new Connection(that._r, that._conn_start.x, that._conn_start.y
 														 	 	 , that._conn_end.x,   that._conn_end.y);
 						that._connection.setEnds(that._start_node, that._end_node);

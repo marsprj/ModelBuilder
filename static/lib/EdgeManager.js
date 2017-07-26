@@ -36,8 +36,7 @@ ConnectionManager.prototype.createConnection = function(r, from, to){
 
 	var connection = new Connection(r, cs.x, cs.y, ce.x, ce.y);
 
-	connection.setFrom(from);
-	connection.setTo(to);
+	connection.setEnds(from,to);
 
 	this._connections.push(connection);
 	return connection;

@@ -16,7 +16,7 @@ var Connection = function(r, startx, starty, endx, endy){
 }
 
 Connection.prototype.getID = function(){
-	return this._arrow.getID();
+	return this._id;
 }
 
 Connection.prototype.setEnds = function(from, to){
