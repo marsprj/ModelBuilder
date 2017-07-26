@@ -24,6 +24,11 @@ function initGraphEvent(){
 
 	// tools
 	$("#tools .tool").click(function(){
+		var modelId = $("#models_container .model-item.active").attr("uuid");
+		if(modelId == null){
+			alert("请选择一个模型");
+			return;
+		}
 		$("#tools .tool").removeClass("active");
 		$(this).addClass("active");
 		if($(this).hasClass("move-tool")){

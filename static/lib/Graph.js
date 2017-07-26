@@ -558,7 +558,8 @@ Graph.prototype.createEdge = function(from, to){
 	return edge;
 }
 
-Graph.prototype.clear = function(){	
+Graph.prototype.clear = function(){
+	this._name = null;
 	this._connManager.clear();
 	this._nodeManager.clear();
 }

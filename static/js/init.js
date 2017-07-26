@@ -19,6 +19,7 @@ function user_init() {
 		$("#main").show();
 		$(".user-name").html("用户&nbsp;:&nbsp;" + username);
 		g_graph = new Graph("canvas");
+		g_graph.setEditable(false);
 		initPageEvent();
 		initGraphEvent();
 		loadModels();
@@ -73,6 +74,8 @@ function initPageEvent(){
 					$("#task_table .table .row:not(.header)").remove();
 					$("#right .titlebar-title span").html("");
 					$("#backdrop .image-icon").remove();
+					g_graph.setEditable(false);
+					$("#state_div select option[value='not']").prop("selected",true);
 					loadModels();
 				}else{
 					alert(result.error);
