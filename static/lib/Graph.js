@@ -66,7 +66,7 @@ Graph.prototype.initCanvasEvent = function(){
 		}
 		else{
 			//var nodeManager = NodeManager.getInstance();
-			switch(g_graph.getState()){
+			switch(graph.getState()){
 				case GRAPH_STATE.ADDDATA:{
 					var node = graph.createDatumNode(x, y);
 				}
@@ -768,6 +768,10 @@ Graph.prototype.stopConnecting = function(){
 		n.stopConnecting();
 		n.stopSnapping();
 	})
+	if(this._connection){
+		this._connection.remove();
+		this._connection = null;
+	}
 
 	//unbind listener
 	$("#"+this._container_id).unbind("mousedown", this._onmousedown);
@@ -856,8 +860,8 @@ Graph.prototype.setEditable = function(isEditable){
 		var backdropHtml = "<div id='" + backdrop + "' style='position: absolute;top: 0px;"
 		+	"bottom: 0px;right: 0px;left: 0px;z-index: 1000;'></div>";
 		$("#" + this._container_id).after(backdropHtml);
-		g_graph.undrag();
-		g_graph.stopConnecting();
+		this.undrag();
+		this.stopConnecting();
 	}
 }
 
