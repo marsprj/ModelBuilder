@@ -101,6 +101,15 @@ function initPageEvent(){
 
 		});
 	});
+
+	//窗口改变
+	$(window).resize(function() {
+		if(g_graph){
+			var width = $("#canvas").width();
+			var height = $("#canvas").height();
+			g_graph.setSize(width,height);
+		}
+	});
 }
 
 function logout() {
