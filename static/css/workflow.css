@@ -530,7 +530,6 @@ html,body{
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
     z-index: 1009; /* Sit on top */
-    padding-top: 100px; /* Location of the box */
     left: 0;
     top: 0;
     width: 100%; /* Full width */
@@ -551,8 +550,9 @@ html,body{
 .modal-content {
     margin: auto;
     display: block;
+	margin-top: 60px;
     /*width: 80%;*/
-    min-height: 400px;
+    /*min-height: 400px;*/
 }
 
 #caption {
