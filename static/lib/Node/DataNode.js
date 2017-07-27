@@ -131,11 +131,11 @@ DataNode.prototype.onClick = function(){
 	var that = this;
 	if(this._from){
 		var dlg = new FileDialog(this.getPath(),"new", function(){
-			that.setPath(dlg.getFilePath());
+			that.setPath(this.getFilePath());
 		});
 	}else{
 		var dlg = new FileDialog(this.getPath(),"choose", function(){
-			that.setPath(dlg.getFilePath());
+			that.setPath(this.getFilePath());
 		});
 	}
 	dlg.show();
