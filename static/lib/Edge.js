@@ -23,6 +23,7 @@ Connection.prototype.setEnds = function(from, to){
 	this._from = from;
 	this._to   = to;
 	this._id = this._from.getID() + "-" + this._to.getID();
+	this._arrow.setID(this._id);
 }
 
 Connection.prototype.setFrom = function(from){

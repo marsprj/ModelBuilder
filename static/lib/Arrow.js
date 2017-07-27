@@ -14,6 +14,7 @@ var Arrow = function(r, startx, starty, endx, endy){
 	this._endx   = endx;
 	this._endy   = endy;
 	this._mind	 = 5;
+	this._id = null;
 	if( (Math.abs(startx-endx) + Math.abs(starty-endy))<4){
 		endx += 2;
 		endy += 2;
@@ -142,13 +143,18 @@ Arrow.prototype.createArrow = function(){
 					.replace("{ey}", this._endy);
 	
 
-	return this._r.path(_path)
+	var line = this._r.path(_path)
 						.attr({
 							"stroke" : this._stroke.color,
 							"stroke-width" : this._stroke.width,
 							"stroke-linecapstring" : this._stroke.linecap,
 							"arrow-end" : this._arrow_end
-						});	
+						});
+	if(this._id){
+		line.id = this._id;
+		line.node.raphaelid = this._id;
+	}
+	return line;
 }
 
 Arrow.prototype.updateArrow = function(){
@@ -180,5 +186,13 @@ Arrow.prototype.getID = function(){
 		return this._line.id;
 	}else{
 		return null;
+	}
+}
+
+Arrow.prototype.setID = function(id) {
+	this._id = id;
+	if(this._line){
+		this._line.id = this._id;
+		this._line.node.raphaelid = this._id;
 	}
 }

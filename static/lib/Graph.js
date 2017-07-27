@@ -146,6 +146,7 @@ Graph.prototype.load = function(json){
 	if(!model){
 		return false;
 	}
+	this.clear();
 
 	this.setName(model.name);
 	this.setDescription(model.description);
@@ -176,7 +177,7 @@ Graph.prototype.load = function(json){
 		return target;
 	}
 
-	this.clear();
+
 	var graph = this;
 	var centerx = Math.round(this._width/2 + 0.5);
 	var centery = Math.round(this._height/2 + 0.5); 
@@ -735,7 +736,7 @@ Graph.prototype.startConnecting = function(){
 							case NODE_TYPE.FUNC:{
 								that._end_node.addInputEdge(that._connection);
 							}
-							break;	
+							break;
 						}
 						that._start_node.hideSnap();
 						that._end_node.hideSnap();
