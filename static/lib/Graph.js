@@ -644,8 +644,18 @@ Graph.prototype.startConnecting = function(){
 		var x,y;
 		var userAgent = navigator.userAgent;
 		if(userAgent.indexOf("Firefox") > -1){
-			x = evt.clientX - $(evt.target).parent().offset().left;
-			y = evt.clientY - $(evt.target).parent().offset().top;
+			if(that._start_node && that.getSelectedNode()){
+				if(evt.target instanceof SVGTSpanElement){
+					x = evt.clientX - $(evt.target).parent().parent().offset().left;
+					y = evt.clientY - $(evt.target).parent().parent().offset().top;
+				}else{
+					x = evt.clientX - $(evt.target).parent().offset().left;
+					y = evt.clientY - $(evt.target).parent().offset().top;
+				}
+			}else{
+				x = evt.clientX - $(evt.target).parent().offset().left;
+				y = evt.clientY - $(evt.target).parent().offset().top;
+			}
 		}else{
 			x = evt.offsetX;
 			y = evt.offsetY;
