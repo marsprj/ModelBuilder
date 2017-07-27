@@ -13,14 +13,6 @@ var FusionDialog = function(inputs, outout, onOK){
 
 extend(FusionDialog, Dialog)
 
-// FusionDialog.prototype.initEvents = function(){
-	
-// 	//打开文件的点击事件
-// 	this.initFolderEvent();
-// 	this.initCloseEvent();
-// 	this.initOkEvent();
-// }
-
 
 FusionDialog.prototype.setInputs = function(inputs){
 	if(!inputs){
@@ -66,23 +58,32 @@ FusionDialog.prototype.initFolderEvent = function(){
 		$(this).click(function(){
 			$(this).prev().find('.dialog_input').each(function(){
 				//设置输入影像数据路径的值
-				//$(this).attr("value", "/raster/001.tif");
+				var id = $(this).attr("id");
 				var input_box = this;
-				var file_dlg = new FileDialog();
-				file_dlg.onOK(function(){
-					var file_path = file_dlg.getFilePath();
-					$(input_box).attr("value", file_path);
-				});
-				file_dlg.show();
+				if(id == "fusion_input_1"){
+					var file_dlg = new FileDialog(dlg._input1,"choose", function(){
+						var file_path = this.getFilePath();
+						$(input_box).attr("value", file_path);
+						dlg._input1 = file_path;
+					});
+					file_dlg.show();
+				}else if(id == "fusion_input_2"){
+					var file_dlg = new FileDialog(dlg._input2,"choose", function(){
+						var file_path = this.getFilePath();
+						$(input_box).attr("value", file_path);
+						dlg._input2 = file_path;
+					});
+					file_dlg.show();
+				}
 			})
 
 			$(this).prev().find('.dialog_output').each(function(){
 				//设置输入影像数据路径的值
 				var input_box = this;
-				var file_dlg = new FileDialog();
-				file_dlg.onOK(function(){
-					var file_path = file_dlg.getFilePath();
+				var file_dlg = new FileDialog(dlg._output,"new", function(){
+					var file_path = this.getFilePath();
 					$(input_box).attr("value", file_path);
+					dlg._output = file_path;
 				});
 				file_dlg.show();
 			})
@@ -105,8 +106,9 @@ FusionDialog.prototype.initOkEvent = function(){
 	var dlg = this;
 	
 	this._win.find("#dlg_btn_ok:first").click(function(){
-		dlg._input  = dlg._win.find(".dialog_input:first").attr("value");
-		dlg._output = dlg._win.find(".dialog_output:first").attr("value");
+		dlg._input1  = dlg._win.find("#fusion_input_1").val();
+		dlg._input2  = dlg._win.find("#fusion_input_2").val();
+		dlg._output = dlg._win.find(".dialog_output:first").val();
 		dlg.destory();
 
 		if(dlg._onOK){
@@ -116,8 +118,11 @@ FusionDialog.prototype.initOkEvent = function(){
 }
 
 
-FusionDialog.prototype.getInput = function(){
-	return this._input;
+FusionDialog.prototype.getInput1 = function(){
+	return this._input1;
+}
+FusionDialog.prototype.getInput2 = function () {
+	return this._input2;
 }
 
 FusionDialog.prototype.getOutput = function(){

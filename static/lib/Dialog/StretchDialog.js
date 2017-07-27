@@ -62,8 +62,8 @@ StretchDialog.prototype.initOkEvent = function(){
 	var dlg = this;
 	
 	this._win.find("#dlg_btn_ok:first").click(function(){
-		dlg._input  = dlg._win.find(".dialog_input:first").attr("value");
-		dlg._output = dlg._win.find(".dialog_output:first").attr("value");
+		dlg._input  = dlg._win.find(".dialog_input:first").val();
+		dlg._output = dlg._win.find(".dialog_output:first").val();
 		dlg.destory();
 
 		if(dlg._onOK){

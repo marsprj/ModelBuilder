@@ -32,6 +32,15 @@ Fusion.prototype.updateInputNode2 = function(path){
 	
 }
 
+Fusion.prototype.updateOutputNode = function (path) {
+	if(this._output){
+		var to = this._output.getTo();
+		if(to){
+			to.setPath(path);
+		}
+	}
+}
+
 
 Fusion.prototype.export = function(){
 	var obj = {
@@ -86,10 +95,11 @@ Fusion.prototype.onClick = function(){
 		}	
 	}
 
+	var that = this;
 	var dlg = new FusionDialog(inputs, output, function(){	//onOK
-		// alert(dlg.getInput());
-		// alert(dlg.getOutput());
-		alert("OK");
+		that.updateInputNode1(this.getInput1());
+		that.updateInputNode2(this.getInput2());
+		that.updateOutputNode(this.getOutput());
 	});
 	dlg.show();
 	
