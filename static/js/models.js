@@ -643,6 +643,7 @@ function showResultIcons(taskId){
 		var taskID = $(this).attr("tid");
 		var nodeID = $(this).attr("nid");
 		var src = "/model/task/" + taskId + "/download/" + nodeID;
+		src += "?time=" + (new Date()).valueOf();
 		var tiff = $(this).attr("tiff");
 		var modal = document.getElementById('myModal');
 		var modalImg = document.getElementById("img01");
