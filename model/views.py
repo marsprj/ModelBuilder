@@ -517,7 +517,7 @@ def task_download(request,task_id,node_id):
         logger.error("download task node image :no node[{0}]".format(node_id))
         return http_error_response("no node[{0}]".format(node_id))
 
-    user_uuid = request.COOKIES['user_uuid']
+    user_uuid = request.COOKIES.get("user_uuid")
     if not user_uuid:
         logger.error("no user[{0}]".format(user_uuid))
         return http_error_response("no user")

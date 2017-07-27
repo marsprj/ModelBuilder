@@ -52,30 +52,34 @@ def file_list(request):
         logger.error("get file list json{0} parse failed: {1}".format(text,str(e)))
         return http_error_response("json 解析失败")
 
-    request_path = obj["path"]
+    try:
+        request_path = obj["path"]
 
-    file_root = get_user_file_root(request)
+        file_root = get_user_file_root(request)
 
-    file_path = os.path.join(file_root, request_path[1:])
-    if not os.path.exists(file_path):
-        logger.error("folder path[{0}] is not exist".format(file_path))
-        return http_error_response('该路径不存在')
+        file_path = os.path.join(file_root, request_path[1:])
+        if not os.path.exists(file_path):
+            logger.error("folder path[{0}] is not exist".format(file_path))
+            return http_error_response('该路径不存在')
 
-    files_json = []
+        files_json = []
 
-    files = os.listdir(file_path)
-    for f in files:
-        fpath = os.path.join(file_path, f)
-        type = "file" if os.path.isfile(fpath) else "folder"
+        files = os.listdir(file_path)
+        for f in files:
+            fpath = os.path.join(file_path, f)
+            type = "file" if os.path.isfile(fpath) else "folder"
 
-        files_json.append({
-            "name": f,
-            "type": type
-        })
-    logger.info("get folder path:{0}".format(json.dumps(files_json)))
-    return HttpResponse(
-        json.dumps(files_json),
-        content_type="application/json")
+            files_json.append({
+                "name": f,
+                "type": type
+            })
+        logger.info("get folder path:{0}".format(json.dumps(files_json)))
+        return HttpResponse(
+            json.dumps(files_json),
+            content_type="application/json")
+    except Exception as e:
+        logger.error("get file list[{0}] failed: {1}".format(request_path,str(e)))
+        return http_error_response("get file list failed")
 
 
 """
@@ -93,17 +97,20 @@ def file_create(request):
         logger.error("create file json[{0}] parse failed: {1}".format(text, str(e)))
         return http_error_response("json 解析失败")
 
-    request_path = obj["path"]
-    file_root = get_user_file_root(request)
-
-    file_path = os.path.join(file_root, request_path[1:])
     try:
+        request_path = obj["path"]
+        file_root = get_user_file_root(request)
+
+        file_path = os.path.join(file_root, request_path[1:])
         os.makedirs(file_path)
         logger.info("create file[{0}] success".format(file_path))
         return http_success_response()
     except OSError as e:
         logger.error("create file[{0}] failed: {1}".format(file_path,str(e)))
         return http_error_response(e.strerror)
+    except Exception as e:
+        logger.error("create file[{0}] failed: {1}".format(request_path, str(e)))
+        return http_error_response("create file failed")
 
 
 """
@@ -140,7 +147,9 @@ def file_remove(request):
 
 
 def get_user_file_root(request):
-    user_uuid = request.COOKIES['user_uuid']
+    user_uuid = request.COOKIES.get("user_uuid")
+    if not user_uuid:
+        return None
     return os.path.join(
         os.path.join(
             os.path.join(
