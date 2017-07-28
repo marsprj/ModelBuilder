@@ -545,3 +545,13 @@ Shape.prototype.setAttr = function(key,value){
 		this._shape.attr(key,value);
 	}
 }
+
+
+Shape.prototype.toFront = function () {
+	if(this._shape){
+		this._shape.toFront();
+	}
+	if(this._text){
+		this._text.toFront();
+	}
+}

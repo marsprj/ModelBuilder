@@ -196,3 +196,15 @@ Arrow.prototype.setID = function(id) {
 		this._line.node.raphaelid = this._id;
 	}
 }
+
+Arrow.prototype.setAttr = function (key, value) {
+	if(this._line){
+		this._line.attr(key,value);
+	}
+}
+
+Arrow.prototype.toFront = function () {
+	if(this._line){
+		this._line.toFront();
+	}
+}

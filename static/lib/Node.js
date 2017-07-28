@@ -215,3 +215,9 @@ Node.prototype.setShapeAttr =function(key,value){
 		this._shape.setAttr(key,value);
 	}
 }
+
+Node.prototype.toFront = function () {
+	if(this._shape){
+		this._shape.toFront();
+	}
+}

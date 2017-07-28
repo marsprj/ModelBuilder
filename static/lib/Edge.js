@@ -79,3 +79,16 @@ Connection.prototype.export = function(){
 		to 	 : to
 	}
 }
+
+
+Connection.prototype.setArrowAttr = function (key, value) {
+	if(this._arrow){
+		this._arrow.setAttr(key,value);
+	}
+}
+
+Connection.prototype.toFront = function () {
+	if(this._arrow){
+		this._arrow.toFront();
+	}
+}

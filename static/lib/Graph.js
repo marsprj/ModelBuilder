@@ -88,21 +88,23 @@ Graph.prototype.initCanvasEvent = function(){
 		var target = graph._r.getElementByPoint(evt.pageX,evt.pageY);
 		if(graph._selected){
 			if(graph._selected instanceof Node){
-				graph._selected._shape._shape.attr({"stroke-width":1});
+				graph._selected.setShapeAttr("stroke-width",1);
 			}else if(graph._selected instanceof Connection){
-				graph._selected._arrow._line.attr({"stroke-width":2});
+				graph._selected.setArrowAttr("stroke-width",2);
 			}
 		}
 		if(target){
 			var node = graph._nodeManager.getNodeById(target.id);
 			if(node){
-				node._shape._shape.attr({"stroke-width":3});
+				node.setShapeAttr("stroke-width",3);
+				node.toFront();
 				graph._selected = node;
 			}
 
 			var connection = graph._connManager.getConnectionById(target.id);
 			if(connection){
-				connection._arrow._line.attr({"stroke-width":5});
+				connection.setArrowAttr("stroke-width",5);
+				connection.toFront();
 				graph._selected = connection;
 			}
 		}else{
