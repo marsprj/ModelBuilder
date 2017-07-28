@@ -58,6 +58,10 @@ function initPageEvent(){
 	$(".delete-model-btn").click(function(){
 		var row = $("#models_container .model-item.active");
 		var name = row.attr("mname");
+		if(name == null){
+			alert("请指定要删除的模型");
+			return;
+		}
 		if(!confirm("确定删除[" + name + "]模型?")){
 			return;
 		}
