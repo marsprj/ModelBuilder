@@ -108,6 +108,14 @@ function initPageEvent(){
 			var width = $("#canvas").width();
 			var height = $("#canvas").height();
 			g_graph.setSize(width,height);
+			var imageIcons = $("#backdrop .image-icon");
+			if(imageIcons.length!= 0){
+				var imageIcon = imageIcons[0];
+				var tid = $(imageIcon).attr("tid");
+				if(tid != null && tid != undefined){
+					showResultIcons(tid);
+				}
+			}
 		}
 	});
 }
