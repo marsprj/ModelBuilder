@@ -616,12 +616,21 @@ def user_logout(request,username):
     logger.info("用户[{0}]注销".format(username))
     return  response
 
+def user_list(request):
+    username = request.COOKIES.get("username")
+    if not username:
+        logger.error("get user list failed: user not login")
+        return http_error_response("please login")
+    if username!= "admin":
+        logger.error("get user list failed: user is not admin")
+        return http_error_response("please login admin")
 
-def get_file_root():
-    return os.path.join(
-        os.path.join(
-            os.path.join(settings.BASE_DIR, "static"),
-            "data"
-        ),
-        "uploads"
-    )
+    try:
+        users = User.objects.all().exclude(username='admin')
+        obj = []
+        for user in users:
+            obj.append(user.exportToJson())
+        return HttpResponse(json.dumps(obj),content_type="application/json")
+    except Exception as e:
+        logger.error("get user list failed:{0}".format(str(e)))
+        return http_error_response("get user list failed")

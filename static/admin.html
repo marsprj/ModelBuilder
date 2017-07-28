@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script type="text/javascript" src="./js/jquery-3.2.1.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/user.css">
+    <title>工作流系统--管理员系统</title>
+</head>
+<body>
+    <div id="header">
+		<div class="title-icon"></div>
+		<div class="title">
+			工作流系统
+		</div>
+        <div class="title-right">
+            <a href="javascript:void(0)" class="user-name user-btn"></a>
+            <a href="javascript:void(0)" class="logout user-btn">退出</a>
+        </div>
+	</div>
+    <div id="main" style="padding-top: 20px;">
+        <div id="user_panel" class="panel">
+            <div class="panel-title">
+                用户列表
+            </div>
+            <div class="panel-content">
+                <div class="table">
+                    <div class="row header">
+                        <div class="cell">序号</div>
+                        <div class="cell">用户名</div>
+                        <div class="cell">密码</div>
+                        <div class="cell">最后登录时间</div>
+                        <div class="cell">模型个数</div>
+                        <div class="cell">操作</div>
+                    </div>
+                    <div class="row">
+                        <div class="cell">1</div>
+                        <div class="cell">radi</div>
+                        <div class="cell">radi</div>
+                        <div class="cell">2017-07-26 05:23:51</div>
+                        <div class="cell">0</div>
+                        <div class="cell">
+                            <a class="btn" href="javascript:void(0)">删除</a>
+                            <a class="btn" href="javascript:void(0)">访问</a>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="cell">2</div>
+                        <div class="cell">radi</div>
+                        <div class="cell">radi</div>
+                        <div class="cell">2017-07-26 05:23:51</div>
+                        <div class="cell">011</div>
+                        <div class="cell">
+                            <a class="btn" href="javascript:void(0)">删除</a>
+                            <a class="btn" href="javascript:void(0)">访问</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>
+
+<script type="text/javascript">
+    $().ready(function () {
+        var username = getCookie("username");
+        if(username){
+            if(username != "admin"){
+                window.location.href = "index.html";
+            }
+            $("#main").show();
+		    $(".user-name").html("用户&nbsp;:&nbsp;" + username);
+		    getUserList();
+        }else{
+            window.location.href = "login.html";
+        }
+
+    });
+    function getCookie(name){
+        var arr = document.cookie.match(new RegExp("(^| )"+name+"=([^;]*)(;|$)"));
+        if(arr != null) return unescape(arr[2]); return null;
+    }
+
+
+    function getUserList() {
+        $("#user_panel .table .row:not(.header)").remove();
+        $.ajax({
+            type:"get",
+            url:"/model/users/",
+            contentType: "text/plain",
+            dataType : "text",
+            success:function(result){
+                var text = JSON.parse(result);
+                if(text.status == "error"){
+                    $(".info").html(text.message);
+                }else{
+                    showUserList(text);
+                }
+            }
+        });
+    }
+
+
+    function showUserList(list) {
+        if(!$.isArray(list)){
+            alert("error");
+            return;
+        }
+        var html = '';
+        for(var i = 0; i < list.length;++i){
+            var item = list[i];
+            html += '<div class="row">'
+                +   '   <div class="cell">' + (i+1) + '</div>'
+                +   '   <div class="cell">' + item.username + '</div>'
+                +   '   <div class="cell">' + item.password + '</div>'
+                +   '   <div class="cell">' + '' + '</div>'
+                +   '   <div class="cell">' + '0' + '</div>'
+                +   '   <div class="cell">'
+                +   '       <a class="btn" href="javascript:void(0)">删除</a>'
+                +   '       <a class="btn" href="javascript:void(0)">访问</a>'
+                +   '    </div>'
+                +   '</div>';
+        }
+
+        $("#user_panel .table .header").after(html);
+
+    }
+
+</script>

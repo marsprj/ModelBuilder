@@ -8,6 +8,13 @@ class User(models.Model):
     username = models.CharField(max_length=50)
     password = models.CharField(max_length=50)
 
+    def exportToJson(self):
+        return {
+            "uuid": str(self.uuid),
+            "name": self.username,
+            "password": self.password
+        }
+
 class Model(models.Model):
     id = models.AutoField(primary_key=True, null=False)
     uuid = models.UUIDField(default=uuid.uuid4, editable=False, null=False, unique=True)

@@ -90,7 +90,11 @@
                     $(".info").html(text.message);
                 }else{
                     $(".info").html("登录成功，正在跳转……");
-                    window.location.href = "index.html";
+                    if($("#username").val() == "admin"){
+                        window.location.href = "admin.html";
+                    }else{
+                        window.location.href = "index.html";
+                    }
                 }
             }
         });
