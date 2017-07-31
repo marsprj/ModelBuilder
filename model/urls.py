@@ -27,4 +27,6 @@ urlpatterns = [
     url(r'^register/$', views.user_register, name='register'),
     url(r'^login/$', views.user_login, name='login'),
     url(r'^(?P<username>[-A-Za-z0-9]+)/logout/$', views.user_logout, name='logout'),
+    url(r'^users/$', views.user_list, name='users'),
+    url(r'^user/(?P<user_id>[-A-Za-z0-9]+)/delete/$', views.user_delete, name='user_delete'),
 ]

@@ -634,3 +634,22 @@ def user_list(request):
     except Exception as e:
         logger.error("get user list failed:{0}".format(str(e)))
         return http_error_response("get user list failed")
+
+
+def user_delete(request,user_id):
+    try:
+        user = User.objects.get(uuid=user_id)
+    except User.DoesNotExist:
+        logger.error("delete user[{0}] failed : user is not exist".format(user_id))
+        return http_error_response("user is not exist")
+    except Exception as e:
+        logger.error("get delete user[{0}] failed:{1}".format(user_id,str(e)))
+        return http_error_response("get delete user failed")
+
+    try:
+        user.delete()
+        logger.info("delete user[{0}] success".format(user_id))
+    except Exception as e:
+        logger.error("delete user[{0}] failed: {1}".format(user_id,str(e)))
+        return http_error_response("delete user failed")
+    return http_success_response()

@@ -166,3 +166,13 @@ html,body{
 .row:hover .cell{
     background-color: #f4f8fb;
 }
+
+.user-oper{
+    text-decoration: none;
+    color: #169bd5;
+    font-weight:600;
+}
+
+.row:hover .user-oper{
+    color: #bdbcbc;
+}

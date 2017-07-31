@@ -110,21 +110,58 @@
         var html = '';
         for(var i = 0; i < list.length;++i){
             var item = list[i];
-            html += '<div class="row">'
+            html += '<div class="row" uuid="' +item.uuid + '" uname="' + item.name + '">'
                 +   '   <div class="cell">' + (i+1) + '</div>'
-                +   '   <div class="cell">' + item.username + '</div>'
+                +   '   <div class="cell">' + item.name + '</div>'
                 +   '   <div class="cell">' + item.password + '</div>'
                 +   '   <div class="cell">' + '' + '</div>'
                 +   '   <div class="cell">' + '0' + '</div>'
                 +   '   <div class="cell">'
-                +   '       <a class="btn" href="javascript:void(0)">删除</a>'
-                +   '       <a class="btn" href="javascript:void(0)">访问</a>'
+                +   '       <a class="user-oper user-visit" href="javascript:void(0)">访问</a>'
+                +   '       <a class="user-oper user-delete" href="javascript:void(0)">删除</a>'
                 +   '    </div>'
                 +   '</div>';
         }
 
         $("#user_panel .table .header").after(html);
 
+        $("#user_panel .table .user-delete").click(function () {
+            var user_id = $(this).parents(".row").attr("uuid");
+            var name = $(this).parents(".row").attr("uname");
+            if(!confirm("确定删除用户[" + name + "]")){
+                return;
+            }
+            deleteUser(user_id,function(result) {
+                if(result.status == "success"){
+                    alert("删除成功")
+                    getUserList();
+                }else{
+                    alert(result.message);
+                }
+            });
+        })
+    }
+
+    function deleteUser(user_id,callback) {
+        if(user_id == null){
+            if(callback){
+                var result = '{"status":"error","message":"user is not valid"}';
+                callback(JSON.parse(result));
+            }
+            return;
+        }
+         $.ajax({
+            type:"get",
+            url:"/model/user/" + user_id + "/delete/",
+            contentType: "text/plain",
+            dataType : "text",
+            success:function(result){
+                var text = JSON.parse(result);
+                if(callback){
+                    callback(text);
+                }
+            }
+        });
     }
 
 </script>
