@@ -15,6 +15,7 @@ class User(models.Model):
             "name": self.username,
             "password": self.password,
             "login_time":self.login_time.strftime("%Y-%m-%d %H:%M:%S"),
+            "models":len(self.model_set.all())
         }
 
 class Model(models.Model):

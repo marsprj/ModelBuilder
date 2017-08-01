@@ -635,7 +635,7 @@ def user_list(request):
         return http_error_response("please login admin")
 
     try:
-        users = User.objects.all().exclude(username='admin')
+        users = User.objects.all().exclude(username='admin').order_by("-login_time")
         obj = []
         for user in users:
             obj.append(user.exportToJson())
