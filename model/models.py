@@ -7,12 +7,14 @@ class User(models.Model):
     uuid = models.UUIDField(default=uuid.uuid4, editable=False, null=False, unique=True)
     username = models.CharField(max_length=50)
     password = models.CharField(max_length=50)
+    login_time = models.DateTimeField()
 
     def exportToJson(self):
         return {
             "uuid": str(self.uuid),
             "name": self.username,
-            "password": self.password
+            "password": self.password,
+            "login_time":self.login_time.strftime("%Y-%m-%d %H:%M:%S"),
         }
 
 class Model(models.Model):

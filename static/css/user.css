@@ -127,7 +127,7 @@ html,body{
 #user_panel{
     width:calc(100% - 40px);
     margin:0 auto 20px;
-    height:700px;
+    height:calc(100% - 40px);
 }
 .panel{
     -webkit-border-radius: 5px;
@@ -163,7 +163,7 @@ html,body{
     border-bottom: 1px solid #f4f8fb ;
 	text-align: center;
 }
-.row:hover .cell{
+.row:not(.header):hover .cell{
     background-color: #f4f8fb;
 }
 

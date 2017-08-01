@@ -566,9 +566,11 @@ def user_register(request):
         logger.error("register user failed: has user named[{0}]".format(username))
         return http_error_response("已经有该用户")
     password = obj["password"]
+    time = timezone.now()
     user = User(
         username=username,
         password=password,
+        login_time=time
     )
     try:
         user.save()
@@ -603,11 +605,18 @@ def user_login(request):
     except OperationalError as e:
         logger.error("user login failed : {0}".format(str(e)))
         return http_error_response("登录失败")
-    response = http_success_response();
-    response.set_cookie('username', username, 3600)
-    response.set_cookie('user_uuid', str(user.uuid), 3600)
-    logger.info("用户[{0}]登录成功".format(username))
-    return response
+    try:
+        time = timezone.now()
+        user.login_time = time;
+        user.save();
+        response = http_success_response();
+        response.set_cookie('username', username, 3600)
+        response.set_cookie('user_uuid', str(user.uuid), 3600)
+        logger.info("用户[{0}]登录成功".format(username))
+        return response
+    except Exception as e:
+        logger.error("用户[{0}]登录失败:{1}".format(username,str(e)))
+        return http_error_response("登录失败")
 
 def user_logout(request,username):
     response = http_success_response()
