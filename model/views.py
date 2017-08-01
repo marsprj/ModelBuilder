@@ -411,7 +411,7 @@ def start_task_2(task):
                         process.save()
 
                         # 更新task的percent
-                        task.complete_percent = 100 * i / count
+                        task.complete_percent = 100 * (i+1) / count
                         task.save()
                         logger.info("process[{0}] run success".format(str(process.id)))
                     else:
