@@ -14,7 +14,7 @@ class User(models.Model):
             "uuid": str(self.uuid),
             "name": self.username,
             "password": self.password,
-            "login_time":self.login_time.strftime("%Y-%m-%d %H:%M:%S"),
+            "login_time":self.login_time.astimezone().strftime("%Y-%m-%d %H:%M:%S"),
             "models":len(self.model_set.all())
         }
 
@@ -32,7 +32,7 @@ class Model(models.Model):
             "name" : self.name,
             "uuid" : str(self.uuid),
             "description" : self.description,
-            "create_time" : self.create_time.strftime("%Y-%m-%d %H:%M:%S"),
+            "create_time" : self.create_time.astimezone().strftime("%Y-%m-%d %H:%M:%S"),
         }
 
 class Task(models.Model):
@@ -52,8 +52,8 @@ class Task(models.Model):
             "uuid" : str(self.uuid),
             "model" : str(self.model_id),
             "state" : self.state,
-            "start_time": self.start_time.strftime("%Y-%m-%d %H:%M:%S"),
-            "end_time" : "-" if self.end_time==None else self.end_time.strftime("%Y-%m-%d %H:%M:%S"),
+            "start_time": self.start_time.astimezone().strftime("%Y-%m-%d %H:%M:%S"),
+            "end_time" : "-" if self.end_time==None else self.end_time.astimezone().strftime("%Y-%m-%d %H:%M:%S"),
             "percent": "{0}%".format(self.complete_percent),
         }
         return obj
@@ -76,8 +76,8 @@ class Process(models.Model):
             # "uuid": str(self.uuid),
             "task": str(self.task_id),
             "state": self.state,
-            "start_time": "-" if self.start_time==None else self.start_time.strftime("%Y-%m-%d %H:%M:%S"),
-            "end_time": "-" if self.end_time==None else self.end_time.strftime("%Y-%m-%d %H:%M:%S"),
+            "start_time": "-" if self.start_time==None else self.start_time.astimezone().strftime("%Y-%m-%d %H:%M:%S"),
+            "end_time": "-" if self.end_time==None else self.end_time.astimezone().strftime("%Y-%m-%d %H:%M:%S"),
             "percent" : "{0}%".format(self.complete_percent),
             "node_id": self.node_id
         }

@@ -228,8 +228,8 @@ def task_state(request, task_id):
             "uuid": str(task.uuid),
             "model": str(task.model_id),
             "state": task.state,
-            "start_time": task.start_time.strftime("%Y-%m-%d %H:%M:%S"),
-            "end_time": "-" if task.end_time==None else task.end_time.strftime("%Y-%m-%d %H:%M:%S"),
+            "start_time": task.start_time.astimezone().strftime("%Y-%m-%d %H:%M:%S"),
+            "end_time": "-" if task.end_time==None else task.end_time.astimezone().strftime("%Y-%m-%d %H:%M:%S"),
             "processes" : [],
             "percent": "{0}%".format(task.complete_percent),
         }
@@ -265,7 +265,7 @@ def task_create(request):
     if "name" in obj:
         task_name = obj["name"]
     else:
-        task_name = start_time.strftime("%Y%m%d%H%M%S")
+        task_name = start_time.astimezone().strftime("%Y%m%d%H%M%S")
     try:
         model = Model.objects.get(uuid=model_id)
     except Model.DoesNotExist:
