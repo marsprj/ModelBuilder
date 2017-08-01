@@ -146,6 +146,10 @@ html,body{
 }
 .panel-content{
     height:calc(100% - 40px);
+    overflow-y: auto;
+}
+.panel-content.loading{
+    background: url(../images/spin.gif) no-repeat center;
 }
 .table {
     margin: 0px;
@@ -171,6 +175,7 @@ html,body{
     text-decoration: none;
     color: #169bd5;
     font-weight:600;
+    margin-right: 10px;
 }
 
 .row:hover .user-oper{

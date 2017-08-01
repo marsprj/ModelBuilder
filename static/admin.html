@@ -32,31 +32,8 @@
                         <div class="cell">模型个数</div>
                         <div class="cell">操作</div>
                     </div>
-                    <div class="row">
-                        <div class="cell">1</div>
-                        <div class="cell">radi</div>
-                        <div class="cell">radi</div>
-                        <div class="cell">2017-07-26 05:23:51</div>
-                        <div class="cell">0</div>
-                        <div class="cell">
-                            <a class="btn" href="javascript:void(0)">删除</a>
-                            <a class="btn" href="javascript:void(0)">访问</a>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="cell">2</div>
-                        <div class="cell">radi</div>
-                        <div class="cell">radi</div>
-                        <div class="cell">2017-07-26 05:23:51</div>
-                        <div class="cell">011</div>
-                        <div class="cell">
-                            <a class="btn" href="javascript:void(0)">删除</a>
-                            <a class="btn" href="javascript:void(0)">访问</a>
-                        </div>
-                    </div>
                 </div>
             </div>
-
         </div>
     </div>
 </body>
@@ -76,6 +53,11 @@
             window.location.href = "login.html";
         }
 
+        //退出
+        $(".logout").click(function(){
+            logout();
+        });
+
     });
     function getCookie(name){
         var arr = document.cookie.match(new RegExp("(^| )"+name+"=([^;]*)(;|$)"));
@@ -85,15 +67,17 @@
 
     function getUserList() {
         $("#user_panel .table .row:not(.header)").remove();
+        $(".panel-content").addClass("loading");
         $.ajax({
             type:"get",
             url:"/model/users/",
             contentType: "text/plain",
             dataType : "text",
             success:function(result){
+                $(".panel-content").removeClass("loading");
                 var text = JSON.parse(result);
                 if(text.status == "error"){
-                    $(".info").html(text.message);
+                    alert(text.message);
                 }else{
                     showUserList(text);
                 }
@@ -140,6 +124,14 @@
                 }
             });
         })
+
+        $("#user_panel .table .user-visit").click(function () {
+             var user_id = $(this).parents(".row").attr("uuid");
+             var name = $(this).parents(".row").attr("uname");
+             var password = $(this).parents(".row").find(".cell:eq(2)").html();
+             login(name,password);
+
+        })
     }
 
     function deleteUser(user_id,callback) {
@@ -159,6 +151,48 @@
                 var text = JSON.parse(result);
                 if(callback){
                     callback(text);
+                }
+            }
+        });
+    }
+
+    function login(username,password) {
+        var obj = {
+            "username": username,
+            "password": password
+        }
+        var text = JSON.stringify(obj);
+        $(".info").html("登录中……");
+        $.ajax({
+            type:"POST",
+            url:"/model/login/",
+            data : text,
+            contentType: "text/plain",
+            dataType : "text",
+            success:function(result){
+                var text = JSON.parse(result);
+                if(text.status == "error"){
+                    $(".info").html(text.message);
+                }else{
+                    $(".info").html("登录成功，正在跳转……");
+                    window.open("index.html");
+                }
+            }
+        });
+    }
+    function logout() {
+        var url = "/model/admin/logout/" ;
+        $.ajax({
+            type:"GET",
+            url:url,
+            contentType: "text/plain",
+            dataType : "text",
+            success:function(result){
+                var text = JSON.parse(result);
+                if(text.status == "error"){
+                    alert(text.message);
+                }else{
+                    window.location.href = "login.html";
                 }
             }
         });
