@@ -329,7 +329,8 @@ def start_task_2(task):
         if not graph.load(task.model.text):
             pass
         else:
-
+            task.start_time = timezone.now()
+            task.end_time = None
             task.state = 1
             task.save()
 
