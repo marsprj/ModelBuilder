@@ -148,7 +148,7 @@ STATICFILES_DIRS = [
     #os.path.join(BASE_DIR, "modeler/static"),
     #'/home/hawk/project/ModelBuilder/static/',
 ]
-
+g_pid = -1
 #######################################################3
 LOGGING = {
     'version': 1,

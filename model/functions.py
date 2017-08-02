@@ -4,6 +4,7 @@ from .Graph import Function, Datum
 from PIL import Image
 import os.path
 import shutil
+import subprocess,signal
 
 """
 处理图像拉伸
@@ -28,6 +29,7 @@ def process_stretch(func,taskId,user_uuid):
 
     local_opath = build_task_local_path(opath, taskId,user_uuid)
 
+    process_test()
     # 执行具体的计算任务
     return raster_stretch(local_ipath, local_opath)
 
@@ -88,3 +90,20 @@ def build_task_local_path(path,taskId,user_uuid):
     return os.path.join(
         task_path, path[1:]
     )
+
+
+def process_test():
+    try:
+        p = subprocess.Popen("/home/zhangyf/test/test 00",shell=True,stdout=subprocess.PIPE)
+        settings.g_pid = p.pid
+        print("process pid is: {0}".format(str(settings.g_pid)))
+        p.wait()
+        print("process return code is :{0}".format(str(p.returncode)))
+        if (p.returncode) != 0:
+            print('kill pid')
+            p.kill()
+            return False
+    except Exception as e:
+        print("process failed:{0}".format(str(e)))
+    return True
+

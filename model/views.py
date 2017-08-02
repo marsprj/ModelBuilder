@@ -10,6 +10,7 @@ from .models import Model, Task, Process,User
 from .Graph import Graph
 from ModelFlow import settings
 import ModelFlow
+import signal
 
 
 from django.utils import timezone
@@ -447,6 +448,11 @@ def start_task_2(task):
         return http_error_response("run failed")
 
 def task_stop(request, task_id):
+    try:
+        if settings.g_pid > 0:
+            os.kill(settings.g_pid,signal.SIGTERM)
+    except Exception as e:
+        logger.error("kill pid failed:{0}".format(str(e)))
     try:
         task = Task.objects.get(uuid=task_id)
     except Task.DoesNotExist:
