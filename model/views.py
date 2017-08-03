@@ -53,22 +53,25 @@ def model_save(request,username):
     except OperationalError as e:
         logger.error("Model查询失败:{0}".format(str(e)))
         return http_error_response("Model查询失败")
-
-    if len(models)>0:
-        #Model已经存在，修改Model的数据
-        #return http_error_response("Model[{0}]已经存在".format(model_name))
-        model = models[0]
-        model.text = json.dumps(obj)
-        #model.save();
-    else:
-        #Model不存在，创建新的Model
-        create_time = timezone.now()
-        obj["create_time"] = str(create_time)
-        user = User.objects.get(username=username)
-        model = user.model_set.create(name=model_name,
-            description=model_name,
-            create_time=create_time,
-            text=json.dumps(obj))
+    try:
+        if len(models)>0:
+            #Model已经存在，修改Model的数据
+            #return http_error_response("Model[{0}]已经存在".format(model_name))
+            model = models[0]
+            model.text = json.dumps(obj)
+            #model.save();
+        else:
+            #Model不存在，创建新的Model
+            create_time = timezone.now()
+            obj["create_time"] = str(create_time)
+            user = User.objects.get(username=username)
+            model = user.model_set.create(name=model_name,
+                description=model_name,
+                create_time=create_time,
+                text=json.dumps(obj))
+    except Exception as e:
+        logger.error("save model[{0} failed:{1}".format(model_name,str(e)))
+        return http_error_response("Model保存失败")
     # 创建model的目录
     model_path = os.path.join(ModelFlow.settings.MODEL_ROOT, str(model.uuid))
     if not os.path.exists(model_path):
@@ -85,7 +88,7 @@ def model_save(request,username):
             "status":"success"
         }
         return HttpResponse(json.dumps(obj), content_type="application/json")
-    except OperationalError as e:
+    except Exception as e:
         logger.error("Model保存失败:{0} ".format(str(e)))
         return http_error_response("Model保存失败")
 
