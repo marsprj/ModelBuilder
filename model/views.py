@@ -366,6 +366,14 @@ def start_task_2(task):
                 #执行Plan
                 count = len(processes)
                 for i in range(count):
+                    # 先判断是否已经失败了
+                    task = Task.objects.get(uuid=task.uuid)
+                    if task.state == 3:
+                        logger.error("task[{0}] already fail".format(str(task.uuid)))
+                        success = False;
+                        errmsg = "run task failed:already fail"
+                        break;
+
                     #执行func
                     #更新process的状态为正在执行
                     process = processes[i]
@@ -391,13 +399,13 @@ def start_task_2(task):
                         f = getattr(functions, process_func_name.lower())
                         #处理计算任务
                         logger.info("run {0} function".format(process_func_name))
-                        success = f(func,str(task.uuid),str(user_uuid))
+                        success = f(func,process,str(user_uuid))
                     else:
                         errmsg = "方法[{0}]尚未在系统中注册".format(func.getName());
                         logger.error(errmsg)
                         success = False
 
-                    time.sleep(5)
+                    # time.sleep(5)
                     ###################################################
                     # 执行计算任务 End
                     ###################################################
@@ -412,6 +420,13 @@ def start_task_2(task):
                         process.complete_percent = 100
                         process.save()
 
+                        task = Task.objects.get(uuid=task.uuid)
+                        if task.state == 3:
+                            logger.info("user stop task already")
+                            errmsg = "user stop task already"
+                            success = False
+                            break;
+
                         # 更新task的percent
                         task.complete_percent = 100 * (i+1) / count
                         task.save()
@@ -420,6 +435,7 @@ def start_task_2(task):
                         # 更新process的状态为结束，并记录结束时间
                         process.state = 3   #failure
                         process.save()
+                        errmsg = "process[{0}] run failed".format(str(process.id))
                         logger.info("process[{0}] run failed".format(str(process.id)))
                         break
                     ###################################################
@@ -436,7 +452,7 @@ def start_task_2(task):
                 logger.info("task[{0}] run success".format(str(task.uuid)))
             else:
                 task.state =  3  # 设置task的状态
-                logger.info("task[{0}] run success".format(str(task.uuid)))
+                logger.info("task[{0}] run fail".format(str(task.uuid)))
             task.save()
             ###################################################
             # 设置Task的状态 End
@@ -449,11 +465,6 @@ def start_task_2(task):
 
 def task_stop(request, task_id):
     try:
-        if settings.g_pid > 0:
-            os.kill(settings.g_pid,signal.SIGTERM)
-    except Exception as e:
-        logger.error("kill pid failed:{0}".format(str(e)))
-    try:
         task = Task.objects.get(uuid=task_id)
     except Task.DoesNotExist:
         logger.error("task[{0}] does not exist".format(task_id))
@@ -461,6 +472,18 @@ def task_stop(request, task_id):
     except OperationalError as e:
         logger.error("get task[{0}] failed".format(task_id))
         return http_error_response("stop task failed")
+    try:
+        processes = task.process_set.all().order_by("id");
+        for pro in processes:
+            pid = pro.pid
+            logger.info("process[{0}] pid [{1}]".format(pro.node_id, str(pid)))
+            if pid > 0:
+                os.kill(pid, signal.SIGTERM)
+                logger.info("kill process success :{0}".format(str(pid)))
+    except OSError as e:
+        logger.error("kill task[{0}] process  failed :{1}".format(task_id, str(e)))
+    except Exception as e:
+        logger.error("kill task[{0}] process  failed :{1}".format(task_id, str(e)))
     try:
         if task.state == 1: #running状态
             task.state = 3

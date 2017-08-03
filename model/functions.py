@@ -9,7 +9,8 @@ import subprocess,signal
 """
 处理图像拉伸
 """
-def process_stretch(func,taskId,user_uuid):
+def process_stretch(func,process,user_uuid):
+    task_id = str(process.task_id)
     #获取输入参数
     inputs = func.getInputs()
     if len(inputs) == 0:
@@ -19,7 +20,7 @@ def process_stretch(func,taskId,user_uuid):
     if not inputs[0].getFrom():
         local_ipath = build_local_path(ipath,user_uuid)
     else :
-        local_ipath = build_task_local_path(ipath,taskId,user_uuid)
+        local_ipath = build_task_local_path(ipath,task_id,user_uuid)
 
     # 获取输出参数
     output = func.getOutput()
@@ -27,11 +28,11 @@ def process_stretch(func,taskId,user_uuid):
         return False
     opath = output.getPath()
 
-    local_opath = build_task_local_path(opath, taskId,user_uuid)
+    local_opath = build_task_local_path(opath, task_id,user_uuid)
 
-    process_test()
-    # 执行具体的计算任务
-    return raster_stretch(local_ipath, local_opath)
+    raster_stretch(local_ipath, local_opath)
+
+    return process_test(process)
 
 
 def raster_stretch(ipath, opath):
@@ -62,7 +63,7 @@ def raster_stretch(ipath, opath):
 """
 处理图像融合
 """
-def process_fusion(func,task_id,user_uuid):
+def process_fusion(func,process,user_uuid):
     return True
 
 def build_local_path(path,user_uuid):
@@ -92,12 +93,14 @@ def build_task_local_path(path,taskId,user_uuid):
     )
 
 
-def process_test():
+def process_test(process):
     try:
         p = subprocess.Popen("/home/zhangyf/test/test 00",shell=True,stdout=subprocess.PIPE)
-        settings.g_pid = p.pid
-        print("process pid is: {0}".format(str(settings.g_pid)))
+        process.pid = p.pid
+        process.save()
+        print("process pid is: {0}".format(str(process.pid)))
         p.wait()
+        print(p.stdout.read())
         print("process return code is :{0}".format(str(p.returncode)))
         if (p.returncode) != 0:
             print('kill pid')

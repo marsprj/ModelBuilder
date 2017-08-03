@@ -68,6 +68,7 @@ class Process(models.Model):
     state = models.IntegerField(default=0)
     complete_percent = models.IntegerField(default=0)
     node_id = models.CharField(max_length=64, null=True)
+    pid = models.IntegerField(default=0)
 
     def exportToJson(self):
         return {
