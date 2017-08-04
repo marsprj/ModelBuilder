@@ -77,7 +77,7 @@ UploadDialog.prototype.initUploader = function(){
 	// 当有文件添加进来的时候
 	this._uploader.on('fileQueued', function( file ) {
 	    var html = '<div class="file-item" id="' + file.id+ '">'
-			    +	'	<div class="file-name">'
+			    +	'	<div class="file-name" title="' + file.name + '">'
 			    +			file.name
 			    +	'	</div>'
 			    +	'	<div class="progress">'

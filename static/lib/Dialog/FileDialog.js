@@ -215,7 +215,7 @@ FileDialog.prototype.populateFolders = function(){
 				for(var i in json){
 					var o = json[i];
 					var icon = (o.type == "folder" ? "folder_item_icon" : "file_item_icon");
-					html += "<div class='item_container' type='" + o.type + "'>";
+					html += "<div class='item_container' type='" + o.type + "' title='" + o.name + "'>";
 					html += "<div class='" + icon + "'></div>";
 					html += "<div class='folder_item_text'>" + o.name + "</div>";
 					html += "</div>";

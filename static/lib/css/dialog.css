@@ -262,6 +262,9 @@
 	height: 30px;
 	line-height: 30px;
 	overflow: hidden;
+	width: 95px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 .file_dialog .dialog_bottom span{
 	margin-left: 14px;
