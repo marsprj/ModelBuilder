@@ -108,7 +108,28 @@ Graph.prototype.initCanvasEvent = function(){
 				graph._selected = connection;
 			}
 		}else{
-			graph._selected = null;
+			var connections = graph._connManager.getConnections();
+			var minDis = null;
+			var minIndex = null;
+			for(var i = 0; i < connections.length; ++i){
+				var conn = connections[i];
+				var dis = conn.getDistance(x,y);
+				if(!minDis){
+					minDis = dis;
+					minIndex = i;
+				}else if(dis<minDis){
+					minDis = dis;
+					minIndex = i;
+				}
+			}
+			if(minDis < 5){
+				var connection = connections[minIndex];
+				connection.setArrowAttr("stroke-width",5);
+				connection.toFront();
+				graph._selected = connection;
+			}else {
+				graph._selected = null;
+			}
 		}
 	});
 }

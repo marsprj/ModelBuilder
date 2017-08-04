@@ -112,6 +112,10 @@ Connection.prototype.clear = function () {
 	
 }
 
-Connection.prototype.clearNodeConn = function (node) {
-
+Connection.prototype.getDistance = function (x, y) {
+	if(this._arrow){
+		return this._arrow.getDistance(x,y);
+	}else{
+		return null;
+	}
 }
