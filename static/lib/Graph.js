@@ -957,6 +957,36 @@ Graph.prototype.verify = function(){
 			return "请完善输入和输出信息";
 		}
 	}
+	for(var i = 0; i < data.length;++i){
+		var d = data[i];
+		if(!d.getFromEdge() && !d.getToEdge()){
+			d.blink();
+			setTimeout(function(){
+				d.stopBlink();
+			},2000);
+			return "该节点是孤立点";
+		}
+	}
+
+	var funs = this.getFunctions();
+	for(var i = 0; i < funs.length; ++i){
+		var f = funs[i];
+		if(!f.getInputs()){
+			f.blink();
+			setTimeout(function(){
+				f.stopBlink();
+			},2000);
+			return "该算法没有输入";
+        }
+        if(!f.getOutput()){
+			f.blink();
+			setTimeout(function(){
+				f.stopBlink();
+			},2000);
+			return "该算法没有输出";
+        }
+    }
+
 
 	return "success";
 }
