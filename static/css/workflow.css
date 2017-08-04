@@ -13,21 +13,24 @@ html,body{
 	background-color: #32cbcb;
 	font-size: 26px;
 	line-height: 60px;
-	border-bottom: 2px solid #787878;
+	box-shadow: 1px 2px 5px 0 #828e9a;
+	position: relative;
 }
 
 .title-icon{
 	width: 40px;
 	height: 40px;
-	background-image: url(../images/logo.png);
+	background: url(../images/workflow.png) no-repeat center;
 	display: inline-block;
 	float: left;
-	top: 8px;
+	top: 10px;
+	left: 10px;
 	position: absolute;
 }
 .title{
 	display: inline-block;
-	margin-left: 46px;
+	margin-left: 54px;
+	color: #fff;
 }
 
 .title-right {
@@ -82,6 +85,7 @@ html,body{
 
 .titlebar-title{
 	display: inline-block;
+	font-weight: 600;
 }
 
 .titlebar-tools{
