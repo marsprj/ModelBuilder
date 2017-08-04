@@ -103,3 +103,12 @@ FuncNode.prototype.scale = function(sx,sy){
 		this._shape.scale(sx,sy);
 	}
 }
+
+FuncNode.prototype.removeInputEdge = function (connection) {
+	for(var i = 0; i < this._inputs.length;++i){
+		if(this._inputs[i] == connection){
+			this._inputs.splice(i,1);
+			return;
+        }
+    }
+}

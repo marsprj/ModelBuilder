@@ -92,3 +92,26 @@ Connection.prototype.toFront = function () {
 		this._arrow.toFront();
 	}
 }
+
+Connection.prototype.clear = function () {
+	if(this._from){
+		if(this._from instanceof  DataNode){
+			this._from.setToEdge(null);
+		}else if(this._from instanceof  FuncNode){
+			this._from.setOutputEdge(null);
+		}
+	}
+
+	if(this._to){
+		if(this._to instanceof  DataNode){
+			this._to.setFromEdge(null);
+		}else if(this._to instanceof FuncNode){
+			this._to.removeInputEdge(this);
+		}
+	}
+	
+}
+
+Connection.prototype.clearNodeConn = function (node) {
+
+}

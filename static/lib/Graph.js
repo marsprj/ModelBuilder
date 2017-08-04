@@ -914,11 +914,10 @@ Graph.prototype.remove = function(){
 		this._nodeManager.removeNodeByID(id);
 		if(this._selected instanceof FuncNode){
 			var inputsConn = this._selected.getInputsEdge();
-			inputsConn.forEach(function(c){
-				var id = c.getID();
+			while (inputsConn.length>0){
+				var id = inputsConn[inputsConn.length-1].getID();
 				that._connManager.removeConnectionByID(id);
-			});
-
+			}
 			var outputConn = this._selected.getOutputEdge();
 			if(outputConn){
 				that._connManager.removeConnectionByID(outputConn.getID());
@@ -939,6 +938,8 @@ Graph.prototype.remove = function(){
 		var id = this._selected.getID();
 		this._connManager.removeConnectionByID(id);
 	}
+
+	this._selected = null;
 }
 
 /**

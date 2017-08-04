@@ -111,6 +111,7 @@ ConnectionManager.prototype.removeConnectionByID = function(id){
 	for(var i=0; i<len; i++){
 		if(this._connections[i].getID() == id){
 			this._connections[i].remove();
+			this._connections[i].clear();
 			this._connections.splice(i,1);
 			return;
 		}
