@@ -5,7 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ac37dfb7-7c13-4d7d-a101-64ef4a8b8d82" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/lib/Graph.js" afterPath="$PROJECT_DIR$/static/lib/Graph.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/lib/Shape.js" afterPath="$PROJECT_DIR$/static/lib/Shape.js" />
     </list>
     <ignored path="ModelFlow.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -40,10 +41,10 @@
       <file leaf-file-name="Graph.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/static/lib/Graph.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="356">
-              <caret line="999" column="20" lean-forward="true" selection-start-line="999" selection-start-column="20" selection-end-line="999" selection-end-column="20" />
+            <state relative-caret-position="171">
+              <caret line="583" column="0" lean-forward="true" selection-start-line="583" selection-start-column="0" selection-end-line="583" selection-end-column="0" />
               <folding>
-                <marker date="1502070068911" expanded="true" signature="20971:21053" ph="..." />
+                <marker date="1502086644027" expanded="true" signature="20971:21053" ph="..." />
               </folding>
             </state>
           </provider>
@@ -52,8 +53,8 @@
       <file leaf-file-name="Shape.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/static/lib/Shape.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="432">
-              <caret line="24" column="43" lean-forward="true" selection-start-line="24" selection-start-column="43" selection-end-line="24" selection-end-column="43" />
+            <state relative-caret-position="477">
+              <caret line="230" column="1" lean-forward="true" selection-start-line="230" selection-start-column="1" selection-end-line="230" selection-end-column="1" />
               <folding />
             </state>
           </provider>
@@ -166,6 +167,8 @@
       <find>verify</find>
       <find>remove =</find>
       <find>click</find>
+      <find>CLEAR</find>
+      <find>getSnapPos</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -203,6 +206,7 @@
         <option value="$PROJECT_DIR$/static/lib/Dialog/FileDialog.js" />
         <option value="$PROJECT_DIR$/static/lib/Dialog/UploadDialog.js" />
         <option value="$PROJECT_DIR$/static/lib/Graph.js" />
+        <option value="$PROJECT_DIR$/static/lib/Shape.js" />
       </list>
     </option>
   </component>
@@ -1092,7 +1096,7 @@
         <state relative-caret-position="360">
           <caret line="27" column="0" lean-forward="false" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
           <folding>
-            <element signature="e#0#30#0" expanded="true" />
+            <element signature="e#0#30#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1201,18 +1205,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/static/lib/Graph.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="356">
-          <caret line="999" column="20" lean-forward="true" selection-start-line="999" selection-start-column="20" selection-end-line="999" selection-end-column="20" />
+        <state relative-caret-position="171">
+          <caret line="583" column="0" lean-forward="true" selection-start-line="583" selection-start-column="0" selection-end-line="583" selection-end-column="0" />
           <folding>
-            <marker date="1502070068911" expanded="true" signature="20971:21053" ph="..." />
+            <marker date="1502086644027" expanded="true" signature="20971:21053" ph="..." />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/static/lib/Shape.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="432">
-          <caret line="24" column="43" lean-forward="true" selection-start-line="24" selection-start-column="43" selection-end-line="24" selection-end-column="43" />
+        <state relative-caret-position="477">
+          <caret line="230" column="1" lean-forward="true" selection-start-line="230" selection-start-column="1" selection-end-line="230" selection-end-column="1" />
           <folding />
         </state>
       </provider>
