@@ -993,7 +993,7 @@ Graph.prototype.verify = function(){
 	var funs = this.getFunctions();
 	for(var i = 0; i < funs.length; ++i){
 		var f = funs[i];
-		if(!f.getInputs()){
+		if(!f.getInputs() || f.getInputs().length == 0){
 			f.blink();
 			setTimeout(function(){
 				f.stopBlink();
