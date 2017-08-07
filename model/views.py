@@ -335,6 +335,7 @@ def start_task_2(task):
         else:
             task.start_time = timezone.now()
             task.end_time = None
+            task.complete_percent = 0
             task.state = 1
             task.save()
 
@@ -463,8 +464,10 @@ def start_task_2(task):
 
         return http_success_response() if success==True else http_error_response(errmsg)
     except Exception as e:
+        task.state = 3
+        task.save();
         logger.error("run task failed:{0}".format(str(e)))
-        return http_error_response("run failed")
+        return http_error_response("run failed: {0}".format(str(e)))
 
 def task_stop(request, task_id):
     try:
