@@ -109,7 +109,7 @@ Graph.prototype.initCanvasEvent = function(){
 			}
 		}else{
 			var connections = graph._connManager.getConnections();
-			var minDis = null;
+			var minDis = 10000;
 			var minIndex = null;
 			for(var i = 0; i < connections.length; ++i){
 				var conn = connections[i];
@@ -122,7 +122,7 @@ Graph.prototype.initCanvasEvent = function(){
 					minIndex = i;
 				}
 			}
-			if(minDis < 5){
+			if(minDis < 5 && minIndex != null){
 				var connection = connections[minIndex];
 				connection.setArrowAttr("stroke-width",5);
 				connection.toFront();
