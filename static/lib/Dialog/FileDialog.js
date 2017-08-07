@@ -221,6 +221,7 @@ FileDialog.prototype.populateFolders = function(){
 					html += "</div>";
 				}
 				document.getElementById("dialog_file_ctrl").innerHTML = html;
+				that._win.find(".item_container[title='" + that._file_name + "']").addClass("active")
 				that.initFileEvent();
 			}
 		});
