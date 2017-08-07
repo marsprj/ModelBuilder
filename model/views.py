@@ -403,7 +403,11 @@ def start_task_2(task):
                         f = getattr(functions, process_func_name.lower())
                         #处理计算任务
                         logger.info("run {0} function".format(process_func_name))
-                        success = f(func,process,str(user_uuid))
+                        try:
+                            success = f(func,process,str(user_uuid))
+                        except Exception as e:
+                            logger.error("process{0} run failed :{1}".format(process_func_name,str(e)))
+                            success = False
                     else:
                         errmsg = "方法[{0}]尚未在系统中注册".format(func.getName());
                         logger.error(errmsg)
