@@ -5,7 +5,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ac37dfb7-7c13-4d7d-a101-64ef4a8b8d82" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/lib/Graph.js" afterPath="$PROJECT_DIR$/static/lib/Graph.js" />
     </list>
     <ignored path="ModelFlow.iws" />
@@ -42,7 +41,7 @@
         <entry file="file://$PROJECT_DIR$/model/views.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="188">
-              <caret line="644" column="19" lean-forward="true" selection-start-line="644" selection-start-column="19" selection-end-line="644" selection-end-column="19" />
+              <caret line="644" column="19" lean-forward="false" selection-start-line="644" selection-start-column="19" selection-end-line="644" selection-end-column="19" />
               <folding>
                 <element signature="e#0#35#0" expanded="true" />
               </folding>
@@ -64,19 +63,19 @@
         <entry file="file://$PROJECT_DIR$/ModelFlow/settings.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="311">
-              <caret line="205" column="46" lean-forward="true" selection-start-line="205" selection-start-column="46" selection-end-line="205" selection-end-column="46" />
+              <caret line="205" column="46" lean-forward="false" selection-start-line="205" selection-start-column="46" selection-end-line="205" selection-end-column="46" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Graph.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Graph.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/static/lib/Graph.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="159">
-              <caret line="995" column="5" lean-forward="true" selection-start-line="995" selection-start-column="5" selection-end-line="995" selection-end-column="5" />
+            <state relative-caret-position="396">
+              <caret line="630" column="0" lean-forward="false" selection-start-line="630" selection-start-column="0" selection-end-line="630" selection-end-column="0" />
               <folding>
-                <marker date="1502161138472" expanded="true" signature="20992:21074" ph="..." />
+                <marker date="1502170797700" expanded="true" signature="20345:20427" ph="..." />
               </folding>
             </state>
           </provider>
@@ -92,11 +91,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Shape.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Shape.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/static/lib/Shape.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="243">
-              <caret line="217" column="38" lean-forward="false" selection-start-line="217" selection-start-column="38" selection-end-line="217" selection-end-column="38" />
+            <state relative-caret-position="405">
+              <caret line="127" column="12" lean-forward="true" selection-start-line="127" selection-start-column="12" selection-end-line="127" selection-end-column="12" />
               <folding />
             </state>
           </provider>
@@ -169,8 +168,10 @@
       <find>verify</find>
       <find>remove =</find>
       <find>click</find>
-      <find>getSnapPos</find>
       <find>CLEAR</find>
+      <find>startCON</find>
+      <find>getSnapPos</find>
+      <find>_dragging</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -205,10 +206,10 @@
         <option value="$PROJECT_DIR$/static/css/workflow.css" />
         <option value="$PROJECT_DIR$/static/lib/css/dialog.css" />
         <option value="$PROJECT_DIR$/static/lib/Dialog/UploadDialog.js" />
-        <option value="$PROJECT_DIR$/static/lib/Shape.js" />
         <option value="$PROJECT_DIR$/static/lib/Dialog/FileDialog.js" />
         <option value="$PROJECT_DIR$/model/views.py" />
         <option value="$PROJECT_DIR$/static/lib/Graph.js" />
+        <option value="$PROJECT_DIR$/static/lib/Shape.js" />
       </list>
     </option>
   </component>
@@ -761,7 +762,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="65" y="-4" width="1215" height="1028" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.26257458" sideWeight="0.49421486" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3292683" sideWeight="0.49029535" order="6" side_tool="false" content_ui="tabs" />
@@ -772,7 +772,7 @@
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.23314917" sideWeight="0.5873418" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24959481" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3292683" sideWeight="0.49029535" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.28066298" sideWeight="0.67572016" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.28066298" sideWeight="0.67572016" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.16118143" sideWeight="0.5057851" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="manage.py@ModelFlow" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.38563535" sideWeight="0.8518519" order="11" side_tool="false" content_ui="tabs" />
@@ -1151,14 +1151,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/static/lib/Shape.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="243">
-          <caret line="217" column="38" lean-forward="false" selection-start-line="217" selection-start-column="38" selection-end-line="217" selection-end-column="38" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/static/lib/Dialog/FileDialog.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="432">
@@ -1186,7 +1178,7 @@
     <entry file="file://$PROJECT_DIR$/ModelFlow/settings.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="311">
-          <caret line="205" column="46" lean-forward="true" selection-start-line="205" selection-start-column="46" selection-end-line="205" selection-end-column="46" />
+          <caret line="205" column="46" lean-forward="false" selection-start-line="205" selection-start-column="46" selection-end-line="205" selection-end-column="46" />
           <folding />
         </state>
       </provider>
@@ -1194,7 +1186,7 @@
     <entry file="file://$PROJECT_DIR$/model/views.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="188">
-          <caret line="644" column="19" lean-forward="true" selection-start-line="644" selection-start-column="19" selection-end-line="644" selection-end-column="19" />
+          <caret line="644" column="19" lean-forward="false" selection-start-line="644" selection-start-column="19" selection-end-line="644" selection-end-column="19" />
           <folding>
             <element signature="e#0#35#0" expanded="true" />
           </folding>
@@ -1203,11 +1195,19 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/static/lib/Graph.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="159">
-          <caret line="995" column="5" lean-forward="true" selection-start-line="995" selection-start-column="5" selection-end-line="995" selection-end-column="5" />
+        <state relative-caret-position="396">
+          <caret line="630" column="0" lean-forward="false" selection-start-line="630" selection-start-column="0" selection-end-line="630" selection-end-column="0" />
           <folding>
-            <marker date="1502161138472" expanded="true" signature="20992:21074" ph="..." />
+            <marker date="1502170797700" expanded="true" signature="20345:20427" ph="..." />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/lib/Shape.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="405">
+          <caret line="127" column="12" lean-forward="true" selection-start-line="127" selection-start-column="12" selection-end-line="127" selection-end-column="12" />
+          <folding />
         </state>
       </provider>
     </entry>

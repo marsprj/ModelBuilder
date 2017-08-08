@@ -18,6 +18,7 @@ var Graph = function(container_id){
 
 	this._state = GRAPH_STATE.NONE;
 	this._dragging = false;
+	this._connecting = false;
 
 	this._workflow = [];
 
@@ -494,6 +495,11 @@ Graph.prototype.createDatumNode = function(centerx, centery, width, height){
 		datum.draggable();
 	}
 
+	if(this._connecting){
+		datum.startSnapping();
+		datum.startConnecting(this._onNodeSelectChanged);
+	}
+
 	return datum;
 }
 
@@ -517,6 +523,11 @@ Graph.prototype.createFuncNode = function(type, centerx, centery, width, height)
 
 	if(this._dragging){
 		func.draggable();
+	}
+
+	if(this._connecting){
+		func.startSnapping();
+		func.startConnecting(this._onNodeSelectChanged);
 	}
 	return func;
 }
@@ -589,51 +600,25 @@ Graph.prototype.clear = function(){
 }
 
 Graph.prototype.startSnapping = function(){
-	//var nodeManger = NodeManager.getInstance();
-	//var nodes = nodeManger.getNodes();
 	var nodes = this._nodeManager.getNodes();
 	nodes.forEach(function(n){
 		n.startSnapping();
-		//n.startConnecting();
+
 	})
 }
 
 Graph.prototype.stopSnapping = function(){
-	//var nodeManger = NodeManager.getInstance();
-	//var nodes = nodeManger.getNodes();
 	var nodes = this._nodeManager.getNodes();
 	nodes.forEach(function(n){
 		n.stopSnapping();
-		//n.stopConnecting();
-	})	
+	})
 }
 
-// Graph.prototype.startConnecting = function(){
-
-// 	var that = this;
-// 	var nodeManger = NodeManager.getInstance();
-// 	var nodes = nodeManger.getNodes();
-// 	nodes.forEach(function(n){
-// 		n.startSnapping();
-// 		n.startConnecting(that._onNodeSelectChanged);
-// 	})
-// }
-
-// Graph.prototype.stopConnecting = function(){
-// 	var nodeManger = NodeManager.getInstance();
-// 	var nodes = nodeManger.getNodes();
-// 	nodes.forEach(function(n){
-// 		n.stopConnecting();
-// 		n.stopSnapping();
-// 	})	
-// }
-
 Graph.prototype.startConnecting = function(){
-	// this.startSnapping();
+	this._connecting = true;
+
 	// start node connecting
 	var that = this;
-	//var nodeManger = NodeManager.getInstance();
-	//var nodes = nodeManger.getNodes();
 	var nodes = this._nodeManager.getNodes();
 	nodes.forEach(function(n){
 		n.startSnapping();
@@ -783,6 +768,7 @@ Graph.prototype.startConnecting = function(){
 		that._connection = null;
 		that._start_node = null;
 		that._end_node   = null;
+		that._onNodeSelectChanged(null);
 	};
 
 	// add event listener
@@ -792,10 +778,6 @@ Graph.prototype.startConnecting = function(){
 }
 
 Graph.prototype.stopConnecting = function(){
-	// this.stopSnapping();
-	// stop node connecting
-	//var nodeManger = NodeManager.getInstance();
-	//var nodes = nodeManger.getNodes();
 	var nodes = this._nodeManager.getNodes();
 	nodes.forEach(function(n){
 		n.stopConnecting();
@@ -805,6 +787,8 @@ Graph.prototype.stopConnecting = function(){
 		this._connection.remove();
 		this._connection = null;
 	}
+
+	this._connecting = false;
 
 	//unbind listener
 	$("#"+this._container_id).unbind("mousedown", this._onmousedown);
