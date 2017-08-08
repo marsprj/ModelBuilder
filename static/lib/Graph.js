@@ -991,6 +991,9 @@ Graph.prototype.verify = function(){
 	}
 
 	var funs = this.getFunctions();
+	if(funs.length == 0){
+		return "请添加流程信息";
+	}
 	for(var i = 0; i < funs.length; ++i){
 		var f = funs[i];
 		if(!f.getInputs() || f.getInputs().length == 0){
