@@ -638,10 +638,19 @@ def user_login(request):
     username = obj["username"]
     password = obj["password"]
     try:
+        user = User.objects.filter(username=username)
+        if len(user) == 0:
+            logger.error("user[{0}] does not exist".format(username))
+            return http_error_response("用户不存在")
+    except Exception as e:
+        logger.error("user login failed : " + username)
+        return http_error_response("登录失败")
+
+    try:
         user = User.objects.get(username=username, password=password)
     except User.DoesNotExist:
         logger.error("user login failed : " + username)
-        return http_error_response("登录失败")
+        return http_error_response("密码错误")
     except OperationalError as e:
         logger.error("user login failed : {0}".format(str(e)))
         return http_error_response("登录失败")
