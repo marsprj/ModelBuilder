@@ -11,7 +11,6 @@
 }
 
 .titlebar{
-	width: calc(100%-10px);
 	padding-left: 10px;
 	height: 30px;
 	line-height: 30px;
@@ -37,7 +36,7 @@
 
 .dialog_main{
 	width: 100%;
-	height: calc(100%-50px);
+	/*height: calc(100%-50px);*/
 	font-size: 12px;
 	/*border:1px solid #000000;*/
 }
@@ -195,7 +194,7 @@
     background-repeat: no-repeat;
 	background-position: center;
 }
-}
+
 
 .dlg_folder_open:hover{
 	background-color: #e0ecf6;
@@ -334,7 +333,6 @@
 .upload_dialog .file-name{
 	width: 200px;
 	text-overflow: ellipsis;
-	word-break: break-word;
 	white-space: nowrap;
 	overflow: hidden;
 	float: left;
