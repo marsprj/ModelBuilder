@@ -59,7 +59,7 @@ Stretch.prototype.export = function(){
 
 
 Stretch.prototype.onClick = function(){
-	var input, outout;
+	var input, output;
 	if(this._inputs){
 		var conn_in = this._inputs[0];
 		if(conn_in){

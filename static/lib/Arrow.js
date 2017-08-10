@@ -5,6 +5,7 @@
  * @param endx {float}
  * @param endy {float}
  */
+"use strict";
 var Arrow = function(r, startx, starty, endx, endy){
 
 	this._r = r;

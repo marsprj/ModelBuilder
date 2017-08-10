@@ -206,7 +206,7 @@ FileDialog.prototype.populateFolders = function(){
 			contentType: "text/plain",
 			dataType : "text",
 			success:function(data){
-				json = JSON.parse(data);
+				var json = JSON.parse(data);
 				if(json.status == "error"){
 					alert(json.message);
 					return;

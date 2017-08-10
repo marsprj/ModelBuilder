@@ -51,6 +51,7 @@ function showModels(json){
 		$("#right .titlebar-title span").html("[" + name + "]");
 		$(".process-div").remove();
 		$("#task_table .table .row:not(.header)").remove();
+		$("#backdrop .image-icon").remove();
 	}else{
 		// 默认打开第一个
 		var modelFirst = $("#models_container .model-item:first");
@@ -410,7 +411,7 @@ function getTaskState(taskId,callback){
 		dataType : "text",
 		async : true,
 		success : function(json,textStatus){
-			stateJson = JSON.parse(json);
+			var stateJson = JSON.parse(json);
 			$(".process-div .row:not('.header')").remove()
 			var result = showTaskState(stateJson);
 			if(callback){

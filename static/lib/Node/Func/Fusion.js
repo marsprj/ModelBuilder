@@ -73,7 +73,7 @@ Fusion.prototype.export = function(){
 
 Fusion.prototype.onClick = function(){
 	var inputs = [null, null];
-	var outout;
+	var output;
 	if(this._inputs){
 		for(var i=0; i<this._inputs.length; i++){
 			var conn_in = this._inputs[i];
