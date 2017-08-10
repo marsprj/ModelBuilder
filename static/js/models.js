@@ -182,7 +182,7 @@ function showTasks(json){
 				}
             });
 			window.clearInterval(g_state_int);
-
+			g_state_int = null;
 		}else{
 			// 先校验任务是否已经设定了
 			var result = g_graph.verify();
@@ -202,12 +202,17 @@ function showTasks(json){
 				$(btn).parents(".row:first").removeClass().addClass("row active-row running-row");
 				runTask(taskId,function(obj){
 					window.clearInterval(g_state_int);
+					g_state_int = null;
+					obj.taskId = taskId;
 					getTaskState(taskId,function(){
 						setTimeout(function(){
+							var taskName = $("#task_table .row[uuid='" + obj.taskId
+								+ "'] .cell:eq(1)").html();
+
 							if(obj.status == "success"){
-								alert("运行成功")
+								alert(taskName + " : 运行成功")
 							}else if(obj.status == "error"){
-								alert(obj.message);
+								alert(taskName + " :  " + obj.message);
 							}
 						},10);
 					});
@@ -311,16 +316,22 @@ function getRunningState(taskId){
 	
 	// 循环获取状态
 	var startTime = new Date();
+	if(g_state_int){
+		window.clearInterval(g_state_int);
+		g_state_int = null;
+	}
 	g_state_int = setInterval(function(){
 		getTaskState(taskId,function(result){
 			if(result != 1 ){
 				window.clearInterval(g_state_int);
+				g_state_int = null;
 			}
 		})
 		var time = new Date();
 		var delta = time  - startTime;
 		if(delta > 10*60*1000){
-			window.clearInterval(g_state_int);	
+			window.clearInterval(g_state_int);
+			g_state_int = null;
 		}
 	},1000);
 }
@@ -345,10 +356,19 @@ function expandTaskState(taskId){
 		}
 	}
 
-	// 展示下面的进程窗口
-	showTaskStateDiv(taskId);
+	var taskIsRunning = $("#task_table .row[uuid='" + taskId + "'] ").hasClass("active-row");
+	if(g_state_int && taskIsRunning){
+		// 有正在运行的状态
+		window.clearInterval(g_state_int);
+		g_state_int = null;
+		// 开始获取运行状态
+		getRunningState(taskId);
+	}else{
+		// 展示下面的进程窗口
+		showTaskStateDiv(taskId);
+		getTaskState(taskId);
+	}
 
-	getTaskState(taskId);
 
 }
 

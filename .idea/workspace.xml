@@ -2,10 +2,11 @@
 <project version="4">
   <component name="BookmarkManager">
     <bookmark url="file://$PROJECT_DIR$/file/views.py" line="103" />
+    <bookmark url="file://$PROJECT_DIR$/static/js/models.js" line="224" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ac37dfb7-7c13-4d7d-a101-64ef4a8b8d82" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/lib/Arrow.js" afterPath="$PROJECT_DIR$/static/lib/Arrow.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/js/models.js" afterPath="$PROJECT_DIR$/static/js/models.js" />
     </list>
     <ignored path="ModelFlow.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -73,23 +74,35 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Arrow.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Arrow.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/static/lib/Arrow.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="234">
-              <caret line="229" column="9" lean-forward="false" selection-start-line="229" selection-start-column="8" selection-end-line="229" selection-end-column="9" />
+            <state relative-caret-position="108">
+              <caret line="222" column="23" lean-forward="true" selection-start-line="222" selection-start-column="23" selection-end-line="222" selection-end-column="23" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="models.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Graph.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/static/lib/Graph.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="324">
+              <caret line="277" column="4" lean-forward="true" selection-start-line="277" selection-start-column="4" selection-end-line="277" selection-end-column="4" />
+              <folding>
+                <marker date="1502170797700" expanded="true" signature="20345:20427" ph="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="models.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/static/js/models.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="288">
-              <caret line="43" column="7" lean-forward="false" selection-start-line="43" selection-start-column="7" selection-end-line="43" selection-end-column="7" />
+            <state relative-caret-position="477">
+              <caret line="367" column="33" lean-forward="true" selection-start-line="367" selection-start-column="33" selection-end-line="367" selection-end-column="33" />
               <folding>
-                <marker date="1502329375764" expanded="true" signature="14424:14463" ph="..." />
+                <marker date="1502353028873" expanded="true" signature="15011:15050" ph="..." />
               </folding>
             </state>
           </provider>
@@ -124,16 +137,6 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="424">
               <caret line="97" column="20" lean-forward="false" selection-start-line="97" selection-start-column="20" selection-end-line="97" selection-end-column="20" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="webuploader.css" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/static/css/webuploader.css">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="109">
-              <caret line="7" column="1" lean-forward="false" selection-start-line="7" selection-start-column="1" selection-end-line="7" selection-end-column="1" />
               <folding />
             </state>
           </provider>
@@ -182,6 +185,8 @@
       <find>loadModels</find>
       <find>getTaskState</find>
       <find>click</find>
+      <find>load</find>
+      <find>g_state_int</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -223,11 +228,11 @@
         <option value="$PROJECT_DIR$/static/lib/Dialog/FileDialog.js" />
         <option value="$PROJECT_DIR$/static/lib/graph.min.js" />
         <option value="$PROJECT_DIR$/static/js/init.js" />
-        <option value="$PROJECT_DIR$/static/js/models.js" />
         <option value="$PROJECT_DIR$/static/lib/Node/Func/Stretch.js" />
         <option value="$PROJECT_DIR$/static/lib/Node/Func/Fusion.js" />
         <option value="$PROJECT_DIR$/static/index.html" />
         <option value="$PROJECT_DIR$/static/lib/Arrow.js" />
+        <option value="$PROJECT_DIR$/static/js/models.js" />
       </list>
     </option>
   </component>
@@ -1120,16 +1125,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/static/lib/Graph.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-18">
-          <caret line="613" column="4" lean-forward="false" selection-start-line="613" selection-start-column="4" selection-end-line="613" selection-end-column="4" />
-          <folding>
-            <marker date="1502170797700" expanded="true" signature="20345:20427" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/static/lib/Node.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="198">
@@ -1306,16 +1301,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/static/js/models.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="288">
-          <caret line="43" column="7" lean-forward="false" selection-start-line="43" selection-start-column="7" selection-end-line="43" selection-end-column="7" />
-          <folding>
-            <marker date="1502329375764" expanded="true" signature="14424:14463" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/static/lib/Dialog/FusionDialog.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="198">
@@ -1354,9 +1339,29 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/static/lib/Arrow.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="234">
-          <caret line="229" column="9" lean-forward="false" selection-start-line="229" selection-start-column="8" selection-end-line="229" selection-end-column="9" />
+        <state relative-caret-position="108">
+          <caret line="222" column="23" lean-forward="true" selection-start-line="222" selection-start-column="23" selection-end-line="222" selection-end-column="23" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/lib/Graph.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="324">
+          <caret line="277" column="4" lean-forward="true" selection-start-line="277" selection-start-column="4" selection-end-line="277" selection-end-column="4" />
+          <folding>
+            <marker date="1502170797700" expanded="true" signature="20345:20427" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/js/models.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="477">
+          <caret line="367" column="33" lean-forward="true" selection-start-line="367" selection-start-column="33" selection-end-line="367" selection-end-column="33" />
+          <folding>
+            <marker date="1502353028873" expanded="true" signature="15011:15050" ph="..." />
+          </folding>
         </state>
       </provider>
     </entry>
