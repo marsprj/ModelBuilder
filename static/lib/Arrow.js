@@ -242,7 +242,7 @@ Arrow.prototype.getDistance = function (x, y) {
 		else if(x<minx){
 			d = Math.sqrt(Math.pow(y-y0, 2)+Math.pow(x-minx, 2));
 		}
-		else if(y>maxy){
+		else if(x>maxx){
 			d = Math.sqrt(Math.pow(y-y0, 2)+Math.pow(x-maxx, 2));
 		}
 	}
