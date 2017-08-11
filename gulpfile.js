@@ -9,7 +9,7 @@ var gulp = require("gulp"),
 gulp.task("graph-task",['graph-clean','graph','graph-css-clean','graph-css']);
 
 gulp.task('graph-clean', function () {
-    return gulp.src('Model/static/lib/graph.min.js')
+    return gulp.src('ModelFlow/static/lib/graph.min.js')
         .pipe(clean({force: true}))
 });
 
