@@ -1,13 +1,13 @@
 var FileDialog = function(path,mode,onOK){
 
 	Dialog.apply(this, arguments);
-	
+
 	this._folder_path = "";	//地址栏里的路径
 	this._file_path = "";	//选中的完整文件路径
 	this._file_name = "";	//选中的文件名
 	this._file_type = "";	//选中的文件类型[文件(file)|文件夹(folder)]
 	this._onOK = onOK;
-	this.setMode(mode);		
+	this.setMode(mode);
 
 	this.setPath(path ? path : "/");
 	this.populateFolders();
@@ -92,14 +92,9 @@ FileDialog.prototype.initFileEvent = function(){
 
 				$(this).click(function(){
 					//单击文件夹，选中该文件夹
-					// var curPath = dlg.getPath();
-					// var fldName = $(this).find('.folder_item_text:first').text();
-					// var newPath = dlg.makeFolderPath(curPath, fldName);
-					// dlg._file_path = newPath;
-					// dlg._file_name = fldName;
 					dlg._file_name = "";
 					dlg._file_type = "folder";
-					
+
 					dlg._win.find(".item_container").removeClass("active");
 					$(this).addClass("active");
 					dlg._win.find("#dlg_file_name").val(dlg._file_name);
@@ -125,9 +120,9 @@ FileDialog.prototype.initFileEvent = function(){
 				});
 			}
 		}
-	});	
+	});
 }
- 
+
 FileDialog.prototype.initCloseEvent = function(){
 	var dlg = this;
 	this._win.find(".dialog_exit:first").click(function(){
@@ -142,7 +137,7 @@ FileDialog.prototype.initCloseEvent = function(){
 FileDialog.prototype.initOkEvent = function(){
 	var dlg = this;
 	this._ok = true;
-	
+
 	this._win.find("#dlg_btn_ok:first").click(function(){
 		if(dlg._mode == "choose"){
 			if(dlg._file_name == ""){
@@ -188,7 +183,7 @@ FileDialog.prototype.setPath = function(path){
 }
 
 FileDialog.prototype.getPath = function(path){
-	return $(".dialog_folder_path").attr("value");	
+	return $(".dialog_folder_path").attr("value");
 }
 
 FileDialog.prototype.getFilePath = function(){
@@ -198,7 +193,7 @@ FileDialog.prototype.getFilePath = function(){
 FileDialog.prototype.populateFolders = function(){
 	var that = this;
 	var data = '{"path":"' + this._folder_path + '"}';
-	
+
 	$.ajax({
 			type:"POST",
 			url:"/file/list/",
@@ -357,7 +352,7 @@ FileDialog.prototype.create = function(){
 			+"			</li>"
 			+"		</ul>"
 			+"	</div>"
-			+"</div>";					
+			+"</div>";
 	var dlg = $(html);
 	$(".file_dialog").remove();
 	$('body').append(dlg);

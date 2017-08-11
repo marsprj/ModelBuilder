@@ -53,6 +53,9 @@ var Graph = function(container_id){
 	};
 }
 
+/**
+ * 设置内部事件
+ */
 Graph.prototype.initCanvasEvent = function(){
 	var graph = this;
 	$("#" + this._container_id).dblclick(function(evt){
@@ -66,7 +69,6 @@ Graph.prototype.initCanvasEvent = function(){
 			}
 		}
 		else{
-			//var nodeManager = NodeManager.getInstance();
 			switch(graph.getState()){
 				case GRAPH_STATE.ADDDATA:{
 					var node = graph.createDatumNode(x, y);
@@ -74,9 +76,9 @@ Graph.prototype.initCanvasEvent = function(){
 				break;
 				case GRAPH_STATE.ADDFUNC:{
 					if(g_func_type){
-						var node = graph.createFuncNode(g_func_type, x, y);	
+						var node = graph.createFuncNode(g_func_type, x, y);
 					}
-					
+
 				}
 			}
 		}
@@ -159,10 +161,13 @@ Graph.prototype.serialize = function(){
 	var tail = this.findLastFunction();
 	//由最后一个FuncNode向上回溯
 
-	this._workflow = [tail];	
+	this._workflow = [tail];
 	this.populateParentFunc(tail, this._workflow);
 }
 
+/**
+ * 加载
+ */
 Graph.prototype.load = function(json){
 
 	var model = JSON.parse(json);
@@ -204,7 +209,7 @@ Graph.prototype.load = function(json){
 
 	var graph = this;
 	var centerx = Math.round(this._width/2 + 0.5);
-	var centery = Math.round(this._height/2 + 0.5); 
+	var centery = Math.round(this._height/2 + 0.5);
 	model.data.forEach(function(d){
 		d.node = graph.createDatumNode(50, 50, 100, 50);
 		d.node.setPath(d.path);
@@ -236,7 +241,7 @@ Graph.prototype.load = function(json){
 		inputs.forEach(function(i){
 			var inputLevel = 1;
 			var from = i.getFrom();
-			if(from){		
+			if(from){
 				return;
 			}
 			var next = f;
@@ -244,7 +249,7 @@ Graph.prototype.load = function(json){
 				var output = next.getOutput();
 				if(output&&output.getTo()){
 					inputLevel += 1;
-					next = output.getTo(); 
+					next = output.getTo();
 				}else{
 					break;
 				}
@@ -275,7 +280,7 @@ Graph.prototype.load = function(json){
  		validHeight = validHeight * scale;
  		connWidth = connWidth*scale;
  	}
-	
+
 
 
 	// 先处理尾节点
@@ -295,7 +300,7 @@ Graph.prototype.load = function(json){
 				output.scale(scale,scale);
 			}
 		}
-	}	
+	}
 
 	var graph = this;
 	// 调整方法节点和节点前的输入，并进行递归，直到前面没有输入
@@ -338,9 +343,9 @@ Graph.prototype.load = function(json){
 }
 
 Graph.prototype.export = function(){
-	
+
 	var tail = this.findLastFunction();
-	
+
 	var model = {
 		name : this._name,
 		description : this._descripiton,
@@ -373,44 +378,6 @@ Graph.prototype.export = function(){
 	return JSON.stringify(model);
 }
 
-// Graph.prototype.export = function(){
-	
-// 	this.serialize();
-
-// 	var wf = [];
-
-// 	for(var i=this._workflow.length-1; i>=0; i--){
-// 		var node = this._workflow[i];		
-// 		var func = {
-// 			id : node.getID(),
-// 			type : node.getType(),
-// 			name : node.getName(),
-// 			inputs : [],
-// 			output : null
-// 		}
-// 		var inputs = node.getInputs();
-// 		inputs.forEach(function(n){
-// 			var inp = {
-// 				id : n.getID(),
-// 				type : n.getType(),
-// 				name : node.getName(),
-// 			}
-// 			func.inputs.push(inp);
-// 		})
-// 		var output = node.getOutput();
-// 		if(output){
-// 			var oup = {
-// 				id : output.getID(),
-// 				type : output.getType(),	
-// 				name : node.getName(),
-// 			}
-// 			func.output = oup;	
-// 		}
-// 		wf.push(func);
-// 	}
-
-// 	return JSON.stringify(wf);
-// }
 
 Graph.prototype.populateParentFunc = function(func, stack){
 	var that = this;
@@ -424,6 +391,9 @@ Graph.prototype.populateParentFunc = function(func, stack){
 	})
 }
 
+/**
+ * 获取序列
+ */
 Graph.prototype.getWorkflowText = function(){
 	var text = "";
 	for(var i=this._workflow.length-1; i>=0; i--){
@@ -435,14 +405,12 @@ Graph.prototype.getWorkflowText = function(){
 	return text;
 }
 
+/**
+ * 拖拽
+ */
 Graph.prototype.draggable = function(){
 
 	this._dragging = true;
-
-	// var edges = this.getEdges();
-	// edges.forEach(function(e){
-	// 	e.draggable();
-	// })
 
 	var data = this.getData();
 	data.forEach(function(d){
@@ -455,13 +423,11 @@ Graph.prototype.draggable = function(){
 	})
 }
 
+/**
+ * 禁止拖拽
+ */
 Graph.prototype.undrag = function(){
 	this._dragging = false;
-
-	// var edges = this.getEdges();
-	// edges.forEach(function(e){
-	// 	e.undrag();
-	// })
 
 	var data = this.getData();
 	data.forEach(function(d){
@@ -474,12 +440,17 @@ Graph.prototype.undrag = function(){
 	})
 }
 
+/**
+ * 获取所有连接
+ */
 Graph.prototype.getEdges = function(){
-	//var edgeManager = ConnectionManager.getInstance();
-	//return edgeManager.getConnections();
 	return this._connManager.getConnections();
 }
 
+
+/**
+ * 创建数据节点
+ */
 Graph.prototype.createDatumNode = function(centerx, centery, width, height){
 
 	var w = width  ?  width : 100;
@@ -487,8 +458,6 @@ Graph.prototype.createDatumNode = function(centerx, centery, width, height){
 	var xmin = centerx - w / 2;
 	var ymin = centery - h / 2;
 
-	//var nodeManager = NodeManager.getInstance();
-	//var datum = nodeManager.createDataNode(this._r, xmin, ymin, w, h);
 	var datum = this._nodeManager.createDataNode(this._r, xmin, ymin, w, h);
 
 	if(this._dragging){
@@ -503,13 +472,16 @@ Graph.prototype.createDatumNode = function(centerx, centery, width, height){
 	return datum;
 }
 
+/**
+ * 获取数据节点
+ */
 Graph.prototype.getData = function(){
-	// var datumManager = NodeManager.getInstance();
-	// return datumManager.getNodes();
-	//var nodeManager = NodeManager.getInstance();
 	return this._nodeManager.getDataNodes();
 }
 
+/**
+ * 创建方法节点
+ */
 Graph.prototype.createFuncNode = function(type, centerx, centery, width, height){
 
 	var w = width  ?  width : 100;
@@ -517,8 +489,6 @@ Graph.prototype.createFuncNode = function(type, centerx, centery, width, height)
 	var xmin = centerx - w / 2;
 	var ymin = centery - h / 2;
 
-	//var nodeManager = NodeManager.getInstance();
-	//var func = nodeManager.createFuncNode(type, this._r, xmin, ymin, w, h);
 	var func = this._nodeManager.createFuncNode(type, this._r, xmin, ymin, w, h);
 
 	if(this._dragging){
@@ -532,41 +502,18 @@ Graph.prototype.createFuncNode = function(type, centerx, centery, width, height)
 	return func;
 }
 
-// Graph.prototype.createFuncNode = function(type, centerx, centery, width, height){
-
-// 	var w = width  ?  width : 100;
-// 	var h = height ? height :  50;
-// 	var xmin = centerx - w / 2;
-// 	var ymin = centery - h / 2;
-
-// 	var nodeManager = NodeManager.getInstance();
-// 	var func = nodeManager.createFuncNode(type, this._r, xmin, ymin, w, h);
-// 	return func;
-// }
-
-// Graph.prototype.createStretchNode = function(centerx, centery, width, height){
-
-// 	var w = width  ?  width : 100;
-// 	var h = height ? height :  50;
-// 	var xmin = centerx - w / 2;
-// 	var ymin = centery - h / 2;
-
-// 	var nodeManager = NodeManager.getInstance();
-// 	var func = nodeManager.createStretchNode(this._r, xmin, ymin, w, h);
-// 	return func;
-// }
-
+/**
+ * 获取方法节点
+ */
 Graph.prototype.getFunctions = function(){
-	// var funcManager = FuncManager.getInstance();
-	// return funcManager.getNodes();
-	//var nodeManager = NodeManager.getInstance();
-	//return nodeManager.getFuncNodes();
 	return this._nodeManager.getFuncNodes();
 }
 
+
+/**
+ * 创建连接
+ */
 Graph.prototype.createEdge = function(from, to){
-	//var edgeManager = ConnectionManager.getInstance();
-	//var edge = edgeManager.createConnection(this._r, from, to);
 	var edge = this._connManager.createConnection(this._r, from, to);
 
 	switch(from.getType()){
@@ -588,25 +535,34 @@ Graph.prototype.createEdge = function(from, to){
 		case NODE_TYPE.FUNC:{
 			to.addInputEdge(edge);
 		}
-		break;	
+		break;
 	}
 	return edge;
 }
 
+
+/**
+ * 清空
+ */
 Graph.prototype.clear = function(){
 	this._name = null;
 	this._connManager.clear();
 	this._nodeManager.clear();
 }
 
+/**
+ * 开始绘制snap
+ */
 Graph.prototype.startSnapping = function(){
 	var nodes = this._nodeManager.getNodes();
 	nodes.forEach(function(n){
 		n.startSnapping();
-
 	})
 }
 
+/**
+ * 停止snap
+ */
 Graph.prototype.stopSnapping = function(){
 	var nodes = this._nodeManager.getNodes();
 	nodes.forEach(function(n){
@@ -614,6 +570,9 @@ Graph.prototype.stopSnapping = function(){
 	})
 }
 
+/**
+ * 连接
+ */
 Graph.prototype.startConnecting = function(){
 	this._connecting = true;
 
@@ -645,7 +604,7 @@ Graph.prototype.startConnecting = function(){
 														 , that._conn_end.x,   that._conn_end.y);
 			}
 		}
-			
+
 	};
 
 	this._onmousemove = function(evt){
@@ -674,7 +633,7 @@ Graph.prototype.startConnecting = function(){
 			if(node){
 				//捕捉到终点
 				if(node.getID() == that._start_node.getID()){
-					that._connection.update(that._conn_start.x, that._conn_start.y, 
+					that._connection.update(that._conn_start.x, that._conn_start.y,
 											x, 		y);
 				}
 				else{
@@ -687,7 +646,7 @@ Graph.prototype.startConnecting = function(){
 			else{
 				//未捕捉到终点
 				if(that._connection){
-					that._connection.update(that._conn_start.x, that._conn_start.y, 
+					that._connection.update(that._conn_start.x, that._conn_start.y,
 											x, 		y);
 				}
 			}
@@ -719,12 +678,8 @@ Graph.prototype.startConnecting = function(){
 				}
 				else{
 					that._connection.remove();
-					that._end_node = node;				
-					
-					//var conManager = ConnectionManager.getInstance();
-					//var id = conManager.makeID(that._start_node, that._end_node);
-					//var c = conManager.getConnectionById(id);
-					//
+					that._end_node = node;
+
 					var id = that._connManager.makeID(that._start_node, that._end_node);
 					var c = that._connManager.getConnectionById(id);
 					if(c){
@@ -777,6 +732,9 @@ Graph.prototype.startConnecting = function(){
 	$("#"+this._container_id).on("mouseup",   this._onmouseup);
 }
 
+/**
+ * 停止连接
+ */
 Graph.prototype.stopConnecting = function(){
 	var nodes = this._nodeManager.getNodes();
 	nodes.forEach(function(n){
@@ -793,51 +751,20 @@ Graph.prototype.stopConnecting = function(){
 	//unbind listener
 	$("#"+this._container_id).unbind("mousedown", this._onmousedown);
 	$("#"+this._container_id).unbind("mousemove", this._onmousemove);
-	$("#"+this._container_id).unbind("mouseup",   this._onmouseup);	
+	$("#"+this._container_id).unbind("mouseup",   this._onmouseup);
 }
 
-Graph.prototype.onMouseDown = function(evt){
-	console.log("[graph]:down");
-
-	var node = this.getSelectedNode();
-	if(node){
-		this._start_node = node;
-		this._conn_start = node.findSnap(evt.offsetX, evt.offsetY);
-		this._connection = new Connection(this._r, this._conn_start.x, this._conn_start.y
-												 , this._conn_end.x,   this._conn_end.y);
-	}
-}
-
-Graph.prototype.onMouseMove = function(evt){
-	console.log("[graph]:move");
-
-	var node = this.getSelectedNode();
-	if(node){
-		//捕捉到终点
-	}
-	else{
-		//未捕捉到终点
-		if(this._connection){
-			this._connection.update(this._conn_start.x, this._conn_start.y, 
-									evt.offsetX, evt.offsetY);	
-		}
-	}
-}
-
-Graph.prototype.onMouseUp = function(evt){
-	console.log("[graph]:up");
-}
-
-// Graph.prototype.onNodeSelectChanged = function(node){
-// 	this._selected_node = node;
-	
-// 	console.log("[nde]:" + (node ? node.getID() : "nothing"));
-// }
-
+/**
+ * 获取选中的点
+ */
 Graph.prototype.getSelectedNode = function(){
 	return this._selected_node;
 }
 
+
+/**
+ * 获取最后一个方法节点
+ */
 Graph.prototype.findLastFunction = function(){
 	var last = null;
 	var funcs = this.getFunctions();
@@ -856,7 +783,7 @@ Graph.prototype.findLastFunction = function(){
 		}
 		else{
 			var to = output.getTo();	// get to node
-			if(!to){				
+			if(!to){
 				break;
 			}
 			else{
@@ -868,7 +795,10 @@ Graph.prototype.findLastFunction = function(){
 	return last;
 }
 
-// 是否可以编辑
+
+/**
+ * 是否可以编辑
+ */
 Graph.prototype.setEditable = function(isEditable){
 	var backdrop = "backdrop";
 	$("#" + backdrop).remove();
@@ -882,7 +812,9 @@ Graph.prototype.setEditable = function(isEditable){
 	}
 }
 
-// 设置大小
+/**
+ * 设置大小
+ */
 Graph.prototype.setSize = function(width,height){
 	if(width == null || height == null){
 		return;
@@ -896,10 +828,18 @@ Graph.prototype.setSize = function(width,height){
 	this.load(this.export());
 }
 
+/**
+ * 获取宽度
+ * @return {[type]} [description]
+ */
 Graph.prototype.getWidth = function(){
 	return this._width;
 }
 
+/**
+ * 获取高度
+ * @return {[type]} [description]
+ */
 Graph.prototype.getHeight = function(){
 	return this._height;
 }
@@ -999,10 +939,10 @@ Graph.prototype.verify = function(){
 
 	return "success";
 }
+
 /**
  * 根据id获取节点
  */
 Graph.prototype.getNodeById = function(id){
 	return this._nodeManager.getNodeById(id);
 }
-

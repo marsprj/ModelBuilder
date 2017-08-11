@@ -49,8 +49,7 @@ Node.prototype.draggable = function(){
 		this.attr({"stroke-width":5});
 	};
 	var move = function(dx, dy){
-		if(that._shape){			
-			//that._shape.offset(dx-ex, dy-ey);
+		if(that._shape){
 			that.offset(dx-ex, dy-ey);
 		}
 		ex = dx;
@@ -70,9 +69,6 @@ Node.prototype.draggable = function(){
 }
 
 Node.prototype.showText = function(){
-	// var id = this.getID();
-	// var text = this._name + "\r\n" + id;
-	// this._shape.showText(text);
 	this._shape.showText(this._name);
 }
 
@@ -95,7 +91,6 @@ Node.prototype.setID = function(id){
 }
 
 Node.prototype.getID = function(){
-	// return this._shape ? this._shape.getID() : "";
 	return this._id ? this._id : "";
 }
 
@@ -156,7 +151,7 @@ Node.prototype.hideSnap = function(){
 }
 
 Node.prototype.onClick = function(){
-	
+
 }
 
 Node.prototype.getFillColor = function(){
@@ -199,7 +194,7 @@ Node.prototype.stopBlink = function(){
 		this._shape.stop();
 		this._shape.setAttr("fill",this._blink_color);
 		this._blink_int = null;
-		this._blink_color = null;		
+		this._blink_color = null;
 	}
 }
 

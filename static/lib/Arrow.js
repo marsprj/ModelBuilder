@@ -34,7 +34,7 @@ var Arrow = function(r, startx, starty, endx, endy){
 	if(this.length()>this._mind){
 		this._line = this.createArrow();
 	}
-	
+
 }
 
 Arrow.prototype.update = function(startx, starty, endx, endy){
@@ -142,7 +142,7 @@ Arrow.prototype.createArrow = function(){
 					.replace("{sy}", this._starty)
 					.replace("{ex}", this._endx)
 					.replace("{ey}", this._endy);
-	
+
 
 	var line = this._r.path(_path)
 						.attr({
@@ -166,11 +166,11 @@ Arrow.prototype.updateArrow = function(){
 					.replace("{sx}", this._startx)
 					.replace("{sy}", this._starty)
 					.replace("{ex}", this._endx)
-					.replace("{ey}", this._endy);	
+					.replace("{ey}", this._endy);
 
 	this._line.attr({
 				path: _path
-			});	
+			});
 }
 
 

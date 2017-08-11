@@ -1,6 +1,4 @@
 var ConnectionManager = function(){
-
-	this._instance = null;
 	this._connections = [];
 }
 
@@ -61,19 +59,13 @@ ConnectionManager.prototype.clear = function(){
 	this._connections.length = 0;
 }
 
-ConnectionManager.getInstance = function(){
-	if(this._instance==null){
-		this._instance = new ConnectionManager();
-	}
-	return this._instance;
-}
 
 
 /**
  * 获取两个节点的最近点
  * @param  {Node} from 起点
  * @param  {Node} to   终点
- * @return {Array<Object>} 点坐标序列      
+ * @return {Array<Object>} 点坐标序列
  */
 ConnectionManager.prototype.getClosePoints = function(from,to){
 	if(from == null || to == null){
@@ -102,7 +94,7 @@ ConnectionManager.prototype.getClosePoints = function(from,to){
 
 	var cs = f_snaps[f];
 	var ce = t_snaps[t];
-	return [cs,ce];	
+	return [cs,ce];
 }
 
 
@@ -115,5 +107,5 @@ ConnectionManager.prototype.removeConnectionByID = function(id){
 			this._connections.splice(i,1);
 			return;
 		}
-	}	
+	}
 }

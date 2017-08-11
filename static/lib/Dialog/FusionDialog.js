@@ -88,7 +88,7 @@ FusionDialog.prototype.initFolderEvent = function(){
 				file_dlg.show();
 			})
 		});
-	})	
+	})
 }
 
 FusionDialog.prototype.initCloseEvent = function(){
@@ -104,7 +104,7 @@ FusionDialog.prototype.initCloseEvent = function(){
 
 FusionDialog.prototype.initOkEvent = function(){
 	var dlg = this;
-	
+
 	this._win.find("#dlg_btn_ok:first").click(function(){
 		dlg._input1  = dlg._win.find("#fusion_input_1").val();
 		dlg._input2  = dlg._win.find("#fusion_input_2").val();

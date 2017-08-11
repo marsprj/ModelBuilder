@@ -20,13 +20,13 @@ Stretch.prototype.updateInputNode = function(path){
 }
 
 Stretch.prototype.updateOutputNode = function(path){
-	
+
 	if(this._output){
 		var to = this._output.getTo();
 		if(to){
 			to.setPath(path);
 		}
-	}	
+	}
 }
 
 Stretch.prototype.export = function(){
@@ -67,7 +67,7 @@ Stretch.prototype.onClick = function(){
 			if(from){
 				input = from.getPath();
 			}
-		}	
+		}
 	}
 	if(this._output){
 		var conn_out = this._output;
@@ -76,7 +76,7 @@ Stretch.prototype.onClick = function(){
 			if(to){
 				output = to.getPath();
 			}
-		}	
+		}
 	}
 
 	var that = this;

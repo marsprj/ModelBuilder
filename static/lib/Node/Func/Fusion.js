@@ -3,8 +3,6 @@ var Fusion = function(){
 	FuncNode.apply(this, arguments);
 
 	this._name = "Fusion";
-
-
 }
 
 extend(Fusion, FuncNode);
@@ -27,9 +25,9 @@ Fusion.prototype.updateInputNode2 = function(path){
 		var from = conn.getFrom();
 		if(from){
 			from.setPath(path);
-		}	
+		}
 	}
-	
+
 }
 
 Fusion.prototype.updateOutputNode = function (path) {
@@ -83,7 +81,7 @@ Fusion.prototype.onClick = function(){
 					inputs[i] = from.getPath();
 				}
 			}
-		}	
+		}
 	}
 	if(this._output){
 		var conn_out = this._output;
@@ -92,7 +90,7 @@ Fusion.prototype.onClick = function(){
 			if(to){
 				output = to.getPath();
 			}
-		}	
+		}
 	}
 
 	var that = this;
@@ -102,5 +100,5 @@ Fusion.prototype.onClick = function(){
 		that.updateOutputNode(this.getOutput());
 	});
 	dlg.show();
-	
+
 }

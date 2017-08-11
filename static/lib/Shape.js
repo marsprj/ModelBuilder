@@ -16,17 +16,14 @@ var Shape = function(r){
 	var connection = null;
 }
 
-Shape.prototype.hover_in = function(){
-	this.showSnap();
-}
+// Shape.prototype.hover_in = function(){
+// 	this.showSnap();
+// }
+//
+// Shape.prototype.hover_out = function(){
+// 	this.hideSnap();
+// }
 
-Shape.prototype.hover_out = function(){
-	this.hideSnap();
-}
-
-Shape.prototype.showSnap = function(){
-
-}
 
 Shape.prototype.getID = function(){
 	return this._shape ? this._shape.id : "";
@@ -58,7 +55,7 @@ Shape.prototype.undrag = function(){
 }
 
 Shape.prototype.getSnapPos = function(){
-	
+
 }
 
 Shape.prototype.showSnap = function(){
@@ -66,14 +63,14 @@ Shape.prototype.showSnap = function(){
 		this.hideSnap();
 	}
 	this._snapxy = this.getSnapPos();
-	
+
 	var that = this;
 	this._snaps.length = 0;
 	this._snapxy.forEach(function(s){
 		var c = that._r.circle(s.x, s.y, that._snap_r).attr({
 				"fill" : "#FFF",
 				"stroke" : "#0F0"
-			});	
+			});
 		that._snaps.push(c);
 	});
 }
@@ -85,7 +82,7 @@ Shape.prototype.hideSnap = function(){
 	this._snaps.length = 0;
 }
 
-Shape.prototype.showText = function(text){	
+Shape.prototype.showText = function(text){
 	var cx = (this._xmin + this._xmax) / 2;
 	var cy = (this._ymin + this._ymax) / 2;
 	if(this._text){
@@ -211,23 +208,7 @@ Shape.prototype.stopSnapping = function(){
 }
 
 Shape.prototype.startConnecting = function(onSelectChanged){
-	// var that = this;
-	// this._shape.hover(
-	// 	function(){
-	// 		if(onSelectChanged){
-	// 			onSelectChanged(that);
-	// 		}
-	// 	},
-	// 	function(){
-	// 		if(onSelectChanged){
-	// 			onSelectChanged(null);
-	// 		}
-	// 	});
 	this._onSelectedChanged = onSelectChanged;
-	// this._shape.hover(
-	// 	that._connection_listener.in,
-	// 	that._connection_listener.out
-	// );
 }
 
 Shape.prototype.stopConnecting = function(){
@@ -245,7 +226,7 @@ Shape.prototype.remove = function(){
 		this._shape.remove();
 	}
 	if(this._text){
-		this._text.remove();	
+		this._text.remove();
 	}
 }
 

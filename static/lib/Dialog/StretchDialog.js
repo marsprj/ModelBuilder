@@ -14,14 +14,6 @@
 
 extend(StretchDialog, Dialog)
 
-// StretchDialog.prototype.initEvents = function(){
-	
-// 	//打开文件的点击事件
-// 	this.initFolderEvent();
-// 	this.initCloseEvent();
-// 	this.initOkEvent();
-// }
-
 
 StretchDialog.prototype.initFolderEvent = function(){
 
@@ -44,7 +36,7 @@ StretchDialog.prototype.initFolderEvent = function(){
 				file_dlg.show();
 			})
 		});
-	})	
+	})
 }
 
 StretchDialog.prototype.initCloseEvent = function(){
@@ -60,7 +52,7 @@ StretchDialog.prototype.initCloseEvent = function(){
 
 StretchDialog.prototype.initOkEvent = function(){
 	var dlg = this;
-	
+
 	this._win.find("#dlg_btn_ok:first").click(function(){
 		dlg._input  = dlg._win.find(".dialog_input:first").val();
 		dlg._output = dlg._win.find(".dialog_output:first").val();
@@ -129,7 +121,7 @@ StretchDialog.prototype.create = function(){
 			+"		</li>"
 			+"	</ul>"
 			+"</div>";
-	$(".func_dialog").remove();		
+	$(".func_dialog").remove();
 	var dlg = $(html);
 	$('body').append(dlg);
 	return dlg;

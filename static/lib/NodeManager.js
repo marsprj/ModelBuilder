@@ -1,12 +1,10 @@
 var NodeManager = function(){
-
-	this._instance = null;
 	this._nodes = [];
 }
 
 NodeManager.prototype.createDataNode = function(r, xmin, ymin, width, height){
 
-	var node = new DataNode(r, xmin, ymin, width, height);	
+	var node = new DataNode(r, xmin, ymin, width, height);
 	node.showText();
 
 	this._nodes.push(node);
@@ -46,7 +44,7 @@ NodeManager.prototype.getNodeById = function(id){
 	var len = this._nodes.length;
 	for(var i=0; i<len; i++){
 		var wid = this._nodes[i].getID();
-		
+
 		if(this._nodes[i].getID() == id){
 			return this._nodes[i];
 		}
@@ -85,7 +83,7 @@ NodeManager.prototype.getFuncNode = function(){
 			return this._nodes[i];
 		}
 	}
-		
+
 	return null;
 }
 
@@ -100,23 +98,15 @@ NodeManager.prototype.clear = function(){
 	this._nodes.length = 0;
 }
 
-NodeManager.getInstance = function(){
-	if(this._instance==null){
-		this._instance = new NodeManager();
-	}
-	return this._instance;
-}
-
-
 NodeManager.prototype.removeNodeByID = function(id){
 	var len = this._nodes.length;
 	for(var i=0; i<len; i++){
 		var wid = this._nodes[i].getID();
-		
+
 		if(this._nodes[i].getID() == id){
 			this._nodes[i].remove();
 			this._nodes.splice(i,1);
 			return;
 		}
-	}	
+	}
 }

@@ -20,18 +20,13 @@ var Ellipse = function(r, xmin, ymin, width, height){
 	this._snap_r= 3;
 
 	this._shape = this._r.ellipse(this._centerx, this._centery, this._a, this._b);
-	// this._shape.attr(
-	// 	"fill", "#ff0",
-	// 	"stroke", "#f0f"
-	// );
+
 	this._shape.attr({
 		"fill": "#eef7ff",
 		"stroke":"#000",
 	});
 	this._id = this._shape.id;
 
-	var cx = this._shape.attr("cx");
-	console.log(cx);
 }
 
 extend(Ellipse, Shape);
@@ -60,7 +55,7 @@ Ellipse.prototype.getSnapPos = function(){
 
 		{ x: 	this._xmin + sx*3,	y: 	this._centery - y3},
 		{ x: 	this._xmin + sx*3,	y:  this._centery + y3},
-		
+
 		{ x: 	this._xmin + sx*4,	y: 	this._centery - y4},
 		{ x: 	this._xmin + sx*4,	y:  this._centery + y4},
 
@@ -95,7 +90,7 @@ Ellipse.prototype.moveTo = function(x, y){
 		this._text.attr({
 			x : cx,
 			y : cy
-		});	
+		});
 	}
 }
 
@@ -127,7 +122,7 @@ Ellipse.prototype.offset = function(dx, dy){
 		this._text.attr({
 			x : cx,
 			y : cy
-		});	
+		});
 	}
 }
 
@@ -139,7 +134,7 @@ Ellipse.prototype.scale = function(sx,sy){
 		this._xmin = bbox.x;
 		this._ymin = bbox.y;
 		this._xmax = bbox.x + bbox.width;
-		this._ymax = bbox.y + bbox.height;		
+		this._ymax = bbox.y + bbox.height;
 
 		this._a = Math.abs(this._xmax - this._xmin) / 2;
 		this._b = Math.abs(this._ymax - this._ymin) / 2;

@@ -80,7 +80,9 @@ Connection.prototype.export = function(){
 	}
 }
 
-
+/**
+ * 设置箭头的属性
+ */
 Connection.prototype.setArrowAttr = function (key, value) {
 	if(this._arrow){
 		this._arrow.setAttr(key,value);
@@ -109,7 +111,6 @@ Connection.prototype.clear = function () {
 			this._to.removeInputEdge(this);
 		}
 	}
-	
 }
 
 Connection.prototype.getDistance = function (x, y) {

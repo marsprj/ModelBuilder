@@ -28,7 +28,6 @@ DataNode.prototype.setPath = function(path){
 		text = "data";
 	}
 	this.setName(text);
-	//this.showText();
 	if(this._path == "/"){
 		this.setShapeAttr("fill","#eef7ff");
 	}else{
@@ -81,7 +80,7 @@ DataNode.prototype.offset = function(dx, dy){
 	}
 	if(this._to){
 		var points = connManager.getClosePoints(this,this._to.getTo());
-		this._to.update(points[0].x,points[0].y,points[1].x,points[1].y);	
+		this._to.update(points[0].x,points[0].y,points[1].x,points[1].y);
 	}
 }
 
@@ -97,34 +96,6 @@ Node.prototype.export = function(){
 		path : this._path
 	};
 }
-
-// DataNode.prototype.draggable = function(){
-
-// 	// var ox, oy;
-// 	var nowX, nowY;
-// 	var that = this;
-// 	var start = function(){
-// 		// ox = this.attr("cx");
-// 		// oy = this.attr("cy");
-// 	};
-// 	var move = function(dx, dy){
-// 		if(that._shape){			
-// 			that._shape.offset(dx-ex, dy-ey);
-// 		}
-// 		ex = dx;
-// 		ey = dy;
-// 	}
-// 	var end = function(){
-
-// 	}
-
-// 	if(this._shape){
-// 		var element = this._shape.getElement();
-// 		if(element){
-// 			element.drag(move, start, end);
-// 		}
-// 	}
-// }
 
 
 DataNode.prototype.onClick = function(){
