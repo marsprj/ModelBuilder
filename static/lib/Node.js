@@ -127,6 +127,7 @@ Node.prototype.export = function(){
 Node.prototype.remove = function(){
 	if(this._shape){
 		this._shape.remove();
+		this._shape.hideSnap();
 	}
 }
 
