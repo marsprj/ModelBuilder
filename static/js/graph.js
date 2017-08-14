@@ -63,6 +63,7 @@ function initGraphEvent(){
 		if(value == "yes"){
 			g_graph.setEditable(true);
 		}else if(value == "not"){
+			$("#tools .tool").removeClass("active");
 			g_graph.setEditable(false);
 		}
 	});
