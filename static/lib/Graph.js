@@ -682,7 +682,9 @@ Graph.prototype.startConnecting = function(){
 
 					var id = that._connManager.makeID(that._start_node, that._end_node);
 					var c = that._connManager.getConnectionById(id);
-					if(c){
+					var reverseId = that._connManager.makeID(that._end_node, that._start_node);
+					var reverseC = that._connManager.getConnectionById(reverseId);
+					if(c || reverseC){
 						alert("连接已经存在，不能重复添加");
 					}
 					else{
