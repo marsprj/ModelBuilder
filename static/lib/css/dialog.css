@@ -364,3 +364,18 @@
     width: 60px;
     text-align: center;
 }
+/********************************************************************/
+/*    create Folder dialog
+/********************************************************************/
+.create-folder-dialog{
+    left: 650px;
+    top: 300px;
+    width: 360px;
+    font-size: 12px;
+    border: 1px solid #888;
+    background-color: #fff;
+    box-shadow: 2px 2px 5px 2px #888888;
+}
+.create-folder-dialog input {
+    width: 290px;
+}

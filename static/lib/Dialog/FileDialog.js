@@ -47,7 +47,12 @@ FileDialog.prototype.initCreateFolderEvent = function(){
 
 	var dlg = this;
 	this._win.find(".dialog_folder_add:first").click(function(){
-		dlg.createFolder();
+		var createFoloderDialog = new CreateFolderDialog(dlg._folder_path,function () {
+			dlg.populateFolders();
+        },function () {
+
+        })
+		createFoloderDialog.show();
 	});
 }
 
@@ -239,35 +244,35 @@ FileDialog.prototype.upwards = function(){
 	}
 }
 
-FileDialog.prototype.createFolder = function(){
-	if(!this._folder_path){
-		return;
-	}
-
-	var that = this;
-	var fname = Math.random().toString(36).substr(2);
-	var fpath = this.makeFolderPath(this._folder_path, fname);
-
-	var data = '{"path":"' + fpath + '"}';
-
-	$.ajax({
-		type:"POST",
-		url:"/file/create/",
-		data : data,
-		contentType: "text/plain",
-		dataType : "text",
-		async : true,
-		success : function(result){
-			var text = JSON.parse(result);
-			if(text.status == "success"){
-				that.populateFolders();
-			}else{
-				alert((text.message));
-			}
-		},
-	});
-
-}
+// FileDialog.prototype.createFolder = function(){
+// 	if(!this._folder_path){
+// 		return;
+// 	}
+//
+// 	var that = this;
+// 	var fname = Math.random().toString(36).substr(2);
+// 	var fpath = this.makeFolderPath(this._folder_path, fname);
+//
+// 	var data = '{"path":"' + fpath + '"}';
+//
+// 	$.ajax({
+// 		type:"POST",
+// 		url:"/file/create/",
+// 		data : data,
+// 		contentType: "text/plain",
+// 		dataType : "text",
+// 		async : true,
+// 		success : function(result){
+// 			var text = JSON.parse(result);
+// 			if(text.status == "success"){
+// 				that.populateFolders();
+// 			}else{
+// 				alert((text.message));
+// 			}
+// 		},
+// 	});
+//
+// }
 
 FileDialog.prototype.deleteFolder = function(){
 	var active = this._win.find(".item_container.active");
