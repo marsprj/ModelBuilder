@@ -68,12 +68,26 @@
 		    $("#username").focus();
 		    return;
         }
+        var reg = /^[0-9a-zA-Z_]+$/;
+		if(!reg.test(username)){
+		    $(".info").html("请输入有效的用户名，包含字母、数字和下划线");
+		    $("#username").focus();
+		    return;
+        }
+
 		var password = $("#password").val();
 		if(password == ""){
 		    $(".info").html("请输入密码");
 		    $("#password").focus();
 		    return;
         }
+        var chineseReg = /[^\x00-\xff]/;
+		if(chineseReg.test(password)){
+		    $(".info").html("密码不得使用中文");
+            $("#password").focus();
+            return;
+        }
+
         var repassword = $("#repassword").val();
 		if(repassword == ""){
 		    $(".info").html("请再次输入密码");
