@@ -18,6 +18,7 @@ var graphList = ["ModelFlow/static/lib/*.js",
 		"ModelFlow/static/lib/Node/*.js",
 		"ModelFlow/static/lib/Node/*/*.js",
 		"ModelFlow/static/lib/shape/*.js",
+		'!ModelFlow/static/lib/graph.min.js'
 ];
 var graphDest = "ModelFlow/static/lib/";
 gulp.task("graph",['graph-clean'],function(){
@@ -106,3 +107,11 @@ gulp.task('user-css',['user-css-clean'],function(){
 gulp.task('default',['graph-task','index-task','user-task']);
 
 
+/********************AUTO****************/
+gulp.task('auto',function(){
+	gulp.watch(graphList,['graph']);
+	gulp.watch(graphCssList,['graph-css']);
+	gulp.watch(indexList,['index-js']);
+	gulp.watch(indexCssList,['index-css']);
+	gulp.watch(userCssList,['user-css']);
+});

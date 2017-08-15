@@ -6,7 +6,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ac37dfb7-7c13-4d7d-a101-64ef4a8b8d82" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/index.html" afterPath="$PROJECT_DIR$/static/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/lib/Graph.js" afterPath="$PROJECT_DIR$/static/lib/Graph.js" />
     </list>
     <ignored path="ModelFlow.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -38,11 +39,54 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="index.html" pinned="false" current-in-tab="true">
+      <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/static/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="162">
-              <caret line="9" column="76" lean-forward="false" selection-start-line="9" selection-start-column="76" selection-end-line="9" selection-end-column="76" />
+            <state relative-caret-position="271">
+              <caret line="169" column="0" lean-forward="true" selection-start-line="169" selection-start-column="0" selection-end-line="169" selection-end-column="0" />
+              <folding>
+                <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="e#3042#3049#1#HTML" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="init.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/static/js/init.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="180">
+              <caret line="128" column="0" lean-forward="true" selection-start-line="128" selection-start-column="0" selection-end-line="128" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="test.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/static/test.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="325">
+              <caret line="38" column="5" lean-forward="true" selection-start-line="38" selection-start-column="5" selection-end-line="38" selection-end-column="5" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="user.css" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/static/css/user.css">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="262">
+              <caret line="146" column="22" lean-forward="true" selection-start-line="146" selection-start-column="22" selection-end-line="146" selection-end-column="22" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="workflow.css" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/static/css/workflow.css">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="369">
+              <caret line="165" column="1" lean-forward="true" selection-start-line="165" selection-start-column="1" selection-end-line="165" selection-end-column="1" />
               <folding />
             </state>
           </provider>
@@ -58,35 +102,33 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="FileDialog.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/static/lib/Dialog/FileDialog.js">
+      <file leaf-file-name="Graph.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/static/lib/Graph.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="81">
-              <caret line="258" column="20" lean-forward="false" selection-start-line="258" selection-start-column="20" selection-end-line="258" selection-end-column="20" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="CreateModelDialog.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/static/js/CreateModelDialog.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="432">
-              <caret line="41" column="0" lean-forward="false" selection-start-line="41" selection-start-column="0" selection-end-line="45" selection-end-column="9" />
+            <state relative-caret-position="410">
+              <caret line="945" column="11" lean-forward="true" selection-start-line="945" selection-start-column="11" selection-end-line="945" selection-end-column="11" />
               <folding>
-                <marker date="1502760491922" expanded="true" signature="1772:1786" ph="..." />
-                <marker date="1502760491922" expanded="true" signature="1810:1830" ph="..." />
-                <marker date="1502760491922" expanded="true" signature="1877:1890" ph="..." />
+                <marker date="1502780209461" expanded="true" signature="17208:17290" ph="..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Dialog.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/static/lib/Dialog.js">
+      <file leaf-file-name="dialog.css" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/static/lib/css/dialog.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="90">
-              <caret line="5" column="13" lean-forward="false" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
+            <state relative-caret-position="333">
+              <caret line="369" column="22" lean-forward="true" selection-start-line="369" selection-start-column="22" selection-end-line="369" selection-end-column="22" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="graph.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/static/js/graph.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="522">
+              <caret line="71" column="0" lean-forward="true" selection-start-line="71" selection-start-column="0" selection-end-line="71" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -95,28 +137,8 @@
       <file leaf-file-name="CreateFolderDialog.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/static/lib/Dialog/CreateFolderDialog.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="307">
-              <caret line="39" column="9" lean-forward="false" selection-start-line="35" selection-start-column="7" selection-end-line="39" selection-end-column="9" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="createTaskDialog.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/static/js/createTaskDialog.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="446">
-              <caret line="52" column="11" lean-forward="false" selection-start-line="52" selection-start-column="11" selection-end-line="52" selection-end-column="11" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="dialog.css" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/static/lib/css/dialog.css">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="495">
-              <caret line="378" column="21" lean-forward="false" selection-start-line="378" selection-start-column="21" selection-end-line="378" selection-end-column="21" />
+            <state relative-caret-position="175">
+              <caret line="99" column="44" lean-forward="true" selection-start-line="99" selection-start-column="44" selection-end-line="99" selection-end-column="44" />
               <folding />
             </state>
           </provider>
@@ -160,9 +182,10 @@
       <find>clear</find>
       <find>load</find>
       <find>clearremoveConnectionByID</find>
-      <find>makeFolderPath</find>
       <find>&quot;use strict&quot;;var Arrow=</find>
       <find>&quot;use strict&quot;</find>
+      <find>makeFolderPath</find>
+      <find>aaa</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -190,15 +213,12 @@
         <option value="$PROJECT_DIR$/static/lib/EdgeManager.js" />
         <option value="$PROJECT_DIR$/static/lib/Node/FuncNode.js" />
         <option value="$PROJECT_DIR$/static/lib/Edge.js" />
-        <option value="$PROJECT_DIR$/static/css/user.css" />
-        <option value="$PROJECT_DIR$/static/css/workflow.css" />
         <option value="$PROJECT_DIR$/static/lib/Dialog/UploadDialog.js" />
         <option value="$PROJECT_DIR$/model/views.py" />
         <option value="$PROJECT_DIR$/static/lib/Shape.js" />
         <option value="$PROJECT_DIR$/static/lib/func/add.js" />
         <option value="$PROJECT_DIR$/static/admin.html" />
         <option value="$PROJECT_DIR$/static/login.html" />
-        <option value="$PROJECT_DIR$/static/js/init.js" />
         <option value="$PROJECT_DIR$/static/lib/Node/Func/Stretch.js" />
         <option value="$PROJECT_DIR$/static/lib/Node/Func/Fusion.js" />
         <option value="$PROJECT_DIR$/static/lib/Arrow.js" />
@@ -206,16 +226,21 @@
         <option value="$PROJECT_DIR$/static/lib/Node.js" />
         <option value="$PROJECT_DIR$/static/lib/Dialog.js" />
         <option value="$PROJECT_DIR$/static/register.html" />
-        <option value="$PROJECT_DIR$/static/lib/Graph.js" />
-        <option value="$PROJECT_DIR$/static/js/graph.js" />
-        <option value="$PROJECT_DIR$/static/lib/css/dialog.css" />
         <option value="$PROJECT_DIR$/static/lib/Dialog/FileDialog.js" />
         <option value="$PROJECT_DIR$/static/lib/Dialog/CreateFolderDialog.js" />
         <option value="$PROJECT_DIR$/static/js/CreateModelDialog.js" />
         <option value="$PROJECT_DIR$/static/js/createTaskDialog.js" />
         <option value="$PROJECT_DIR$/static/lib/graph.min.js" />
         <option value="$PROJECT_DIR$/static/lib/css/graph.min.css" />
+        <option value="$PROJECT_DIR$/static/test.html" />
         <option value="$PROJECT_DIR$/static/index.html" />
+        <option value="$PROJECT_DIR$/static/js/index.min.js" />
+        <option value="$PROJECT_DIR$/static/js/init.js" />
+        <option value="$PROJECT_DIR$/static/lib/Graph.js" />
+        <option value="$PROJECT_DIR$/static/lib/css/dialog.css" />
+        <option value="$PROJECT_DIR$/static/js/graph.js" />
+        <option value="$PROJECT_DIR$/static/css/user.css" />
+        <option value="$PROJECT_DIR$/static/css/workflow.css" />
       </list>
     </option>
   </component>
@@ -927,13 +952,6 @@
     </watches-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/conf/modelflow.conf">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="162">
-          <caret line="9" column="12" lean-forward="false" selection-start-line="9" selection-start-column="12" selection-end-line="9" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/ModelFlow/urls.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="378">
@@ -1070,14 +1088,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/static/js/index.min.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/static/js/filesys.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="46">
@@ -1106,14 +1116,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-27">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static/css/workflow.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="189">
-          <caret line="155" column="6" lean-forward="false" selection-start-line="155" selection-start-column="0" selection-end-line="155" selection-end-column="6" />
           <folding />
         </state>
       </provider>
@@ -1183,14 +1185,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/static/lib/Edge.js" />
-    <entry file="file://$PROJECT_DIR$/static/css/user.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2952">
-          <caret line="164" column="23" lean-forward="false" selection-start-line="164" selection-start-column="23" selection-end-line="164" selection-end-column="23" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/static/css/index.min.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="36">
@@ -1216,16 +1210,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/static/lib/Graph.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4114">
-          <caret line="710" column="46" lean-forward="true" selection-start-line="710" selection-start-column="46" selection-end-line="710" selection-end-column="46" />
-          <folding>
-            <marker date="1502689248364" expanded="true" signature="17208:17290" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/static/js/models.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="396">
@@ -1233,22 +1217,6 @@
           <folding>
             <marker date="1502353028873" expanded="true" signature="15011:15050" ph="..." />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static/js/init.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-980">
-          <caret line="62" column="10" lean-forward="false" selection-start-line="62" selection-start-column="10" selection-end-line="62" selection-end-column="10" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static/js/graph.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="414">
-          <caret line="65" column="52" lean-forward="false" selection-start-line="65" selection-start-column="52" selection-end-line="65" selection-end-column="52" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1268,26 +1236,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/static/lib/css/dialog.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="495">
-          <caret line="378" column="21" lean-forward="false" selection-start-line="378" selection-start-column="21" selection-end-line="378" selection-end-column="21" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/static/lib/Dialog/FileDialog.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="81">
           <caret line="258" column="20" lean-forward="false" selection-start-line="258" selection-start-column="20" selection-end-line="258" selection-end-column="20" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static/lib/Dialog/CreateFolderDialog.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="307">
-          <caret line="39" column="9" lean-forward="false" selection-start-line="35" selection-start-column="7" selection-end-line="39" selection-end-column="9" />
           <folding />
         </state>
       </provider>
@@ -1312,14 +1264,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/static/lib/graph.min.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-85824">
-          <caret line="0" column="307" lean-forward="false" selection-start-line="0" selection-start-column="307" selection-end-line="0" selection-end-column="307" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/static/lib/css/graph.min.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -1328,10 +1272,95 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/static/lib/Dialog/CreateFolderDialog.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="175">
+          <caret line="99" column="44" lean-forward="true" selection-start-line="99" selection-start-column="44" selection-end-line="99" selection-end-column="44" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/test.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="325">
+          <caret line="38" column="5" lean-forward="true" selection-start-line="38" selection-start-column="5" selection-end-line="38" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/static/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="162">
-          <caret line="9" column="76" lean-forward="false" selection-start-line="9" selection-start-column="76" selection-end-line="9" selection-end-column="76" />
+        <state relative-caret-position="271">
+          <caret line="169" column="0" lean-forward="true" selection-start-line="169" selection-start-column="0" selection-end-line="169" selection-end-column="0" />
+          <folding>
+            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="e#3042#3049#1#HTML" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/js/index.min.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="189">
+          <caret line="0" column="1691" lean-forward="false" selection-start-line="0" selection-start-column="1688" selection-end-line="0" selection-end-column="1691" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/lib/graph.min.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="307" lean-forward="false" selection-start-line="0" selection-start-column="307" selection-end-line="0" selection-end-column="307" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/js/init.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="128" column="0" lean-forward="true" selection-start-line="128" selection-start-column="0" selection-end-line="128" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/lib/Graph.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="410">
+          <caret line="945" column="11" lean-forward="true" selection-start-line="945" selection-start-column="11" selection-end-line="945" selection-end-column="11" />
+          <folding>
+            <marker date="1502780209461" expanded="true" signature="17208:17290" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/lib/css/dialog.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="333">
+          <caret line="369" column="22" lean-forward="true" selection-start-line="369" selection-start-column="22" selection-end-line="369" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/js/graph.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="522">
+          <caret line="71" column="0" lean-forward="true" selection-start-line="71" selection-start-column="0" selection-end-line="71" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/css/user.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="262">
+          <caret line="146" column="22" lean-forward="true" selection-start-line="146" selection-start-column="22" selection-end-line="146" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/css/workflow.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="369">
+          <caret line="165" column="1" lean-forward="true" selection-start-line="165" selection-start-column="1" selection-end-line="165" selection-end-column="1" />
           <folding />
         </state>
       </provider>
