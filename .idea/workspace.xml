@@ -6,9 +6,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ac37dfb7-7c13-4d7d-a101-64ef4a8b8d82" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/js/CreateModelDialog.js" afterPath="$PROJECT_DIR$/static/js/CreateModelDialog.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/js/createTaskDialog.js" afterPath="$PROJECT_DIR$/static/js/createTaskDialog.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/lib/Dialog/CreateFolderDialog.js" afterPath="$PROJECT_DIR$/static/lib/Dialog/CreateFolderDialog.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/index.html" afterPath="$PROJECT_DIR$/static/index.html" />
     </list>
     <ignored path="ModelFlow.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -40,21 +38,21 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
+      <file leaf-file-name="index.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/static/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="311">
-              <caret line="160" column="24" lean-forward="false" selection-start-line="160" selection-start-column="24" selection-end-line="160" selection-end-column="24" />
+            <state relative-caret-position="162">
+              <caret line="9" column="76" lean-forward="false" selection-start-line="9" selection-start-column="76" selection-end-line="9" selection-end-column="76" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="graph.min.js" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/static/lib/graph.min.js">
+      <file leaf-file-name="graph.min.css" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/static/lib/css/graph.min.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-11754">
-              <caret line="0" column="1079" lean-forward="false" selection-start-line="0" selection-start-column="1079" selection-end-line="0" selection-end-column="1079" />
+            <state relative-caret-position="0">
+              <caret line="0" column="37" lean-forward="false" selection-start-line="0" selection-start-column="37" selection-end-line="0" selection-end-column="37" />
               <folding />
             </state>
           </provider>
@@ -163,6 +161,8 @@
       <find>load</find>
       <find>clearremoveConnectionByID</find>
       <find>makeFolderPath</find>
+      <find>&quot;use strict&quot;;var Arrow=</find>
+      <find>&quot;use strict&quot;</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -198,7 +198,6 @@
         <option value="$PROJECT_DIR$/static/lib/func/add.js" />
         <option value="$PROJECT_DIR$/static/admin.html" />
         <option value="$PROJECT_DIR$/static/login.html" />
-        <option value="$PROJECT_DIR$/static/lib/graph.min.js" />
         <option value="$PROJECT_DIR$/static/js/init.js" />
         <option value="$PROJECT_DIR$/static/lib/Node/Func/Stretch.js" />
         <option value="$PROJECT_DIR$/static/lib/Node/Func/Fusion.js" />
@@ -209,12 +208,14 @@
         <option value="$PROJECT_DIR$/static/register.html" />
         <option value="$PROJECT_DIR$/static/lib/Graph.js" />
         <option value="$PROJECT_DIR$/static/js/graph.js" />
-        <option value="$PROJECT_DIR$/static/index.html" />
         <option value="$PROJECT_DIR$/static/lib/css/dialog.css" />
         <option value="$PROJECT_DIR$/static/lib/Dialog/FileDialog.js" />
         <option value="$PROJECT_DIR$/static/lib/Dialog/CreateFolderDialog.js" />
         <option value="$PROJECT_DIR$/static/js/CreateModelDialog.js" />
         <option value="$PROJECT_DIR$/static/js/createTaskDialog.js" />
+        <option value="$PROJECT_DIR$/static/lib/graph.min.js" />
+        <option value="$PROJECT_DIR$/static/lib/css/graph.min.css" />
+        <option value="$PROJECT_DIR$/static/index.html" />
       </list>
     </option>
   </component>
@@ -839,7 +840,7 @@
     <frame x="64" y="-11" width="1217" height="1036" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2634271" sideWeight="0.49421486" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25916454" sideWeight="0.49421486" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3292683" sideWeight="0.49029535" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.29" sideWeight="0.32427984" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.23375528" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -1057,14 +1058,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="378">
           <caret line="105" column="0" lean-forward="false" selection-start-line="105" selection-start-column="0" selection-end-line="105" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static/lib/css/graph.min.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="8" lean-forward="false" selection-start-line="0" selection-start-column="8" selection-end-line="0" selection-end-column="8" />
           <folding />
         </state>
       </provider>
@@ -1319,18 +1312,26 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/static/index.html">
+    <entry file="file://$PROJECT_DIR$/static/lib/graph.min.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="311">
-          <caret line="160" column="24" lean-forward="false" selection-start-line="160" selection-start-column="24" selection-end-line="160" selection-end-column="24" />
+        <state relative-caret-position="-85824">
+          <caret line="0" column="307" lean-forward="false" selection-start-line="0" selection-start-column="307" selection-end-line="0" selection-end-column="307" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/static/lib/graph.min.js">
+    <entry file="file://$PROJECT_DIR$/static/lib/css/graph.min.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-11754">
-          <caret line="0" column="1079" lean-forward="false" selection-start-line="0" selection-start-column="1079" selection-end-line="0" selection-end-column="1079" />
+        <state relative-caret-position="0">
+          <caret line="0" column="37" lean-forward="false" selection-start-line="0" selection-start-column="37" selection-end-line="0" selection-end-column="37" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="162">
+          <caret line="9" column="76" lean-forward="false" selection-start-line="9" selection-start-column="76" selection-end-line="9" selection-end-column="76" />
           <folding />
         </state>
       </provider>
