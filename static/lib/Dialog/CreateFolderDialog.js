@@ -33,6 +33,12 @@ CreateFolderDialog.prototype.initOkEvent = function () {
             return;
         }
 
+        var nameReg = /^[\u4e00-\u9fa5_a-zA-Z0-9]+$/;
+        if(!nameReg.test(name)){
+			alert("请输入有效的文件夹名称");
+			return;
+		}
+
         var path = dlg._path + name + "/" ;
         dlg.createFolder(path,function (result) {
             if(result.status == "success"){
@@ -46,6 +52,12 @@ CreateFolderDialog.prototype.initOkEvent = function () {
         })
         
     });
+    
+    	this._win.find(".new-folder-name").keydown(function (e) {
+		if(e.keyCode == 13){
+			dlg._win.find("#dlg_btn_ok").click();
+		}
+    })
 }
 
 

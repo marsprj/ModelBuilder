@@ -34,6 +34,12 @@ CreateTaskDialog.prototype.initOkEvent = function(){
 			return;
 		}
 
+		var nameReg = /^[\u4e00-\u9fa5_a-zA-Z0-9]+$/;
+        if(!nameReg.test(name)){
+			alert("请输入有效的任务名称");
+			return;
+		}
+
 		var modelId = $("#models_container .model-item.active").attr("uuid");
 		if(modelId == null){
 			alert("请选择一个模型");
