@@ -105,7 +105,7 @@ def models(request,username):
         return http_error_response("no user")
 
     try:
-        models = user.model_set.all()
+        models = user.model_set.all().order_by("-create_time")
     except OperationalError as e:
         logger.error("get user [{0}] models failed :{1}".format(str(e)))
         return  http_error_response("get user models failed")
@@ -175,7 +175,7 @@ def model_tasks(request, model_id):
         return http_error_response("get model task failed")
 
     try:
-        tasks = model.task_set.all()
+        tasks = model.task_set.all().order_by("-start_time")
         obj = []
         for task in tasks:
             obj.append(task.exportToJson())
