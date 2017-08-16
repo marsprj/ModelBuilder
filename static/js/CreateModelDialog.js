@@ -61,6 +61,10 @@ CreateModelDialog.prototype.initOkEvent = function(){
 			if(dlg._onOK){
 				dlg._onOK(result);
 			}
+
+			if(g_helper.isShow()){
+				g_helper.show(3);
+			}
 		});
 
 		
@@ -68,7 +72,8 @@ CreateModelDialog.prototype.initOkEvent = function(){
 }
 
 CreateModelDialog.prototype.create = function(){
-	var html = '<div class="create-model-dialog dialog">'
+	var html = '<div class="create-model-dialog dialog" helper-step="2" '
+		+'helper-text="输入名称和描述，点击确定" helper-position="right" helper-next="false">'
 		+'	<div class="titlebar">'
 		+'		<div class="dialog_title">新建模型</div>'
 		+'		<div class="dialog_exit"></div>'

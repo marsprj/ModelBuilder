@@ -20,13 +20,14 @@
 			工作流系统
 		</div>
         <div class="title-right">
+        	<a href="javascript:void(0)" class="user-helper">新手引导</a>
             <a href="javascript:void(0)" class="user-name"></a>
             <a href="javascript:void(0)" class="logout">退出</a>
         </div>
 	</div>
 	<div id="main">
 		<div id="left" class="panel">
-			<div class="titlebar">
+			<div class="titlebar" helper-step="1" helper-text="点击新建" helper-position="bottom" helper-next="false">
 				<div class="titlebar-title">模型库</div>
 				<div class="titlebar-tools">
 					<button class="new-model-btn">新建</button>
@@ -68,10 +69,10 @@
 					</div>
 				</div>
 			</div>
-			<div id="canvas_div">
+			<div id="canvas_div" helper-step="4" helper-text="该区域为编辑区域，进行工作流的绘制" helper-position="top">
 				<div id="canvas">
 				</div>
-				<div id="state_div">
+				<div id="state_div" helper-step="5" helper-text="默认是禁止编辑状态，选择启用则开始进行编辑" helper-position="left">
 					<div class="state-name">编辑</div>
 					<select>
                         <option value="not">禁用</option>
@@ -138,6 +139,18 @@
 			</g>
 		</svg>
 	</div>
+<!-- 	<div class="black-overlay">
+	</div>
+	<div class="highlight-overlay"></div>
+	<div class="highlight-info">
+		<div class="info-text">
+			
+		</div>
+		<div class="info-bottom">
+			<button class="info-bottom-btn">知道了</button>
+			<button class="info-bottom-btn">下一步</button>
+		</div>
+	</div> -->
 </body>
 
 
@@ -173,6 +186,7 @@
 <script type="text/javascript" src="js/models.js"></script>
 <script type="text/javascript" src="js/CreateModelDialog.js"></script>
 <script type="text/javascript" src="js/createTaskDialog.js"></script>
+<script type="text/javascript" src="js/beginnerHelper.js"></script>
 
 
 <!--<script type="text/javascript" src="js/index.min.js"></script>-->

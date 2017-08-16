@@ -620,3 +620,81 @@ html,body{
         width: 100%;
     }
 }
+
+
+.black-overlay{
+	box-sizing: content-box;
+    z-index: 999999;
+    background-color: #000;
+	top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    position: fixed;
+    opacity: 0.8;
+    -webkit-transition: all .3s ease-out;
+    -moz-transition: all .3s ease-out;
+    -ms-transition: all .3s ease-out;
+    -o-transition: all .3s ease-out;
+    transition: all .3s ease-out;
+}
+
+.highlight-object{
+	z-index: 9999999!important;
+	position: relative;
+}
+
+.highlight-overlay{
+	z-index: 9999998;
+	background-color: rgba(255,255,255,.9);
+	position: absolute;
+	    box-shadow: 0 2px 15px rgba(0,0,0,.4);
+    -webkit-transition: all .3s ease-out;
+    -moz-transition: all .3s ease-out;
+    -ms-transition: all .3s ease-out;
+    -o-transition: all .3s ease-out;
+    transition: all .3s ease-out;
+}
+
+.highlight-info{
+	position: absolute;
+	z-index: 999999;
+	width: 200px;
+	background-color: #fff;
+	box-shadow: 0 0px 8px 0 rgba(0, 0, 0, 0.06), 0 1px 0px 0 rgba(0, 0, 0, 0.02);
+	padding: 16px;
+	-webkit-transition: all .3s ease-out;
+    -moz-transition: all .3s ease-out;
+    -ms-transition: all .3s ease-out;
+    -o-transition: all .3s ease-out;
+    transition: all .3s ease-out;
+    border-radius: 6px;
+}
+
+.highlight-info .info-text{
+	width: 100%;
+	min-height: 60px; 
+	padding: 6px;
+	font-size: 14px;
+}
+
+.hide-step{
+	display: none;
+}
+
+.hightlight-info .info-bottom{
+
+}
+.highlight-info .info-bottom-btn{
+	width: 82px;
+    height: 36px;
+    border-radius: 4px;
+    background-color: #32cbcb;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+.highlight-info .info-bottom-btn:hover{
+	box-shadow: 2px 2px 1px 1px #cbc4c4;
+	font-weight: 600;
+}

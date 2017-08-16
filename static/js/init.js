@@ -4,6 +4,7 @@ var g_new_model = null;
 var g_func_type = null;
 var g_new_task = null;
 var g_username = null;
+var g_helper = null;
 
 
 // 状态获取的循环器
@@ -23,6 +24,7 @@ function user_init() {
 		$(".user-name").html("用户&nbsp;:&nbsp;" + username);
 		g_graph = new Graph("canvas");
 		g_graph.setEditable(false);
+		g_helper = new BeginnerHelper();
 		initPageEvent();
 		initGraphEvent();
 		loadModels();
@@ -39,6 +41,11 @@ function getCookie(name){
 
 
 function initPageEvent(){
+	// 新手引导
+	$(".user-helper").click(function(){
+		g_helper.show(1);
+	});
+
 	//退出
 	$(".logout").click(function(){
 		logout();
@@ -55,6 +62,9 @@ function initPageEvent(){
 			loadModels();
 		});
 		dlg.show();
+		if(g_helper.isShow()){
+			g_helper.show(2);
+		}
 	});	
 
 	// 删除模型

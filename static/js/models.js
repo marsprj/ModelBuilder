@@ -52,6 +52,11 @@ function showModels(json){
 		$(".process-div").remove();
 		$("#task_table .table .row:not(.header)").remove();
 		$("#backdrop .image-icon").remove();
+		$("#models_container .model-item.active").attr("helper-step",3)
+			.attr("helper-text","可以看到新建的模型").attr("helper-position","right");
+		if(g_helper.isShow()){
+			g_helper.show(3);
+		}
 	}else{
 		// 默认打开第一个
 		var modelFirst = $("#models_container .model-item:first");
