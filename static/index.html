@@ -27,7 +27,7 @@
 	</div>
 	<div id="main">
 		<div id="left" class="panel">
-			<div class="titlebar" helper-step="1" helper-text="点击新建" helper-position="bottom" helper-next="false">
+			<div class="titlebar">
 				<div class="titlebar-title">模型库</div>
 				<div class="titlebar-tools">
 					<button class="new-model-btn">新建</button>
@@ -70,9 +70,9 @@
 				</div>
 			</div>
 			<div id="canvas_div" helper-step="4" helper-text="该区域为编辑区域，进行工作流的绘制" helper-position="top">
-				<div id="canvas">
+				<div id="canvas" helper-step="7" helper-text="在画图区域双击，得到一个算法节点" helper-position="top">
 				</div>
-				<div id="state_div" helper-step="5" helper-text="默认是禁止编辑状态，选择启用则开始进行编辑" helper-position="left">
+				<div id="state_div" helper-step="5" helper-text="默认是禁止编辑状态，选择启用开始进行编辑" helper-position="left">
 					<div class="state-name">编辑</div>
 					<select>
                         <option value="not">禁用</option>
@@ -82,7 +82,7 @@
 				<div id="data_div" title="数据节点">
 				</div>
 				<!-- 算法库 -->
-				<div id="funcs">
+				<div id="funcs" helper-step="6" helper-text="在算法库中选择一个算法，点击" helper-position="left">
 					<div class="titlebar">
 						算法库
 					</div>

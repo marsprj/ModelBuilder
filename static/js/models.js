@@ -52,8 +52,6 @@ function showModels(json){
 		$(".process-div").remove();
 		$("#task_table .table .row:not(.header)").remove();
 		$("#backdrop .image-icon").remove();
-		$("#models_container .model-item.active").attr("helper-step",3)
-			.attr("helper-text","可以看到新建的模型").attr("helper-position","right");
 		if(g_helper.isShow()){
 			g_helper.show(3);
 		}
@@ -195,6 +193,9 @@ function showTasks(json){
 				alert(result);
 				return;
 			}
+			if(g_helper.isShow()){
+				g_helper.show(24);
+			}
 			// 设置为不可编辑状态
 			g_graph.setEditable(false);
 			$("#state_div select option[value='not']").prop("selected",true);
@@ -249,6 +250,9 @@ function showTasks(json){
 		    scrollTop: row.offset().top - div.offset().top + div.scrollTop()
 		},1000)
 		g_new_task = null;
+		if(g_helper.isShow()){
+			g_helper.show(23);
+		}
 	}
 
 }
@@ -511,6 +515,10 @@ function showTaskState(json){
 	var rect = row[0].getClientRects()[0];
 	var top = rect.top + rect.height;
 	var left = rect.left;
+	if(g_helper.isShow()&& $(".highlight-object").attr("id") == "right"){
+		left = 0;
+		top = rect.top - 60 + rect.height;
+	}
 	$(".process-div").css("left",left + "px").css("top",top + "px").slideDown();
 
 	// 是否更新该行
