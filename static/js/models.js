@@ -513,12 +513,8 @@ function showTaskState(json){
 	var row = $("#task_table .row[uuid='" + uuid + "']");
 	$(".process-div .process-header").after(processesHtml);
 	var rect = row[0].getClientRects()[0];
-	var top = rect.top + rect.height;
-	var left = rect.left;
-	if(g_helper.isShow()&& $(".highlight-object").attr("id") == "right"){
-		left = 0;
-		top = rect.top - 60 + rect.height;
-	}
+	var top = rect.height + rect.top - 60;
+	var left = 0;
 	$(".process-div").css("left",left + "px").css("top",top + "px").slideDown();
 
 	// 是否更新该行
