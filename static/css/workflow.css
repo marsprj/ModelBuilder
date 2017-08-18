@@ -340,11 +340,13 @@ html,body{
     border: 1px solid #aaaaaa;
     width: 43px;
     text-align: center;
+    border-right: none;
 }
 
 #state_div select{
 	padding: 2px;
     margin-left: -5px;
+    height: 23px;
 }
 
 .state-tool{
