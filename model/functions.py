@@ -4,61 +4,73 @@ from .Graph import Function, Datum
 from PIL import Image
 import os.path
 import shutil
-import subprocess,signal
+import subprocess,signal,logging
+
+logger = logging.getLogger('model.app')
 
 """
 处理图像拉伸
 """
 def process_stretch(func,process,user_uuid):
-    task_id = str(process.task_id)
-    #获取输入参数
-    inputs = func.getInputs()
-    if len(inputs) == 0:
+    try:
+
+        task_id = str(process.task_id)
+        #获取输入参数
+        inputs = func.getInputs()
+        if len(inputs) == 0:
+            return False
+        ipath = inputs[0].getPath()
+
+        if not inputs[0].getFrom():
+            local_ipath = build_local_path(ipath,user_uuid)
+        else :
+            local_ipath = build_task_local_path(ipath,task_id,user_uuid)
+
+        # 获取输出参数
+        output = func.getOutput()
+        if output == None:
+            return False
+        opath = output.getPath()
+
+        local_opath = build_task_local_path(opath, task_id,user_uuid)
+
+        raster_stretch(local_ipath, local_opath)
+    except Exception as e:
+        logger.error("process stretch run failed: {0}".format(str(e)))
         return False
-    ipath = inputs[0].getPath()
-
-    if not inputs[0].getFrom():
-        local_ipath = build_local_path(ipath,user_uuid)
-    else :
-        local_ipath = build_task_local_path(ipath,task_id,user_uuid)
-
-    # 获取输出参数
-    output = func.getOutput()
-    if output == None:
+    try:
+        result = process_test(process)
+    except Exception as e:
         return False
-    opath = output.getPath()
-
-    local_opath = build_task_local_path(opath, task_id,user_uuid)
-
-    raster_stretch(local_ipath, local_opath)
-
-    return process_test(process)
+    return result
 
 
 def raster_stretch(ipath, opath):
+    try:
 
-    #模拟生成一个新的图片
-    image = Image.open(ipath)
-    image_out = Image.new(image.mode, image.size)
-    index = ipath.rfind('.')
-    if index != -1:
-        postfix = ipath[index:]
-        if postfix == '.tiff' or postfix == '.tif':
-            return True
+        #模拟生成一个新的图片
+        image = Image.open(ipath)
+        image_out = Image.new(image.mode, image.size)
+        index = ipath.rfind('.')
+        if index != -1:
+            postfix = ipath[index:]
+            if postfix == '.tiff' or postfix == '.tif':
+                return True
 
-    pixels = list(image.getdata())
-    image_out.putdata(pixels)
-    image_out.save(opath)
+        pixels = list(image.getdata())
+        image_out.putdata(pixels)
+        image_out.save(opath)
 
-    # if not os.path.exists(local_ipath):
-    #     return False
+        # if not os.path.exists(local_ipath):
+        #     return False
 
-    # if not os.path.exists(local_opath):
-    #     return False
+        # if not os.path.exists(local_opath):
+        #     return False
 
-    #shutil.copy2(local_ipath, local_opath)
-
-    return True
+        #shutil.copy2(local_ipath, local_opath)
+    except Exception as e:
+        logger.error("raster stretch run failed: {0}".format(str(e)))
+        raise e
 
 """
 处理图像融合
