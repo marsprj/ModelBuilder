@@ -419,8 +419,8 @@ function showTaskStateDiv(uuid){
 	var row = $("#task_table .row[uuid='" + uuid + "']");
 	$("#task_table").after(html);
 	var rect = row[0].getClientRects()[0];
-	var top = rect.top + rect.height;
-	var left = rect.left;
+	var top = rect.top + rect.height - 60;
+	var left = 0;
 	$(".process-div").css("left",left + "px").css("top",top + "px").slideDown();	
 	
 	$(".process-div .process-close-btn").click(function(){
