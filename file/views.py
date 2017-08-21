@@ -64,7 +64,11 @@ def file_list(request):
 
         files_json = []
 
-        files = os.listdir(file_path)
+        # files = os.listdir(file_path)
+        def sorted_ls(path):
+            mtime = lambda f: os.stat(os.path.join(path, f)).st_mtime
+            return list(sorted(os.listdir(path), key=mtime))
+        files = sorted_ls(file_path)
         for f in files:
             fpath = os.path.join(file_path, f)
             type = "file" if os.path.isfile(fpath) else "folder"
