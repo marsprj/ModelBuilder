@@ -80,14 +80,14 @@ function setFullScreen(){
 		$("#resize_div").removeClass("full-screen").attr("title","全屏");
 		$("#left").removeClass("full-screen");
 		$("#right").removeClass("full-screen");
-		$("#right .titlebar").removeClass("full-screen");
+		$("#right > .titlebar").removeClass("full-screen");
 		$("#task_table").removeClass("full-screen");
 		$("#canvas_div").removeClass("full-screen");
 	}else{
 		$("#resize_div").addClass("full-screen").attr("title","退出全屏");
 		$("#left").addClass("full-screen");
 		$("#right").addClass("full-screen");
-		$("#right .titlebar").addClass("full-screen");
+		$("#right > .titlebar").addClass("full-screen");
 		$("#task_table").addClass("full-screen");
 		$("#canvas_div").addClass("full-screen");
 	}
