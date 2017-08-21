@@ -9,9 +9,10 @@ function loadModels(){
 		success : function(json,textStatus){
 			showModels(JSON.parse(json));
 		},
-		error : function(){
+		error : function(xhr){
 			alert("获取模型列表失败");
 			showModels([]);
+			console.log(xhr)
 		}
 	});
 }
@@ -82,9 +83,10 @@ function getModel(uuid){
 		success : function(json,textStatus){
 			showModel(json);
 		},
-		error : function(){
-
-		}		
+	 	error:function(xhr){
+            alert("读取模型失败");
+            console.log(xhr);
+        }	
 	});
 }
 
@@ -115,9 +117,10 @@ function getTasks(modelId){
 		success : function(json,textStatus){
 			showTasks(JSON.parse(json));
 		},
-		error : function(){
-
-		}		
+		error:function(xhr){
+            alert("获取任务列表失败");
+            console.log(xhr);
+        }		
 	});	
 }
 
@@ -447,9 +450,10 @@ function getTaskState(taskId,callback){
 				callback(result);
 			}
 		},
-		error : function(){
-
-		}		
+	 	error:function(xhr){
+            alert("获取运行状态失败");
+            console.log(xhr);
+        }			
 	});
 }
 
@@ -562,7 +566,11 @@ function saveModel(text,callback){
 			if(callback){
 				callback(JSON.parse(result));
 			}
-		}
+		},
+		error:function(xhr){
+            alert("保存模型失败");
+            console.log(xhr);
+        }	
 	});	
 }
 
@@ -578,7 +586,11 @@ function deleteModel(uuid,callback){
 			if(callback){
 				callback(JSON.parse(result));
 			}
-		}
+		},
+		error:function(xhr){
+            alert("删除模型失败");
+            console.log(xhr);
+        }		
 	});
 }
 
@@ -601,7 +613,11 @@ function createTask(modelId,taskName,callback){
 			if(callback){
 				callback(JSON.parse(result));
 			}
-		}
+		},
+		error:function(xhr){
+            alert("创建任务失败");
+            console.log(xhr);
+        }
 	});
 }
 
@@ -725,7 +741,12 @@ function showResultIcons(taskId){
 					html += "<a href='" +  src + "' download='img.png'>下载文件</a>";
 			   		caption.html(html);
 				}
-			}
+			},
+			error:function(xhr){
+				$("#myModal").removeClass("loading");
+	            alert("下载文件失败");
+	            console.log(xhr);
+	        }			
 		});
 	});
 }

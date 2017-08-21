@@ -223,7 +223,11 @@ FileDialog.prototype.populateFolders = function(){
 				document.getElementById("dialog_file_ctrl").innerHTML = html;
 				that._win.find(".item_container[title='" + that._file_name + "']").addClass("active")
 				that.initFileEvent();
-			}
+			},
+			error:function(xhr){
+	            alert("get folder list failed");
+	            console.log(xhr);
+	        }	
 		});
 }
 
@@ -308,6 +312,10 @@ FileDialog.prototype.deleteFolder = function(){
 				alert(result.message);
 			}
 		},
+		error:function(xhr){
+            alert("delete file failed");
+            console.log(xhr);
+        }	
 	});
 }
 

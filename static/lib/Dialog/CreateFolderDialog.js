@@ -79,9 +79,11 @@ CreateFolderDialog.prototype.createFolder = function (path, callback) {
 			if(callback){
 			    callback(text);
             }
-
-
 		},
+		error:function(xhr){
+	        alert("create folder failed");
+	        console.log(xhr);
+	    }		
 	});
 }
 

@@ -153,6 +153,10 @@
                 if(callback){
                     callback(text);
                 }
+            },
+            error:function(xhr){
+                $(".info").html("获取用户列表失败");
+                console.log(xhr);
             }
         });
     }
@@ -178,6 +182,10 @@
                     $(".info").html("登录成功，正在跳转……");
                     window.open("index.html");
                 }
+            },
+            error:function(xhr){
+                $(".info").html("登录失败");
+                console.log(xhr);
             }
         });
     }
@@ -195,6 +203,10 @@
                 }else{
                     window.location.href = "login.html";
                 }
+            },
+            error:function(xhr){
+                $(".info").html("注销失败");
+                console.log(xhr);
             }
         });
     }

@@ -120,7 +120,11 @@
 				    $(".info").html("注册成功，正在跳转……")
 				    window.location.href="index.html";
                 }
-			}
+			},
+            error:function(xhr){
+                $(".info").html("注册失败");
+                console.log(xhr);
+            }
 		});
 	}
 

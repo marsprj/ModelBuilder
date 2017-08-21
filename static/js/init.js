@@ -154,6 +154,10 @@ function logout() {
 			}else{
 				window.location.href = "login.html";
 			}
-		}
+		},
+	 	error:function(xhr){
+            $(".info").html("注销失败");
+            console.log(xhr);
+        }
 	});
 }
