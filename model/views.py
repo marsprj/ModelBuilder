@@ -46,9 +46,10 @@ def model_save(request,username):
         logger.error("Model的json对象解析失败:{0}".format(str(e)))
         return http_error_response("Model的json对象解析失败")
 
-    #检索数据库，看当前Model是否已经存在
-    model_name = obj["name"]
+
     try:
+        # 检索数据库，看当前Model是否已经存在
+        model_name = obj["name"]
         models = user.model_set.filter(name=model_name)
     except OperationalError as e:
         logger.error("Model查询失败:{0}".format(str(e)))
@@ -103,16 +104,21 @@ def models(request,username):
     except User.DoesNotExist:
         logger.error("no user[{0}]".format(username))
         return http_error_response("no user")
+    except Exception as e:
+        logger.error("get models failed : {0}".format(str(e)))
+        return http_error_response("get modesl failed")
 
     try:
         models = user.model_set.all().order_by("-create_time")
-    except OperationalError as e:
+        for model in models:
+            obj.append(model.exportToJson())
+        result = json.dumps(obj)
+        logger.debug("user [{0}] get models list: {1}".format(username,str(obj)))
+        return HttpResponse(result, content_type="application/json")
+    except Exception as e:
         logger.error("get user [{0}] models failed :{1}".format(str(e)))
-        return  http_error_response("get user models failed")
-    for model in models:
-        obj.append(model.exportToJson())
+        return http_error_response("get user models failed")
 
-    return HttpResponse(json.dumps(obj), content_type="application/json")
 
 """
 返回指定id的Model
@@ -123,8 +129,8 @@ def model_get(request, model_id):
     except Model.DoesNotExist:
         logger.error("no model [{0}]".format(model_id))
         return http_error_response("Model does not exist")
-    except OperationalError as e:
-        logger.error("get model[{0}] failed:{1}".format(model_id,str(3)))
+    except Exception as e:
+        logger.error("get model[{0}] failed:{1}".format(model_id,str(e)))
         return http_error_response("get model failed")
     return HttpResponse(model.text, content_type="application/json")
 
@@ -137,14 +143,14 @@ def model_delete(request,model_id):
     except Model.DoesNotExist:
         logger.error("Model does not exist [{0}]".format(model_id))
         return http_error_response("Model不存在")
-    except OperationalError as e:
+    except Exception as e:
         logger.error("query model failed: {0}".format(str(e)))
         return http_error_response("query model failed")
 
     try:
         model.delete()
         logger.info("delete model [{0}] success".format(model_id))
-    except OperationalError as e:
+    except Exception as e:
         logger.error("delete model [{0}]:".format(model_id,str(e)))
         return http_error_response("delete model failed")
     return http_success_response()
@@ -169,9 +175,9 @@ def model_tasks(request, model_id):
         model = Model.objects.get(uuid=model_id)
     except Model.DoesNotExist:
         logger.error("no model [{0}]".format(model_id))
-        return  http_error_response("no model [{0}]".format(model_id))
-    except OperationalError as e:
-        logger.error("get model[{0}] task :".format(str(e)))
+        return http_error_response("no model [{0}]".format(model_id))
+    except Exception as e:
+        logger.error("get model[{0}] task failed : {1}".format(model_id,str(e)))
         return http_error_response("get model task failed")
 
     try:
@@ -181,8 +187,8 @@ def model_tasks(request, model_id):
             obj.append(task.exportToJson())
         text = json.dumps(obj)
         return HttpResponse(text, content_type="application/json")
-    except:
-        logger.error("get model[{0}] task failed".format(model_id))
+    except Exception as e:
+        logger.error("get model[{0}] task failed : {1}".format(model_id,str(e)))
         return HttpResponse("get model task failed")
 
 
@@ -218,8 +224,8 @@ def task_state(request, task_id):
     except Task.DoesNotExist:
         logger.error("task[{0}] does not exist".format(task_id))
         return http_error_response("task does not exist")
-    except OperationalError as e:
-        logger.error("get task[{0}] state failed".format(task_id))
+    except Exception as e:
+        logger.error("get task[{0}] state failed : {1}".format(task_id,str(e)))
         return http_error_response("get task state failed")
 
     try:
@@ -242,8 +248,8 @@ def task_state(request, task_id):
             obj["processes"].append(process.exportToJson())
         text = json.dumps(obj)
         return HttpResponse(text, content_type="application/json")
-    except OperationalError as e:
-        logger.error("get task[{0}] state failed:{1}".format(task_id,str(e)))
+    except Exception as e:
+        logger.error("get task[{0}] state failed:{1}".format(task_id, str(e)))
         return http_error_response("get task state failed")
 
 
@@ -275,8 +281,8 @@ def task_create(request):
     except Model.DoesNotExist:
         logger.error("create task failed: model[{0}] does not exist".format(model_id))
         return http_error_response("create task failed")
-    except OperationalError as e:
-        logger.error("create task failed : {0}".format(str(e)))
+    except Exception as e:
+        logger.error("create task {0} failed : {1}".format(task_name,str(e)))
         return http_error_response("create task failed")
 
     try:
@@ -293,8 +299,8 @@ def task_create(request):
         }
         logger.debug("create task success:{0}".format(text))
         return HttpResponse(json.dumps(obj), content_type="application/json")
-    except OperationalError as e:
-        logger.error("create task failed:{0}".format(str(e)))
+    except Exception as e:
+        logger.error("create task {0} failed:{1}".format(task_name,str(e)))
         return http_error_response("create task failed")
 
 
@@ -307,7 +313,7 @@ def task_run(request, task_id):
     except Task.DoesNotExist:
         logger.error("task[{0}] does not exist".format(task_id))
         return http_error_response("task does not exist")
-    except OperationalError as e:
+    except Exception as e:
         logger.error("task[{0}] query failed:{1}".format(task_id,str(e)))
         return http_error_response("run task failed")
 
@@ -479,7 +485,7 @@ def task_stop(request, task_id):
     except Task.DoesNotExist:
         logger.error("task[{0}] does not exist".format(task_id))
         return http_error_response("task does not exist")
-    except OperationalError as e:
+    except Exception as e:
         logger.error("get task[{0}] failed".format(task_id))
         return http_error_response("stop task failed")
     try:
@@ -500,8 +506,8 @@ def task_stop(request, task_id):
             task.save()
         logger.debug("stop task[{0}] success".format(task_id))
         return http_success_response()
-    except:
-        logger.error("stop task[{0}] failed".format(task_id))
+    except Exception as e:
+        logger.error("stop task[{0}] failed : {1}".format(task_id,str(e)))
         return http_error_response("stop task failed")
 """
 返回http错误信息
@@ -544,7 +550,7 @@ def task_download(request,task_id,node_id):
     except Task.DoesNotExist:
         logger.error("task[{0}] does not exist".format(task_id))
         return http_error_response("task[{0}] does not exist".format(task_id))
-    except OperationalError as e:
+    except Exception as e:
         logger.error("get task[{0}] failed: {1}".format(task_id),str(e))
         return http_error_response("get task[{0}] failed".format(task_id))
 
@@ -562,29 +568,32 @@ def task_download(request,task_id,node_id):
         logger.error("no user[{0}]".format(user_uuid))
         return http_error_response("no user")
 
+    try:
+        file_root = get_file_root()
+        user_root = os.path.join(file_root,user_uuid)
+        node_path = node.getPath()
+        if node.getFrom():
+            file_path = os.path.join(os.path.join(user_root,task_id),node_path[1:])
+        else:
+            file_path = os.path.join(user_root,node_path[1:])
+        logger.debug("task[{0}] node[{1}] path:{2}".format(task_id,node_id,file_path))
 
-    file_root = get_file_root()
-    user_root = os.path.join(file_root,user_uuid)
-    node_path = node.getPath()
-    if node.getFrom():
-        file_path = os.path.join(os.path.join(user_root,task_id),node_path[1:])
-    else:
-        file_path = os.path.join(user_root,node_path[1:])
-    logger.debug("task[{0}] node[{1}] path:{2}".format(task_id,node_id,file_path))
+        if os.path.exists(file_path):
+            if not os.path.isfile(file_path):
+                logger.error("file[{0}] does not a file".format(file_path))
+                return http_error_response("not a file")
+            with open(file_path, 'rb') as fh:
+                response = HttpResponse(fh.read(), content_type="application/x-tif")
+                response['Content-Disposition'] = 'inline; filename=' + os.path.basename(file_path)
+                return response
+        else:
+            logger.error("no file:{0}".format(file_path))
+            return  http_error_response("no file")
 
-    if os.path.exists(file_path):
-        if not os.path.isfile(file_path):
-            logger.error("file[{0}] does not a file".format(file_path))
-            return http_error_response("not a file")
-        with open(file_path, 'rb') as fh:
-            response = HttpResponse(fh.read(), content_type="application/x-tif")
-            response['Content-Disposition'] = 'inline; filename=' + os.path.basename(file_path)
-            return response
-    else:
-        logger.error("no file:{0}".format(file_path))
-        return  http_error_response("no file")
-
-    return http_success_response()
+        return http_success_response()
+    except Exception as e:
+        logger.error("download task[{0}] node[{1}] failed:{2}".format(task_id,node_id,str(e)))
+        return http_error_response("failed")
 
 
 
@@ -595,24 +604,26 @@ def user_register(request):
     except JSONDecodeError:
         logger.error("register user text:{0}".format(text))
         return http_error_response("参数有错误")
-    username = obj["username"]
+
     try:
+        username = obj["username"]
         users = User.objects.filter(username=username)
     except Exception as e:
-        logger.error("get user[{0}] failed: {1}".format(username,str(e)))
+        logger.error("get user[{0}] failed: {1}".format(username, str(e)))
         return http_error_response("query user failed")
 
     if len(users)>0:
         logger.error("register user failed: has user named[{0}]".format(username))
         return http_error_response("已经有该用户")
-    password = obj["password"]
-    time = timezone.now()
-    user = User(
-        username=username,
-        password=password,
-        login_time=time
-    )
+
     try:
+        password = obj["password"]
+        time = timezone.now()
+        user = User(
+            username=username,
+            password=password,
+            login_time=time
+        )
         user.save()
         user_uuid = user.uuid
         response = http_success_response()
@@ -635,9 +646,10 @@ def user_login(request):
     except JSONDecodeError:
         logger.error("登录解析失败：" + text)
         return http_error_response("解析失败")
-    username = obj["username"]
-    password = obj["password"]
+
     try:
+        username = obj["username"]
+        password = obj["password"]
         user = User.objects.filter(username=username)
         if len(user) == 0:
             logger.error("user[{0}] does not exist".format(username))
@@ -651,7 +663,7 @@ def user_login(request):
     except User.DoesNotExist:
         logger.error("用户[{0}]登录失败: 密码错".format(username))
         return http_error_response("密码错误")
-    except OperationalError as e:
+    except Exception as e:
         logger.error("user login failed : {0}".format(str(e)))
         return http_error_response("登录失败")
     try:
@@ -679,7 +691,7 @@ def user_list(request):
     if not username:
         logger.error("get user list failed: user not login")
         return http_error_response("please login")
-    if username!= "admin":
+    if username != "admin":
         logger.error("get user list failed: user is not admin")
         return http_error_response("please login admin")
 
