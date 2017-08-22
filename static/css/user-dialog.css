@@ -1,0 +1,22 @@
+.create-model-dialog {
+    left: 500px;
+    top: 300px;
+    width: 360px;
+}
+.create-model-dialog .dialog_item{
+	line-height: 30px;
+}
+
+.create-model-dialog input,.create-model-dialog textarea{
+	width: 290px;
+}
+
+.create-task-dialog{
+    left: 650px;
+    top: 300px;
+    width: 360px;
+}
+
+.create-task-dialog input{
+    width: 290px;
+}

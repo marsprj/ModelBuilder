@@ -338,7 +338,7 @@ FileDialog.prototype.onOK = function(func){
 
 
 FileDialog.prototype.create = function(){
-	var html = "<div class='func_dialog file_dialog dialog'>"
+	var html = "<div class='file_dialog dialog'>"
 			+"	<div class='titlebar'>"
 			+"		<div class='dialog_title'>文件</div>"
 			+"		<div class='dialog_exit'></div>"
