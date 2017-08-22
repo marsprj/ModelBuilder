@@ -74,7 +74,7 @@ gulp.task('index-css-clean', function () {
 		.pipe(clean({force: true}));
 });
 
-var indexCssList = ["ModelFlow/static/css/dialog.css",
+var indexCssList = ["ModelFlow/static/css/user-dialog.css",
 		    "ModelFlow/static/css/webuploader.css",
 		    "ModelFlow/static/css/workflow.css",
 ];

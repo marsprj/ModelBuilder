@@ -1,25 +1,26 @@
-.func_dialog{
+/********************************************************************/
+/*    dialog
+/********************************************************************/
+.dialog{
 	position: absolute;
-	left: 400px;
-	top: 200px;
-	width: 400px;
 	font-size:12px;
-	border : 1px solid #888888;	
+	z-index: 1006;
+	display: none;
+	border: 1px solid #888;
 	background-color: white;
 	box-shadow: 2px 2px 5px 2px #888888;
-	display: none;
 }
 
-.titlebar{
+.dialog .titlebar{
 	padding-left: 10px;
 	height: 30px;
 	line-height: 30px;
 	background-color: #eeeeee;
+	cursor: move;
 }
 
 .dialog_title{
 	float:left;
-	
 }
 
 .dialog_exit{
@@ -33,54 +34,8 @@
 	cursor: pointer;	
 }
 
-
 .dialog_main{
 	width: 100%;
-	/*height: calc(100%-50px);*/
-	font-size: 12px;
-	/*border:1px solid #000000;*/
-}
-
-.dialog_item{
-	padding:10px;
-	height:30px;
-	font-size:12px;
-}
-
-.dialog_item_icon{
-	float:left;
-	width:18px;
-	height:18px;
-	background-image: url(../images/ball_16.png);
-	background-repeat: no-repeat;
-	background-position: center;
-}
-
-.dialog_item_title{
-	float:left;
-}
-
-.dialog_input {
-	width:320px;
-	/*margin-left:20px;*/
-}
-
-.dialog_output{
-	width:320px;
-	/*margin-left:20px;*/
-}
-
-.dialog_folder{
-	float:right;
-	width:30px;
-	height:20px;
-	background-image: url(../images/folder_open_16.png);
-	background-repeat: no-repeat;
-	background-position: center;
-}
-
-.dialog_folder:hover{
-	cursor : pointer;
 }
 
 .dialog_bottom{
@@ -120,6 +75,59 @@
 	border: 1px solid #aaaaaa;
 }
 
+/********************************************************************/
+/*  fun   dialog
+/********************************************************************/
+
+.func_dialog{
+	left: 400px;
+	top: 200px;
+	width: 400px;
+}
+
+.dialog_item{
+	padding:10px;
+	height:30px;
+	font-size:12px;
+}
+
+.dialog_item_icon{
+	float:left;
+	width:18px;
+	height:18px;
+	background-image: url(../images/ball_16.png);
+	background-repeat: no-repeat;
+	background-position: center;
+}
+
+.dialog_item_title{
+	float:left;
+}
+
+.dialog_input {
+	width:320px;
+}
+
+.dialog_output{
+	width:320px;
+}
+
+.dialog_folder{
+	float:right;
+	width:30px;
+	height:20px;
+	background-image: url(../images/folder_open_16.png);
+	background-repeat: no-repeat;
+	background-position: center;
+}
+
+.dialog_folder:hover{
+	cursor : pointer;
+}
+
+/********************************************************************/
+/*  file   dialog
+/********************************************************************/
 .file_dialog{
 	left: 300px;
 	top: 80px;
@@ -131,14 +139,6 @@
     margin: 10px 0px;
     padding: 0px 0px 0px 10px;
 }
-
-/*.dialog_file_path_wrapper span{
-    float: left;
-}
-
-.dialog_file_path_wrapper input{
-    float: left;
-}*/
 
 .dialog_folder_path{
     width: 550px;
@@ -172,11 +172,9 @@
     background-image: url(../images/upward_16.png);
 }
 
-
 .dialog_folder_add{
     background-image: url(../images/folder_add_16.png);
 }
-
 
 .dialog_folder_delete{
     background-image: url(../images/folder_delete_16.png);
@@ -195,11 +193,9 @@
 	background-position: center;
 }
 
-
 .dlg_folder_open:hover{
 	background-color: #e0ecf6;
 }
-
 
 #dialog_file_ctrl{
 	height: 340px;
@@ -208,7 +204,6 @@
     border: 1px solid #aaaaaa;
 }
 
-
 #dialog_file_ctrl .item_container{
 	float: left;
 	width: 125px;
@@ -216,7 +211,6 @@
 	margin: 0px 5px 0px 0px;
 	background-color: #fff;
 }
-
 
 #dialog_file_ctrl .tab{
 	display: none;
@@ -227,10 +221,12 @@
 #dialog_file_ctrl .tab.active{
 	display: block;
 }
+
 #dilaog_file_loading svg{
 	margin: 60px auto;
     display: block;
 }
+
 .file-dialog-backup{
 	position: absolute;
     height: 401px;
@@ -281,6 +277,7 @@
 .file_dialog .dialog_bottom span{
 	margin-left: 14px;
 }
+
 #dlg_file_name{
 	width: 400px;
 }
@@ -297,9 +294,6 @@
 	top: 80px;
 	width: 700px;
 	height: 500px;
-	background-color: #fff;
-	border: 1px solid #888;
-	box-shadow: 2px 2px 5px 2px #888888;
 }
 
 .upload_dialog #filePicker{
@@ -388,10 +382,6 @@
     left: 650px;
     top: 300px;
     width: 360px;
-    font-size: 12px;
-    border: 1px solid #888;
-    background-color: #fff;
-    box-shadow: 2px 2px 5px 2px #888888;
 }
 .create-folder-dialog input {
     width: 290px;
