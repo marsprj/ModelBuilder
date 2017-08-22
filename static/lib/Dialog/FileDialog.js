@@ -198,7 +198,8 @@ FileDialog.prototype.getFilePath = function(){
 FileDialog.prototype.populateFolders = function(){
 	var that = this;
 	var data = '{"path":"' + this._folder_path + '"}';
-
+	$("#dialog_file_ctrl .tab").removeClass("active");
+	$("#dilaog_file_loading").addClass("active");
 	$.ajax({
 			type:"POST",
 			url:"/file/list/",
@@ -206,6 +207,8 @@ FileDialog.prototype.populateFolders = function(){
 			contentType: "text/plain",
 			dataType : "text",
 			success:function(data){
+				$("#dialog_file_ctrl .tab").removeClass("active");
+				$("#dialog_file_list").addClass("active");
 				var json = JSON.parse(data);
 				if(json.status == "error"){
 					alert(json.message);
@@ -220,11 +223,13 @@ FileDialog.prototype.populateFolders = function(){
 					html += "<div class='folder_item_text'>" + o.name + "</div>";
 					html += "</div>";
 				}
-				document.getElementById("dialog_file_ctrl").innerHTML = html;
+				document.getElementById("dialog_file_list").innerHTML = html;
 				that._win.find(".item_container[title='" + that._file_name + "']").addClass("active")
 				that.initFileEvent();
 			},
 			error:function(xhr){
+				$("#dialog_file_ctrl .tab").removeClass("active");
+				$("#dialog_file_list").addClass("active");
 	            alert("get folder list failed");
 	            console.log(xhr);
 	        }	
@@ -350,6 +355,27 @@ FileDialog.prototype.create = function(){
 			+"			</ul>"
 			+"		</div>"
 			+"		<div id='dialog_file_ctrl'>"
+			+"			<div class='tab' id='dialog_file_list'>"
+			+"			</div>"
+			+"			<div class='tab' id='dilaog_file_loading'>"
+			+"				<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='200px' height='200px' viewBox='0 0 100 100' preserveAspectRatio='xMidYMid'>"
+			+"					<g transform='translate(25 50)'>"
+			+"						<circle cx='0' cy='0' r='10' fill='#456caa' transform='scale(0.226392 0.226392)'>"
+			+"		  					<animateTransform attributeName='transform' type='scale' begin='-0.3333333333333333s' calcMode='spline' keySplines='0.3 0 0.7 1;0.3 0 0.7 1' values='0;1;0' keyTimes='0;0.5;1' dur='1s' repeatCount='indefinite'></animateTransform>"
+			+"						</circle>"
+			+"					</g>"
+			+"					<g transform='translate(50 50)'>"
+			+"						<circle cx='0' cy='0' r='10' fill='#88a2ce' transform='scale(0.00325972 0.00325972)'>"
+			+"		  					<animateTransform attributeName='transform' type='scale' begin='-0.16666666666666666s' calcMode='spline' keySplines='0.3 0 0.7 1;0.3 0 0.7 1' values='0;1;0' keyTimes='0;0.5;1' dur='1s' repeatCount='indefinite'></animateTransform>"
+			+"						</circle>"
+			+"					</g>"
+			+"					<g transform='translate(75 50)'>"
+			+"						<circle cx='0' cy='0' r='10' fill='#c2d2ee' transform='scale(0.313074 0.313074)'>"
+			+"		  					<animateTransform attributeName='transform' type='scale' begin='0s' calcMode='spline' keySplines='0.3 0 0.7 1;0.3 0 0.7 1' values='0;1;0' keyTimes='0;0.5;1' dur='1s' repeatCount='indefinite'></animateTransform>"
+			+"						</circle>"
+			+"					</g>"
+			+"				</svg>"
+			+"			</div>"
 			+"		</div>"
 			+"	</div>"
 			+"	<div class='file-dialog-backup'></div>"

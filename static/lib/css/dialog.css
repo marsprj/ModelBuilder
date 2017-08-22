@@ -214,10 +214,23 @@
 	width: 125px;
 	height: 30px;
 	margin: 0px 5px 0px 0px;
-	/*border: 1px solid #000000;*/
 	background-color: #fff;
 }
 
+
+#dialog_file_ctrl .tab{
+	display: none;
+	width: 100%;
+	height: 100%;
+}
+
+#dialog_file_ctrl .tab.active{
+	display: block;
+}
+#dilaog_file_loading svg{
+	margin: 60px auto;
+    display: block;
+}
 .file-dialog-backup{
 	position: absolute;
     height: 401px;
@@ -270,6 +283,10 @@
 }
 #dlg_file_name{
 	width: 400px;
+}
+
+.file_dialog .dialog_bottom{
+	user-select : none;
 }
 
 /********************************************************************/
