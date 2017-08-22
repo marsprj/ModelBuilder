@@ -643,13 +643,13 @@ def user_login(request):
             logger.error("user[{0}] does not exist".format(username))
             return http_error_response("用户不存在")
     except Exception as e:
-        logger.error("user login failed : " + username)
+        logger.error("用户[{0}]登录失败:{1}".format(username, str(e)))
         return http_error_response("登录失败")
 
     try:
         user = User.objects.get(username=username, password=password)
     except User.DoesNotExist:
-        logger.error("user login failed : " + username)
+        logger.error("用户[{0}]登录失败: 密码错".format(username))
         return http_error_response("密码错误")
     except OperationalError as e:
         logger.error("user login failed : {0}".format(str(e)))
@@ -659,8 +659,8 @@ def user_login(request):
         user.login_time = time;
         user.save();
         response = http_success_response();
-        response.set_cookie('username', username, 3600)
-        response.set_cookie('user_uuid', str(user.uuid), 3600)
+        response.set_cookie('username', username, 36000)
+        response.set_cookie('user_uuid', str(user.uuid), 36000)
         logger.info("用户[{0}]登录成功".format(username))
         return response
     except Exception as e:

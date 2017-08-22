@@ -49,7 +49,7 @@ def file_list(request):
     try:
         obj = json.loads(text)
     except JSONDecodeError as e:
-        logger.error("get file list json{0} parse failed: {1}".format(text,str(e)))
+        logger.error("get file list json{0} parse failed: {1}".format(text, str(e)))
         return http_error_response("json 解析失败")
 
     try:
