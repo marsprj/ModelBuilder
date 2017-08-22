@@ -31,8 +31,11 @@ def file_upload(request):
         return http_success_response()
     except Exception as e:
         logger.error("upload file failed: {0}".format(str(e)))
-        return http_error_response("upload file error")
-
+        obj = {
+            "status": "error",
+            "message": str(e)
+        }
+        return HttpResponse(json.dumps(obj), content_type="application/json", status=500)
 
 """
 列出指定目录下的文件和文件夹
@@ -153,6 +156,8 @@ def file_remove(request):
 def get_user_file_root(request):
     user_uuid = request.COOKIES.get("user_uuid")
     if not user_uuid:
+        e = Exception("user is not login")
+        raise e
         return None
     return os.path.join(
         os.path.join(
