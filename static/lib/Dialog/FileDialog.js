@@ -149,6 +149,11 @@ FileDialog.prototype.initOkEvent = function(){
 				alert("请选择一个文件");
 				return;
 			}
+			var item = dlg._win.find(".item_container[title='" + dlg._file_name + "']");
+			if(item.length == 0){
+				alert("请选择一个有效的文件");
+				return;
+			}
 		}else if(dlg._mode == "new"){
 			var name = dlg._win.find("#dlg_file_name").val();
 			if(name == ""){
@@ -313,6 +318,10 @@ FileDialog.prototype.deleteFolder = function(){
 	var dlg = this;
 
 	var data = '{"path":"' + fpath + '"}';
+
+	if(!confirm("确定删除 [" + fpath + "] ?")){
+		return;
+	}
 
 	$.ajax({
 		type:"POST",
