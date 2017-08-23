@@ -212,6 +212,19 @@ FileDialog.prototype.populateFolders = function(){
 				var json = JSON.parse(data);
 				if(json.status == "error"){
 					alert(json.message);
+					var curPath = that.getPath();
+					if(curPath.length==0){
+						return;
+					}
+					if(curPath == "/"){
+						return;
+					}
+					var pos = curPath.lastIndexOf("/", curPath.length-2);
+					if( pos>=0 ){
+						var parentPath = curPath.substring(0, pos) + "/";
+						that.setPath(parentPath);
+						that.populateFolders();
+					}
 					return;
 				}
 				var html = "";
