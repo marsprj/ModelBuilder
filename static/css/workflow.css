@@ -1,41 +1,4 @@
-html,body{
-	margin: 0px;
-	padding: 0px;
-	width: 100%;
-    height: 100%;
-    font-size: 12px;
-    overflow: hidden;
-}
-
-#header{
-	height: 60px;
-	width: 100%;
-	background-color: #32cbcb;
-	font-size: 26px;
-	line-height: 60px;
-	box-shadow: 1px 2px 5px 0 #828e9a;
-	position: relative;
-	z-index: 2;
-}
-
-.title-icon{
-	width: 40px;
-	height: 40px;
-	background: url(../images/workflow.png) no-repeat center;
-	display: inline-block;
-	float: left;
-	top: 10px;
-	left: 10px;
-	position: absolute;
-}
-.title{
-	display: inline-block;
-	margin-left: 54px;
-	color: #fff;
-}
-
 .title-right {
-	float: right;
     line-height: 20px;
     font-size: 12px;
     margin-top: 10px;
@@ -49,12 +12,6 @@ html,body{
 }
 .title-right a:hover {
 	color: #f5f4ed;
-}
-
-#main{
-	width: 100%;
-	height: calc(100% - 60px);
-	display: none;
 }
 
 #left{
@@ -73,16 +30,11 @@ html,body{
 }
 
 .titlebar{
-	height: 42px;
-	padding-left: 10px;
-	line-height: 42px;
-	background-color: #eeeeee;
-	/*border-bottom: 2px solid #787878;*/
-	border-bottom: 1px solid #dddddd;
-}
-#left .titlebar,#right .titlebar,#funcs .titlebar{
 	height: 30px;
+	padding-left: 10px;
 	line-height: 30px;
+	background-color: #eeeeee;
+	border-bottom: 1px solid #dddddd;
 }
 
 .titlebar-title{
@@ -123,7 +75,7 @@ html,body{
 	text-align: left;
 }
 .model-name{
-	 max-width: 164px;
+	max-width: 164px;
     text-overflow: ellipsis;
     white-space: nowrap;
     display: inline-block;
@@ -145,9 +97,7 @@ html,body{
 	width: 16px;
 	height: 25px;
 	padding-left:20px;
-	background-image: url(../images/gear_16.png);
-	background-repeat: no-repeat;
-	background-position: center;
+	background: url(../images/gear_16.png) no-repeat center;
 }
 
 .new-task-btn{
@@ -155,24 +105,13 @@ html,body{
 	margin-right: 64px;
 }
 
-.table {
-    margin: 0 0 0px 0;
-    width: 100%;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-    display: table;
-    font-family: "Microsoft YaHei";
+.table{
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
-
-.row {
-    display: table-row;
-}
-
-.cell {
-    padding: 1px 12px;
-    display: table-cell;
-    border-bottom: 1px solid #787878;
+.cell{
+	padding: 1px 12px;
+	border-bottom: 1px solid #787878;
     border-right: 1px solid #787878;
-	text-align: center;
 }
 .cell button{
 	margin-right: 6px;
@@ -243,6 +182,7 @@ html,body{
     display: none;
     z-index: 1002;
 }
+
 .process-left{
 	width: 60px;
 	height: 100%;
@@ -250,6 +190,7 @@ html,body{
 	border-right: 1px solid #787878;
 	position: relative;
 }
+
 .process-right{
 	height: 100%;
 	width: calc(100% - 61px);
@@ -279,6 +220,7 @@ html,body{
 .process-close-btn:hover{
 	color: #cdcdcd;
 }
+
 .icon-left{
 	float: left;
 	width: 30px;
@@ -304,6 +246,7 @@ html,body{
 	border-bottom: 2px solid #787878;
 	width: 100%;
 }
+
 #canvas_div{
 	width: 100%;
 	height: calc(100% - 204px);
@@ -311,21 +254,15 @@ html,body{
 	position: relative;
 }
 
- #canvas_div:-webkit-full-screen {
-  width: 100%;
-  height: 100%;
-}
-
 #canvas{
 	width: 100%;
 	height: 100%;
 	position: relative;
-	-webkit-user-select: none;  /* Chrome all / Safari all */
-  	-moz-user-select: none;     /* Firefox all */
-  	-ms-user-select: none;      /* IE 10+ */
-  	user-select: none;          /* Likely future */
+	-webkit-user-select: none;  
+  	-moz-user-select: none;     
+  	-ms-user-select: none;      
+  	user-select: none;          
 }
-
 
 #state_div{
 	position: absolute;
@@ -348,14 +285,6 @@ html,body{
 	padding: 2px;
     margin-left: -5px;
     height: 23px;
-}
-
-.state-tool{
-	height: 22px;
-	width: 22px;
-	border: 1px solid #787878;
-	display: inline-block;
-	z-index: 1001;
 }
 
 #data_div{
@@ -464,7 +393,6 @@ html,body{
 	background: url(../images/fullscreen_exit.png) center no-repeat;
 }
 
-
 #left.full-screen {
 	display: none;
 }
@@ -477,11 +405,9 @@ html,body{
 	display: none;
 }
 
-
 #task_table.full-screen{
 	display: none;
 }
-
 
 #canvas_div.full-screen{
 	height: 100%;
@@ -510,8 +436,8 @@ html,body{
 	cursor: pointer;
 	background: url(../images/image.png) no-repeat;
 	animation: myfirst 0.5s;
-	-moz-animation: myfirst  0.5s;	/* Firefox */
-	-webkit-animation: myfirst 0.5s;	/* Safari 和 Chrome */
+	-moz-animation: myfirst  0.5s;	
+	-webkit-animation: myfirst 0.5s;	
 	-o-animation: myfirst  0.5s;	
 }
 .image-icon:hover{
@@ -532,18 +458,17 @@ html,body{
 	100% {transform:translate(0px,0px);}
 }
 
-/* The Modal (background) */
 .modal {
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 1009; /* Sit on top */
+    display: none; 
+    position: fixed; 
+    z-index: 1009; 
     left: 0;
     top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgb(0,0,0); /* Fallback color */
-    background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
+    width: 100%; 
+    height: 100%; 
+    overflow: auto; 
+    background-color: rgb(0,0,0); 
+    background-color: rgba(0,0,0,0.9); 
 }
 
 .modal.loading .loading-svg{
@@ -553,13 +478,11 @@ html,body{
 	margin: 0 auto;
 	display: none;
 }
-/* Modal Content (Image) */
+
 .modal-content {
     margin: auto;
     display: block;
 	margin-top: 60px;
-    /*width: 80%;*/
-    /*min-height: 400px;*/
 }
 
 #caption {
@@ -584,7 +507,7 @@ html,body{
 	text-shadow: 2px 2px 4px #fff;
 }
 
-/* Add Animation - Zoom in the Modal */
+
 .modal-content, #caption { 
     -webkit-animation-name: zoom;
     -webkit-animation-duration: 0.6s;
@@ -600,7 +523,7 @@ html,body{
     from {transform:scale(0)} 
     to {transform:scale(1)}
 }
-/* The Close Button */
+
 .close {
     position: absolute;
     top: 15px;
@@ -618,13 +541,11 @@ html,body{
     cursor: pointer;
 }
 
-/* 100% Image Width on Smaller Screens */
 @media only screen and (max-width: 700px){
     .modal-content {
         width: 100%;
     }
 }
-
 
 .black-overlay{
 	box-sizing: content-box;
@@ -686,9 +607,6 @@ html,body{
 	display: none;
 }
 
-.hightlight-info .info-bottom{
-
-}
 .highlight-info .info-bottom-btn{
 	width: 82px;
     height: 36px;

@@ -74,7 +74,8 @@ gulp.task('index-css-clean', function () {
 		.pipe(clean({force: true}));
 });
 
-var indexCssList = ["ModelFlow/static/css/user-dialog.css",
+var indexCssList = ["ModelFlow/static/css/commom.css",
+			"ModelFlow/static/css/user-dialog.css",
 		    "ModelFlow/static/css/webuploader.css",
 		    "ModelFlow/static/css/workflow.css",
 ];
@@ -94,7 +95,8 @@ gulp.task('user-css-clean', function () {
 		.pipe(clean({force: true}));
 });
 
-var userCssList = ["ModelFlow/static/css/user.css"];
+var userCssList = ["ModelFlow/static/css/commom.css",
+					"ModelFlow/static/css/user.css"];
 var userCssDest = "ModelFlow/static/css/";
 gulp.task('user-css',['user-css-clean'],function(){
 	gulp.src(userCssList)

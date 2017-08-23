@@ -1,0 +1,59 @@
+html,body{
+    margin: 0px;
+    padding: 0px;
+    overflow: hidden;
+    font-size:12px;
+    width:100%;
+    height:100%;
+    font-family: "Microsoft YaHei";
+}
+
+#header{
+	height: 60px;
+	width: 100%;
+	background-color: #32cbcb;
+	font-size: 26px;
+	line-height: 60px;
+	box-shadow: 1px 2px 5px 0 #828e9a;
+	position: relative;
+	z-index: 2;
+}
+
+.title-icon{
+	width: 40px;
+	height: 40px;
+	background: url(../images/workflow.png) no-repeat center;
+	display: inline-block;
+	float: left;
+	top: 10px;
+    left: 10px;
+	position: absolute;
+}
+.title{
+	display: inline-block;
+	margin-left: 54px;
+    color: #fff;
+}
+.title-right{
+    float: right;
+}
+
+#main{
+	width: 100%;
+	height: calc(100% - 60px);
+	display: none;
+}
+
+.table {
+    margin: 0px;
+    width: 100%;
+    box-sizing:border-box;
+    display: table;
+}
+.row {
+    display: table-row;
+}
+.cell {
+    display: table-cell;
+	text-align: center;
+}

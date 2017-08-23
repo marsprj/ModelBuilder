@@ -1,47 +1,10 @@
-html,body{
-    margin: 0px;
-    padding: 0px;
-    overflow: hidden;
-    font-size:12px;
-    width:100%;
-    height:100%;
-    font-family: "Microsoft YaHei";
-}
-
-#header{
-	height: 60px;
-	width: 100%;
-	background-color: #32cbcb;
-	font-size: 26px;
-	line-height: 60px;
-	box-shadow: 1px 2px 5px 0 #828e9a;
-	position: relative;
-}
-
-.title-icon{
-	width: 40px;
-	height: 40px;
-	background: url(../images/workflow.png) no-repeat center;
-	display: inline-block;
-	float: left;
-	top: 10px;
-    left: 10px;
-	position: absolute;
-}
-.title{
-	display: inline-block;
-	margin-left: 54px;
-    color: #fff;
-}
-.title-right{
-    float: right;
-}
 .title-right .user-btn {
 	text-decoration: none;
     margin-right: 10px;
     color: #061d30;
     font-size: 12px;
 }
+
 .title-right .user-btn:hover {
 	color: #f5f4ed;
 }
@@ -55,17 +18,14 @@ html,body{
     margin-right: 10px;
     font-weight: bold;
 }
+
 .title-btn:hover{
     color: #cdcdcd;
 }
 
-
 #main{
-    height:calc(100% - 60px);
     background: #f8f8f8;
-    display: none;
 }
-
 
 .container-heading{
     text-align: center;
@@ -77,6 +37,7 @@ html,body{
     padding-bottom: 30px;
     padding-left: 30px;
 }
+
 .account-container{
     width:400px;
     margin:0px  auto;
@@ -93,7 +54,6 @@ html,body{
     color: #ff3538;
 }
 
-
 .account-btn{
     width: 100px;
     height: 38px;
@@ -106,6 +66,11 @@ html,body{
     text-align: center;
     text-indent: 10px;
     margin-left: calc(50% - 50px);
+    transition: all 0.3s ease-in;
+    -webkit-transition: all 0.3s ease-in;
+}
+.account-btn:hover{
+    background-color: #6dc4ea;
 }
 
 .form-control{
@@ -127,11 +92,13 @@ html,body{
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
 }
+
 #user_panel{
     width:calc(100% - 40px);
     margin:0 auto 20px;
     height:calc(100% - 40px);
 }
+
 .panel{
     -webkit-border-radius: 5px;
     border-radius: 5px;
@@ -140,6 +107,7 @@ html,body{
     background-color: #fff;
     box-shadow: 0 0px 8px 0 rgba(0, 0, 0, 0.06), 0 1px 0px 0 rgba(0, 0, 0, 0.02);
 }
+
 .panel-title{
     color: #797979;
     font-weight: 600;
@@ -147,6 +115,7 @@ html,body{
     padding-top: 16px;
     padding-left: 16px;
 }
+
 .panel-content{
     height:calc(100% - 40px);
     overflow-y: auto;
@@ -154,21 +123,13 @@ html,body{
 .panel-content.loading{
     background: url(../images/spin.gif) no-repeat center;
 }
-.table {
-    margin: 0px;
-    width: 100%;
-    box-sizing:border-box;
-    display: table;
+.table{
     padding: 20px;
 }
-.row {
-    display: table-row;
-}
-.cell {
+
+.cell{
     padding: 12px 12px;
-    display: table-cell;
     border-bottom: 1px solid #f4f8fb ;
-	text-align: center;
 }
 .row:not(.header):hover .cell{
     background-color: #f4f8fb;
