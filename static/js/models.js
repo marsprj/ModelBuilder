@@ -75,7 +75,7 @@ function getModel(uuid){
 		return;
 	}
 	g_graph.clear();
-	var url = "/model/model/" + uuid;
+	var url = "/model/model/" + uuid + "/";
 	$.ajax({
 		url : url,
 		dataType : "text",
@@ -109,7 +109,7 @@ function getTasks(modelId){
 
 	$(".process-div").remove();
 	$("#task_table .table .row:not(.header)").remove();
-	var url = "/model/model/" + modelId + "/tasks";
+	var url = "/model/model/" + modelId + "/tasks/";
 	$.ajax({
 		url : url,
 		dataType : "text",
@@ -437,7 +437,7 @@ function showTaskStateDiv(uuid){
 
 // 获取运行状态
 function getTaskState(taskId,callback){
-	var url = "/model/task/" + taskId + "/state";
+	var url = "/model/task/" + taskId + "/state/";
 	$.ajax({
 		url : url,
 		dataType : "text",
@@ -576,7 +576,7 @@ function saveModel(text,callback){
 
 // 删除模型
 function deleteModel(uuid,callback){
-	var url = "/model/model/" + uuid + "/delete";
+	var url = "/model/model/" + uuid + "/delete/";
 	$.ajax({
 		type:"get",
 		url:url,
@@ -627,7 +627,7 @@ function runTask(taskId,callback){
 	if(taskId == null){
 		return;
 	}
-	var url = "/model/task/"+ taskId + "/run";
+	var url = "/model/task/"+ taskId + "/run/";
 	$.ajax({
 		type:"get",
 		url:url,
@@ -688,7 +688,7 @@ function showResultIcons(taskId){
 	$("#backdrop .image-icon").click(function(){
 		var taskID = $(this).attr("tid");
 		var nodeID = $(this).attr("nid");
-		var src = "/model/task/" + taskId + "/download/" + nodeID;
+		var src = "/model/task/" + taskId + "/download/" + nodeID + "/";
 		src += "?time=" + (new Date()).valueOf();
 		var tiff = $(this).attr("tiff");
 		var modal = document.getElementById('myModal');
@@ -758,7 +758,7 @@ function stopTask(taskId, callback) {
 		}
 		return;
 	}
-	var url = "/model/task/"+ taskId + "/stop";
+	var url = "/model/task/"+ taskId + "/stop/";
 	$.ajax({
 		type:"get",
 		url:url,
