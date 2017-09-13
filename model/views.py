@@ -412,7 +412,8 @@ def start_task_2(task):
                         try:
                             success = f(func,process,str(user_uuid))
                         except Exception as e:
-                            logger.error("process{0} run failed :{1}".format(process_func_name,str(e)))
+                            errmsg = "process{0} run failed :{1}".format(process_func_name,str(e))
+                            logger.error(errmsg)
                             success = False
                     else:
                         errmsg = "方法[{0}]尚未在系统中注册".format(func.getName());
@@ -449,7 +450,7 @@ def start_task_2(task):
                         # 更新process的状态为结束，并记录结束时间
                         process.state = 3   #failure
                         process.save()
-                        errmsg = "process[{0}] run failed".format(str(process.id))
+                        # errmsg = "process[{0}] run failed".format(str(process.id))
                         logger.info("process[{0}] run failed".format(str(process.id)))
                         break
                     ###################################################

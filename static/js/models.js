@@ -209,6 +209,8 @@ function showTasks(json){
 				$(btn).addClass("stop-btn");
 				$(btn).html("停止");
 				$(btn).parents(".row:first").removeClass().addClass("row active-row running-row");
+				$(btn).parents(".row:first").find(".cell:eq(2)").html("running");
+				$(btn).parents(".row:first").find(".cell:eq(5)").html("0%");
 				runTask(taskId,function(obj){
 					window.clearInterval(g_state_int);
 					g_state_int = null;
