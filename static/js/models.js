@@ -698,8 +698,7 @@ function showResultIcons(taskId){
 		var caption = $(".modal #caption");
 		modalImg.src = "";
 		caption.html("");
-		modal.style.display = "block";
-		$(modal).addClass("loading");
+		$(modal).addClass("loading active");
    		$.ajax({
 			type:"get",
 			url:src,
