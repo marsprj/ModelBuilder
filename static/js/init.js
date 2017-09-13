@@ -138,6 +138,18 @@ function initPageEvent(){
 			}
 		}
 	});
+
+
+	$("#myModal .close").click(function(event) {
+		$("#myModal").removeClass('active');
+	});
+
+	$("#myModal").click(function(e){
+		if(e.target instanceof HTMLAnchorElement){
+			return;
+		}
+		$("#myModal").removeClass('active');
+	});
 }
 
 function logout() {

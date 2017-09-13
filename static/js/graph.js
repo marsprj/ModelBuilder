@@ -39,6 +39,11 @@ function initGraphEvent(){
 			g_graph.startConnecting();
 		}else if($(this).hasClass("remove-tool")){
 			g_graph.remove();
+		}else if($(this).hasClass('refresh-tool')){
+			var height = $("#canvas_div").height();
+			var width = $("#canvas_div").width();
+
+			g_graph.setSize(width,height);
 		}else if($(this).hasClass("save-tool")){
 			var text = g_graph.export();
 			saveModel(text,function(result){
