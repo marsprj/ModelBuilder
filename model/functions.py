@@ -77,6 +77,7 @@ def process_fusion(func,process,user_uuid):
 
         inputs = func.getInputs();
         if len(inputs) != 2 :
+            raise Exception("funsion  requires Two Input parameters")
             return False
 
         ipath_1 = inputs[0].getPath()
@@ -147,7 +148,6 @@ def raster_fusion(process,input_path_1,input_path_2,output_path):
         p.wait()
         p_info = p.stdout.read()
         logger.info(p_info)
-        print(p)
         logger.info("process return code is :{0}".format(str(p.returncode)))
 
         if (p.returncode) != 0:

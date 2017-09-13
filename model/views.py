@@ -412,7 +412,7 @@ def start_task_2(task):
                         try:
                             success = f(func,process,str(user_uuid))
                         except Exception as e:
-                            errmsg = "process{0} run failed :{1}".format(process_func_name,str(e))
+                            errmsg = "process {0} run failed :{1}".format(process_func_name,str(e))
                             logger.error(errmsg)
                             success = False
                     else:
