@@ -37,6 +37,7 @@ def process_stretch(func,process,user_uuid):
         raster_stretch(local_ipath, local_opath)
     except Exception as e:
         logger.error("process stretch run failed: {0}".format(str(e)))
+        raise e
         return False
     return True
 
