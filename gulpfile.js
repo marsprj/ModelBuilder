@@ -15,6 +15,7 @@ gulp.task('graph-clean',function () {
 
 var graphList = ["ModelFlow/static/lib/*.js",
 		"ModelFlow/static/lib/Dialog/*.js",
+		"ModelFlow/static/lib/Dialog/FunDialog/*.js",
 		"ModelFlow/static/lib/Node/*.js",
 		"ModelFlow/static/lib/Node/*/*.js",
 		"ModelFlow/static/lib/shape/*.js",

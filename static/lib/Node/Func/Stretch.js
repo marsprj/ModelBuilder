@@ -4,8 +4,7 @@ var Stretch = function(){
 
 	this._name = "Stretch";
 
-	var that = this;
-
+	this._inputsNumber = 1;
 }
 
 extend(Stretch, FuncNode);
@@ -59,13 +58,16 @@ Stretch.prototype.export = function(){
 
 
 Stretch.prototype.onClick = function(){
-	var input, output;
+	var inputs = [];
+	var output;
 	if(this._inputs){
-		var conn_in = this._inputs[0];
-		if(conn_in){
-			var from = conn_in.getFrom();
-			if(from){
-				input = from.getPath();
+		for(var i=0; i<this._inputs.length; i++){
+			var conn_in = this._inputs[i];
+			if(conn_in){
+				var from = conn_in.getFrom();
+				if(from){
+					inputs[i] = from.getPath();
+				}
 			}
 		}
 	}
@@ -79,9 +81,20 @@ Stretch.prototype.onClick = function(){
 		}
 	}
 
+
+	if(inputs.length != this._inputsNumber){
+		alert("请设置" + this._inputsNumber + "个输入节点")
+		return;
+	}
+
+	if(!this._output){
+		alert("请设置一个输出节点");
+		return;
+	}
+
 	var that = this;
-	var dlg = new StretchDialog(input, output, function(){	//onOK
-		that.updateInputNode(dlg.getInput());
+	var dlg = new StretchDialog(inputs, output, function(){	//onOK
+		that.updateInputNode(dlg.getInput(0));
 		that.updateOutputNode(dlg.getOutput());
 	});
 	dlg.show();

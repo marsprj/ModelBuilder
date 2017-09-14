@@ -3,6 +3,9 @@ var Fusion = function(){
 	FuncNode.apply(this, arguments);
 
 	this._name = "Fusion";
+
+	// 输入个数
+	this._inputsNumber = 2;
 }
 
 extend(Fusion, FuncNode);
@@ -70,7 +73,7 @@ Fusion.prototype.export = function(){
 
 
 Fusion.prototype.onClick = function(){
-	var inputs = [null, null];
+	var inputs = [];
 	var output;
 	if(this._inputs){
 		for(var i=0; i<this._inputs.length; i++){
@@ -93,10 +96,20 @@ Fusion.prototype.onClick = function(){
 		}
 	}
 
+	if(inputs.length != this._inputsNumber){
+		alert("请设置" + this._inputsNumber + "个输入节点")
+		return;
+	}
+
+	if(!this._output){
+		alert("请设置一个输出节点");
+		return;
+	}
+
 	var that = this;
 	var dlg = new FusionDialog(inputs, output, function(){	//onOK
-		that.updateInputNode1(this.getInput1());
-		that.updateInputNode2(this.getInput2());
+		that.updateInputNode1(this.getInput(0));
+		that.updateInputNode2(this.getInput(1));
 		that.updateOutputNode(this.getOutput());
 	});
 	dlg.show();
