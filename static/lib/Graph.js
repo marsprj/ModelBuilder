@@ -677,6 +677,14 @@ Graph.prototype.startConnecting = function(){
 
 				}
 				else{
+					// 保证FunNode只有一个输出
+					if(that._start_node.getType() == NODE_TYPE.FUNC){
+						var outputEdge = that._start_node.getOutputEdge();
+						if(outputEdge){
+							alert("只允许一个输出");
+							return;
+						}
+					}
 					that._connection.remove();
 					that._end_node = node;
 
