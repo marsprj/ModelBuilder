@@ -23,6 +23,10 @@ NodeManager.prototype.createFuncNode = function(type, r, xmin, ymin, width, heig
 			node = new Fusion(r, xmin, ymin, width, height, round);
 		}
 		break;
+		case FUNCTION_TYPE.EdgeExtraction:{
+			node = new EdgeExtraction(r, xmin, ymin, width, height, round);
+		}
+		break;
 	}
 	node.showText();
 

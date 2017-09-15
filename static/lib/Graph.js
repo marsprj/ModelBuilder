@@ -6,7 +6,8 @@ var GRAPH_STATE = {
 
 var FUNCTION_TYPE = {
 	Stretch : "Stretch",
-	Fusion  : "Fusion"
+	Fusion  : "Fusion",
+	EdgeExtraction: "EdgeExtraction"
 }
 
 var Graph = function(container_id){
