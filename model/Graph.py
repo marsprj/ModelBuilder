@@ -39,6 +39,9 @@ class Datum(Node):
         self._from = None
         self._to = None
 
+    def getID(self):
+        return self._id
+
     def setFromConnection(self, c):
         self._from = c
 
@@ -68,15 +71,19 @@ class Function(Node):
     # _inputs = []
     # _output = None
 
-    def __init__(self, id, name):
+    def __init__(self, id, name,parms):
         self._id = id
         self._name = name
         self._type = 'function'
         self._inputs = []
         self._output = None
+        self._parms = parms
 
     def getName(self):
         return self._name
+
+    def getParms(self):
+        return self._parms
 
     def addInputConnection(self, c):
         self._inputs.append(c)
@@ -95,6 +102,12 @@ class Function(Node):
             if frm:
                 inputs.append(frm)
         return inputs
+    def getInput(self,id):
+        for c in self._inputs:
+            frm = c.getFrom()
+            if frm.getID() == id:
+                return frm
+        return None
 
 
 """
@@ -168,7 +181,7 @@ class Graph:
         return None
 
     def createFunction(self, f):
-        func = Function(f["id"], f["name"])
+        func = Function(f["id"], f["name"],f["parms"])
         return func
 
     def createDatum(self, d):
