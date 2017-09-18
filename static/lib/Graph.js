@@ -220,6 +220,7 @@ Graph.prototype.load = function(json){
 	model.functions.forEach(function(f){
 		f.node = graph.createFuncNode(f.name, 50, 50, 100, 50);
 		f.node.setID(f.id);
+		f.node.setParms(f.parms);
 	});
 
 	model.connections.forEach(function(c){

@@ -1,4 +1,4 @@
-var FusionDialog = function(inputs,outputs,onOk){
+var FusionDialog = function(inputs,outputs,parms,onOk){
 	FunDialog.apply(this, arguments);
 }
 

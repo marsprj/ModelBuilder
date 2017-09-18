@@ -1,9 +1,11 @@
-var FunDialog = function(inputs,output,onOK){
+var FunDialog = function(inputs,output,parms,onOK){
 	Dialog.apply(this, arguments);
 
 	this.setInputs(inputs);
 
 	this.setOutput(output);
+
+	this.setParms(parms);
 
 	this.initFolderEvent();
 
@@ -12,6 +14,9 @@ var FunDialog = function(inputs,output,onOK){
 
 
 extend(FunDialog, Dialog);
+
+FunDialog.prototype.setParms = function(parms){
+};
 
 /**
  * 关闭事件
@@ -54,7 +59,7 @@ FunDialog.prototype.initOkEvent = function(){
 FunDialog.prototype.initFolderEvent = function(){
 	var dlg = this;
 
-	this._win.find(".dialog_folder").click(function(){
+	this._win.find(".dialog_folder,.open-file").click(function(){
 		var prev = $(this).prev();
 		var inputEle = prev.children();
 		if(inputEle.hasClass('dialog-input')){

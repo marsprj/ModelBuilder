@@ -107,7 +107,8 @@ Fusion.prototype.onClick = function(){
 	}
 
 	var that = this;
-	var dlg = new FusionDialog(inputs, output, function(){	//onOK
+	var parms = [];
+	var dlg = new FusionDialog(inputs, output, parms, function(){	//onOK
 		that.updateInputNode1(this.getInput(0));
 		that.updateInputNode2(this.getInput(1));
 		that.updateOutputNode(this.getOutput());

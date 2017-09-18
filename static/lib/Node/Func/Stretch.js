@@ -36,7 +36,9 @@ Stretch.prototype.export = function(){
 		],
 		output : {
 			id : ""
-		}
+		},
+		parms :[
+		]
 	}
 
 	var inputs = this.getInputs();
@@ -93,7 +95,8 @@ Stretch.prototype.onClick = function(){
 	}
 
 	var that = this;
-	var dlg = new StretchDialog(inputs, output, function(){	//onOK
+	var parms = [];
+	var dlg = new StretchDialog(inputs, output, parms,function(){	//onOK
 		that.updateInputNode(dlg.getInput(0));
 		that.updateOutputNode(dlg.getOutput());
 	});
