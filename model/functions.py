@@ -245,14 +245,18 @@ def doFunction(process, command):
 
         logger.debug("process pid is: {0}".format(str(process.pid)))
         p.wait()
-        p_info = p.stdout.read()
-        logger.info(p_info)
+        p_out_info = p.stdout.read()
+        logger.info(p_out_info)
         logger.info("process return code is :{0}".format(str(p.returncode)))
 
         if (p.returncode) != 0:
             logger.info('kill pid')
             p.kill()
-            raise Exception("process run failed:{0}".format(p.stderr.read()))
+            p_erro_info = p.stderr.read()
+            return_info = p_erro_info
+            if p_erro_info.decode("utf-8") == '':
+                return_info = p_out_info
+            raise Exception("process run failed:{0}".format(return_info.decode("utf-8")))
             return False
     except Exception as e:
         print("process failed:{0}".format(str(e)))
