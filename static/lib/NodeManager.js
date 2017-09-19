@@ -27,6 +27,10 @@ NodeManager.prototype.createFuncNode = function(type, r, xmin, ymin, width, heig
 			node = new EdgeExtraction(r, xmin, ymin, width, height, round);
 		}
 		break;
+		case FUNCTION_TYPE.Gradient:{
+			node = new Gradient(r, xmin, ymin, width, height, round);	
+		}
+		break;
 	}
 	node.showText();
 

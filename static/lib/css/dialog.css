@@ -105,14 +105,6 @@
 	float:left;
 }
 
-.dialog-input {
-	width:320px;
-}
-
-.dialog-output{
-	width:320px;
-}
-
 .dialog_folder{
 	float:right;
 	width:30px;
@@ -413,7 +405,7 @@
 }
 
 .dialog-input {
-    width: 240px !important;
+    width: 240px ;
 	
 }
 .open-file{
@@ -431,7 +423,7 @@
 }
 
 .dialog-output{
-	width: 180px !important;
+	width: 180px ;
 }
 
 .output-pixel{
