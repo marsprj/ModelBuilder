@@ -8,7 +8,9 @@ var FUNCTION_TYPE = {
 	Stretch : "Stretch",
 	Fusion  : "Fusion",
 	EdgeExtraction: "EdgeExtraction",
-	Gradient : "Gradient"
+	Gradient : "Gradient",
+	MeanImageFilter : "MeanImageFilter",
+	MedianImageFilter : "MedianImageFilter"
 }
 
 var Graph = function(container_id){
