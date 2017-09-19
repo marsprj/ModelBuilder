@@ -76,25 +76,6 @@ EdgeExtraction.prototype.export = function(){
 	return obj;
 }
 
-EdgeExtraction.prototype.updateInputNode = function(path){
-
-	var conn = this._inputs[0];
-	var from = conn.getFrom();
-	if(from){
-		from.setPath(path);
-	}
-}
-
-EdgeExtraction.prototype.updateOutputNode = function(path){
-
-	if(this._output){
-		var to = this._output.getTo();
-		if(to){
-			to.setPath(path);
-		}
-	}
-}
-
 
 EdgeExtraction.prototype.updateParms = function(parms){
 	if(!parms){
@@ -157,7 +138,7 @@ EdgeExtraction.prototype.onClick = function(){
 			value : this._filter
 		}];
 	var dlg = new EdgeExtractionDialog(inputs, output,parms, function(){	//onOK
-		that.updateInputNode(dlg.getInput(0));
+		that.updateInputNode(0,dlg.getInput(0));
 		that.updateOutputNode(dlg.getOutput());
 		that.updateParms(dlg.getParms());
 	});

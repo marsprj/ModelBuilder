@@ -97,3 +97,20 @@ FuncNode.prototype.removeInputEdge = function (connection) {
         }
     }
 }
+
+FuncNode.prototype.updateInputNode = function(index,path){
+	var conn = this._inputs[index];
+	var from = conn.getFrom();
+	if(from){
+		from.setPath(path);
+	}
+}
+
+FuncNode.prototype.updateOutputNode = function(path){
+	if(this._output){
+		var to = this._output.getTo();
+		if(to){
+			to.setPath(path);
+		}
+	}
+}

@@ -56,25 +56,6 @@ Gradient.prototype.export = function(){
 	return obj;
 }
 
-Gradient.prototype.updateInputNode = function(path){
-
-	var conn = this._inputs[0];
-	var from = conn.getFrom();
-	if(from){
-		from.setPath(path);
-	}
-}
-
-Gradient.prototype.updateOutputNode = function(path){
-
-	if(this._output){
-		var to = this._output.getTo();
-		if(to){
-			to.setPath(path);
-		}
-	}
-}
-
 Gradient.prototype.onClick = function(){
 	var inputs = [];
 	var output;
@@ -114,7 +95,7 @@ Gradient.prototype.onClick = function(){
 
 	var parms = [];
 	var dlg = new GradientDialog(inputs, output,parms, function(){	//onOK
-		that.updateInputNode(dlg.getInput(0));
+		that.updateInputNode(0,dlg.getInput(0));
 		that.updateOutputNode(dlg.getOutput());
 	});
 	dlg.show();
