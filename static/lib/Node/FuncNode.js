@@ -64,6 +64,9 @@ FuncNode.prototype.getOutput = function(){
 FuncNode.prototype.export = function(){
 }
 
+FuncNode.prototype.setParms = function(){
+}
+
 FuncNode.prototype.offset = function(dx, dy){
 	if(this._shape){
 		this._shape.offset(dx, dy);
