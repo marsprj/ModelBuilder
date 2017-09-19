@@ -78,7 +78,7 @@ CreateModelDialog.prototype.create = function(){
 		+'			<span>名称:</span>'
 		+'			<input type="text" placeholder="请输入模型名称" class="create-model-name">'
 		+'		</div>'
-		+'		<div class="dialog_item" style="height: 100px;">'
+		+'		<div class="dialog_item" style="height: 122px;">'
 		+'			<span style="vertical-align: top;">描述:</span>'
 		+'			<textarea rows="5" style="height: 113px"></textarea>'
 		+'		</div>'

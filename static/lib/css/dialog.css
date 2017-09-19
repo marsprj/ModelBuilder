@@ -11,6 +11,11 @@
 	box-shadow: 2px 2px 5px 2px #888888;
 }
 
+.f-left{
+	float: left;
+}
+
+
 .dialog .titlebar{
 	padding-left: 10px;
 	height: 30px;
@@ -118,6 +123,57 @@
 	cursor : pointer;
 }
 
+.dialog_item .item-title{
+    width: 60px;
+    max-width: 60px;
+    line-height: 2.2;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.dialog_item .item-content{
+	width: 320px;
+}
+
+.dialog-input {
+    width: 240px ;	
+}
+.open-file{
+	width: 50px;
+    border: 1px solid #cdcdcd;
+    height: 23px;
+    margin: 0 5px;
+    border-radius: 4px;
+    text-align: center;
+}
+
+.open-file:hover{
+	cursor: pointer;
+	box-shadow: 1px 1px 2px #cdcdcd;
+}
+
+.dialog-output{
+	width: 180px ;
+}
+
+.output-pixel{
+	border: 1px solid #cdcdcd;
+    margin-left: 4px;
+ 	width: 55px;
+}
+
+.func_dialog input{
+	border: 1px solid #cdcdcd;
+    border-radius: 2px;
+    padding: 4px;
+}
+
+.func_dialog select{
+	padding: 2px;
+    height: 25px;
+    border-radius: 2px;
+}
 /********************************************************************/
 /*  file   dialog
 /********************************************************************/
@@ -125,7 +181,6 @@
 	left: 300px;
 	top: 80px;
 	width: 700px;
-	height: 500px;
 }
 
 .dialog_file_path_wrapper{
@@ -177,22 +232,9 @@
 	background-image: url(../images/upload_16.png);	
 }
 
-.dlg_folder_open{
-	float: right;
-    width: 20px	;
-    height: 20px	;
-    background-image: url(../images/folder_24.png);
-    background-repeat: no-repeat;
-	background-position: center;
-}
-
-.dlg_folder_open:hover{
-	background-color: #e0ecf6;
-}
-
 #dialog_file_ctrl{
 	height: 340px;
-    margin: 0px 10px;
+    margin: 0px 10px 10px;
     padding: 5px;
     border: 1px solid #aaaaaa;
 }
@@ -387,59 +429,3 @@
 /*    new  dialog
 /********************************************************************/
 
-.f-left{
-	float: left;
-}
-
-.dialog_item .item-title{
-    width: 60px;
-    max-width: 60px;
-    line-height: 2.2;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-}
-
-.dialog_item .item-content{
-	width: 320px;
-}
-
-.dialog-input {
-    width: 240px ;
-	
-}
-.open-file{
-	width: 50px;
-    border: 1px solid #cdcdcd;
-    height: 23px;
-    margin: 0 5px;
-    border-radius: 4px;
-    text-align: center;
-}
-
-.open-file:hover{
-	cursor: pointer;
-	box-shadow: 1px 1px 2px #cdcdcd;
-}
-
-.dialog-output{
-	width: 180px ;
-}
-
-.output-pixel{
-	border: 1px solid #cdcdcd;
-    margin-left: 4px;
- 	width: 55px;
-}
-
-.dialog input{
-	border: 1px solid #cdcdcd;
-    border-radius: 2px;
-    padding: 4px;
-}
-
-.dialog select{
-	padding: 2px;
-    height: 25px;
-    border-radius: 2px;
-}
