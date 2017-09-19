@@ -223,7 +223,10 @@ function showTasks(json){
 							if(obj.status == "success"){
 								alert(taskName + " : 运行成功")
 							}else if(obj.status == "error"){
-								alert(taskName + " :  " + obj.message);
+								var message = obj.message;
+								message.replace("\\\n","\n");
+								console.log(message);
+								alert(taskName + " :  " + message);
 							}
 						},10);
 					});
@@ -636,7 +639,6 @@ function runTask(taskId,callback){
 		contentType: "text/plain",
 		dataType : "text",
 		success:function(result){
-			console.log(result);
 			if(callback){
 				callback(JSON.parse(result));
 			}
