@@ -63,7 +63,6 @@ def process_stretch(func,process,user_uuid):
 
         command = "{0} {1}".format("otbcli_EdgeExtraction",command)
         doFunction(process, command)
-        # raster_stretch(local_ipath, local_opath)
     except Exception as e:
         logger.error("process stretch run failed: {0}".format(str(e)))
         raise e
@@ -336,7 +335,48 @@ def process_edgeextraction(func,process,user_uuid):
 
         command = "{0} {1}".format("otbcli_EdgeExtraction",command)
         doFunction(process, command)
-        # raster_stretch(local_ipath, local_opath)
+    except Exception as e:
+        logger.error("process run failed: {0}".format(str(e)))
+        raise e
+        return False
+    return True
+
+"""
+处理阈值分割
+"""
+def process_threshold(func,process,user_uuid):
+    try:
+        task_id = str(process.task_id)
+        parms = func.getParms()
+        command = ""
+        for i in parms:
+            key = i['key']
+            value = i['value']
+            value = str(value)
+            inObj = re.search(r'in=\[(.{5})\]*', value, re.M | re.I)
+            if inObj:
+                inputId = inObj.group(1)
+                input = func.getInput(inputId)
+                if input:
+                    input_path = input.getPath()
+                    if not input.getFrom():
+                        local_ipath = build_local_path(input_path, user_uuid)
+                    else:
+                        local_ipath = build_task_local_path(input_path, task_id, user_uuid)
+                    command = "{0} {1} {2}".format(command,key,local_ipath)
+            outObj = re.search(r'(\[out\](.*))', value, re.M | re.I)
+            if outObj:
+                output = func.getOutput()
+                output_path = output.getPath()
+                local_opath = build_task_local_path(output_path, task_id, user_uuid)
+                pat = re.compile(r'(\[out\])')
+                res = pat.sub(r'' +local_opath + '', value)
+                command = "{0} {1} {2}".format(command, key, res)
+            if not inObj and not outObj:
+                command = "{0} {1} {2}".format(command, "", value)
+
+        command = "{0} {1}".format("BinaryThresholdImageFilter",command)
+        doFunction(process, command)
     except Exception as e:
         logger.error("process run failed: {0}".format(str(e)))
         raise e

@@ -6,7 +6,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ac37dfb7-7c13-4d7d-a101-64ef4a8b8d82" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/model/functions.py" afterPath="$PROJECT_DIR$/model/functions.py" />
     </list>
     <ignored path="ModelFlow.iws" />
@@ -64,11 +63,11 @@
       <file leaf-file-name="functions.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/model/functions.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="392">
-              <caret line="127" column="23" lean-forward="false" selection-start-line="127" selection-start-column="23" selection-end-line="127" selection-end-column="23" />
+            <state relative-caret-position="226">
+              <caret line="375" column="57" lean-forward="false" selection-start-line="375" selection-start-column="57" selection-end-line="375" selection-end-column="57" />
               <folding>
                 <element signature="e#0#30#0" expanded="true" />
-                <element signature="e#4910#6506#0" expanded="false" />
+                <element signature="e#4859#6455#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -109,8 +108,8 @@
       <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/model/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="370">
-              <caret line="416" column="43" lean-forward="false" selection-start-line="416" selection-start-column="43" selection-end-line="416" selection-end-column="43" />
+            <state relative-caret-position="190">
+              <caret line="412" column="0" lean-forward="false" selection-start-line="412" selection-start-column="0" selection-end-line="412" selection-end-column="0" />
               <folding>
                 <element signature="e#0#35#0" expanded="true" />
               </folding>
@@ -229,8 +228,8 @@
       <find>aaa</find>
       <find>get_user_file_root</find>
       <find>raise</find>
-      <find>hasattr</find>
       <find>build_task_local_path</find>
+      <find>hasattr</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -983,7 +982,7 @@
           </properties>
         </breakpoint>
       </default-breakpoints>
-      <option name="time" value="180" />
+      <option name="time" value="182" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="Python.DjangoServer">
@@ -1454,16 +1453,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/model/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="370">
-          <caret line="416" column="43" lean-forward="false" selection-start-line="416" selection-start-column="43" selection-end-line="416" selection-end-column="43" />
-          <folding>
-            <element signature="e#0#35#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/model/urls.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="270">
@@ -1474,13 +1463,23 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/model/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="190">
+          <caret line="412" column="0" lean-forward="false" selection-start-line="412" selection-start-column="0" selection-end-line="412" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#35#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/model/functions.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="392">
-          <caret line="127" column="23" lean-forward="false" selection-start-line="127" selection-start-column="23" selection-end-line="127" selection-end-column="23" />
+        <state relative-caret-position="226">
+          <caret line="375" column="57" lean-forward="false" selection-start-line="375" selection-start-column="57" selection-end-line="375" selection-end-column="57" />
           <folding>
             <element signature="e#0#30#0" expanded="true" />
-            <element signature="e#4910#6506#0" expanded="false" />
+            <element signature="e#4859#6455#0" expanded="false" />
           </folding>
         </state>
       </provider>
