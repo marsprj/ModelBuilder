@@ -104,35 +104,40 @@ def raster_stretch(ipath, opath):
 def process_fusion(func,process,user_uuid):
     try:
         task_id = str(process.task_id)
+        parms = func.getParms()
+        command = ""
+        for i in parms:
+            key = i['key']
+            value = i['value']
+            inObj = re.search(r'in=\[(.{5})\]*', value, re.M | re.I)
+            if inObj:
+                inputId = inObj.group(1)
+                input = func.getInput(inputId)
+                if input:
+                    input_path = input.getPath()
+                    if not input.getFrom():
+                        local_ipath = build_local_path(input_path, user_uuid)
+                    else:
+                        local_ipath = build_task_local_path(input_path, task_id, user_uuid)
+                    command = "{0} {1} {2}".format(command, key, local_ipath)
+            outObj = re.search(r'(\[out\](.*))', value, re.M | re.I)
+            if outObj:
+                output = func.getOutput()
+                output_path = output.getPath()
+                local_opath = build_task_local_path(output_path, task_id, user_uuid)
+                pat = re.compile(r'(\[out\])')
+                res = pat.sub(r'' + local_opath + '', value)
+                command = "{0} {1} {2}".format(command, key, res)
+            if not inObj and not outObj:
+                command = "{0} {1} {2}".format(command, key, value)
 
-        inputs = func.getInputs();
-        if len(inputs) != 2 :
-            raise Exception("funsion  requires Two Input parameters")
-            return False
-
-        ipath_1 = inputs[0].getPath()
-        if not inputs[0].getFrom():
-            local_ipath_1 = build_local_path(ipath_1,user_uuid)
-        else :
-            local_ipath_1 = build_task_local_path(ipath_1,task_id,user_uuid)
-
-        ipath_2 = inputs[1].getPath()
-        if not inputs[1].getFrom():
-            local_ipath_2 = build_local_path(ipath_2, user_uuid)
-        else:
-            local_ipath_2 = build_task_local_path(ipath_2, task_id, user_uuid)
-
-
-        output = func.getOutput()
-        if output == None:
-            return False
-        opath = output.getPath()
-        local_opath = build_task_local_path(opath, task_id, user_uuid)
-
-        return raster_fusion(process, local_ipath_1, local_ipath_2,local_opath)
+        command = "{0} {1}".format("otbcli_Pansharpening", command)
+        doFunction(process, command)
     except Exception as e:
+        logger.error("process run failed: {0}".format(str(e)))
         raise e
         return False
+    return True
 
 """
 处理边缘检测
