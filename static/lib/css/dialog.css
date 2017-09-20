@@ -181,6 +181,21 @@
 .type-radius{
 	width: 60px;
 }
+
+.lower-div, .upper-div,.inside-div,.outside-div{
+	margin-right: 10px;
+}
+.lower-div input,.upper-div input,.inside-div input, .outside-div input{
+	width: 60px;
+}
+
+.lower-div .item-title,.upper-div .item-title, .inside-div .item-title,.outside-div .item-title{
+	width: 50px;
+}
+
+/*.lower-parm,.upper-parm,.inside-parm,.outside-parm{
+	width: 60px;
+}*/
 /********************************************************************/
 /*  file   dialog
 /********************************************************************/
