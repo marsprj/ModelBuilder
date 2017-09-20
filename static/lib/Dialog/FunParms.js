@@ -24,7 +24,28 @@ var g_fun_parms = [
 			}
 		]
 	},{
-
+		"funName" 	: "Smoothing",
+		"parms"		:[
+			{
+				"name" : "pixel",
+				"values":[
+					{ "name":"uint8","value":"uint8"},
+					{ "name":"uint16","value":"uint16"},
+					{ "name":"int16","value":"int16"},
+					{ "name":"uint32","value":"uint32"},
+					{ "name":"int32","value":"int32"},
+					{ "name":"float","value":"float"},
+					{ "name":"double","value":"double"}
+				]
+			},{
+				"name" : "type",
+				"values":[
+					{ "name":"anidif滤波","value":"anidif"},
+					{ "name":"均值滤波","value":"mean"},
+					{ "name":"高斯滤波","value":"gaussian"},
+				]
+			}
+		]
 	}
 ];
 

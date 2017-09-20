@@ -10,7 +10,8 @@ var FUNCTION_TYPE = {
 	EdgeExtraction: "EdgeExtraction",
 	Gradient : "Gradient",
 	MeanImageFilter : "MeanImageFilter",
-	MedianImageFilter : "MedianImageFilter"
+	MedianImageFilter : "MedianImageFilter",
+	Smoothing : "Smoothing"
 }
 
 var Graph = function(container_id){
