@@ -46,13 +46,36 @@ var g_fun_parms = [
 				]
 			}
 		]
+	},{
+		"funName" 	: "Fusion",
+		"parms"		:[
+			{
+				"name" : "pixel",
+				"values":[
+					{ "name":"uint8","value":"uint8"},
+					{ "name":"uint16","value":"uint16"},
+					{ "name":"int16","value":"int16"},
+					{ "name":"uint32","value":"uint32"},
+					{ "name":"int32","value":"int32"},
+					{ "name":"float","value":"float"},
+					{ "name":"double","value":"double"}
+				]
+			},{
+				"name" : "method",
+				"values":[
+					{ "name":"rcs融合","value":"rcs"},
+					{ "name":"lmvm融合","value":"lmvm"},
+					{ "name":"贝叶斯融合","value":"bayes"},
+				]
+			}
+		]
 	}
 ];
 
 
 function getFunParm(funName,parm){
 	if(!funName || !parm){
-		return;
+		return [];
 	}
 	for(var i = 0; i < g_fun_parms.length;++i){
 		var g_funName = g_fun_parms[i].funName;

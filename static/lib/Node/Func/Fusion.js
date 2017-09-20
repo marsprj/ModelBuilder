@@ -1,3 +1,6 @@
+/**
+ * 融合
+ */
 var Fusion = function(){
 
 	FuncNode.apply(this, arguments);
@@ -6,42 +9,31 @@ var Fusion = function(){
 
 	// 输入个数
 	this._inputsNumber = 2;
+
+	this._outPixel = "float";
+
+	this._method = "rcs";
 }
 
 extend(Fusion, FuncNode);
 
-Fusion.prototype.updateInputNode1 = function(path){
 
-	var conn = this._inputs[0];
-	if(conn){
-		var from = conn.getFrom();
-		if(from){
-			from.setPath(path);
-		}
-	}
-}
-
-Fusion.prototype.updateInputNode2 = function(path){
-
-	var conn = this._inputs[1];
-	if(conn){
-		var from = conn.getFrom();
-		if(from){
-			from.setPath(path);
-		}
+Fusion.prototype.setParms = function(parms){
+	if(!parms){
+		return;
 	}
 
-}
-
-Fusion.prototype.updateOutputNode = function (path) {
-	if(this._output){
-		var to = this._output.getTo();
-		if(to){
-			to.setPath(path);
+	for(var i = 0; i < parms.length; ++i){
+		var key = parms[i].key;
+		var value = parms[i].value;
+		if(key === "-method"){
+			this._method = value;
+		}else if(key === "-out"){
+			value = value.replace("[out]","").trim();
+			this._outPixel = value;
 		}
 	}
-}
-
+};
 
 Fusion.prototype.export = function(){
 	var obj = {
@@ -51,23 +43,51 @@ Fusion.prototype.export = function(){
 		],
 		output : {
 			id : ""
-		}
+		},
+		parms:[
+		]
 	}
 
 	var inputs = this.getInputs();
 	if(inputs){
-		inputs.forEach(function(v){
+		inputs.forEach(function(v,index){
 			if(v){
 				obj.inputs.push({
 					id : v.getID()
 				});
+
+				if(index == 0){
+					var inJson = {
+						key: "-inp",
+						value :"in=[" + v.getID() + "]"
+					}
+				}else if(index == 1){
+					var inJson = {
+						key: "-inxs",
+						value :"in=[" + v.getID() + "]"
+					}
+				}
+				
+				obj.parms.push(inJson);
 			}
 		});
 	}
 	var output = this.getOutput();
 	if(output){
 		obj.output.id = output.getID()
+
+		var outJson = {
+			key : "-out",
+			value : "[out] " + this._outPixel
+		};
+		obj.parms.push(outJson);
 	}
+
+	obj.parms.push({
+		key : "-method",
+		value : this._method
+	});
+
 	return obj;
 }
 
@@ -107,12 +127,36 @@ Fusion.prototype.onClick = function(){
 	}
 
 	var that = this;
-	var parms = [];
+	var parms = [{
+			name : "pixel",
+			value : this._outPixel
+		},{
+			name: "method",
+			value : this._method
+		}];
 	var dlg = new FusionDialog(inputs, output, parms, function(){	//onOK
-		that.updateInputNode1(this.getInput(0));
-		that.updateInputNode2(this.getInput(1));
+		that.updateInputNode(0,this.getInput(0));
+		that.updateInputNode(1,this.getInput(1));
 		that.updateOutputNode(this.getOutput());
+		that.updateParms(dlg.getParms());
 	});
 	dlg.show();
 
 }
+
+
+Fusion.prototype.updateParms = function(parms){
+	if(!parms){
+		return;
+	}
+
+	for(var i = 0; i < parms.length; ++i){
+		var name = parms[i].name;
+		var value = parms[i].value;
+		if(name == "pixel"){
+			this._outPixel = value;
+		}else if(name == "method"){
+			this._method = value;
+		}
+	}
+};
