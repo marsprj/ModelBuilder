@@ -150,6 +150,9 @@ function initPageEvent(){
 		}
 		$("#myModal").removeClass('active');
 	});
+
+	// 加载算法库
+	loadFuns();
 }
 
 function logout() {
@@ -172,4 +175,18 @@ function logout() {
             console.log(xhr);
         }
 	});
+}
+
+function loadFuns(){
+	var html = '';
+	for(var i = 0; i < g_funCatalog.length;++i){
+		var fun = g_funCatalog[i];
+		var name = fun.name;
+		var type = fun.type;
+		html += '<div class="func_wrapper" ftype="'+ type + '">'
+			+	name 
+			+	'</div>';
+	}
+
+	$(".funcs_container").html(html);
 }
