@@ -99,6 +99,12 @@ function showModel(json){
 	g_graph.load(json);
 	g_graph.setEditable(false);
 	$("#state_div select option[value='not']").prop("selected",true);
+	$("#backdrop").dblclick(function() {
+		var tootip = new Tooltip({
+				target : "#state_div",
+				text: "请先启用编辑状态"
+			});
+	});
 }
 
 // 获取计算任务
