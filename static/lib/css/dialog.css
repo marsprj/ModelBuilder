@@ -193,6 +193,9 @@
 	width: 50px;
 }
 
+.func_dialog input.error{
+	border-color: #d43f3a;
+}
 /*.lower-parm,.upper-parm,.inside-parm,.outside-parm{
 	width: 60px;
 }*/

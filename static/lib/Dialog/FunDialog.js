@@ -40,6 +40,10 @@ FunDialog.prototype.initOkEvent = function(){
 
 	this._win.find("#dlg_btn_ok:first").click(function(){
 
+		var result = dlg.verify();
+		if(!result){
+			return;
+		}
 		dlg._win.find(".dialog-input").each(function(index, el) {
 			dlg._inputs[index] = $(this).val();			
 		});
@@ -125,4 +129,8 @@ FunDialog.prototype.getInput = function(index){
 
 FunDialog.prototype.getOutput = function(){
 	return this._output
+};
+
+FunDialog.prototype.verify = function(){
+	return true;
 };

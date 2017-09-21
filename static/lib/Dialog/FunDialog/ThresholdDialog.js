@@ -122,3 +122,85 @@ ThresholdDialog.prototype.getParms = function(){
 	return parms;
 }
 
+ThresholdDialog.prototype.verify = function(){
+
+	this._win.find("input").removeClass("error");
+	var valueReg =  /^[0-9]*$/;
+	var lower = this._win.find(".lower-div input");
+	if(!valueReg.test(lower.val())){
+		var tooltip = new Tooltip({
+			target : ".func_dialog .lower-div input",
+			text : "请输入有效的下限值"
+		});
+		lower.addClass('error');
+		return false;
+	}
+
+	if(lower.val() < 0 || lower.val() > 255){
+		var tooltip = new Tooltip({
+			target : ".func_dialog .lower-div input",
+			text : "数值范围0~255"
+		});
+		lower.addClass('error');
+		return false;
+	}
+
+	var upper = this._win.find(".upper-div input");
+	if(!valueReg.test(upper.val())){
+		var tooltip = new Tooltip({
+			target : ".func_dialog .upper-div input",
+			text : "请输入有效的上限值"
+		});
+		upper.addClass('error');
+		return false;
+	}
+
+	if(upper.val() < 0 || upper.val() > 255){
+		var tooltip = new Tooltip({
+			target : ".func_dialog .upper-div input",
+			text : "数值范围0~255"
+		});
+		upper.addClass('error');
+		return false;
+	}
+
+	var inside = this._win.find(".inside-div input");
+	if(!valueReg.test(inside.val())){
+		var tooltip = new Tooltip({
+			target : ".func_dialog .inside-div input",
+			text : "请输入有效的阈值内像素值"
+		});
+		inside.addClass('error');
+		return false;
+	}
+
+	if(inside.val() < 0 || inside.val() > 255){
+		var tooltip = new Tooltip({
+			target : ".func_dialog .inside-div input",
+			text : "数值范围0~255"
+		});
+		inside.addClass('error');
+		return false;
+	}
+
+	
+	var outside = this._win.find(".outside-div input");
+	if(!valueReg.test(outside.val())){
+		var tooltip = new Tooltip({
+			target : ".func_dialog .outside-div input",
+			text : "请输入有效的阈值外像素值"
+		});
+		outside.addClass('error');
+		return false;
+	}
+
+	if(outside.val() < 0 || outside.val() > 255){
+		var tooltip = new Tooltip({
+			target : ".func_dialog .outside-div input",
+			text : "数值范围0~255"
+		});
+		outside.addClass('error');
+		return false;
+	}
+	return true;
+};
