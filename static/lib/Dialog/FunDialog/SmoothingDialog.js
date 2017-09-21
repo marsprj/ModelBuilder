@@ -144,3 +144,22 @@ SmoothingDialog.prototype.getParms = function(){
 	});
 	return parms;
 }
+
+
+
+SmoothingDialog.prototype.verify = function(){
+	this._win.find("input").removeClass("error");
+	var smoothType = this._win.find(".smooth-type").val();
+	var input = this._win.find('.type-radius');
+	var valueReg =  /^[0-9]*$/;
+
+	if((smoothType == "mean" || smoothType == "gaussian") && !valueReg.test(input.val())){
+		var tooltip = new Tooltip({
+			target : ".func_dialog .type-radius",
+			text : "请输入有效的卷积半径"
+		});
+		input.addClass('error');
+		return false;
+	}
+	return true;
+};

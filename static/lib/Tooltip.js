@@ -58,6 +58,8 @@ Tooltip.prototype.hide = function(){
 Tooltip.prototype.destory = function(){
 	this._target = null;
 	this._text = null;
-	this._div.remove();
-	this._div = null;
+	if(this._div){
+		this._div.remove();
+		this._div = null;
+	}
 };
