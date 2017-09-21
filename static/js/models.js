@@ -458,6 +458,9 @@ function getTaskState(taskId,callback){
 	 	error:function(xhr){
             alert("获取运行状态失败");
             console.log(xhr);
+            if(callback){
+            	callback("failed");
+            }
         }			
 	});
 }
