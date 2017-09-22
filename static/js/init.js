@@ -92,7 +92,7 @@ function initPageEvent(){
 					$("#right .titlebar-title span").html("");
 					$("#backdrop .image-icon").remove();
 					g_graph.setEditable(false);
-					$("#state_div select option[value='not']").prop("selected",true);
+					$("#state_div input").prop("checked",false);
 					loadModels();
 				}else{
 					alert(result.error);

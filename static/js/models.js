@@ -98,7 +98,7 @@ function showModel(json){
 	}
 	g_graph.load(json);
 	g_graph.setEditable(false);
-	$("#state_div select option[value='not']").prop("selected",true);
+	$("#state_div input").prop("checked",false);
 	$("#backdrop").dblclick(function() {
 		var tootip = new Tooltip({
 				target : "#state_div",
@@ -207,7 +207,7 @@ function showTasks(json){
 			}
 			// 设置为不可编辑状态
 			g_graph.setEditable(false);
-			$("#state_div select option[value='not']").prop("selected",true);
+			$("#state_div input").prop("checked",false);
 			// 先保存再运行
 			var text = g_graph.export();
 			var btn = this;
@@ -670,7 +670,7 @@ function showResultIcons(taskId){
 
 	// 先设置为不可编辑状态，否则展示没有意义
 	g_graph.setEditable(false);
-	$("#state_div select option[value='not']").prop("selected",true);
+	$("#state_div input").prop("checked",false);
 
 	var nodes = g_graph.getData();
 	var html = "";

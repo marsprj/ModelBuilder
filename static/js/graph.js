@@ -63,11 +63,11 @@ function initGraphEvent(){
 
 
 	//编辑
-	$("#state_div select").change(function(){
-		var value = $(this).val();
-		if(value == "yes"){
+	$("#state_div input").change(function(){
+		var checked = this.checked;
+		if(checked){
 			g_graph.setEditable(true);
-		}else if(value == "not"){
+		}else{
 			$("#tools .tool").removeClass("active");
 			g_graph.setEditable(false);
 		}
