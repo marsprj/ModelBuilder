@@ -114,11 +114,7 @@ function setFullScreen(){
 
 // 设置不可编辑状态
 function setNoEdit(){
-	var input = $("#state_div input");
-	if(!input[0].checked){
-		return;
-	}
-
+	g_graph.setEditable(true);
 	g_graph.setEditable(false);
 	$("#state_div input").prop("checked",false);
 	$("#backdrop").dblclick(function() {
