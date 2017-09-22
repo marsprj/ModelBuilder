@@ -29,19 +29,57 @@ function showModels(json){
 		html += '<div class="model-item" uuid="' + model.uuid + '" mname="' + model.name + '">'
 			 +  '	<div class="model-icon"></div>'
 			 +  '	<div class="model-name">'  + model.name + "</div>"
+			 +	'	<div class="btns">'
+			 +	'		<button class="remove-btn" title="删除模型"></button>'
+			 +	'	 </div>'
 			 + 	'</div>'
 	});
 
 	$("#models_container").html(html);
 
-	$("#models_container .model-item").click(function(){
-		var uuid = $(this).attr("uuid");
+	$("#models_container .model-item .model-name").click(function(){
+		var item = $(this).parent();
+		var uuid = item.attr("uuid");
 		$("#models_container .model-item").removeClass("active");
-		$(this).addClass("active");
-		var name = $(this).attr("mname");
+		item.addClass("active");
+		var name = item.attr("mname");
 		$("#right .titlebar-title span").html("[" + name + "]");
 		getModel(uuid);
 		getTasks(uuid);
+	});
+
+
+	$("#models_container .model-item .remove-btn").click(function(event) {
+		var row = $(this).parents(".model-item");
+		var name = row.attr("mname");
+		if(name == null){
+			alert("请指定要删除的模型");
+			return;
+		}
+		if(!confirm("确定删除[" + name + "]模型?")){
+			return;
+		}
+		var uuid = row.attr("uuid");
+		if(uuid){
+			deleteModel(uuid,function(result){
+				if(result.status == "success"){
+					alert("删除成功");
+					g_graph.clear();
+					var processDiv = $(".process-div");
+					processDiv.slideUp(400,function(){
+						processDiv.remove();
+					});
+					$("#task_table .table .row:not(.header)").remove();
+					$("#right .titlebar-title span").html("");
+					$("#backdrop .image-icon").remove();
+					g_graph.setEditable(false);
+					$("#state_div input").prop("checked",false);
+					loadModels();
+				}else{
+					alert(result.error);
+				}
+			});
+		}
 	});
 
 	if(g_new_model){

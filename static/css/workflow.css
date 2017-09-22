@@ -75,7 +75,7 @@
 	text-align: left;
 }
 .model-name{
-	max-width: 164px;
+	width: 144px;
     text-overflow: ellipsis;
     white-space: nowrap;
     display: inline-block;
@@ -87,6 +87,33 @@
 	background-color: #cdcdcd;
 	cursor: pointer;
 	color: #fff;
+}
+
+.model-item:hover .btns{
+	display: none;
+}
+
+.model-item.active:hover .btns{
+	display: block!important;
+}
+
+.remove-btn {
+	background: url(../images/remove_on.png) no-repeat center;
+	color: #fff;
+	font-size: 16px;
+	border: none;
+	cursor: pointer;
+	height: 25px;
+	width: 25px;
+	padding: 0px;
+	vertical-align: middle;
+}
+
+.remove-btn:hover{
+	background-image: url(../images/remove_off.png);
+}
+.btns button:focus{
+	outline: 0;
 }
 
 .model-item div{
