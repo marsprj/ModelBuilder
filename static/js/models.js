@@ -72,8 +72,7 @@ function showModels(json){
 					$("#task_table .table .row:not(.header)").remove();
 					$("#right .titlebar-title span").html("");
 					$("#backdrop .image-icon").remove();
-					g_graph.setEditable(false);
-					$("#state_div input").prop("checked",false);
+					setNoEdit();
 					loadModels();
 				}else{
 					alert(result.error);
@@ -135,14 +134,7 @@ function showModel(json){
 		return;
 	}
 	g_graph.load(json);
-	g_graph.setEditable(false);
-	$("#state_div input").prop("checked",false);
-	$("#backdrop").dblclick(function() {
-		var tootip = new Tooltip({
-				target : "#state_div",
-				text: "请先启用编辑状态"
-			});
-	});
+	setNoEdit();
 }
 
 // 获取计算任务
@@ -244,8 +236,7 @@ function showTasks(json){
 				g_helper.show(24);
 			}
 			// 设置为不可编辑状态
-			g_graph.setEditable(false);
-			$("#state_div input").prop("checked",false);
+			setNoEdit();
 			// 先保存再运行
 			var text = g_graph.export();
 			var btn = this;
@@ -707,8 +698,7 @@ function showResultIcons(taskId){
 	}
 
 	// 先设置为不可编辑状态，否则展示没有意义
-	g_graph.setEditable(false);
-	$("#state_div input").prop("checked",false);
+	setNoEdit();
 
 	var nodes = g_graph.getData();
 	var html = "";

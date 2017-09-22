@@ -110,5 +110,21 @@ function setFullScreen(){
 			showResultIcons(tid);
 		}
 	}
+}
 
+// 设置不可编辑状态
+function setNoEdit(){
+	var input = $("#state_div input");
+	if(!input[0].checked){
+		return;
+	}
+
+	g_graph.setEditable(false);
+	$("#state_div input").prop("checked",false);
+	$("#backdrop").dblclick(function() {
+		var tootip = new Tooltip({
+				target : "#state_div",
+				text: "请先启用编辑状态"
+			});
+	});
 }
