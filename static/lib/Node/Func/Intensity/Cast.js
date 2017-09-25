@@ -1,16 +1,16 @@
 /**
- * 灰度拉伸
+ * 灰度Cast
  */
-var Rescale = function(){
+var Cast = function(){
 	FuncNode.apply(this, arguments);
 
-	this._name = "Rescale";
+	this._name = "Cast";
 
 	this._inputsNumber = 1;
 };
-extend(Rescale, FuncNode);
+extend(Cast, FuncNode);
 
-Rescale.prototype.export = function(){
+Cast.prototype.export = function(){
 	var obj = {
 		id : this.getID(),
 		name : this._name,
@@ -53,7 +53,7 @@ Rescale.prototype.export = function(){
 	return obj;
 }
 
-Rescale.prototype.onClick = function(){
+Cast.prototype.onClick = function(){
 	var inputs = [];
 	var output;
 	if(this._inputs){
@@ -91,7 +91,7 @@ Rescale.prototype.onClick = function(){
 	var that = this;
 
 	var parms = [];
-	var dlg = new RescaleDialog(inputs, output,parms, function(){	//onOK
+	var dlg = new CastDialog(inputs, output,parms, function(){	//onOK
 		that.updateInputNode(0,dlg.getInput(0));
 		that.updateOutputNode(dlg.getOutput());
 	});
