@@ -47,6 +47,10 @@ NodeManager.prototype.createFuncNode = function(type, r, xmin, ymin, width, heig
 			node = new Threshold(r, xmin, ymin, width, height, round);
 		}
 		break;
+		case FUNCTION_TYPE.Rescale:{
+			node = new Rescale(r, xmin, ymin, width, height, round); 
+		}
+		break;
 		default:
 		break;
 	}

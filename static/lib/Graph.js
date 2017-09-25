@@ -12,7 +12,8 @@ var FUNCTION_TYPE = {
 	MeanImageFilter : "MeanImageFilter",
 	MedianImageFilter : "MedianImageFilter",
 	Smoothing : "Smoothing",
-	Threshold : "Threshold"
+	Threshold : "Threshold",
+	Rescale : "Rescale"
 }
 
 var Graph = function(container_id){
