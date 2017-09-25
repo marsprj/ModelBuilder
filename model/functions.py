@@ -517,6 +517,9 @@ def doFunction(process, command):
 def process_rescale(func, process, user_uuid):
     return process_common(func,process,user_uuid, "RescaleImageFilter")
 
+# 灰度Cast
+def process_cast(func, process, user_uuid):
+    return process_common(func,process,user_uuid, "CastImageFilter")
 
 """
 通用处理
