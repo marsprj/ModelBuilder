@@ -555,6 +555,7 @@ Graph.prototype.clear = function(){
 	this._name = null;
 	this._connManager.clear();
 	this._nodeManager.clear();
+	$(".upload_dialog, .file_dialog,.func_dialog").remove();
 }
 
 /**
