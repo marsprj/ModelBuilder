@@ -194,7 +194,7 @@ function showTasks(json){
 			+	btnHtml
 			+ 	'</div>';
 	});
-
+	$("#task_table .table .row:not(.header)").remove();
  	$("#task_table .task-header").after(html);
 
 	$("#task_table .row:not(.header)").click(function(evt){
