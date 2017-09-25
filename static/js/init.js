@@ -177,15 +177,53 @@ function logout() {
 }
 
 function loadFuns(){
-	var html = '';
-	for(var i = 0; i < g_funCatalog.length;++i){
-		var fun = g_funCatalog[i];
-		var name = fun.name;
-		var type = fun.type;
-		html += '<div class="func_wrapper" ftype="'+ type + '">'
-			+	name 
-			+	'</div>';
-	}
-
+	var html = loadFunType(g_funCatalog,1);
 	$(".funcs_container").html(html);
+
+	$(".funcs_container a").click(function(event) {
+		var next = $(this).parent().next();
+		if(next.length >0 && next[0] instanceof HTMLUListElement){
+			if(next.hasClass("shown")){
+				next.removeClass('shown');
+				next.slideUp();
+			}else{
+				next.addClass('shown');
+				next.slideDown();
+			}
+		}else{
+			var ftype = $(this).attr("ftype");
+			if(ftype){
+				$("#funcs a").removeClass("active");
+				$("#data_div").removeClass("active");
+				$(this).addClass("active");		
+				g_graph.setState(GRAPH_STATE.ADDFUNC);
+				g_func_type = ftype;
+			}
+		}
+	});
+}
+
+function loadFunType(catalog,deep){
+	var html = '<ul>';
+	if(deep == 1){
+ 		html = '<ul style="display:block">';
+	}
+	for(var  i = 0; i < catalog.length; ++i){
+		var obj = catalog[i];
+		var name = obj.name;
+		var type = obj.type;
+		var items = obj.items;
+		if(items){
+			html += '<li>'
+				+'		<a href="javascript:void(0)" class="func_node" deep="' + deep + '">' + name + '</a>'
+				+'	</li>';
+			html += loadFunType(items,deep+1);
+		}else{
+			html += '<li>'
+				+'		<a href="javascript:void(0)"  deep="' + deep + '" ftype="' + type + '">' + name + '</a>'
+				+'	</li>';
+		}
+	}
+	html += '</ul>';
+	return html;
 }

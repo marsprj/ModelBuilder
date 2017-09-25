@@ -336,7 +336,7 @@
 	position: absolute;
 	left: 35px;
 	top: 74px;
-	width: 130px;
+	width: 200px;
 	z-index: 1001;
 	background-color: rgba(150, 150, 150, 0.38);;
     box-shadow:0 2px 4px 0 rgba(0,0,0,0.16), 0 2px 10px 0 rgba(0,0,0,0.12);
@@ -353,23 +353,55 @@
 }
 #funcs .funcs_container{
 	background-color: #fff;
-}
-.func_wrapper{
-	text-align: center;
-	height: 18px;
-	line-height: 18px;
-	border-bottom: 1px solid #ebebeb;
-	transition: all 0.1s;
+	max-height: 400px;
+	overflow-y: auto;
 }
 
-.func_wrapper:hover, .func_wrapper.active{
+#funcs ul{
+	list-style: none;
+	margin: 0;
+	padding: 0 0 0 0px;
+	display: none;
+}
+
+#funcs ul li{
+	border-bottom: 1px solid #cdcdcd;
+}
+
+#funcs a{
+	text-decoration: none;
+	color: #000;
+	display: inline-block;
+	width: 100%;
+	padding: 4px 0px;
+}
+#funcs a:hover, #funcs a.active{
 	cursor: pointer;
     background-color: #acacac;
     color: #fff;
 }
-.func_wrapper:last-child{
-	border-bottom: 0;
-	border-radius: 0px 0px 4px 4px;
+
+#funcs a[deep='1']{
+	padding-left: 5px;
+	width: calc(100% - 10px );
+}
+
+#funcs a[deep='2']{
+	padding-left: 20px;
+	width: calc(100% - 20px );
+}
+
+#funcs a[deep='3']{
+	padding-left: 30px;
+	width: calc(100% - 30px );
+}
+
+#funcs a.func_node::before{
+	content : " - ";
+}
+
+#funcs a:not(.func_node)::before{
+	content : " + ";
 }
 
 #tools{

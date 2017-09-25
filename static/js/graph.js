@@ -3,23 +3,9 @@ function initGraphEvent(){
 
 	// data node
 	$("#data_div").click(function(){
-		$("#funcs .func_wrapper").removeClass("active");
+		$("#funcs a").removeClass("active");
 		$(this).addClass("active");
 		g_graph.setState(GRAPH_STATE.ADDDATA);
-	});
-
-	// fun node
-	$("#funcs .func_wrapper").click(function(){
-		$("#funcs .func_wrapper").removeClass("active");
-		$("#data_div").removeClass("active");
-		$(this).addClass("active");
-		var ftype = $(this).attr("ftype");
-		if(ftype){
-			g_graph.setState(GRAPH_STATE.ADDFUNC);
-			g_func_type = ftype;
-		}else{
-			g_graph.setState(GRAPH_STATE.NONE);
-		}
 	});
 
 	// tools
