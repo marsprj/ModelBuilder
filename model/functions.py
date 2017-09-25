@@ -512,3 +512,48 @@ def doFunction(process, command):
         print("process failed:{0}".format(str(e)))
         raise e
     return True
+
+# 灰度拉伸
+def process_rescale(func, process, user_uuid):
+    return process_common(func,process,user_uuid, "RescaleImageFilter")
+
+
+"""
+通用处理
+"""
+def process_common(func, process, user_uuid,fun_command):
+    try:
+        task_id = str(process.task_id)
+        parms = func.getParms()
+        command = ""
+        for i in parms:
+            key = i['key']
+            value = i['value']
+            inObj = re.search(r'in=\[(.{5})\]*', value, re.M | re.I)
+            if inObj:
+                inputId = inObj.group(1)
+                input = func.getInput(inputId)
+                if input:
+                    input_path = input.getPath()
+                    if not input.getFrom():
+                        local_ipath = build_local_path(input_path, user_uuid)
+                    else:
+                        local_ipath = build_task_local_path(input_path, task_id, user_uuid)
+                    command = "{0} {1} {2}".format(command, key, local_ipath)
+            outObj = re.search(r'(\[out\](.*))', value, re.M | re.I)
+            if outObj:
+                output = func.getOutput()
+                output_path = output.getPath()
+                local_opath = build_task_local_path(output_path, task_id, user_uuid)
+                pat = re.compile(r'(\[out\])')
+                res = pat.sub(r'' + local_opath + '', value)
+                command = "{0} {1} {2}".format(command, key, res)
+
+
+        command = "{0} {1}".format(fun_command, command)
+        doFunction(process, command)
+    except Exception as e:
+        logger.error("process run failed: {0}".format(str(e)))
+        raise e
+        return False
+    return True
