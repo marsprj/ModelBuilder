@@ -8,7 +8,7 @@ var FUNCTION_TYPE = {
 	Stretch : "Stretch",
 	Fusion  : "Fusion",
 	EdgeExtraction: "EdgeExtraction",
-	Gradient : "Gradient",
+	
 	Smoothing : "Smoothing",
 
 	Rescale : "Rescale",
@@ -19,7 +19,8 @@ var FUNCTION_TYPE = {
 
 	MeanImageFilter : "MeanImageFilter",
 	MedianImageFilter : "MedianImageFilter",
-	DiscreteGaussian : "DiscreteGaussian"
+	DiscreteGaussian : "DiscreteGaussian",
+	Gradient : "Gradient",
 }
 
 var Graph = function(container_id){

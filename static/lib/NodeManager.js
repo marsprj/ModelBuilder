@@ -27,10 +27,6 @@ NodeManager.prototype.createFuncNode = function(type, r, xmin, ymin, width, heig
 			node = new EdgeExtraction(r, xmin, ymin, width, height, round);
 		}
 		break;
-		case FUNCTION_TYPE.Gradient:{
-			node = new Gradient(r, xmin, ymin, width, height, round);	
-		}
-		break;
 		case FUNCTION_TYPE.MeanImageFilter:{
 			node = new MeanImageFilter(r, xmin, ymin, width, height, round);	
 		}
@@ -65,6 +61,10 @@ NodeManager.prototype.createFuncNode = function(type, r, xmin, ymin, width, heig
 		break;
 		case FUNCTION_TYPE.DiscreteGaussian:{
 			node = new DiscreteGaussian(r, xmin, ymin, width, height, round);	
+		}
+		break;
+		case FUNCTION_TYPE.Gradient:{
+			node = new Gradient(r, xmin, ymin, width, height, round);	
 		}
 		break;
 		default:
