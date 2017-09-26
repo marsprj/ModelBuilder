@@ -387,6 +387,11 @@ def process_discretegaussian(func,process, user_uuid):
 def process_gradient(func,process, user_uuid):
     return process_common(func, process,user_uuid,"GradientMagnitudeImageFilter")
 
+# 带平滑的梯度计算
+def process_gradientgaussian(func,process,user_uuid):
+    return process_common(func, process,user_uuid,"GradientMagnitudeRecursiveGaussianImageFilter",False)
+
+
 """
 通用处理
 """
