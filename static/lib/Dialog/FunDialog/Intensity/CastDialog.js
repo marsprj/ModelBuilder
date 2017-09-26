@@ -1,14 +1,14 @@
-var RescaleDialog = function(){
+var CastDialog = function(){
 	this._funName = "MeanImageFilter";
 	FunDialog.apply(this, arguments);
 }
 
-extend(RescaleDialog, FunDialog);
+extend(CastDialog, FunDialog);
 
-RescaleDialog.prototype.create = function(){
+CastDialog.prototype.create = function(){
 	var html =   '<div class="func_dialog dialog">'
 			+'<div class="titlebar">'
-			+'	<div class="dialog_title">灰度拉伸</div>'
+			+'	<div class="dialog_title">灰度Cast</div>'
 			+'	<div class="dialog_exit"></div>'
 			+'</div>'
 			+'<div class="dialog_main">'
