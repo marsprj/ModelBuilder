@@ -47,12 +47,22 @@ NodeManager.prototype.createFuncNode = function(type, r, xmin, ymin, width, heig
 			node = new Threshold(r, xmin, ymin, width, height, round);
 		}
 		break;
+		case FUNCTION_TYPE.Rescale:{
+			node = new Rescale(r, xmin, ymin, width, height, round); 
+		}
+		break;
+		case FUNCTION_TYPE.Cast:{
+			node = new Cast(r, xmin, ymin, width, height, round); 
+		}
+		break;
 		default:
 		break;
 	}
-	node.showText();
-
-	this._nodes.push(node);
+	if(node){
+		node.showText();
+		this._nodes.push(node);
+	}
+	
 	return node;
 }
 
