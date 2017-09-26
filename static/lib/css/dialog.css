@@ -196,9 +196,10 @@
 .func_dialog input.error{
 	border-color: #d43f3a;
 }
-/*.lower-parm,.upper-parm,.inside-parm,.outside-parm{
-	width: 60px;
-}*/
+
+.variance-div input,.maxKernelWidth-div input{
+	width: 100px;
+}
 /********************************************************************/
 /*  file   dialog
 /********************************************************************/

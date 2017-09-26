@@ -9,14 +9,17 @@ var FUNCTION_TYPE = {
 	Fusion  : "Fusion",
 	EdgeExtraction: "EdgeExtraction",
 	Gradient : "Gradient",
-	MeanImageFilter : "MeanImageFilter",
-	MedianImageFilter : "MedianImageFilter",
 	Smoothing : "Smoothing",
+
 	Rescale : "Rescale",
 	Cast : "Cast",
 	Threshold : "Threshold",
 	BinaryThreshold : "BinaryThreshold",
-	IndexedToRGB : "IndexedToRGB"
+	IndexedToRGB : "IndexedToRGB",
+
+	MeanImageFilter : "MeanImageFilter",
+	MedianImageFilter : "MedianImageFilter",
+	DiscreteGaussian : "DiscreteGaussian"
 }
 
 var Graph = function(container_id){

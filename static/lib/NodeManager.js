@@ -63,6 +63,10 @@ NodeManager.prototype.createFuncNode = function(type, r, xmin, ymin, width, heig
 			node = new IndexedToRGB(r, xmin, ymin, width, height, round);	
 		}
 		break;
+		case FUNCTION_TYPE.DiscreteGaussian:{
+			node = new DiscreteGaussian(r, xmin, ymin, width, height, round);	
+		}
+		break;
 		default:
 		break;
 	}
