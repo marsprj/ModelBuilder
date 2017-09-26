@@ -197,7 +197,7 @@
 	border-color: #d43f3a;
 }
 
-.variance-div input,.maxKernelWidth-div input{
+.variance-div input,.maxKernelWidth-div input,.sigma-div input{
 	width: 100px;
 }
 /********************************************************************/

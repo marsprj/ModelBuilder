@@ -67,6 +67,10 @@ NodeManager.prototype.createFuncNode = function(type, r, xmin, ymin, width, heig
 			node = new Gradient(r, xmin, ymin, width, height, round);	
 		}
 		break;
+		case FUNCTION_TYPE.GradientGaussian:{
+			node = new GradientGaussian(r, xmin, ymin, width, height, round);	
+		}
+		break;
 		default:
 		break;
 	}

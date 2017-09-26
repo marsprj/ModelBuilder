@@ -21,6 +21,7 @@ var FUNCTION_TYPE = {
 	MedianImageFilter : "MedianImageFilter",
 	DiscreteGaussian : "DiscreteGaussian",
 	Gradient : "Gradient",
+	GradientGaussian : "GradientGaussian"
 }
 
 var Graph = function(container_id){
