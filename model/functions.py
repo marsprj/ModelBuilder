@@ -384,7 +384,7 @@ def process_edgeextraction(func,process,user_uuid):
     return True
 
 """
-处理阈值分割
+处理灰度阈值
 """
 def process_threshold(func,process,user_uuid):
     try:
@@ -520,6 +520,10 @@ def process_rescale(func, process, user_uuid):
 # 灰度Cast
 def process_cast(func, process, user_uuid):
     return process_common(func,process,user_uuid, "CastImageFilter")
+
+# 灰度二值化
+def process_binarythreshold(func,process, user_uuid):
+    return process_threshold(func,process,user_uuid)
 
 """
 通用处理
