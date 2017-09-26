@@ -1,14 +1,14 @@
-var CastDialog = function(){
-	this._funName = "Cast";
+var IndexedToRGBDialog = function(){
+	this._funName = "IndexedToRGB";
 	FunDialog.apply(this, arguments);
 }
 
-extend(CastDialog, FunDialog);
+extend(IndexedToRGBDialog, FunDialog);
 
-CastDialog.prototype.create = function(){
+IndexedToRGBDialog.prototype.create = function(){
 	var html =   '<div class="func_dialog dialog">'
 			+'<div class="titlebar">'
-			+'	<div class="dialog_title">灰度Cast</div>'
+			+'	<div class="dialog_title">栅格转RGB图像</div>'
 			+'	<div class="dialog_exit"></div>'
 			+'</div>'
 			+'<div class="dialog_main">'

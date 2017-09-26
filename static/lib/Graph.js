@@ -15,7 +15,8 @@ var FUNCTION_TYPE = {
 	Rescale : "Rescale",
 	Cast : "Cast",
 	Threshold : "Threshold",
-	BinaryThreshold : "BinaryThreshold"
+	BinaryThreshold : "BinaryThreshold",
+	IndexedToRGB : "IndexedToRGB"
 }
 
 var Graph = function(container_id){
