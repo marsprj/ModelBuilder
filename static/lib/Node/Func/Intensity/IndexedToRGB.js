@@ -10,7 +10,7 @@ var IndexedToRGB = function(){
 
 extend(IndexedToRGB,FuncNode);
 
-FuncNode.prototype.export = function(){
+IndexedToRGB.prototype.export = function(){
 	var obj = {
 		id : this.getID(),
 		name : this._name,
