@@ -301,48 +301,6 @@ def process_edgeextraction(func,process,user_uuid):
         return False
     return True
 
-"""
-处理灰度阈值
-"""
-def process_threshold(func,process,user_uuid):
-    try:
-        task_id = str(process.task_id)
-        parms = func.getParms()
-        command = ""
-        for i in parms:
-            key = i['key']
-            value = i['value']
-            value = str(value)
-            inObj = re.search(r'in=\[(.{5})\]*', value, re.M | re.I)
-            if inObj:
-                inputId = inObj.group(1)
-                input = func.getInput(inputId)
-                if input:
-                    input_path = input.getPath()
-                    if not input.getFrom():
-                        local_ipath = build_local_path(input_path, user_uuid)
-                    else:
-                        local_ipath = build_task_local_path(input_path, task_id, user_uuid)
-                    command = "{0} {1} {2}".format(command,key,local_ipath)
-            outObj = re.search(r'(\[out\](.*))', value, re.M | re.I)
-            if outObj:
-                output = func.getOutput()
-                output_path = output.getPath()
-                local_opath = build_task_local_path(output_path, task_id, user_uuid)
-                pat = re.compile(r'(\[out\])')
-                res = pat.sub(r'' +local_opath + '', value)
-                command = "{0} {1} {2}".format(command, key, res)
-            if not inObj and not outObj:
-                command = "{0} {1} {2}".format(command, "", value)
-
-        command = "{0} {1}".format("BinaryThresholdImageFilter",command)
-        doFunction(process, command)
-    except Exception as e:
-        logger.error("process run failed: {0}".format(str(e)))
-        raise e
-        return False
-    return True
-
 
 def build_local_path(path,user_uuid):
     root_path = os.path.join(
@@ -439,9 +397,13 @@ def process_rescale(func, process, user_uuid):
 def process_cast(func, process, user_uuid):
     return process_common(func,process,user_uuid, "CastImageFilter")
 
+# 灰度阈值
+def process_threshold(func,process, user_uuid):
+    return process_common(func, process, user_uuid, "BinaryThresholdImageFilter",False)
+
 # 灰度二值化
 def process_binarythreshold(func,process, user_uuid):
-    return process_threshold(func,process,user_uuid)
+    return process_common(func, process, user_uuid, "BinaryThresholdImageFilter",False)
 
 # 栅格转RGB图像
 def process_indexedtorgb(func, process, user_uuid):
@@ -458,7 +420,7 @@ def process_medianimagefilter(func, process, user_uuid):
 """
 通用处理
 """
-def process_common(func, process, user_uuid,fun_command):
+def process_common(func, process, user_uuid,fun_command,use_key=True):
     try:
         task_id = str(process.task_id)
         parms = func.getParms()
@@ -466,6 +428,7 @@ def process_common(func, process, user_uuid,fun_command):
         for i in parms:
             key = i['key']
             value = i['value']
+            value = str(value)
             inObj = re.search(r'in=\[(.{5})\]*', value, re.M | re.I)
             if inObj:
                 inputId = inObj.group(1)
@@ -485,6 +448,11 @@ def process_common(func, process, user_uuid,fun_command):
                 pat = re.compile(r'(\[out\])')
                 res = pat.sub(r'' + local_opath + '', value)
                 command = "{0} {1} {2}".format(command, key, res)
+            if not inObj and not outObj:
+                if use_key == True:
+                    command = "{0} {1} {2}".format(command, key, value)
+                else:
+                    command = "{0} {1} {2}".format(command, "", value)
 
 
         command = "{0} {1}".format(fun_command, command)
