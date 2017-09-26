@@ -55,6 +55,10 @@ NodeManager.prototype.createFuncNode = function(type, r, xmin, ymin, width, heig
 			node = new Cast(r, xmin, ymin, width, height, round); 
 		}
 		break;
+		case FUNCTION_TYPE.BinaryThreshold:{
+			node = new BinaryThreshold(r, xmin, ymin, width, height, round);
+		}
+		break;
 		default:
 		break;
 	}

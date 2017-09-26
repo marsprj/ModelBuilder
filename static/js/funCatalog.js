@@ -14,7 +14,7 @@ var g_funCatalog = [
 				type : "Threshold"
 			},{
 				name : "灰度二值化",
-				type : "Threshold"
+				type : "BinaryThreshold"
 			},{
 				name : "栅格转RGB图像",
 				type : "IndexedToRGB"
