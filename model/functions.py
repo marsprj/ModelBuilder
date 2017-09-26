@@ -180,45 +180,6 @@ def process_edgeextraction(func,process,user_uuid):
         return False
     return True
 
-"""
-处理梯度计算
-"""
-def process_gradient(func, process, user_uuid):
-    try:
-        task_id = str(process.task_id)
-        parms = func.getParms()
-        command = ""
-        for i in parms:
-            key = i['key']
-            value = i['value']
-            inObj = re.search(r'in=\[(.{5})\]*', value, re.M | re.I)
-            if inObj:
-                inputId = inObj.group(1)
-                input = func.getInput(inputId)
-                if input:
-                    input_path = input.getPath()
-                    if not input.getFrom():
-                        local_ipath = build_local_path(input_path, user_uuid)
-                    else:
-                        local_ipath = build_task_local_path(input_path, task_id, user_uuid)
-                    command = "{0} {1} {2}".format(command, key, local_ipath)
-            outObj = re.search(r'(\[out\](.*))', value, re.M | re.I)
-            if outObj:
-                output = func.getOutput()
-                output_path = output.getPath()
-                local_opath = build_task_local_path(output_path, task_id, user_uuid)
-                pat = re.compile(r'(\[out\])')
-                res = pat.sub(r'' + local_opath + '', value)
-                command = "{0} {1} {2}".format(command, key, res)
-
-
-        command = "{0} {1}".format("GradientMagnitudeImageFilter", command)
-        doFunction(process, command)
-    except Exception as e:
-        logger.error("process run failed: {0}".format(str(e)))
-        raise e
-        return False
-    return True
 
 """
 处理平滑濾波
@@ -420,6 +381,11 @@ def process_medianimagefilter(func, process, user_uuid):
 #高斯平滑
 def process_discretegaussian(func,process, user_uuid):
     return process_common(func, process, user_uuid,"DiscreteGaussianImageFilter", False)
+
+
+# 梯度计算
+def process_gradient(func,process, user_uuid):
+    return process_common(func, process,user_uuid,"GradientMagnitudeImageFilter")
 
 """
 通用处理
