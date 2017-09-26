@@ -417,6 +417,10 @@ def process_meanimagefilter(func, process, user_uuid):
 def process_medianimagefilter(func, process, user_uuid):
     return process_common(func, process, user_uuid, "MedianImageFilter")
 
+#高斯平滑
+def process_discretegaussian(func,process, user_uuid):
+    return process_common(func, process, user_uuid,"DiscreteGaussianImageFilter", False)
+
 """
 通用处理
 """
