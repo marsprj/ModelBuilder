@@ -525,6 +525,10 @@ def process_cast(func, process, user_uuid):
 def process_binarythreshold(func,process, user_uuid):
     return process_threshold(func,process,user_uuid)
 
+# 栅格转RGB图像
+def process_indexedtorgb(func, process, user_uuid):
+    return process_common(func, process, user_uuid, "IndexedToRGBImage")
+
 """
 通用处理
 """
