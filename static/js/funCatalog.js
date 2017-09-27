@@ -81,8 +81,11 @@ var g_funCatalog = [
 		]
 	},{
 		name : "图像融合",
-		type : "Fusion",
-		items:[
+		items :[
+			{
+				name : "图像融合",
+				type : "Fusion"
+			}
 		]
 	},{
 		name : "特征提取",
