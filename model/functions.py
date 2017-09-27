@@ -98,47 +98,6 @@ def raster_stretch(ipath, opath):
         raise e
 
 """
-处理图像融合
-"""
-def process_fusion(func,process,user_uuid):
-    try:
-        task_id = str(process.task_id)
-        parms = func.getParms()
-        command = ""
-        for i in parms:
-            key = i['key']
-            value = i['value']
-            inObj = re.search(r'in=\[(.{5})\]*', value, re.M | re.I)
-            if inObj:
-                inputId = inObj.group(1)
-                input = func.getInput(inputId)
-                if input:
-                    input_path = input.getPath()
-                    if not input.getFrom():
-                        local_ipath = build_local_path(input_path, user_uuid)
-                    else:
-                        local_ipath = build_task_local_path(input_path, task_id, user_uuid)
-                    command = "{0} {1} {2}".format(command, key, local_ipath)
-            outObj = re.search(r'(\[out\](.*))', value, re.M | re.I)
-            if outObj:
-                output = func.getOutput()
-                output_path = output.getPath()
-                local_opath = build_task_local_path(output_path, task_id, user_uuid)
-                pat = re.compile(r'(\[out\])')
-                res = pat.sub(r'' + local_opath + '', value)
-                command = "{0} {1} {2}".format(command, key, res)
-            if not inObj and not outObj:
-                command = "{0} {1} {2}".format(command, key, value)
-
-        command = "{0} {1}".format("otbcli_Pansharpening", command)
-        doFunction(process, command)
-    except Exception as e:
-        logger.error("process run failed: {0}".format(str(e)))
-        raise e
-        return False
-    return True
-
-"""
 处理边缘检测
 """
 def process_edgeextraction(func,process,user_uuid):
@@ -406,6 +365,10 @@ def process_erode(func,process,user_uuid):
 # 膨胀
 def process_dilate(func,process,user_uuid):
     return process_common(func,process,user_uuid,"DilateImageFilter")
+
+# 图像融合
+def process_fusion(func,process,user_uuid):
+    return process_common(func,process,user_uuid,"otbcli_Pansharpening")
 
 """
 通用处理
