@@ -91,6 +91,10 @@ NodeManager.prototype.createFuncNode = function(type, r, xmin, ymin, width, heig
 			node = new Texture(r, xmin, ymin, width, height, round);		
 		}
 		break;
+		case FUNCTION_TYPE.PanTex:{
+			node = new PanTex(r, xmin, ymin, width, height, round);	
+		}
+		break;
 		default:
 		break;
 	}

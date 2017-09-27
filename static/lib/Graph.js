@@ -27,7 +27,8 @@ var FUNCTION_TYPE = {
 	Erode : "Erode",
 	Dilate : "Dilate",
 
-	Texture : "Texture"
+	Texture : "Texture",
+	PanTex : "PanTex"
 }
 
 var Graph = function(container_id){
