@@ -403,6 +403,10 @@ def process_cannyedgedetection(func,process,user_uuid):
 def process_erode(func,process,user_uuid):
     return process_common(func,process,user_uuid,"ErodeImageFilter")
 
+# 膨胀
+def process_dilate(func,process,user_uuid):
+    return process_common(func,process,user_uuid,"DilateImageFilter")
+
 """
 通用处理
 """
