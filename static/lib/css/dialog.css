@@ -200,6 +200,10 @@
 .variance-div input,.maxKernelWidth-div input,.sigma-div input{
 	width: 100px;
 }
+
+.radius-div input, .xoffset-div input, .yoffset-div input{
+	width: 60px;
+}
 /********************************************************************/
 /*  file   dialog
 /********************************************************************/

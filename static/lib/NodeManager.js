@@ -87,6 +87,10 @@ NodeManager.prototype.createFuncNode = function(type, r, xmin, ymin, width, heig
 			node = new Dilate(r, xmin, ymin, width, height, round);	
 		}
 		break;
+		case FUNCTION_TYPE.Texture:{
+			node = new Texture(r, xmin, ymin, width, height, round);		
+		}
+		break;
 		default:
 		break;
 	}

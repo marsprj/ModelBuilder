@@ -25,7 +25,9 @@ var FUNCTION_TYPE = {
 	Laplacian : "Laplacian",
 	CannyEdgeDetection : "CannyEdgeDetection",
 	Erode : "Erode",
-	Dilate : "Dilate"
+	Dilate : "Dilate",
+
+	Texture : "Texture"
 }
 
 var Graph = function(container_id){
