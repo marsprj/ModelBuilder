@@ -71,6 +71,10 @@ NodeManager.prototype.createFuncNode = function(type, r, xmin, ymin, width, heig
 			node = new GradientGaussian(r, xmin, ymin, width, height, round);	
 		}
 		break;
+		case FUNCTION_TYPE.Laplacian:{
+			node = new Laplacian(r, xmin, ymin, width, height, round);		
+		}
+		break;
 		default:
 		break;
 	}
