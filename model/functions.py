@@ -395,6 +395,10 @@ def process_gradientgaussian(func,process,user_uuid):
 def process_laplacian(func,process,user_uuid):
     return process_common(func, process, user_uuid,"LaplacianImageFilter")
 
+# Canny边缘检测
+def process_cannyedgedetection(func,process,user_uuid):
+    return process_common(func,process,user_uuid,"CannyEdgeDetectionImageFilter")
+
 """
 通用处理
 """
