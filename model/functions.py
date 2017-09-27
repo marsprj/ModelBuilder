@@ -399,6 +399,10 @@ def process_laplacian(func,process,user_uuid):
 def process_cannyedgedetection(func,process,user_uuid):
     return process_common(func,process,user_uuid,"CannyEdgeDetectionImageFilter")
 
+# 腐蚀
+def process_erode(func,process,user_uuid):
+    return process_common(func,process,user_uuid,"ErodeImageFilter")
+
 """
 通用处理
 """
