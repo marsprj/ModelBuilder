@@ -374,6 +374,10 @@ def process_fusion(func,process,user_uuid):
 def process_texture(func,process,user_uuid):
     return process_common(func,process,user_uuid,"Texture",False)
 
+# PanTex纹理
+def process_pantex(func,process,user_uuid):
+    return process_common(func,process,user_uuid,"PanTex")
+
 """
 通用处理
 """
