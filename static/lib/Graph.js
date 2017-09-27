@@ -22,7 +22,8 @@ var FUNCTION_TYPE = {
 	DiscreteGaussian : "DiscreteGaussian",
 	Gradient : "Gradient",
 	GradientGaussian : "GradientGaussian",
-	Laplacian : "Laplacian"
+	Laplacian : "Laplacian",
+	CannyEdgeDetection : "CannyEdgeDetection"
 }
 
 var Graph = function(container_id){

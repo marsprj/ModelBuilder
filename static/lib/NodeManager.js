@@ -75,6 +75,10 @@ NodeManager.prototype.createFuncNode = function(type, r, xmin, ymin, width, heig
 			node = new Laplacian(r, xmin, ymin, width, height, round);		
 		}
 		break;
+		case FUNCTION_TYPE.CannyEdgeDetection:{
+			node = new CannyEdgeDetection(r, xmin, ymin, width, height, round);
+		}
+		break;
 		default:
 		break;
 	}
