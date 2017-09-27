@@ -29,7 +29,8 @@ var FUNCTION_TYPE = {
 
 	Texture : "Texture",
 	PanTex : "PanTex",
-	HarrisDetector : "HarrisDetector"
+	HarrisDetector : "HarrisDetector",
+	SURFDetector : "SURFDetector"
 }
 
 var Graph = function(container_id){

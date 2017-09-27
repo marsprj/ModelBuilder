@@ -208,6 +208,10 @@
 .sigmaD-div input, .sigmal-div input,.alpha-div input{
 	width: 60px;
 }
+
+.octaves-div input, .scales-div input{
+	width: 60px;
+}
 /********************************************************************/
 /*  file   dialog
 /********************************************************************/
