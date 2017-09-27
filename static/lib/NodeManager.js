@@ -83,6 +83,10 @@ NodeManager.prototype.createFuncNode = function(type, r, xmin, ymin, width, heig
 			node = new Erode(r, xmin, ymin, width, height, round);
 		}
 		break;
+		case FUNCTION_TYPE.Dilate:{
+			node = new Dilate(r, xmin, ymin, width, height, round);	
+		}
+		break;
 		default:
 		break;
 	}

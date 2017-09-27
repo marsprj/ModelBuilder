@@ -24,7 +24,8 @@ var FUNCTION_TYPE = {
 	GradientGaussian : "GradientGaussian",
 	Laplacian : "Laplacian",
 	CannyEdgeDetection : "CannyEdgeDetection",
-	Erode : "Erode"
+	Erode : "Erode",
+	Dilate : "Dilate"
 }
 
 var Graph = function(container_id){

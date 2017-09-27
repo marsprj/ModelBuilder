@@ -1,14 +1,14 @@
-var ErodeDialog = function(){
-	this._funName = "Erode";
+var DilateDialog = function(){
+	this._funName = "Dialte";
 	FunDialog.apply(this, arguments);
 }
 
-extend(ErodeDialog, FunDialog);
+extend(DilateDialog, FunDialog);
 
-ErodeDialog.prototype.create = function(){
+DilateDialog.prototype.create = function(){
 	var html =   '<div class="func_dialog dialog">'
 			+'<div class="titlebar">'
-			+'	<div class="dialog_title">腐蚀</div>'
+			+'	<div class="dialog_title">膨胀</div>'
 			+'	<div class="dialog_exit"></div>'
 			+'</div>'
 			+'<div class="dialog_main">'
