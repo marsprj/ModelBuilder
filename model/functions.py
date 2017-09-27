@@ -391,6 +391,9 @@ def process_gradient(func,process, user_uuid):
 def process_gradientgaussian(func,process,user_uuid):
     return process_common(func, process,user_uuid,"GradientMagnitudeRecursiveGaussianImageFilter",False)
 
+# 拉普拉斯滤波
+def process_laplacian(func,process,user_uuid):
+    return process_common(func, process, user_uuid,"LaplacianImageFilter")
 
 """
 通用处理
