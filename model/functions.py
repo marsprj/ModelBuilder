@@ -382,6 +382,10 @@ def process_pantex(func,process,user_uuid):
 def process_harrisdetector(func,process,user_uuid):
     return process_common(func,process,user_uuid,"HarrisDetector",False)
 
+# SURFDetector 特征点检测
+def process_surfdetector(func,process,user_uuid):
+    return process_common(func,process,user_uuid,"SURFDetector",False)
+
 """
 通用处理
 """
