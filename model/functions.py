@@ -370,6 +370,10 @@ def process_dilate(func,process,user_uuid):
 def process_fusion(func,process,user_uuid):
     return process_common(func,process,user_uuid,"otbcli_Pansharpening")
 
+# 灰度共生矩阵
+def process_texture(func,process,user_uuid):
+    return process_common(func,process,user_uuid,"Texture",False)
+
 """
 通用处理
 """
