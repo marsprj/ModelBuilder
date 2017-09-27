@@ -95,6 +95,10 @@ NodeManager.prototype.createFuncNode = function(type, r, xmin, ymin, width, heig
 			node = new PanTex(r, xmin, ymin, width, height, round);	
 		}
 		break;
+		case FUNCTION_TYPE.HarrisDetector:{
+			node = new HarrisDetector(r, xmin, ymin, width, height, round);		
+		}
+		break;
 		default:
 		break;
 	}

@@ -28,7 +28,8 @@ var FUNCTION_TYPE = {
 	Dilate : "Dilate",
 
 	Texture : "Texture",
-	PanTex : "PanTex"
+	PanTex : "PanTex",
+	HarrisDetector : "HarrisDetector"
 }
 
 var Graph = function(container_id){
