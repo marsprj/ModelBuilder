@@ -182,10 +182,6 @@
 	width: 60px;
 }
 
-.lower-div, .upper-div,.inside-div,.outside-div{
-	margin-right: 10px;
-}
-
 .func_dialog input.error{
 	border-color: #d43f3a;
 }
@@ -196,6 +192,7 @@
 
 .func_dialog .input-60{
 	width: 60px;
+	margin-right: 10px;
 }
 
 .func_dialog .input-100{

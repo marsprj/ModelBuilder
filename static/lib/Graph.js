@@ -31,7 +31,8 @@ var FUNCTION_TYPE = {
 	PanTex : "PanTex",
 	HarrisDetector : "HarrisDetector",
 	SURFDetector : "SURFDetector",
-	LocalHoughExtrator : "LocalHoughExtrator"
+	LocalHoughExtrator : "LocalHoughExtrator",
+	CloudDetection : "CloudDetection"
 }
 
 var Graph = function(container_id){

@@ -107,6 +107,10 @@ NodeManager.prototype.createFuncNode = function(type, r, xmin, ymin, width, heig
 			node = new LocalHoughExtrator(r, xmin, ymin, width, height, round);				
 		}
 		break;
+		case FUNCTION_TYPE.CloudDetection:{
+			node = new CloudDetection(r, xmin, ymin, width, height, round);				
+		}
+		break;
 		default:
 		break;
 	}

@@ -129,6 +129,14 @@ var g_funCatalog = [
  						type : "LocalHoughExtrator"
  					}
  				]
+ 			},{
+ 				name : "云检测",
+ 				items:[
+ 					{
+ 						name : "云检测",
+ 						type : "CloudDetection"
+ 					}
+ 				]
  			}
 		]
 	},{
