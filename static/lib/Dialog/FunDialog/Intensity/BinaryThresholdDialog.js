@@ -38,7 +38,7 @@ BinaryThresholdDialog.prototype.create = function(){
 			+'		<div class="f-left item-title">阈值:</div>'
 			+'		<div class="f-left item-content">'
 			+'			<div class="f-left lower-div">'
-			+'				<input type="text" class="f-left parms" parm="lower">'
+			+'				<input type="text" class="f-left parms input-60" parm="lower">'
 			+'			</div>'
 			+'		</div>'
 			+'	</div>'

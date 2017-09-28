@@ -185,32 +185,25 @@
 .lower-div, .upper-div,.inside-div,.outside-div{
 	margin-right: 10px;
 }
-.lower-div input,.upper-div input,.inside-div input, .outside-div input{
-	width: 60px;
-}
-
-.lower-div .item-title,.upper-div .item-title, .inside-div .item-title,.outside-div .item-title{
-	width: 50px;
-}
 
 .func_dialog input.error{
 	border-color: #d43f3a;
 }
 
-.variance-div input,.maxKernelWidth-div input,.sigma-div input{
+.func_dialog .input-50{
+	width: 50px;
+}
+
+.func_dialog .input-60{
+	width: 60px;
+}
+
+.func_dialog .input-100{
 	width: 100px;
 }
 
-.radius-div input, .xoffset-div input, .yoffset-div input{
-	width: 60px;
-}
-
-.sigmaD-div input, .sigmal-div input,.alpha-div input{
-	width: 60px;
-}
-
-.octaves-div input, .scales-div input{
-	width: 60px;
+.func_dialog .title-50{
+	width: 50px;
 }
 /********************************************************************/
 /*  file   dialog
