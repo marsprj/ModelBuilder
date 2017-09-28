@@ -103,6 +103,10 @@ NodeManager.prototype.createFuncNode = function(type, r, xmin, ymin, width, heig
 			node = new SURFDetector(r, xmin, ymin, width, height, round);			
 		}
 		break;
+		case FUNCTION_TYPE.LocalHoughExtrator:{
+			node = new LocalHoughExtrator(r, xmin, ymin, width, height, round);				
+		}
+		break;
 		default:
 		break;
 	}

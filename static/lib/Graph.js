@@ -30,7 +30,8 @@ var FUNCTION_TYPE = {
 	Texture : "Texture",
 	PanTex : "PanTex",
 	HarrisDetector : "HarrisDetector",
-	SURFDetector : "SURFDetector"
+	SURFDetector : "SURFDetector",
+	LocalHoughExtrator : "LocalHoughExtrator"
 }
 
 var Graph = function(container_id){
@@ -706,10 +707,10 @@ Graph.prototype.startConnecting = function(){
 					// 保证FunNode只有一个输出
 					if(that._start_node.getType() == NODE_TYPE.FUNC){
 						var outputEdge = that._start_node.getOutputEdge();
-						if(outputEdge){
-							alert("只允许一个输出");
-							return;
-						}
+						// if(outputEdge){
+						// 	alert("只允许一个输出");
+						// 	return;
+						// }
 					}
 					that._connection.remove();
 					that._end_node = node;
