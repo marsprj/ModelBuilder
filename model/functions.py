@@ -390,6 +390,11 @@ def process_surfdetector(func,process,user_uuid):
 def process_localhoughextrator(func,process,user_uuid):
     return process_common(func,process,user_uuid,"LocalHoughExtractor",False)
 
+
+# 云检测
+def process_clouddetection(func,process,user_uuid):
+    return process_common(func,process,user_uuid,"CloudDetection",False)
+
 """
 通用处理
 """
