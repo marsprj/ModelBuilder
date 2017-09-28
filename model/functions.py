@@ -386,6 +386,10 @@ def process_harrisdetector(func,process,user_uuid):
 def process_surfdetector(func,process,user_uuid):
     return process_common(func,process,user_uuid,"SURFDetector",False)
 
+# Hough线提取
+def process_localhoughextrator(func,process,user_uuid):
+    return process_common(func,process,user_uuid,"LocalHoughExtractor",False)
+
 """
 通用处理
 """
