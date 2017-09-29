@@ -34,7 +34,9 @@ var FUNCTION_TYPE = {
 	LocalHoughExtrator : "LocalHoughExtrator",
 	CloudDetection : "CloudDetection",
 
-	OtsuSegment: "OtsuSegment"
+	OtsuSegment: "OtsuSegment",
+
+	MeanDiffDetection : "MeanDiffDetection"
 }
 
 var Graph = function(container_id){
