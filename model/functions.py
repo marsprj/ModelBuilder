@@ -415,6 +415,10 @@ def process_kldiffdetection(func,process,user_uuid):
 def process_correlationdiffdetection(func,process,user_uuid):
     return process_common(func,process,user_uuid,"CorrelationDiffDetection",False)
 
+# 多成分变化检测
+def process_multivariatediffdetection(func,process,user_uuid):
+    return process_common(func,process,user_uuid,"MultivariateDiffDetection")
+
 """
 通用处理
 """
