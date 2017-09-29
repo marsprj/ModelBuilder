@@ -399,6 +399,10 @@ def process_clouddetection(func,process,user_uuid):
 def process_otsusegment(func,process,user_uuid):
     return process_common(func,process,user_uuid,"ConnectedSegment",False)
 
+# 平均变化检测
+def process_meandiffdetection(func,process,user_uuid):
+    return process_common(func,process,user_uuid,"MeanDiffDetection")
+
 """
 通用处理
 """
