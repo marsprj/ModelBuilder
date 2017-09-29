@@ -411,6 +411,10 @@ def process_meanradiodiffdetection(func,process,user_uuid):
 def process_kldiffdetection(func,process,user_uuid):
     return process_common(func,process,user_uuid,"KullbackLeilberDiffDetection",False)
 
+# 基于相关系数的变化检测
+def process_correlationdiffdetection(func,process,user_uuid):
+    return process_common(func,process,user_uuid,"CorrelationDiffDetection",False)
+
 """
 通用处理
 """
