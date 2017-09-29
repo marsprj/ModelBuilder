@@ -119,6 +119,10 @@ NodeManager.prototype.createFuncNode = function(type, r, xmin, ymin, width, heig
 			node = new MeanDiffDetection(r, xmin, ymin, width, height, round);					
 		}
 		break;
+		case FUNCTION_TYPE.MeanRadioDiffDetection:{
+			node = new MeanRadioDiffDetection(r, xmin, ymin, width, height, round);					
+		}	
+		break;
 		default:
 		break;
 	}

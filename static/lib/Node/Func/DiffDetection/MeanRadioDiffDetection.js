@@ -1,23 +1,22 @@
 /**
- * 平均变化检测
+ * 平均比率变化检测
  */
-var MeanDiffDetection = function(){
+var MeanRadioDiffDetection = function(){
 
 	FuncNode.apply(this, arguments);
 
-	this._name = "MeanDiffDetection";
+	this._name = "MeanRadioDiffDetection";
 
 	// 输入个数
 	this._inputsNumber = 2;
 
 	this._radius = 3;
-
 }
 
-extend(MeanDiffDetection, FuncNode);
+extend(MeanRadioDiffDetection, FuncNode);
 
 
-MeanDiffDetection.prototype.setParms = function(parms){
+MeanRadioDiffDetection.prototype.setParms = function(parms){
 	if(!parms){
 		return;
 	}
@@ -31,7 +30,7 @@ MeanDiffDetection.prototype.setParms = function(parms){
 	}
 };
 
-MeanDiffDetection.prototype.export = function(){
+MeanRadioDiffDetection.prototype.export = function(){
 	var obj = {
 		id : this.getID(),
 		name : this._name,
@@ -80,7 +79,7 @@ MeanDiffDetection.prototype.export = function(){
 }
 
 
-MeanDiffDetection.prototype.onClick = function(){
+MeanRadioDiffDetection.prototype.onClick = function(){
 	var inputs = [];
 	var output;
 	if(this._inputs){
@@ -119,7 +118,7 @@ MeanDiffDetection.prototype.onClick = function(){
 			name : "radius",
 			value : this._radius
 		}];
-	var dlg = new MeanDiffDetectionDialog(inputs, output, parms, function(){	//onOK
+	var dlg = new MeanRadioDiffDetectionDialog(inputs, output, parms, function(){	//onOK
 		that.updateInputNode(0,this.getInput(0));
 		that.updateInputNode(1,this.getInput(1));
 		that.updateOutputNode(this.getOutput());
@@ -130,7 +129,7 @@ MeanDiffDetection.prototype.onClick = function(){
 }
 
 
-MeanDiffDetection.prototype.updateParms = function(parms){
+MeanRadioDiffDetection.prototype.updateParms = function(parms){
 	if(!parms){
 		return;
 	}
