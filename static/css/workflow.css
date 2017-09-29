@@ -66,6 +66,9 @@
 .panel-contaniner.loading{
 	background: url(../images/spin.gif) no-repeat center;
 }
+.panel-contaniner::-webkit-scrollbar{
+	width: 0 !important;
+}
 
 .model-item{
 	height: 25px;
