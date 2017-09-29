@@ -31,7 +31,7 @@ var g_funCatalog = [
 						type : "MeanImageFilter",	
 					},{
 						name : "中值滤波",
-						type : "MeanImageFilter",	
+						type : "MedianImageFilter",	
 					},{
 						name : "高斯平滑",
 						type : "DiscreteGaussian",	

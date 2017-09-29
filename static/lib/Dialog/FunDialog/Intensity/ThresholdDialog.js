@@ -8,7 +8,7 @@ extend(ThresholdDialog, FunDialog);
 ThresholdDialog.prototype.create = function(){
 	var html =   '<div class="func_dialog dialog">'
 			+'<div class="titlebar">'
-			+'	<div class="dialog_title">阈值分割</div>'
+			+'	<div class="dialog_title">灰度分割</div>'
 			+'	<div class="dialog_exit"></div>'
 			+'</div>'
 			+'<div class="dialog_main">'

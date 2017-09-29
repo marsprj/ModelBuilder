@@ -39,7 +39,7 @@ FusionDialog.prototype.create = function(){
 			+'		<div class="f-left item-title">输出影像:</div>'
 			+'		<div class="f-left item-content">'
 			+'			<div class="f-left item-input">'
-			+'				<input type="text" class="dialog-output f-left">'
+			+'				<input type="text" class="dialog-output f-left" style="width:180px">'
 			+'				<div class="f-left">'
 			+'					<select class="output-pixel parms" parm="pixel">'
 			+'					</select>'
