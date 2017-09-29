@@ -395,6 +395,10 @@ def process_localhoughextrator(func,process,user_uuid):
 def process_clouddetection(func,process,user_uuid):
     return process_common(func,process,user_uuid,"CloudDetection",False)
 
+# Otsu 自动阈值分割
+def process_otsusegment(func,process,user_uuid):
+    return process_common(func,process,user_uuid,"ConnectedSegment",False)
+
 """
 通用处理
 """
