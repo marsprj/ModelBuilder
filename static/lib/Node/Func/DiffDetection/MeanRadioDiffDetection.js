@@ -65,7 +65,7 @@ MeanRadioDiffDetection.prototype.export = function(){
 
 		var outJson = {
 			key : "",
-			value : "[out] " + this._outPixel
+			value : "[out]"
 		};
 		obj.parms.push(outJson);
 	}

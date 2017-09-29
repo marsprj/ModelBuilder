@@ -37,7 +37,8 @@ var FUNCTION_TYPE = {
 	OtsuSegment: "OtsuSegment",
 
 	MeanDiffDetection : "MeanDiffDetection",
-	MeanRadioDiffDetection : "MeanRadioDiffDetection"
+	MeanRadioDiffDetection : "MeanRadioDiffDetection",
+	KLDiffDetection : "KLDiffDetection"
 }
 
 var Graph = function(container_id){

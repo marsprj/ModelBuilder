@@ -123,6 +123,10 @@ NodeManager.prototype.createFuncNode = function(type, r, xmin, ymin, width, heig
 			node = new MeanRadioDiffDetection(r, xmin, ymin, width, height, round);					
 		}	
 		break;
+		case FUNCTION_TYPE.KLDiffDetection:{
+			node = new KLDiffDetection(r, xmin, ymin, width, height, round);					
+		}
+		break;
 		default:
 		break;
 	}

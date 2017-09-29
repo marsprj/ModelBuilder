@@ -1,11 +1,11 @@
 /**
- * 平均变化检测
+ * 基于Kullback-Leibler距离检测
  */
-var MeanDiffDetection = function(){
+var KLDiffDetection = function(){
 
 	FuncNode.apply(this, arguments);
 
-	this._name = "MeanDiffDetection";
+	this._name = "KLDiffDetection";
 
 	// 输入个数
 	this._inputsNumber = 2;
@@ -14,10 +14,10 @@ var MeanDiffDetection = function(){
 
 }
 
-extend(MeanDiffDetection, FuncNode);
+extend(KLDiffDetection, FuncNode);
 
 
-MeanDiffDetection.prototype.setParms = function(parms){
+KLDiffDetection.prototype.setParms = function(parms){
 	if(!parms){
 		return;
 	}
@@ -31,7 +31,7 @@ MeanDiffDetection.prototype.setParms = function(parms){
 	}
 };
 
-MeanDiffDetection.prototype.export = function(){
+KLDiffDetection.prototype.export = function(){
 	var obj = {
 		id : this.getID(),
 		name : this._name,
@@ -80,7 +80,7 @@ MeanDiffDetection.prototype.export = function(){
 }
 
 
-MeanDiffDetection.prototype.onClick = function(){
+KLDiffDetection.prototype.onClick = function(){
 	var inputs = [];
 	var output;
 	if(this._inputs){
@@ -119,7 +119,7 @@ MeanDiffDetection.prototype.onClick = function(){
 			name : "radius",
 			value : this._radius
 		}];
-	var dlg = new MeanDiffDetectionDialog(inputs, output, parms, function(){	//onOK
+	var dlg = new KLDiffDetectionDialog(inputs, output, parms, function(){	//onOK
 		that.updateInputNode(0,this.getInput(0));
 		that.updateInputNode(1,this.getInput(1));
 		that.updateOutputNode(this.getOutput());
@@ -130,7 +130,7 @@ MeanDiffDetection.prototype.onClick = function(){
 }
 
 
-MeanDiffDetection.prototype.updateParms = function(parms){
+KLDiffDetection.prototype.updateParms = function(parms){
 	if(!parms){
 		return;
 	}
