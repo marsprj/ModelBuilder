@@ -140,6 +140,17 @@ var g_funCatalog = [
  			}
 		]
 	},{
+		name : "图像分割",
+		items:[
+			{
+				name : "连通域分割",
+				type : ""
+			},{
+				name : "Otsu自动阈值分割",
+				type : "OtsuSegment"
+			}
+		]
+	},{
 		name : "SAR",
 		items: [
 			{

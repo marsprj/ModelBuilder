@@ -32,7 +32,9 @@ var FUNCTION_TYPE = {
 	HarrisDetector : "HarrisDetector",
 	SURFDetector : "SURFDetector",
 	LocalHoughExtrator : "LocalHoughExtrator",
-	CloudDetection : "CloudDetection"
+	CloudDetection : "CloudDetection",
+
+	OtsuSegment: "OtsuSegment"
 }
 
 var Graph = function(container_id){
