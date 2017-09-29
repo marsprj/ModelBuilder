@@ -15,9 +15,6 @@ var FunDialog = function(inputs,output,parms,onOK){
 
 extend(FunDialog, Dialog);
 
-FunDialog.prototype.setParms = function(parms){
-};
-
 /**
  * 关闭事件
  */
@@ -134,3 +131,46 @@ FunDialog.prototype.getOutput = function(){
 FunDialog.prototype.verify = function(){
 	return true;
 };
+
+
+FunDialog.prototype.setParms = function(parms){
+	if(!parms){
+		return;
+	}
+	for(var i = 0; i < parms.length;++i){
+		var item = parms[i];
+		var name = item.name;
+		var value = item.value;
+
+		this._win.find(".parms[parm='" + name +"']").each(function(){
+			if(this instanceof HTMLSelectElement){
+				$(this).find("option[value='" + value + "']").prop('selected', true);
+			}else if (this instanceof HTMLInputElement) {
+				$(this).val(value);
+			}
+		})
+	}
+
+};
+
+FunDialog.prototype.getParms = function(){
+	var parms = [];
+	var parmsElement = this._win.find(".parms");
+	parmsElement.each(function(index, el) {
+		var parm = $(this).attr("parm");
+		if(this instanceof HTMLSelectElement){
+			var value = $(this).val();
+			parms.push({
+				name : parm,
+				value : value
+			});
+		}else if (this instanceof HTMLInputElement) {
+			var value = $(this).val();
+			parms.push({
+				name : parm,
+				value : value
+			});
+		}
+	});
+	return parms;
+}

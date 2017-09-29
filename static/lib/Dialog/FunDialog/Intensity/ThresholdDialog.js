@@ -27,7 +27,7 @@ ThresholdDialog.prototype.create = function(){
 			+'		<div class="f-left item-title">输出影像:</div>'
 			+'		<div class="f-left item-content">'
 			+'			<div class="f-left item-input">'
-			+'				<input type="text" class="dialog-output f-left" style="width:240px;">'
+			+'				<input type="text" class="dialog-output f-left">'
 			+'			</div>'
 			+'			<div class="f-left open-file">'
 			+'				……'
@@ -76,50 +76,6 @@ ThresholdDialog.prototype.create = function(){
 	$('body').append(dlg);
 
 	return dlg;
-}
-
-
-ThresholdDialog.prototype.setParms = function(parms){
-	if(!parms){
-		return;
-	}
-	for(var i = 0; i < parms.length;++i){
-		var item = parms[i];
-		var name = item.name;
-		var value = item.value;
-
-		this._win.find(".parms[parm='" + name +"']").each(function(){
-			if(this instanceof HTMLSelectElement){
-				$(this).find("option[value='" + value + "']").prop('selected', true);
-			}else if (this instanceof HTMLInputElement) {
-				$(this).val(value);
-			}
-		})
-	}
-
-};
-
-
-ThresholdDialog.prototype.getParms = function(){
-	var parms = [];
-	var parmsElement = this._win.find(".parms");
-	parmsElement.each(function(index, el) {
-		var parm = $(this).attr("parm");
-		if(this instanceof HTMLSelectElement){
-			var value = $(this).val();
-			parms.push({
-				name : parm,
-				value : value
-			});
-		}else if (this instanceof HTMLInputElement) {
-			var value = $(this).val();
-			parms.push({
-				name : parm,
-				value : value
-			});
-		}
-	});
-	return parms;
 }
 
 ThresholdDialog.prototype.verify = function(){

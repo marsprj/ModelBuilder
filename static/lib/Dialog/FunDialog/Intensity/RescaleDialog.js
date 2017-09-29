@@ -27,7 +27,7 @@ RescaleDialog.prototype.create = function(){
 			+'		<div class="f-left item-title">输出影像:</div>'
 			+'		<div class="f-left item-content">'
 			+'			<div class="f-left item-input">'
-			+'				<input type="text" class="dialog-output f-left" style="width:240px;">'
+			+'				<input type="text" class="dialog-output f-left">'
 			+'			</div>'
 			+'			<div class="f-left open-file">'
 			+'				……'
