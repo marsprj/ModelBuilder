@@ -131,6 +131,10 @@ NodeManager.prototype.createFuncNode = function(type, r, xmin, ymin, width, heig
 			node = new CorrelationDiffDetection(r, xmin, ymin, width, height, round);
 		}
 		break;
+		case FUNCTION_TYPE.MultivariateDiffDetection:{
+			node = new MultivariateDiffDetection(r, xmin, ymin, width, height, round);
+		}
+		break;
 		default:
 		break;
 	}
