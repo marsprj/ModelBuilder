@@ -7,7 +7,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ac37dfb7-7c13-4d7d-a101-64ef4a8b8d82" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/model/functions.py" afterPath="$PROJECT_DIR$/model/functions.py" />
     </list>
     <ignored path="ModelFlow.iws" />
@@ -97,8 +96,8 @@
       <file leaf-file-name="functions.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/model/functions.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="432">
-              <caret line="407" column="74" lean-forward="false" selection-start-line="407" selection-start-column="74" selection-end-line="407" selection-end-column="74" />
+            <state relative-caret-position="396">
+              <caret line="414" column="4" lean-forward="true" selection-start-line="414" selection-start-column="4" selection-end-line="414" selection-end-column="4" />
               <folding>
                 <element signature="e#0#30#0" expanded="true" />
                 <element signature="e#3246#4842#0" expanded="false" />
@@ -1486,8 +1485,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/model/functions.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="432">
-          <caret line="407" column="74" lean-forward="false" selection-start-line="407" selection-start-column="74" selection-end-line="407" selection-end-column="74" />
+        <state relative-caret-position="396">
+          <caret line="414" column="4" lean-forward="true" selection-start-line="414" selection-start-column="4" selection-end-line="414" selection-end-column="4" />
           <folding>
             <element signature="e#0#30#0" expanded="true" />
             <element signature="e#3246#4842#0" expanded="false" />

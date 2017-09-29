@@ -401,11 +401,15 @@ def process_otsusegment(func,process,user_uuid):
 
 # 平均变化检测
 def process_meandiffdetection(func,process,user_uuid):
-    return process_common(func,process,user_uuid,"MeanDiffDetection")
+    return process_common(func,process,user_uuid,"MeanDiffDetection",False)
 
 # 平均比率变化检测
 def process_meanradiodiffdetection(func,process,user_uuid):
-    return process_common(func,process,user_uuid,"MeanRadioDiffDetection")
+    return process_common(func,process,user_uuid,"MeanRadioDiffDetection",False)
+
+# 基于Kullback-Leibler距离检测
+def process_kldiffdetection(func,process,user_uuid):
+    return process_common(func,process,user_uuid,"KullbackLeilberDiffDetection",False)
 
 """
 通用处理
