@@ -127,6 +127,10 @@ NodeManager.prototype.createFuncNode = function(type, r, xmin, ymin, width, heig
 			node = new KLDiffDetection(r, xmin, ymin, width, height, round);					
 		}
 		break;
+		case FUNCTION_TYPE.CorrelationDiffDetection:{
+			node = new CorrelationDiffDetection(r, xmin, ymin, width, height, round);
+		}
+		break;
 		default:
 		break;
 	}
