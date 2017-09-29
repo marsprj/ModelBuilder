@@ -5,7 +5,6 @@ var KLDiffDetectionDialog = function(inputs,outputs,parms,onOk){
 
 extend(KLDiffDetectionDialog, FunDialog);
 
-
 KLDiffDetectionDialog.prototype.create = function(){
 	var html =   '<div class="func_dialog dialog">'
 			+'<div class="titlebar">'
@@ -47,10 +46,10 @@ KLDiffDetectionDialog.prototype.create = function(){
 			+'		</div>'
 			+'	</div>'
 			+'	<div class="dialog_item">'
-			+'		<div class="f-left item-title">检测半径：</div>'
+			+'		<div class="f-left item-title">窗口大小：</div>'
 			+'		<div class="f-left item-content">'
-			+'			<div class="f-left radius-div">'
-			+'				<input type="text" class="f-left parms input-60" parm="radius">'
+			+'			<div class="f-left winSize-div">'
+			+'				<input type="text" class="f-left parms input-60" parm="winSize">'
 			+'			</div>'
 			+'		</div>'
 			+'	</div>'
@@ -76,11 +75,11 @@ KLDiffDetectionDialog.prototype.verify = function(){
 
 	this._win.find("input").removeClass("error");
 	var valueReg =  /^[0-9]*$/;;
-	var value = this._win.find(".radius-div input");
+	var value = this._win.find(".winSize-div input");
 	if(!valueReg.test(value.val())){
 		var tooltip = new Tooltip({
-			target : ".func_dialog .radius-div input",
-			text : "请输入有效的半径值"
+			target : ".func_dialog .winSize-div input",
+			text : "请输入有效的窗口大小"
 		});
 		value.addClass('error');
 		return false;

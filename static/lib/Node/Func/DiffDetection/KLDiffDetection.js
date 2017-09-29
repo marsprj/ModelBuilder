@@ -10,7 +10,7 @@ var KLDiffDetection = function(){
 	// 输入个数
 	this._inputsNumber = 2;
 
-	this._radius = 3;
+	this._winSize = 3;
 
 }
 
@@ -25,8 +25,8 @@ KLDiffDetection.prototype.setParms = function(parms){
 	for(var i = 0; i < parms.length; ++i){
 		var key = parms[i].key;
 		var value = parms[i].value;
-		if(key === "radius"){
-			this._radius = value;
+		if(key === "winSize"){
+			this._winSize = value;
 		}
 	}
 };
@@ -72,8 +72,8 @@ KLDiffDetection.prototype.export = function(){
 	}
 
 	obj.parms.push({
-		key : "radius",
-		value : this._radius
+		key : "winSize",
+		value : this._winSize
 	});
 
 	return obj;
@@ -116,8 +116,8 @@ KLDiffDetection.prototype.onClick = function(){
 
 	var that = this;
 	var parms = [{
-			name : "radius",
-			value : this._radius
+			name : "winSize",
+			value : this._winSize
 		}];
 	var dlg = new KLDiffDetectionDialog(inputs, output, parms, function(){	//onOK
 		that.updateInputNode(0,this.getInput(0));
@@ -138,8 +138,8 @@ KLDiffDetection.prototype.updateParms = function(parms){
 	for(var i = 0; i < parms.length; ++i){
 		var name = parms[i].name;
 		var value = parms[i].value;
-		if(name == "radius"){
-			this._radius = value;
+		if(name == "winSize"){
+			this._winSize = value;
 		}
 	}
 };
