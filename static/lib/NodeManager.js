@@ -135,6 +135,10 @@ NodeManager.prototype.createFuncNode = function(type, r, xmin, ymin, width, heig
 			node = new MultivariateDiffDetection(r, xmin, ymin, width, height, round);
 		}
 		break;
+		case FUNCTION_TYPE.ROIExtract:{
+			node = new ROIExtract(r, xmin, ymin, width, height, round);
+		}
+		break;
 		default:
 		break;
 	}

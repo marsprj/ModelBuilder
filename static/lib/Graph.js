@@ -40,7 +40,9 @@ var FUNCTION_TYPE = {
 	MeanRadioDiffDetection : "MeanRadioDiffDetection",
 	KLDiffDetection : "KLDiffDetection",
 	CorrelationDiffDetection : "CorrelationDiffDetection",
-	MultivariateDiffDetection : "MultivariateDiffDetection"
+	MultivariateDiffDetection : "MultivariateDiffDetection",
+
+	ROIExtract : "ROIExtract"	
 }
 
 var Graph = function(container_id){
