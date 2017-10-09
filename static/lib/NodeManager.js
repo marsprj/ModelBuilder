@@ -115,6 +115,11 @@ NodeManager.prototype.createFuncNode = function(type, r, xmin, ymin, width, heig
 			node = new OtsuSegment(r, xmin, ymin, width, height, round);				
 		}
 		break;
+
+		case FUNCTION_TYPE.KMeans:{
+			node = new KMeans(r, xmin, ymin, width, height, round);				
+		}
+		break;
 		case FUNCTION_TYPE.MeanDiffDetection:{
 			node = new MeanDiffDetection(r, xmin, ymin, width, height, round);					
 		}

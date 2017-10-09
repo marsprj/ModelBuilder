@@ -202,6 +202,30 @@
 .func_dialog .title-50{
 	width: 50px;
 }
+
+.func_dialog .classs-btn{
+    border: 1px solid #cdcdcd;
+    height: 23px;
+    line-height: 23px;
+    margin: 0 5px;
+    border-radius: 4px;
+    text-align: center;
+    width: 50px;
+    background-color: #4f79ba;
+    color: #fff;
+    cursor: pointer;
+}	
+
+.dialog_item::after{
+	content: " ";
+	display: block; 
+	height: 0; 
+	clear: both;
+}
+.mean-div input{
+	margin-bottom: 4px;
+	margin-top: 2px;
+}
 /********************************************************************/
 /*  file   dialog
 /********************************************************************/

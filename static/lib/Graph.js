@@ -36,6 +36,8 @@ var FUNCTION_TYPE = {
 
 	OtsuSegment: "OtsuSegment",
 
+	KMeans : "KMeans",
+
 	MeanDiffDetection : "MeanDiffDetection",
 	MeanRadioDiffDetection : "MeanRadioDiffDetection",
 	KLDiffDetection : "KLDiffDetection",
