@@ -15,9 +15,11 @@ gulp.task('graph-clean',function () {
 
 var graphList = ["ModelFlow/static/lib/*.js",
 		"ModelFlow/static/lib/Dialog/*.js",
-		"ModelFlow/static/lib/Dialog/FunDialog/*.js",
+		"ModelFlow/static/lib/Dialog/*/*.js",
+		"ModelFlow/static/lib/Dialog/*/*/*.js",
 		"ModelFlow/static/lib/Node/*.js",
 		"ModelFlow/static/lib/Node/*/*.js",
+		"ModelFlow/static/lib/Node/*/*/*.js",
 		"ModelFlow/static/lib/shape/*.js",
 		'!ModelFlow/static/lib/graph.min.js'
 ];
@@ -37,7 +39,8 @@ gulp.task('graph-css-clean', function () {
 });
 
 
-var graphCssList = ["ModelFlow/static/lib/css/dialog.css"];
+var graphCssList = ["ModelFlow/static/lib/css/dialog.css",
+		"ModelFlow/static/lib/css/tooltip.css"];
 var graphCssDest = "ModelFlow/static/lib/css/";
 gulp.task('graph-css',['graph-css-clean'],function(){
 	gulp.src(graphCssList)
@@ -61,6 +64,8 @@ var indexList = ['ModelFlow/static/js/init.js',
 		'ModelFlow/static/js/graph.js',
 		'ModelFlow/static/js/CreateModelDialog.js',
 		'ModelFlow/static/js/createTaskDialog.js',
+		'ModelFlow/static/js/funCatalog.js',
+		'ModelFlow/static/js/beginnerHelper.js',
 ];
 var indexDest = 'ModelFlow/static/js';
 gulp.task('index-js',['index-js-clean'],function(){
