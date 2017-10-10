@@ -31,6 +31,7 @@ var FUNCTION_TYPE = {
 	PanTex : "PanTex",
 	HarrisDetector : "HarrisDetector",
 	SURFDetector : "SURFDetector",
+	RadioLineDetector : "RadioLineDetector",
 	LocalHoughExtrator : "LocalHoughExtrator",
 	CloudDetection : "CloudDetection",
 
@@ -295,9 +296,14 @@ Graph.prototype.load = function(json){
 			}
 			fLevel = fLevel< inputLevel ? inputLevel : fLevel;
 		});
-		if(inputs.length > 1){
+
+		var outputs = f.getOutputs();
+		if(outputs.length > inputs.length){
+			rowCount += outputs.length;
+		}else if (inputs.length > 1) {
 			rowCount += inputs.length;
 		}
+
 		level = level < fLevel ? fLevel : level;
 	});
 
@@ -332,12 +338,20 @@ Graph.prototype.load = function(json){
 			tail.scale(scale,scale);
 		}
 
-		var output = tail.getOutput();
-		if(output){
-			output.offset(tailOffset_x + blockWidth,tailOffset_y);
-			if(scale != 1){
-				output.scale(scale,scale);
-			}
+		// var output = tail.getOutput();
+		// if(output){
+		// 	output.offset(tailOffset_x + blockWidth,tailOffset_y);
+		// 	if(scale != 1){
+		// 		output.scale(scale,scale);
+		// 	}
+		// }
+		var outputs = tail.getOutputs();
+		var rowDelta = rowCount * blockHeight  / outputs.length/level;
+		var first = tailOffset_y -  rowDelta* (outputs.length-1)/2;
+		for(var i = 0; i < outputs.length; ++i){
+			var output = outputs[i];
+			var outputOffsetY = first + i*rowDelta;
+			output.offset(tailOffset_x + blockWidth,outputOffsetY);
 		}
 	}
 
@@ -562,6 +576,8 @@ Graph.prototype.createEdge = function(from, to){
 		break;
 		case NODE_TYPE.FUNC:{
 			from.setOutputEdge(edge);
+			// 多个输出
+			from.addOutputEdge(edge);
 		}
 		break;
 	}
@@ -747,6 +763,7 @@ Graph.prototype.startConnecting = function(){
 							}
 							break;
 							case NODE_TYPE.FUNC:{
+								that._start_node.addOutputEdge(that._connection);
 								that._start_node.setOutputEdge(that._connection);
 							}
 							break;
@@ -977,7 +994,7 @@ Graph.prototype.verify = function(){
 			},2000);
 			return "该算法没有输入";
         }
-        if(!f.getOutput()){
+        if(!f.getOutput() && f.getOutputs().length == 0){
 			f.blink();
 			setTimeout(function(){
 				f.stopBlink();

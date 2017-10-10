@@ -65,7 +65,7 @@ FunDialog.prototype.initFolderEvent = function(){
 		var inputEle = prev.children();
 		if(inputEle.hasClass('dialog-input')){
 			var inputs = dlg._win.find(".dialog-input");
-			var index = inputEle.index(inputs);			
+			var index = inputs.index(inputEle);			
 
 			var file_dlg = new FileDialog(dlg._inputs[index],"choose", function(){
 				var file_path = this.getFilePath();

@@ -48,7 +48,7 @@ OtsuSegmentDialog.prototype.create = function(){
 			+'		</div>'
 			+'	</div>'
 			+'	<div class="dialog_item">'
-			+'		<div class="f-left item-title">灰度阈值</div>'
+			+'		<div class="f-left item-title">灰度阈值:</div>'
 			+'		<div class="f-left item-content">'
 			+'			<div class="f-left lowerThreshold-div">'
 			+'				<div class="f-left item-title title-50">lower：</div>'

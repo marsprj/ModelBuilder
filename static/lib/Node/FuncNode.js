@@ -8,6 +8,7 @@ var FuncNode = function(r, xmin, ymin, width, height){
 
 	this._inputs = [];	//Connection;
 	this._output = null;
+	this._outputs = [];
 
 	this._shape = new Rect(r, xmin, ymin, width, height);
 	this._id = this._shape.getID();
@@ -114,3 +115,25 @@ FuncNode.prototype.updateOutputNode = function(path){
 		}
 	}
 }
+
+FuncNode.prototype.addOutputEdge = function(output){
+	if(output){
+		this._outputs.push(output);
+	}
+};
+
+
+FuncNode.prototype.getOutputsEdge = function(){
+	return this._outputs;
+}
+
+FuncNode.prototype.getOutputs = function(){
+	var outputs = [];
+	this._outputs.forEach(function(e){
+		var to = e.getTo();
+		if(to){
+			outputs.push(to);
+		}
+	})
+	return outputs;
+};
