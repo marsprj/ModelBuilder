@@ -386,6 +386,10 @@ def process_harrisdetector(func,process,user_uuid):
 def process_surfdetector(func,process,user_uuid):
     return process_common(func,process,user_uuid,"SURFDetector",False)
 
+# Radio线检测
+def process_radiolinedetector(func,process,user_uuid):
+    return process_common(func,process,user_uuid,"RadioLineDetector",False)
+
 # Hough线提取
 def process_localhoughextrator(func,process,user_uuid):
     return process_common(func,process,user_uuid,"LocalHoughExtractor",False)
@@ -458,7 +462,16 @@ def process_common(func, process, user_uuid,fun_command,use_key=True):
                 pat = re.compile(r'(\[out\])')
                 res = pat.sub(r'' + local_opath + '', value)
                 command = "{0} {1} {2}".format(command, key, res)
-            if not inObj and not outObj:
+            outputsObj = re.search(r'out=\[(.{5})\]*', value, re.M | re.I)
+            if outputsObj:
+                outputId = outputsObj.group(1)
+                ouput = func.getOutputByID(outputId)
+                if ouput:
+                    output_path = ouput.getPath()
+                    local_opath = build_task_local_path(output_path, task_id, user_uuid)
+                    command = "{0} {1} {2}".format(command, key, local_opath)
+
+            if (not inObj and not outObj) and not outputsObj:
                 if use_key == True:
                     command = "{0} {1} {2}".format(command, key, value)
                 else:

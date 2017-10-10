@@ -77,6 +77,7 @@ class Function(Node):
         self._type = 'function'
         self._inputs = []
         self._output = None
+        self._outputs = []
         self._parms = parms
 
     def getName(self):
@@ -91,9 +92,20 @@ class Function(Node):
     def setOutputConnection(self, c):
         self._output = c
 
+    def addOutputConnection(self,c):
+        self._outputs.append(c)
+
     def getOutput(self):
         if self._output:
             return self._output.getTo()
+
+    def getOutputs(self):
+        outputs = []
+        for c in self._outputs:
+            to = c.getTo()
+            if to:
+                outputs.append(to)
+        return outputs
 
     def getInputs(self):
         inputs = []
@@ -109,6 +121,12 @@ class Function(Node):
                 return frm
         return None
 
+    def getOutputByID(self,id):
+        for c in self._outputs:
+            to = c.getTo()
+            if to.getID() == id:
+                return to
+        return None
 
 """
 Connection Class
@@ -200,6 +218,7 @@ class Graph:
             fn.setToConnection(cn)
         elif(fn.getType() == "function"):
             fn.setOutputConnection(cn)
+            fn.addOutputConnection(cn)
 
         if (tn.getType() == "data"):
             tn.setFromConnection(cn)
