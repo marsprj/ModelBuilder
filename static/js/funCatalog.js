@@ -57,10 +57,11 @@ var g_funCatalog = [
 					{
 						name : "Canny边缘检测",
 						type : "CannyEdgeDetection"
-					},{
-						name : "Touzi边缘检测",
-						type : "TouziEdgeDetection"
 					}
+					// ,{
+					// 	name : "Touzi边缘检测",
+					// 	type : "TouziEdgeDetection"
+					// }
 				]
 			},{
 				name : "数学形态学",
@@ -75,10 +76,10 @@ var g_funCatalog = [
 				]
 			}
 		]
-	},{
-		name : "频域滤波",
-		items : [
-		]
+	// },{
+	// 	name : "频域滤波",
+	// 	items : [
+	// 	]
 	},{
 		name : "图像融合",
 		items :[
@@ -112,31 +113,31 @@ var g_funCatalog = [
 						type : "SURFDetector"
 					}
 				]
- 			},{
- 				name : "Alignment",
- 				type : "Alignment"
+ 			// },{
+ 			// 	name : "Alignment",
+ 			// 	type : "Alignment"
  			},{
  				name : "线提取（SAR）",
  				items : [
  					{
  						name : "Radio线检测",
  						type : "RadioLineDetector"
- 					},{
- 						name : "Coorelation线检测",
- 						type : ""
+ 					// },{
+ 					// 	name : "Coorelation线检测",
+ 					// 	type : ""
  					},{
  						name : "Hough线提取",
  						type : "LocalHoughExtrator"
  					}
  				]
- 			},{
- 				name : "道路提取",
- 				items : [
- 					{
- 						name : "道路提取",
- 						type : ""
- 					}
- 				]
+ 			// },{
+ 			// 	name : "道路提取",
+ 			// 	items : [
+ 			// 		{
+ 			// 			name : "道路提取",
+ 			// 			type : ""
+ 			// 		}
+ 			// 	]
  			},{
  				name : "云检测",
  				items:[
@@ -161,12 +162,12 @@ var g_funCatalog = [
 						type : "OtsuSegment"
 					}
 				]
-			},{
-				name : "基于分水岭的分割",
-				type : ""
-			},{
-				name : "水平集的图像分割",
-				type : ""
+			// },{
+			// 	name : "基于分水岭的分割",
+			// 	type : ""
+			// },{
+			// 	name : "水平集的图像分割",
+			// 	type : ""
 			}
 		]
 	},{
@@ -178,61 +179,61 @@ var g_funCatalog = [
 					{
 						name : "K-Means分类",
 						type : "KMeans"
-					},{
-						name : "基于Kd树的KMeans聚类",
-						type : ""
-					},{
-						name : "SOM分类",
-						type : ""
-					},{
-						name : "贝叶斯分类",
-						type : ""
-					},{
-						name : "最大期望混合模型估计",
-						type : ""
-					},{
-						name : "统计分割",
-						type : ""
-					},{
-						name : "马尔科夫随机场分类",
-						type : ""
+					// },{
+					// 	name : "基于Kd树的KMeans聚类",
+					// 	type : ""
+					// },{
+					// 	name : "SOM分类",
+					// 	type : ""
+					// },{
+					// 	name : "贝叶斯分类",
+					// 	type : ""
+					// },{
+					// 	name : "最大期望混合模型估计",
+					// 	type : ""
+					// },{
+					// 	name : "统计分割",
+					// 	type : ""
+					// },{
+					// 	name : "马尔科夫随机场分类",
+					// 	type : ""
 					}
 				]
-			},{
-				name : "监督分类",
-				type : ""
+			// },{
+			// 	name : "监督分类",
+			// 	type : ""
 			}
 		]
-	},{
-		name : "SAR",
-		items: [
-			{
-				name : "滤波",
-				items : [
-					{
-						name : "Froest滤波",
-						type : ""
-					},{
-						name : "Lee滤波",
-						type : ""
-					}
-				]
-			}
-		]
-	},{
-		name : "高光谱",
-		items :[
-			{
-				name : "Unmixing",
-				type : ""
-			},{
-				name : "降维",
-				type : ""
-			},{
-				name : "异常检测",
-				type : ""
-			}
-		]
+	// },{
+	// 	name : "SAR",
+	// 	items: [
+	// 		{
+	// 			name : "滤波",
+	// 			items : [
+	// 				{
+	// 					name : "Froest滤波",
+	// 					type : ""
+	// 				},{
+	// 					name : "Lee滤波",
+	// 					type : ""
+	// 				}
+	// 			]
+	// 		}
+	// 	]
+	// },{
+	// 	name : "高光谱",
+	// 	items :[
+	// 		{
+	// 			name : "Unmixing",
+	// 			type : ""
+	// 		},{
+	// 			name : "降维",
+	// 			type : ""
+	// 		},{
+	// 			name : "异常检测",
+	// 			type : ""
+	// 		}
+	// 	]
 	},{
 		name : "变化检测",
 		items : [
@@ -258,9 +259,9 @@ var g_funCatalog = [
 						type : "CorrelationDiffDetection"
 					}
 				]
-			},{
-				name : "多尺度变化检测",
-				type : ""
+			// },{
+			// 	name : "多尺度变化检测",
+			// 	type : ""
 			},{
 				name : "多成分变化检测",
 				type : "MultivariateDiffDetection"
