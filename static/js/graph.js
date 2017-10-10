@@ -30,6 +30,14 @@ function initGraphEvent(){
 			var width = $("#canvas_div").width();
 
 			g_graph.setSize(width,height);
+			var imageIcons = $("#backdrop .image-icon");
+			if(imageIcons.length!= 0){
+				var imageIcon = imageIcons[0];
+				var tid = $(imageIcon).attr("tid");
+				if(tid != null && tid != undefined){
+					showResultIcons(tid);
+				}
+			}
 		}else if($(this).hasClass("save-tool")){
 			var text = g_graph.export();
 			saveModel(text,function(result){
