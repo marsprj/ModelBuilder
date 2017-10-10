@@ -429,7 +429,7 @@ def process_multivariatediffdetection(func,process,user_uuid):
 
 # ROI裁剪
 def process_roiextract(func,process,user_uuid):
-    return process_common(func,process,user_uuid,"ROIExtracts",False)
+    return process_common(func,process,user_uuid,"ROIExtract",False)
 
 """
 通用处理
