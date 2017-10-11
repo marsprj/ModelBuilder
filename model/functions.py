@@ -388,7 +388,7 @@ def process_surfdetector(func,process,user_uuid):
 
 # Radio线检测
 def process_radiolinedetector(func,process,user_uuid):
-    return process_common(func,process,user_uuid,"RadioLineDetector",False)
+    return process_common(func,process,user_uuid,"LineRadioDetector",False)
 
 # Hough线提取
 def process_localhoughextrator(func,process,user_uuid):
