@@ -156,5 +156,38 @@ RadioLineDetectorDialog.prototype.initFolderEvent = function(){
 			file_dlg.show();
 		}
 	});
-
 };
+
+RadioLineDetectorDialog.prototype.getOutputs = function(){
+	return this._outputs;
+};
+
+
+
+/**
+ * 确定修改节点值
+ */
+RadioLineDetectorDialog.prototype.initOkEvent = function(){
+	var dlg = this;
+
+	this._win.find("#dlg_btn_ok:first").click(function(){
+
+		var result = dlg.verify();
+		if(!result){
+			return;
+		}
+		dlg._win.find(".dialog-input").each(function(index, el) {
+			dlg._inputs[index] = $(this).val();			
+		});
+
+		dlg._win.find(".dialog-output").each(function(index, el) {
+			dlg._outputs[index] = $(this).val();			
+		});
+
+		dlg.destory();
+
+		if(dlg._onOK){
+			dlg._onOK();
+		}
+	});
+}

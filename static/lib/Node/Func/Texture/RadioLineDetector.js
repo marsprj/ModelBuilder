@@ -155,7 +155,7 @@ RadioLineDetector.prototype.onClick = function(){
 	}];
 	var dlg = new RadioLineDetectorDialog(inputs, outputs,parms, function(){	//onOK
 		that.updateInputNode(0,dlg.getInput(0));
-		// that.updateOutputNode(dlg.getOutput());
+		that.updateOutputsNode(dlg.getOutputs());
 		that.updateParms(dlg.getParms());
 	});
 	dlg.show();
@@ -172,6 +172,19 @@ RadioLineDetector.prototype.updateParms = function(parms){
 			this._length = value;
 		}else if (name == "width") {
 			this._width = value;
+		}
+	}
+};
+
+RadioLineDetector.prototype.updateOutputsNode = function(outputsPath){
+	for(var i = 0; i < outputsPath.length; ++i){
+		var output = this._outputs[i];
+		var path = outputsPath[i];
+		if(output && path){
+			var to = output.getTo();
+			if(to){
+				to.setPath(path);
+			}
 		}
 	}
 };
