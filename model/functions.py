@@ -399,8 +399,8 @@ def process_localhoughextrator(func,process,user_uuid):
 def process_clouddetection(func,process,user_uuid):
     return process_common(func,process,user_uuid,"CloudDetection",False)
 
-# Otsu 自动阈值分割
-def process_otsusegment(func,process,user_uuid):
+# 连通阈分割
+def process_connectedsegment(func,process,user_uuid):
     return process_common(func,process,user_uuid,"ConnectedSegment",False)
 
 # kMeans分类
