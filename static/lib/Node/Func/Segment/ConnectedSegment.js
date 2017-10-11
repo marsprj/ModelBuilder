@@ -1,10 +1,10 @@
 /**
- * Otsu自动阈值分割
+ * 连通域分割
  */
-var OtsuSegment = function(){
+var ConnectedSegment = function(){
 	FuncNode.apply(this, arguments);
 
-	this._name = "OtsuSegment";
+	this._name = "ConnectedSegment";
 
 	this._inputsNumber = 1;
 
@@ -18,9 +18,9 @@ var OtsuSegment = function(){
 
 }
 
-extend(OtsuSegment, FuncNode);
+extend(ConnectedSegment, FuncNode);
 
-OtsuSegment.prototype.setParms = function(parms){
+ConnectedSegment.prototype.setParms = function(parms){
 	if(!parms){
 		return;
 	}
@@ -40,7 +40,7 @@ OtsuSegment.prototype.setParms = function(parms){
 	}
 };
 
-OtsuSegment.prototype.export = function(){
+ConnectedSegment.prototype.export = function(){
 	var obj = {
 		id : this.getID(),
 		name : this._name,
@@ -97,7 +97,7 @@ OtsuSegment.prototype.export = function(){
 	return obj;
 }
 
-OtsuSegment.prototype.onClick = function(){
+ConnectedSegment.prototype.onClick = function(){
 	var inputs = [];
 	var output;
 	if(this._inputs){
@@ -147,7 +147,7 @@ OtsuSegment.prototype.onClick = function(){
 		name : "upperThreshold",
 		value : this._upperThreshold
 	}];
-	var dlg = new OtsuSegmentDialog(inputs, output,parms, function(){	//onOK
+	var dlg = new ConnectedSegmentDialog(inputs, output,parms, function(){	//onOK
 		that.updateInputNode(0,dlg.getInput(0));
 		that.updateOutputNode(dlg.getOutput());
 		that.updateParms(dlg.getParms());
@@ -155,7 +155,7 @@ OtsuSegment.prototype.onClick = function(){
 	dlg.show();
 };
 
-OtsuSegment.prototype.updateParms = function(parms){
+ConnectedSegment.prototype.updateParms = function(parms){
 	if(!parms){
 		return;
 	}

@@ -1,14 +1,14 @@
-var OtsuSegmentDialog = function(){
-	this._funName = "OtsuSegment";
+var ConnectedSegmentDialog = function(){
+	this._funName = "ConnectedSegment";
 	FunDialog.apply(this, arguments);
 }
 
-extend(OtsuSegmentDialog, FunDialog);
+extend(ConnectedSegmentDialog, FunDialog);
 
-OtsuSegmentDialog.prototype.create = function(){
+ConnectedSegmentDialog.prototype.create = function(){
 	var html =   '<div class="func_dialog dialog">'
 			+'<div class="titlebar">'
-			+'	<div class="dialog_title">Otsu自动阈值分割</div>'
+			+'	<div class="dialog_title">连通域分割</div>'
 			+'	<div class="dialog_exit"></div>'
 			+'</div>'
 			+'<div class="dialog_main">'
@@ -78,7 +78,7 @@ OtsuSegmentDialog.prototype.create = function(){
 	return dlg;
 }
 
-OtsuSegmentDialog.prototype.verify = function(){
+ConnectedSegmentDialog.prototype.verify = function(){
 
 	this._win.find("input").removeClass("error");
 	var valueReg =  /^[0-9]*$/;;

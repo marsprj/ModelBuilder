@@ -156,10 +156,10 @@ var g_funCatalog = [
 				items:[
 					{
 						name : "连通域分割",
-						type : ""
-					},{
-						name : "Otsu自动阈值分割",
-						type : "OtsuSegment"
+						type : "ConnectedSegment"
+					// },{
+					// 	name : "Otsu自动阈值分割",
+					// 	type : "OtsuSegment"
 					}
 				]
 			// },{

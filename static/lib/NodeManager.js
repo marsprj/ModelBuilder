@@ -115,8 +115,8 @@ NodeManager.prototype.createFuncNode = function(type, r, xmin, ymin, width, heig
 			node = new CloudDetection(r, xmin, ymin, width, height, round);				
 		}
 		break;
-		case FUNCTION_TYPE.OtsuSegment:{
-			node = new OtsuSegment(r, xmin, ymin, width, height, round);				
+		case FUNCTION_TYPE.ConnectedSegment:{
+			node = new ConnectedSegment(r, xmin, ymin, width, height, round);				
 		}
 		break;
 

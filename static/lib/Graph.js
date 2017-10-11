@@ -35,7 +35,7 @@ var FUNCTION_TYPE = {
 	LocalHoughExtrator : "LocalHoughExtrator",
 	CloudDetection : "CloudDetection",
 
-	OtsuSegment: "OtsuSegment",
+	ConnectedSegment: "ConnectedSegment",
 
 	KMeans : "KMeans",
 
