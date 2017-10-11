@@ -95,6 +95,7 @@ MultivariateDiffDetection.prototype.onClick = function(){
 	var parms = [];
 	var dlg = new MultivariateDiffDetectionDialog(inputs, output,parms, function(){	//onOK
 		that.updateInputNode(0,dlg.getInput(0));
+		that.updateInputNode(1,dlg.getInput(1));
 		that.updateOutputNode(dlg.getOutput());
 	});
 	dlg.show();
