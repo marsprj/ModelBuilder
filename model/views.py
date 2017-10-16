@@ -724,3 +724,88 @@ def user_delete(request,user_id):
         logger.error("delete user[{0}] failed: {1}".format(user_id,str(e)))
         return http_error_response("delete user failed")
     return http_success_response()
+
+
+def task_count(request,task_state):
+    try:
+        username = request.COOKIES.get("username")
+        user = User.objects.get(username=username)
+
+    except User.DoesNotExist:
+        logger.error("no user[{0}]".format(username))
+        return http_error_response("no user[{0}]".format(username))
+
+    try:
+        count = 0
+        models = user.model_set.all()
+        for model in models:
+            if task_state == '4':
+                tasks = model.task_set.all()
+            else:
+                tasks = model.task_set.filter(state=task_state)
+            count += len(tasks)
+        obj = {
+            "count": count
+        }
+        text = json.dumps(obj)
+        logger.info("get task[{0}] count:{1}".format(task_state,str(count)))
+        return HttpResponse(text, content_type="application/json")
+    except Exception as e:
+        logger.error("get task [{0}] count failed".format(task_state, str(e)))
+        return http_error_response("get task count failed")
+
+
+def task_list(request,task_state,offset,count,field,orderby):
+    try:
+        username = request.COOKIES.get("username")
+        user = User.objects.get(username=username)
+    except User.DoesNotExist:
+        logger.error("no user[{0}]".format(username))
+        return http_error_response("no user[{0}]".format(username))
+
+    try:
+        result = hasattr(Task,field)
+        if result == False:
+            logger.error("没有该字段:{0}".format(field))
+            return http_error_response("没有该字段:{0}".format(field))
+        start = int(offset)
+        end = int(offset) + int(count)
+        obj = []
+        models = user.model_set.all()
+        tasks_all = []
+        for model in models:
+            if task_state == '4':
+                tasks = model.task_set.all()
+            else:
+                tasks = model.task_set.filter(state=task_state)
+            tasks_all.extend(tasks)
+
+        # 排序
+        if orderby == 'desc':
+            reverse_order = True
+        else:
+            reverse_order = False
+        t = tasks_all[0]
+        if field == "start_time":
+            tasks_all.sort(key=lambda k: k.start_time, reverse=reverse_order)
+        elif field == "end_time":
+            tasks_all.sort(key=lambda k: (k.end_time is None, k.end_time=="",k.end_time,k.start_time), reverse=reverse_order)
+
+        tasks_count = len(tasks_all)
+        if start > tasks_count:
+            return http_error_response("已经没有数据了")
+        tasks = tasks_all[start:end]
+
+        for task in tasks:
+            task_json = task.exportToJson()
+            task_json["model_name"] = task.model.name
+            obj.append(task_json)
+
+        text = json.dumps(obj)
+        logger.info("get task[{0}] list offset[{1}] count[{2}] order by {3} {4}:{5}".format(task_state,str(offset),
+                                                                           str(count),field,orderby,text))
+        return HttpResponse(text, content_type="application/json")
+    except Exception as e:
+        logger.error("get task[{0}] list offset[{1}] count[{2}] order by {3} {4} failed: {5}".format(task_state,str(offset),
+                                                                           str(count),field,orderby,str(e)))
+        return http_error_response("get task count failed:{0}".format(str(e)))
