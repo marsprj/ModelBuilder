@@ -12,6 +12,12 @@ function initPageEvent(){
 	$(".logout").click(function(){
 		logout();
 	});
+
+
+	//排序切换
+	$(".order-icon").click(function(){
+		changeOrderBy(this);
+	});
 }
 
 // 切换状态
@@ -24,6 +30,10 @@ function changeState(){
 		$(".task-state-div ul li").removeClass('active');
 		$(this).addClass('active');
 		var state = $(this).attr("state");
+		g_order_field = "end_time"; 
+		g_order = "desc";
+		$(".order-icon").removeClass('asc active');
+		$("span[field='end_time']").next().addClass("active")
 		setState(state);
 	});
 }
@@ -91,7 +101,7 @@ function getStateCount(state,callback){
 }
 
 // 获取任务列表
-function getStateList(state,count,offset,callback){
+function getStateList(state,count,offset,field,orderby,callback){
 	if(state == null || count == null || offset == null){
 		if(callback){
 			var result = '{"status":"error","message":"parms is not valid"}';
@@ -100,7 +110,7 @@ function getStateList(state,count,offset,callback){
 		return;
 	}
 
-	var url = "/model/tasks/" + state + "/list/" + count + "/" + offset + "/";
+	var url = "/model/tasks/" + state + "/list/" + count + "/" + offset + "/" + field + "/" + orderby + "/";
 	$.ajax({
 		url : url,
 		dataType : "text",
@@ -150,13 +160,17 @@ function getPage(page){
 
 	$("#task_table .row:not(.header)").remove();
 	$(".panel-content").addClass('loading');
-	getStateList(g_state,g_maxCount,offset,onGetStateList);
+	getStateList(g_state,g_maxCount,offset,g_order_field,g_order,onGetStateList);
 }
 
 
 function onGetStateList(json){
 	$(".panel-content").removeClass('loading');
 	var html = '';
+	if(json.status == "error"){
+		alert(json.message);
+		return;
+	}
 	json.forEach(function(t){
 		var state = getState(t.state);
 		var stateClass = getStateClass(t.state);
@@ -429,7 +443,7 @@ function expandTaskState(taskId){
 	}
 
 	var taskIsRunning = $("#task_table .row[uuid='" + taskId + "'] ").hasClass("active-row");
-	if(g_state_int && taskIsRunning){
+	if(taskIsRunning){
 		// 有正在运行的状态
 		window.clearInterval(g_state_int);
 		g_state_int = null;
@@ -713,4 +727,33 @@ function stopTask(taskId, callback) {
 			}
 		}
 	});
+}
+
+
+// 排序切换
+function changeOrderBy(element){
+	var field = $(element).prev().attr("field");
+
+	var isActive = $(element).hasClass('active');
+	if(isActive){
+		var order = $(element).hasClass('asc');
+		if(order){
+			g_order = "desc";
+			$(element).removeClass('asc');
+		}else{
+			g_order = "asc";
+			$(element).addClass('asc');
+		}
+	}else{
+		$(".order-icon").removeClass('active');
+		$(element).addClass('active');
+		var order = $(element).hasClass('asc');
+		if(order){
+			g_order = "asc";
+		}else{
+			g_order = "desc";
+		}
+	}
+
+	setState(g_state);
 }

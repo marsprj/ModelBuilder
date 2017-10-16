@@ -47,26 +47,28 @@
                         <div class="row header task-header">
                             <div class="cell" style="width: 30px; padding: 0px">
                             </div>
-                            <div class="cell">
+                            <div class="cell" style="width: 15%">
                                 名称
                             </div>
-                            <div class="cell">
+                            <div class="cell" style="width: 15%">
                                 所属模型
                             </div>
-                            <div class="cell">
+                            <div class="cell" style="width: 10%">
                                 状态
                             </div>
-                            <div class="cell">
-                                开始时间
+                            <div class="cell" style="width: 20%">
+                                <span field="start_time">开始时间</span>
+                                <span class="order-icon desc-order"></span>
                             </div>
-                            <div class="cell">
-                                完成时间
+                            <div class="cell" style="width: 20%">
+                                <span field="end_time">完成时间</span>
+                                <span class="order-icon desc-order active"></span>
                             </div>
-                            <div class="cell">
+                            <div class="cell" style="width: 10%">
                                 完成度
                             </div>
-                            <div class="cell">
-                            </div>
+                            <div class="cell" style="width: 8%">
+                            </div>                            
                         </div>
                     </div>
                 </div>
@@ -114,6 +116,12 @@
 
     // 用户名称
     g_username = null;
+
+    // 排序字段
+    g_order_field = "end_time";
+
+    // 升序or降序
+    g_order = "desc";
     $().ready(function () {
         var username = getCookie("username");
         if(!username){

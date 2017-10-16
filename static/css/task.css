@@ -96,10 +96,40 @@
 	width: 0 !important;
 }
 
+.order-icon{
+	width: 26px;
+	height: 20px;
+	display: inline-block;
+	background-position: center;
+	transition: 0.1s all ease;
+}
+
+.desc-order{
+	background-image: url(../images/desc_off.png);
+}
+
+.desc-order.active{
+	background-image: url(../images/desc.png);	
+}
+
+.desc-order.asc{
+	background-image: url(../images/asc_off.png);
+}
+
+.desc-order.asc.active{
+	background-image: url(../images/asc.png);	
+}
+
+
 #task_table .cell {
     padding: 8px 12px;
     border-bottom: 1px solid #f4f8fb;
     cursor: pointer;
+    vertical-align: middle;
+}
+
+#task_table .cell span{
+	vertical-align: middle;
 }
 
 /*#task_table .row:not(.header):hover .cell {
@@ -166,6 +196,24 @@
 
 .failed-row{
 	color: #ff0034;
+}
+
+.state-icon{
+	background-position: center;
+    background-repeat: no-repeat;
+}
+
+.running-icon{
+	background-image: url(../images/play.png);
+}
+.not-started-icon{
+	background-image: url(../images/stop.png);
+}
+.failed-icon{
+	background-image: url(../images/red.png);
+}
+.completed-icon{
+	background-image: url(../images/green.png);
 }
 
 /**pagination**/
