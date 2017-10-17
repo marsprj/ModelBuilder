@@ -406,11 +406,11 @@
 }
 
 #funcs a.func_node::before{
-	content : " - ";
+	content: attr(content);
 }
 
 #funcs a:not(.func_node)::before{
-	content : " + ";
+	content: attr(content);
 }
 
 #tools{

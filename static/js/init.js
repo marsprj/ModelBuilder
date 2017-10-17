@@ -184,9 +184,11 @@ function loadFuns(){
 		var next = $(this).parent().next();
 		if(next.length >0 && next[0] instanceof HTMLUListElement){
 			if(next.hasClass("shown")){
+				$(this).attr("content"," + ");
 				next.removeClass('shown');
 				next.slideUp();
 			}else{
+				$(this).attr("content"," - ");
 				next.addClass('shown');
 				next.slideDown();
 			}
@@ -215,12 +217,12 @@ function loadFunType(catalog,deep){
 		var items = obj.items;
 		if(items){
 			html += '<li>'
-				+'		<a href="javascript:void(0)" class="func_node" deep="' + deep + '">' + name + '</a>'
+				+'		<a href="javascript:void(0)" class="func_node" deep="' + deep + '" content=" + ">' + name + '</a>'
 				+'	</li>';
 			html += loadFunType(items,deep+1);
 		}else{
 			html += '<li>'
-				+'		<a href="javascript:void(0)"  deep="' + deep + '" ftype="' + type + '">' + name + '</a>'
+				+'		<a href="javascript:void(0)"  deep="' + deep + '" ftype="' + type + '" content=" - ">' + name + '</a>'
 				+'	</li>';
 		}
 	}
