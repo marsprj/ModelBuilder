@@ -733,6 +733,7 @@ function stopTask(taskId, callback) {
 // 排序切换
 function changeOrderBy(element){
 	var field = $(element).prev().attr("field");
+	g_order_field = field;
 
 	var isActive = $(element).hasClass('active');
 	if(isActive){
