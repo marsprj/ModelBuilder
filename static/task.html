@@ -21,7 +21,16 @@
 	</div>
     <div id="main">
         <div id="model_panel" class="panel">
-            
+            <div class="panel-title">
+                <span class="panel-title-name">模型列表</span>
+                <div class="panel-title-tool model-tool-div">
+                    <ul>
+                        <li class="active">所有</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="panel-content" id="models_container">
+            </div>
         </div>
         <div id="task_panel" class="panel">
             <div class="panel-title">
@@ -122,6 +131,10 @@
     // 排序字段
     g_order_field = "end_time";
 
+
+    // model uuid
+    g_model_id = 0;
+
     // 升序or降序
     g_order = "desc";
     $().ready(function () {
@@ -130,10 +143,13 @@
             window.location.href="login.html";
             return;
         }
+        g_username = username;
         $(".user-name").html("用户&nbsp;:&nbsp;" + username);
         $("#main").show();
 
         initPageEvent();
+
+        loadModels();
 
         setState(4);
         changeState();
@@ -147,3 +163,4 @@
 </script>
 
 <script type="text/javascript" src="js/task.js"></script>
+<script type="text/javascript" src="js/model.js"></script>

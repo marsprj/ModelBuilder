@@ -18,6 +18,11 @@ function initPageEvent(){
 	$(".order-icon").click(function(){
 		changeOrderBy(this);
 	});
+
+	// 所有模型
+	$(".model-tool-div li").click(function(){
+		showAllModelTask();
+	});
 }
 
 // 切换状态
@@ -63,11 +68,11 @@ function logout() {
 function setState(state){
 	g_state =  state;
 	$(".process-div").remove();
-	getStateCount(g_state,onGetStateCount);
+	getStateCount(g_state,g_model_id, onGetStateCount);
 }
 
 // 获取状态个数
-function getStateCount(state,callback){
+function getStateCount(state,model_id,callback){
 	$("#task_table .row:not(.header)").remove();
 	$("#count span").html("0");
 	$(".pagination").empty();
@@ -79,7 +84,7 @@ function getStateCount(state,callback){
 		return;
 	}
 
-	var url = "/model/tasks/" + state + "/count/";
+	var url = "/model/tasks/"  + model_id + "/" + state + "/count/";
 	$.ajax({
 		url : url,
 		dataType : "text",
@@ -101,8 +106,8 @@ function getStateCount(state,callback){
 }
 
 // 获取任务列表
-function getStateList(state,count,offset,field,orderby,callback){
-	if(state == null || count == null || offset == null){
+function getStateList(model_id,state,count,offset,field,orderby,callback){
+	if(model_id == null ||state == null || count == null || offset == null){
 		if(callback){
 			var result = '{"status":"error","message":"parms is not valid"}';
 			callback(JSON.parse(result));
@@ -110,7 +115,8 @@ function getStateList(state,count,offset,field,orderby,callback){
 		return;
 	}
 
-	var url = "/model/tasks/" + state + "/list/" + count + "/" + offset + "/" + field + "/" + orderby + "/";
+	var url = "/model/tasks/" + model_id + "/" + state + "/list/" + count 
+			+ "/" + offset + "/" + field + "/" + orderby + "/";
 	$.ajax({
 		url : url,
 		dataType : "text",
@@ -160,7 +166,7 @@ function getPage(page){
 
 	$("#task_table .row:not(.header)").remove();
 	$(".panel-content").addClass('loading');
-	getStateList(g_state,g_maxCount,offset,g_order_field,g_order,onGetStateList);
+	getStateList(g_model_id,g_state,g_maxCount,offset,g_order_field,g_order,onGetStateList);
 }
 
 
