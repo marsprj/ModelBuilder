@@ -790,6 +790,8 @@ def task_list(request,task_state,offset,count,field,orderby):
             tasks_all.sort(key=lambda k: k.start_time, reverse=reverse_order)
         elif field == "end_time":
             tasks_all.sort(key=lambda k: (k.end_time is None, k.end_time=="",k.end_time,k.start_time), reverse=reverse_order)
+        elif field == "complete_percent":
+            tasks_all.sort(key=lambda k: k.complete_percent, reverse=reverse_order)
 
         tasks_count = len(tasks_all)
         if start > tasks_count:
