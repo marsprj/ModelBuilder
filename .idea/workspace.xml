@@ -7,6 +7,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ac37dfb7-7c13-4d7d-a101-64ef4a8b8d82" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/model/urls.py" afterPath="$PROJECT_DIR$/model/urls.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/model/views.py" afterPath="$PROJECT_DIR$/model/views.py" />
     </list>
     <ignored path="ModelFlow.iws" />
@@ -39,11 +41,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="urls.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="urls.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/model/urls.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="257">
-              <caret line="21" column="60" lean-forward="false" selection-start-line="21" selection-start-column="60" selection-end-line="21" selection-end-column="60" />
+            <state relative-caret-position="423">
+              <caret line="33" column="13" lean-forward="false" selection-start-line="33" selection-start-column="13" selection-end-line="33" selection-end-column="13" />
               <folding>
                 <element signature="e#0#32#0" expanded="true" />
               </folding>
@@ -64,8 +66,8 @@
       <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/model/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="216">
-              <caret line="45" column="20" lean-forward="false" selection-start-line="45" selection-start-column="4" selection-end-line="45" selection-end-column="20" />
+            <state relative-caret-position="270">
+              <caret line="39" column="40" lean-forward="false" selection-start-line="39" selection-start-column="36" selection-end-line="39" selection-end-column="40" />
               <folding>
                 <element signature="e#0#28#0" expanded="true" />
               </folding>
@@ -96,11 +98,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="views.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/model/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="279">
-              <caret line="790" column="32" lean-forward="false" selection-start-line="790" selection-start-column="32" selection-end-line="790" selection-end-column="32" />
+            <state relative-caret-position="-63">
+              <caret line="788" column="12" lean-forward="true" selection-start-line="788" selection-start-column="12" selection-end-line="788" selection-end-column="12" />
               <folding>
                 <element signature="e#0#35#0" expanded="true" />
               </folding>
@@ -264,8 +266,8 @@
         <option value="$PROJECT_DIR$/ModelFlow/settings.py" />
         <option value="$PROJECT_DIR$/model/Graph.py" />
         <option value="$PROJECT_DIR$/model/functions.py" />
-        <option value="$PROJECT_DIR$/model/urls.py" />
         <option value="$PROJECT_DIR$/model/views.py" />
+        <option value="$PROJECT_DIR$/model/urls.py" />
       </list>
     </option>
   </component>
@@ -993,7 +995,7 @@
           </properties>
         </breakpoint>
       </default-breakpoints>
-      <option name="time" value="207" />
+      <option name="time" value="208" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="Python.DjangoServer">
@@ -1437,6 +1439,14 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/ModelFlow/settings.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="17" column="19" lean-forward="false" selection-start-line="17" selection-start-column="19" selection-end-line="17" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/model/functions.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="306">
@@ -1448,28 +1458,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/ModelFlow/settings.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="17" column="19" lean-forward="false" selection-start-line="17" selection-start-column="19" selection-end-line="17" selection-end-column="19" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/model/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="257">
-          <caret line="21" column="60" lean-forward="false" selection-start-line="21" selection-start-column="60" selection-end-line="21" selection-end-column="60" />
-          <folding>
-            <element signature="e#0#32#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/model/models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="216">
-          <caret line="45" column="20" lean-forward="false" selection-start-line="45" selection-start-column="4" selection-end-line="45" selection-end-column="20" />
+        <state relative-caret-position="270">
+          <caret line="39" column="40" lean-forward="false" selection-start-line="39" selection-start-column="36" selection-end-line="39" selection-end-column="40" />
           <folding>
             <element signature="e#0#28#0" expanded="true" />
           </folding>
@@ -1478,10 +1470,20 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/model/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="279">
-          <caret line="790" column="32" lean-forward="false" selection-start-line="790" selection-start-column="32" selection-end-line="790" selection-end-column="32" />
+        <state relative-caret-position="-63">
+          <caret line="788" column="12" lean-forward="true" selection-start-line="788" selection-start-column="12" selection-end-line="788" selection-end-column="12" />
           <folding>
             <element signature="e#0#35#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/model/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="423">
+          <caret line="33" column="13" lean-forward="false" selection-start-line="33" selection-start-column="13" selection-end-line="33" selection-end-column="13" />
+          <folding>
+            <element signature="e#0#32#0" expanded="true" />
           </folding>
         </state>
       </provider>

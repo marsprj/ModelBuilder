@@ -726,7 +726,7 @@ def user_delete(request,user_id):
     return http_success_response()
 
 
-def task_count(request,task_state):
+def task_count(request,model_id,task_state):
     try:
         username = request.COOKIES.get("username")
         user = User.objects.get(username=username)
@@ -737,7 +737,10 @@ def task_count(request,task_state):
 
     try:
         count = 0
-        models = user.model_set.all()
+        if model_id == '0':
+            models = user.model_set.all()
+        else:
+            models = user.model_set.filter(uuid=model_id)
         for model in models:
             if task_state == '4':
                 tasks = model.task_set.all()
@@ -751,11 +754,11 @@ def task_count(request,task_state):
         logger.info("get task[{0}] count:{1}".format(task_state,str(count)))
         return HttpResponse(text, content_type="application/json")
     except Exception as e:
-        logger.error("get task [{0}] count failed".format(task_state, str(e)))
+        logger.error("get task [{0}] count failed:{1}".format(task_state, str(e)))
         return http_error_response("get task count failed")
 
 
-def task_list(request,task_state,offset,count,field,orderby):
+def task_list(request,model_id,task_state,offset,count,field,orderby):
     try:
         username = request.COOKIES.get("username")
         user = User.objects.get(username=username)
@@ -771,7 +774,10 @@ def task_list(request,task_state,offset,count,field,orderby):
         start = int(offset)
         end = int(offset) + int(count)
         obj = []
-        models = user.model_set.all()
+        if model_id == '0':
+            models = user.model_set.all()
+        else:
+            models = user.model_set.filter(uuid=model_id)
         tasks_all = []
         for model in models:
             if task_state == '4':
