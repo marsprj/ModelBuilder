@@ -11,6 +11,7 @@ from .Graph import Graph
 from ModelFlow import settings
 import ModelFlow
 import signal
+import subprocess
 
 
 from django.utils import timezone
@@ -817,3 +818,23 @@ def task_list(request,model_id,task_state,offset,count,field,orderby):
         logger.error("get task[{0}] list offset[{1}] count[{2}] order by {3} {4} failed: {5}".format(task_state,str(offset),
                                                                            str(count),field,orderby,str(e)))
         return http_error_response("get task count failed:{0}".format(str(e)))
+
+
+def auto_task(request):
+    command = "python /home/zhangyf/code/run/model/main.py"
+    p = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    p.wait()
+    p_out_info = p.stdout.read()
+    print(p_out_info)
+    logger.info(" return code is :{0}".format(str(p.returncode)))
+    if (p.returncode) != 0:
+        logger.info('kill pid')
+        p.kill()
+        p_erro_info = p.stderr.read()
+        return_info = p_erro_info
+        if p_erro_info.decode("utf-8") == '':
+            return_info = p_out_info
+        # raise Exception("process run failed:{0}".format(return_info.decode("utf-8")))
+        # return False
+        logger.info(return_info)
+    return http_success_response()

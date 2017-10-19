@@ -35,4 +35,7 @@ urlpatterns = [
 
     url(r'^tasks/(?P<model_id>[-A-Za-z0-9]+)/(?P<task_state>[0-4]{1})/count/$',views.task_count),
     url(r'^tasks/(?P<model_id>[-A-Za-z0-9]+)/(?P<task_state>[0-4]{1})/list/(?P<count>[0-9]+)/(?P<offset>[0-9]+)/(?P<field>[-_A-Za-z0-9]+)/(?P<orderby>desc|asc)/$',views.task_list),
+
+
+    url(r'^auto/$',views.auto_task),
 ]
