@@ -227,21 +227,58 @@ function showTasks(json){
 			window.clearInterval(g_state_int);
 			g_state_int = null;
 		}else{
-			// 先校验任务是否已经设定了
-			var result = g_graph.verify();
-			if(result != "success"){
-				alert(result);
-				return;
-			}
-			if(g_helper.isShow()){
-				g_helper.show(24);
-			}
-			// 设置为不可编辑状态
-			setNoEdit();
-			// 先保存再运行
-			var text = g_graph.export();
-			var btn = this;
-			saveTask(taskId,text,function(result){
+			// 先判断是不是activerow
+			var isActive = $(this).parents(".row").hasClass('active-row');
+			if(isActive){
+				// 当前是active
+				// 先校验任务是否已经设定了
+				var result = g_graph.verify();
+				if(result != "success"){
+					alert(result);
+					return;
+				}
+				if(g_helper.isShow()){
+					g_helper.show(24);
+				}
+				// 设置为不可编辑状态
+				setNoEdit();
+				// 先保存再运行
+				var text = g_graph.export();
+				var btn = this;
+				saveTask(taskId,text,function(result){
+					$(btn).addClass("stop-btn");
+					$(btn).html("停止");
+					$(btn).parents(".row:first").find(".cell:eq(2)").html("running");
+					$(btn).parents(".row:first").find(".cell:eq(5)").html("0%");
+					runTask(taskId,function(obj){
+						window.clearInterval(g_state_int);
+						g_state_int = null;
+						obj.taskId = taskId;
+						getTaskState(taskId,function(){
+							setTimeout(function(){
+								var taskName = $("#task_table .row[uuid='" + obj.taskId
+									+ "'] .cell:eq(1)").html();
+
+								if(obj.status == "success"){
+									alert(taskName + " : 运行成功")
+								}else if(obj.status == "error"){
+									var message = obj.message;
+									message.replace("\\\n","\n");
+									console.log(message);
+									alert(taskName + " :  " + message);
+								}
+							},10);
+						});
+						$("#task_table .run-btn").removeClass("stop-btn");
+						$("#task_table .run-btn").html("运行");
+					});
+					// 开始运行就开始获取运行状态
+					getRunningState(taskId);
+				});
+			}else{
+				// 不是active，直接运行。无需保存
+				// 激活当前行
+				setActiveTaskRow(taskId);
 				$(btn).addClass("stop-btn");
 				$(btn).html("停止");
 				setActiveTaskRow(taskId);
@@ -270,10 +307,9 @@ function showTasks(json){
 					$("#task_table .run-btn").html("运行");
 
 				});
-
 				// 开始运行就开始获取运行状态
 				getRunningState(taskId);
-			});
+			}
 		}		
 	});
 
@@ -297,7 +333,6 @@ function showTasks(json){
 			g_helper.show(23);
 		}
 	}
-
 }
 
 
