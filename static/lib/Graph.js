@@ -90,6 +90,8 @@ var Graph = function(container_id){
 	this._onNodeSelectChanged = function(node){
 		that._selected_node = node;
 	};
+
+	this._isNodeEditable = true;
 }
 
 /**
@@ -103,7 +105,7 @@ Graph.prototype.initCanvasEvent = function(){
 		var target = graph._r.getElementByPoint(evt.pageX,evt.pageY);
 		if(target){
 			var node = graph._nodeManager.getNodeById(target.id);
-			if(node){
+			if(node && graph._isNodeEditable){
 				node.onClick();
 			}
 		}
@@ -1013,3 +1015,17 @@ Graph.prototype.verify = function(){
 Graph.prototype.getNodeById = function(id){
 	return this._nodeManager.getNodeById(id);
 }
+
+
+
+/**
+ * 设置是否可编辑datanode
+ */
+Graph.prototype.setNodeEditable = function(isEditable){
+	if(!isEditable){
+		this._isNodeEditable = false;
+	}else{
+		this._isNodeEditable = true;
+	}
+	
+};
