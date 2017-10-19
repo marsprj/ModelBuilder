@@ -215,6 +215,59 @@ def tasks(request):
         return HttpResponse(text, content_type="application/json")
     except:
         return http_error_response("")
+"""
+获取Task的text
+"""
+def task_get(request,task_id):
+    try:
+        task = Task.objects.get(uuid=task_id)
+    except Task.DoesNotExist:
+        logger.error("no task [{0}]".format(task_id))
+        return http_error_response("Task does not exist")
+    except Exception as e:
+        logger.error("get task[{0}] failed : {1}".format(task_id,str(e)))
+        return http_error_response("get task failed")
+    return HttpResponse(task.text,content_type="application/json")
+
+"""
+保存task的text
+"""
+def task_save(request,task_id):
+    try:
+        task = Task.objects.get(uuid=task_id)
+    except Task.DoesNotExist:
+        logger.error("no task [{0}]".format(task_id))
+        return http_error_response("Task does not exist")
+    except Exception as e:
+        logger.error("get task[{0}] failed : {1}".format(task_id,str(e)))
+        return http_error_response("save task failed")
+
+    try:
+        text = request.body.decode('utf-8')
+        logger.debug("task[{0}] save : {1}".format(task_id,text))
+    except Exception as e:
+        logger.error("task text is invaild:{0}".format(text))
+        return http_error_response("save task failed")
+
+
+    try:
+        obj = json.loads(text)
+    except JSONDecodeError as e:
+        logger.error("Task的json对象解析失败:{0}".format(str(e)))
+        return http_error_response("task的json对象解析失败")
+
+    try:
+        task.text = json.dumps(obj)
+        task.save()
+        obj = {
+            "uuid": str(task.uuid),
+            "task_name" : task.name,
+            "status": "success"
+        }
+        return HttpResponse(json.dumps(obj), content_type="application/json")
+    except Exception as e:
+        logger.error("save task failed :{0} ".format(str(e)))
+        return http_error_response("任务保存失败")
 
 """
 获取指定Task的状态
@@ -287,10 +340,12 @@ def task_create(request):
         return http_error_response("create task failed")
 
     try:
+        text = model.text
         task = model.task_set.create(
             uuid=uuid.uuid4(),
             name=task_name,
             start_time=start_time,
+            text=text
             #end_time=timezone.now(),
         )
         task.save()
@@ -327,7 +382,6 @@ def task_run(request, task_id):
 启动模型计算
 """
 def start_task_2(task):
-    #model = Model.objects.filter(uuid=model_id)[0]
 
     try:
         user_uuid = task.model.user.uuid
@@ -337,7 +391,7 @@ def start_task_2(task):
     try:
         success = True
         graph = Graph()
-        if not graph.load(task.model.text):
+        if not graph.load(task.text):
             pass
         else:
             task.start_time = timezone.now()
@@ -557,7 +611,7 @@ def task_download(request,task_id,node_id):
         return http_error_response("get task[{0}] failed".format(task_id))
 
     graph = Graph()
-    if not graph.load(task.model.text):
+    if not graph.load(task.text):
         pass
     else:
         node = graph.findNodeById(node_id)

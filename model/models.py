@@ -44,6 +44,7 @@ class Task(models.Model):
     end_time = models.DateTimeField(null=True)
     state = models.IntegerField(default=0)
     complete_percent = models.IntegerField(default=0)
+    text = models.TextField()
 
     def exportToJson(self):
         obj = {
