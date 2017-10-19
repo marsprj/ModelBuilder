@@ -227,7 +227,14 @@ def task_get(request,task_id):
     except Exception as e:
         logger.error("get task[{0}] failed : {1}".format(task_id,str(e)))
         return http_error_response("get task failed")
-    return HttpResponse(task.text,content_type="application/json")
+    try:
+        if task.text == '':
+            task.text = task.model.text
+            task.save()
+        return HttpResponse(task.text,content_type="application/json")
+    except Exception as e:
+        logger.error("get task[{0}] failed : {1}".format(task_id, str(e)))
+        return http_error_response("get task failed")
 
 """
 保存task的text
