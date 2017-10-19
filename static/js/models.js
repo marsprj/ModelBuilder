@@ -133,6 +133,7 @@ function showModel(json){
 		alert(result.message);
 		return;
 	}
+	g_graph.setNodeEditable(false);
 	g_graph.load(json);
 	setNoEdit();
 }
@@ -197,13 +198,13 @@ function showTasks(json){
 	$("#task_table .table .row:not(.header)").remove();
  	$("#task_table .task-header").after(html);
 
+ 	// 点击任务行
 	$("#task_table .row:not(.header)").click(function(evt){
 		if(evt.target instanceof HTMLButtonElement){
 			return;
 		}
 		var uuid = $(this).attr("uuid");
-		$("#task_table .row").removeClass("active-row");
-		$(this).addClass("active-row");
+		setActiveTaskRow(uuid)
 		// 展开或者收缩状态面板
 		expandTaskState(uuid);
 	});
@@ -240,10 +241,10 @@ function showTasks(json){
 			// 先保存再运行
 			var text = g_graph.export();
 			var btn = this;
-			saveModel(text,function(result){
+			saveTask(taskId,text,function(result){
 				$(btn).addClass("stop-btn");
 				$(btn).html("停止");
-				$(btn).parents(".row:first").removeClass().addClass("row active-row running-row");
+				setActiveTaskRow(taskId);
 				$(btn).parents(".row:first").find(".cell:eq(2)").html("running");
 				$(btn).parents(".row:first").find(".cell:eq(5)").html("0%");
 				runTask(taskId,function(obj){
@@ -284,9 +285,8 @@ function showTasks(json){
 
 	// 是否有新建的task
 	if(g_new_task){
-		$("#task_table .row").removeClass("active-row");
+		setActiveTaskRow(g_new_task)
 		var row = $("#task_table .row[uuid='" + g_new_task + "']");
-		row.addClass("active-row");
 		// 滚动到新的位置
 		var div = $('#task_table');
 		div.animate({
@@ -818,4 +818,93 @@ function stopTask(taskId, callback) {
 			}
 		}
 	});
+}
+
+// 展示任务的graph
+function showTaskGraph(task_id){
+	if(!task_id){
+		return;
+	}
+
+	getTask(task_id,function(text){
+		g_graph.setNodeEditable(true);
+		g_graph.load(text);
+		g_graph.setEditable(false);
+	});
+
+}
+
+// 获取task的text
+function getTask(task_id,callback){
+	if(!task_id){
+		if(callback){
+			callback("task id  is null")
+		}
+		return;
+	}
+	var url = "/model/task/"+ task_id + "/get/";
+	$.ajax({
+		type:"get",
+		url:url,
+		contentType: "text/plain",
+		dataType : "text",
+		success:function(result){
+			console.log(result);
+			if(callback){
+				callback(result);
+			}
+		},
+		error :function(XMLHttpRequest, textStatus, errorThrown) {
+			console.log(XMLHttpRequest.status);
+			if(callback){
+				var result = '{"status":"error","message":"'  + XMLHttpRequest.status + '"}';
+				callback(JSON.parse(result));
+			}
+		}
+	});
+}
+
+// 保存task的text
+function saveTask(task_id,text,callback){
+	if(!task_id || !text){
+		if(callback){
+			var result = '{"status":"error","message":"'  + "parms is invalid" + '"}';
+			callback(JSON.parse(result));
+		}
+		return;
+	}
+	$.ajax({
+		type:"POST",
+		url:"/model/task/" + task_id + "/save/",
+		data : text,
+		contentType: "text/plain",
+		dataType : "text",
+		success:function(result){
+			if(callback){
+				callback(JSON.parse(result));
+			}
+		},
+		error:function(xhr){
+            console.log(XMLHttpRequest.status);
+			if(callback){
+				var result = '{"status":"error","message":"'  + XMLHttpRequest.status + '"}';
+				callback(JSON.parse(result));
+			}
+        }	
+	});	
+}
+
+// 设置active任务row
+function setActiveTaskRow(task_id){
+	var activeRow = $("#task_table .row.active-row");
+	if(activeRow.length>0){
+		var activeTaskId = activeRow.attr("uuid");
+		if(activeTaskId === task_id){
+			return;
+		}
+	}
+	
+	$("#task_table .row").removeClass('active-row');
+	$("#task_table .row[uuid='" + task_id + "']").addClass('active-row');
+	showTaskGraph(task_id);
 }

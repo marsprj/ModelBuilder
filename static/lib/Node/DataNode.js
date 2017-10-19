@@ -90,7 +90,7 @@ DataNode.prototype.scale = function(sx,sy){
 	}
 }
 
-Node.prototype.export = function(){
+DataNode.prototype.export = function(){
 	return {
 		id : this._id,
 		path : this._path

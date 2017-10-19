@@ -40,13 +40,26 @@ function initGraphEvent(){
 			}
 		}else if($(this).hasClass("save-tool")){
 			var text = g_graph.export();
-			saveModel(text,function(result){
-				if(result.status == "success"){
-					alert("保存成功");
-				}else {
-					alert(text.message);
-				}
-			});
+			// 判断是保存model还是task
+			var activeTask = $("#task_table .row.active-row");
+			if(activeTask.length == 1){
+				var uuid = activeTask.attr("uuid");
+				saveTask(uuid,text,function(result){
+					if(result.status == "success"){
+						alert("保存任务成功");
+					}else {
+						alert(text.message);
+					}
+				});
+			}else{
+				saveModel(text,function(result){
+					if(result.status == "success"){
+						alert("保存模型成功");
+					}else {
+						alert(text.message);
+					}
+				});
+			}
 		}
 	});
 
