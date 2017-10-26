@@ -899,3 +899,113 @@ def auto_task(request):
         # return False
         logger.info(return_info)
     return http_success_response()
+
+
+# model 启动监听
+def model_start(request,model_id):
+    try:
+        model = Model.objects.get(uuid=model_id)
+    except Model.DoesNotExist:
+        logger.error("no model [{0}]".format(model_id))
+        return http_error_response("Model does not exist")
+    except Exception as e:
+        logger.error("get model[{0}] failed:{1}".format(model_id,str(e)))
+        return http_error_response("start model failed")
+
+    try:
+        text = model.text
+        obj = json.loads(text)
+        monitor = obj['monitor']
+        if not monitor:
+            logger.error("model[{0}] does not has monitor info".format(model_id))
+            return http_error_response("model does not has monitor info")
+        status = monitor["status"]
+        if status == "on":
+            logger.error("model[{0}] has already start monitor".format(model_id))
+            return http_error_response("model has already start monitor")
+
+        if not model_monitor_verify(text):
+            logger.error("model[{0}] monitor info not valid".format(model_id))
+            return http_error_response("model monitor info not valid")
+
+
+        logger.info("start monitor python")
+
+        path = os.path.join(os.path.join(settings.BASE_DIR,"monitor"),"__init__.py")
+        command = "python " + path + " start " + model_id
+        logger.debug("command: {0}".format(command))
+        p = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        p.wait()
+
+        logger.info(" return code is :{0}".format(str(p.returncode)))
+        if (p.returncode) != 0:
+            logger.info('kill pid')
+            p.kill()
+            p_erro_info = p.stderr.read()
+            return_info = p_erro_info
+            print(return_info)
+            if p_erro_info.decode("utf-8") == '':
+                return_info = p.stdout.read()
+            logger.info(return_info)
+            raise Exception("start monitor failed:{0}".format(return_info.decode("utf-8")))
+
+    except Exception as e:
+        logger.error("start model[{0}] monitor  failed:{1}".format(model_id,str(e)))
+        return http_error_response("start model failed")
+    return http_success_response()
+
+
+# 监听是否设置正确
+def model_monitor_verify(text):
+    graph = Graph()
+    if not graph.load(text):
+        return False
+    #待补充，检测只输入的dataNode是否已经设置完毕
+    return True
+
+# 停止监听
+def model_stop(request,model_id):
+    try:
+        model = Model.objects.get(uuid=model_id)
+    except Model.DoesNotExist:
+        logger.error("no model [{0}]".format(model_id))
+        return http_error_response("Model does not exist")
+    except Exception as e:
+        logger.error("get model[{0}] failed:{1}".format(model_id,str(e)))
+        return http_error_response("stop model monitor failed")
+
+    try:
+        text = model.text
+        obj = json.loads(text)
+        monitor = obj['monitor']
+        if not monitor:
+            logger.error("model[{0}] does not has monitor info".format(model_id))
+            return http_error_response("model does not has monitor info")
+        status = monitor["status"]
+        if status == "off":
+            logger.error("model[{0}] has already stop monitor".format(model_id))
+            return http_error_response("model has already stop monitor")
+
+        path = os.path.join(os.path.join(settings.BASE_DIR, "monitor"), "__init__.py")
+        command = "python " + path + " stop " + model_id
+        logger.debug("command: {0}".format(command))
+        p = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        p.wait()
+        p_out_info = p.stdout.read()
+        print(p_out_info)
+        print(p.stderr.read())
+        logger.info(" return code is :{0}".format(str(p.returncode)))
+        if (p.returncode) != 0:
+            logger.info('kill pid')
+            p.kill()
+            p_erro_info = p.stderr.read()
+            return_info = p_erro_info
+            if p_erro_info.decode("utf-8") == '':
+                return_info = p_out_info
+            # raise Exception("process run failed:{0}".format(return_info.decode("utf-8")))
+            # return False
+            logger.info(return_info)
+    except Exception as e:
+        logger.error("get model[{0}] monitor info failed".format(model_id))
+        return http_error_response("stop model failed")
+    return http_success_response()
