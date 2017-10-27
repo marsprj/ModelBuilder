@@ -12,11 +12,12 @@ import signal
 
 import os
 from pyinotify import WatchManager, Notifier, ProcessEvent, IN_DELETE, IN_CREATE, IN_MODIFY
-import uuid,os,shutil,json,re,logging
+import uuid,os,shutil,json,re,logging,datetime
 
 import django
 from django.db import connection
 from django.utils import timezone
+from django.utils.timezone import utc
 
 from model.Graph import Graph
 from model import functions
@@ -220,7 +221,7 @@ def createTask(new_data):
         new_text = json.dumps(obj)
         logger.debug("new task text:{0}".format(new_text))
 
-        start_time = timezone.now()
+        start_time = datetime.datetime.utcnow() - datetime.timedelta(hours=5)
         task_name = "auto_" + new_file_name
 
         task = model.task_set.create(
@@ -264,7 +265,8 @@ def start_run_task(task):
         if not graph.load(task.text):
             pass
         else:
-            task.start_time = timezone.now()
+            task.start_time = datetime.datetime.utcnow() - datetime.timedelta(hours=5)
+
             task.end_time = None
             task.complete_percent = 0
             task.state = 1
@@ -314,7 +316,7 @@ def start_run_task(task):
                     process = processes[i]
                     process.state = 1
                     process.complete_percent = 0
-                    process.start_time = timezone.now()
+                    process.start_time = datetime.datetime.utcnow() - datetime.timedelta(hours=5)
                     process.save()
 
 
@@ -354,7 +356,7 @@ def start_run_task(task):
                     ###################################################
                     if success == True:
                         # 更新process的状态为结束，并记录结束时间
-                        process.end_time = timezone.now()
+                        process.end_time = datetime.datetime.utcnow() - datetime.timedelta(hours=5)
                         process.state = 2   #success
                         process.complete_percent = 100
                         process.save()
@@ -387,7 +389,8 @@ def start_run_task(task):
             ###################################################
             if success==True:
                 task.state = 2
-                task.end_time = timezone.now()
+                task.end_time = datetime.datetime.utcnow() - datetime.timedelta(hours=5)
+
                 task.complete_percent = 100
                 info = "task[{0}] run success".format(str(task.uuid))
                 logger.info(info)
