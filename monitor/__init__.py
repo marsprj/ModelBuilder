@@ -467,6 +467,9 @@ class EventHandler(ProcessEvent):
         logger.info("Create file: %s " % os.path.join(event.path, event.name))
         verify(event.path,event.name)
 
+    def process_IN_MODIFY(self, event):
+        logger.info("Modify file: %s " % os.path.join(event.path, event.name))
+        verify(event.path,event.name)
 
 # 监听一个模型
 def monitor_model(model_id):
@@ -515,7 +518,7 @@ def monitor_model(model_id):
 def monitor_path():
     try:
         wm = WatchManager()
-        mask = IN_CREATE
+        mask = IN_CREATE|IN_MODIFY
         notifier = Notifier(wm, EventHandler())
 
         # 添加监听
