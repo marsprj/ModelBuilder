@@ -864,7 +864,7 @@ function showTaskGraph(task_id){
 	getTask(task_id,function(text){
 		g_graph.setNodeEditable(true);
 		g_graph.load(text);
-		g_graph.setEditable(false);
+		setNoEdit()
 	});
 
 }
