@@ -463,11 +463,15 @@ def verify(path,name):
 
 class EventHandler(ProcessEvent):
     """事件处理"""
-    def process_IN_CREATE(self, event):
-        logger.info("Create file: %s " % os.path.join(event.path, event.name))
-        verify(event.path,event.name)
+    # def process_IN_CREATE(self, event):
+    #     if event.dir:
+    #         return
+    #     logger.info("Create file: %s " % os.path.join(event.path, event.name))
+    #     verify(event.path,event.name)
 
     def process_IN_MODIFY(self, event):
+        if event.dir:
+            return
         logger.info("Modify file: %s " % os.path.join(event.path, event.name))
         verify(event.path,event.name)
 
@@ -518,7 +522,7 @@ def monitor_model(model_id):
 def monitor_path():
     try:
         wm = WatchManager()
-        mask = IN_CREATE|IN_MODIFY
+        mask = IN_MODIFY
         notifier = Notifier(wm, EventHandler())
 
         # 添加监听
