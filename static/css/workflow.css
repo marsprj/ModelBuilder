@@ -872,3 +872,7 @@ input:checked + .slider:before {
     color: #061d30;
     font-weight: 700;
 }
+
+.monitor-dialog input.error {
+    border-color: #d43f3a;
+}

@@ -184,6 +184,13 @@ MonitorDialog.prototype.getData = function(){
 MonitorDialog.prototype.saveMonitor = function(){
 	var preStatus = this._monitor.getStatus();
 	var status = this._win.find("#monitor_div input").prop("checked");
+
+	if(status){
+		var result = this.verifyData();
+		if(!result){
+			return;
+		}
+	}
 	var data = this.getData();
 
 
@@ -207,7 +214,7 @@ MonitorDialog.prototype.saveMonitor = function(){
 						dlg._onOK(result);
 					}
 				}, 400);
-				getModel(modelID);
+				refreshModel(modelID);
 			}
 
 		});
@@ -236,7 +243,7 @@ MonitorDialog.prototype.saveMonitor = function(){
 									dlg._onOK(result);
 								}
 							}, 400);
-							getModel(modelID);
+							refreshModel(modelID);
 						}
 					});
 				},400);
@@ -266,7 +273,7 @@ MonitorDialog.prototype.saveMonitor = function(){
 									dlg._onOK(result);
 								}
 							}, 400);
-							getModel(modelID);
+							refreshModel(modelID);
 						}
 					});
 				},400);
@@ -352,4 +359,25 @@ MonitorDialog.prototype.restartMonitorModel = function(modelID,callback){
             console.log(xhr);
         }	
 	});
+};
+
+
+MonitorDialog.prototype.verifyData = function(){
+	this._win.find("input").removeClass("error");
+	var prefixReg = /^[\u4e00-\u9fa5_a-zA-Z0-9]*$/;
+	var prefixInputs = this._win.find(".prefix-input");
+	prefixInputs.each(function(index, el) {
+		var value = $(this).val();
+		if(!prefixReg.test(value)){
+			var tooltip = new Tooltip({
+				target : ".monitor-dialog .data-div .prefix-input:eq(" + index + ")",
+				text : "请输入有效的前缀"
+			});
+			$(this).addClass('error');
+			return false;
+		}
+	});
+
+
+	return true;
 };

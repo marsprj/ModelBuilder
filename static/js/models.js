@@ -45,7 +45,7 @@ function showModels(json){
 		item.addClass("active");
 		var name = item.attr("mname");
 		$("#right .titlebar-title span").html("[" + name + "]");
-		getModel(uuid);
+		refreshModel(uuid);
 		getTasks(uuid);
 	});
 
@@ -82,10 +82,19 @@ function showModels(json){
 		}
 	});
 
-
-	$("#models_container .model-item .monitor-btn").click(function(event) {
-		var dlg = new MonitorDialog();
-		dlg.show();
+	// 弹出监控窗口
+	$("#models_container .model-item .monitor-btn").click(function(event){
+		var row = $(this).parents(".model-item");
+		var uuid = row.attr("uuid");
+		g_graph.clear();
+		$("#task_table .row.active-row").removeClass('active-row');
+		$(".process-div").remove(),
+		getModel(uuid,function(result){
+			showModel(result);
+			var dlg = new MonitorDialog();
+			dlg.show();
+		});
+		
 	});
 
 	if(g_new_model){
@@ -107,25 +116,33 @@ function showModels(json){
 			var name =modelFirst.attr("mname");
 			$("#right .titlebar-title span").html("[" + name + "]");
 			modelFirst.addClass("active");
-			getModel(modelFirst.attr("uuid"));
+			refreshModel(modelFirst.attr("uuid"));
 			getTasks(modelFirst.attr("uuid"));
 		}
 	}
 }
 
+
+function refreshModel(uuid){
+	g_graph.clear();
+	getModel(uuid,showModel);
+}
 // 读取某个模型
-function getModel(uuid){
+function getModel(uuid,callback){
 	if(uuid ==null){
 		return;
 	}
-	g_graph.clear();
+	
 	var url = "/model/model/" + uuid + "/";
 	$.ajax({
 		url : url,
 		dataType : "text",
 		async : true,
 		success : function(json,textStatus){
-			showModel(json);
+			var result = JSON.parse(json);
+			if(callback){
+				callback(json);
+			}
 		},
 	 	error:function(xhr){
             alert("读取模型失败");
@@ -134,14 +151,14 @@ function getModel(uuid){
 	});
 }
 
-function showModel(json){
-	var result = JSON.parse(json);
+
+function showModel(result){
 	if(result.status == "error"){
 		alert(result.message);
 		return;
 	}
 	g_graph.setNodeEditable(false);
-	g_graph.load(json);
+	g_graph.load(result);
 	setNoEdit();
 }
 
