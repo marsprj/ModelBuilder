@@ -32,6 +32,10 @@ FileDialog.prototype.setMode =function(mode){
 	}else if(this._mode == "new"){
 		this._win.find(".dialog_title").html("选择要输出的位置");
 		this._win.find(".file-dialog-backup").show();
+	}else if (this._mode == "folder") {
+		this._win.find(".dialog_title").html("选择一个文件夹");
+		this._win.find("#dlg_file_name").prop("readonly","readonly");
+		this._win.find(".file-dialog-backup").hide();
 	}
 }
 
@@ -166,6 +170,15 @@ FileDialog.prototype.initOkEvent = function(){
 				return;
 			}
 			dlg._file_path = dlg.makeFilePath(dlg._folder_path,name);
+		}else if (dlg._mode == "folder") {
+			var active = dlg._win.find(".item_container.active");
+			var type = active.attr("type");
+			var chooseName = active.find(".folder_item_text").html();
+			if(chooseName == null || type == null || type == "file"){
+				alert("请选择一个文件夹");
+				return;
+			}
+			var path = dlg.makeFolderPath(dlg._folder_path, chooseName);
 		}
 
 		dlg.destory();
@@ -200,6 +213,15 @@ FileDialog.prototype.getFilePath = function(){
 	return this._file_path;
 }
 
+
+FileDialog.prototype.getFolderPath = function(){
+	var active = this._win.find(".item_container.active");
+	var type = active.attr("type");
+	var chooseName = active.find(".folder_item_text").html();
+	
+	var path = this.makeFolderPath(this._folder_path, chooseName);
+	return path;
+};
 FileDialog.prototype.populateFolders = function(){
 	var that = this;
 	var data = '{"path":"' + this._folder_path + '"}';

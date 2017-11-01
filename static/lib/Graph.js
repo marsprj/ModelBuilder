@@ -92,6 +92,8 @@ var Graph = function(container_id){
 	};
 
 	this._isNodeEditable = true;
+
+	this._monitor = new Monitor();
 }
 
 /**
@@ -195,6 +197,10 @@ Graph.prototype.setDescription = function(description){
 	this._descripiton = description;
 }
 
+Graph.prototype.setMonitor = function(monitor){
+	this._monitor.load(monitor);
+};
+
 /*
  * 序列化workflow，形成可以执行的
  */
@@ -220,6 +226,7 @@ Graph.prototype.load = function(json){
 
 	this.setName(model.name);
 	this.setDescription(model.description);
+	
 
 	var findNodeByID = function(data, funcs, id){
 		var target = null;
@@ -394,6 +401,9 @@ Graph.prototype.load = function(json){
 
 	repositionFunNode(tail,tailOffset_x,tailOffset_y,1);
 
+
+	this.setMonitor(model.monitor);
+
 	return true;
 }
 
@@ -429,6 +439,12 @@ Graph.prototype.export = function(){
 		var obj = c.export();
 		model.connections.push(obj);
 	})
+
+	var monitorID = this._nodeManager.getMonitorData();
+
+	this._monitor.setMonitorID(monitorID);
+
+	model.monitor = this._monitor.export();
 
 	return JSON.stringify(model);
 }
@@ -1028,4 +1044,9 @@ Graph.prototype.setNodeEditable = function(isEditable){
 		this._isNodeEditable = true;
 	}
 	
+};
+
+
+Graph.prototype.getMonitor = function(){
+	return this._monitor;
 };

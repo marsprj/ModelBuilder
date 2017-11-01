@@ -81,6 +81,12 @@ function showModels(json){
 		}
 	});
 
+
+	$("#models_container .model-item .model-icon").click(function(event) {
+		var dlg = new MonitorDialog();
+		dlg.show();
+	});
+
 	if(g_new_model){
 		$("#models_container .model-item").removeClass("active");
 		$("#models_container .model-item[uuid='" + g_new_model + "']").addClass("active");

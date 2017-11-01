@@ -135,15 +135,15 @@
 	margin-right: 64px;
 }
 
-.table{
+#task_table .table,.process-right .table{
 	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
-.cell{
+#task_table .cell,.process-right .cell{
 	padding: 1px 12px;
 	border-bottom: 1px solid #787878;
     border-right: 1px solid #787878;
 }
-.cell button{
+#task_table .cell button,.process-right .cell button{
 	margin-right: 6px;
 	cursor: pointer;
 }
@@ -764,4 +764,100 @@ input:checked + .slider:before {
 
 .slider.round:before {
 	border-radius: 50%;
+}
+
+
+
+/*---------monitor dialog---------*/
+.monitor-dialog{
+	left: 500px;
+    top: 300px;
+    width: 500px
+}
+
+#monitor_div{
+	font-size: 14px;
+	z-index: 1001;
+	background-color: rgba(22, 155, 213, 0.35);
+	padding: 4px 3px 0px;
+	border-radius: 4px;
+	box-shadow: 1px 1px 1px #cdcdcd;
+	margin: 10px;
+}
+
+#monitor_div  .monitor-name{
+	display: inline-block;
+    width: 43px;
+    text-align: center;
+    vertical-align: top;
+    height: 28px;
+    line-height: 28px;
+    color: #353535;
+    border-radius: 10px;
+}
+
+.prefix-input,.folder-input{
+	border: 1px solid #cdcdcd;
+    border-radius: 2px;
+    padding: 4px;
+    width: calc(100% - 20px);
+}
+
+.monitor-dialog .node-div{
+	width: 20px;
+    height: 25px;
+    background: #00a2d4;
+    line-height: 25px;
+    border-radius: 25px;
+    margin-left: 33px;
+    cursor: pointer;
+}
+
+.monitor-dialog .node-div:hover{
+	box-shadow: 2px 1px 1px 0px #cbc2c2;
+}
+
+.monitor-dialog .data-div{
+	/*border: 1px solid #ddd;*/
+    margin: 10px 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-shadow: 1px 1px 1px #cdcdcd;
+}
+
+.monitor-dialog .row{
+	height: 25px;
+	line-height: 25px;
+	padding: 4px;
+}
+
+
+.data-div .header .cell{
+	/*border-bottom: 1px solid #797979;*/
+	background: #32cbcb; 
+
+}
+
+.data-div .header .cell:first-child{
+	border-top-left-radius: 4px;
+}
+.data-div .header .cell:last-child{
+	border-top-right-radius: 4px;
+}
+
+.data-div .row:not(.header) .cell{
+	/*border-bottom: 1px solid #797979;*/
+	padding: 4px;
+    background-color: #fefefe
+}
+
+
+.monitor-info{
+    display: inline-block;
+    vertical-align: top;
+    height: 28px;
+    line-height: 28px;
+    margin-left: 40px;
+    color: #061d30;
+    font-weight: 700;
 }

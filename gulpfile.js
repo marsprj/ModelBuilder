@@ -66,6 +66,7 @@ var indexList = ['ModelFlow/static/js/init.js',
 		'ModelFlow/static/js/createTaskDialog.js',
 		'ModelFlow/static/js/funCatalog.js',
 		'ModelFlow/static/js/beginnerHelper.js',
+		'ModelFlow/static/js/monitorDialog.js',
 ];
 var indexDest = 'ModelFlow/static/js';
 gulp.task('index-js',['index-js-clean'],function(){

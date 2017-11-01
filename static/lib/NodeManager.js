@@ -239,3 +239,17 @@ NodeManager.prototype.removeNodeByID = function(id){
 		}
 	}
 }
+
+
+NodeManager.prototype.getMonitorData = function(){
+	var nodesID = [];
+	this._nodes.forEach(function(n){
+		if(n.getType() == NODE_TYPE.DATA){
+			if(!n.getFrom() && n.getTo()){
+				nodesID.push(n.getID())
+			}
+		}
+	})
+
+	return nodesID;
+};
