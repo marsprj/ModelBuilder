@@ -1009,3 +1009,51 @@ def model_stop(request,model_id):
         logger.error("get model[{0}] monitor info failed".format(model_id))
         return http_error_response("stop model failed")
     return http_success_response()
+
+
+
+# 重启监听
+def model_restart(request,model_id):
+    try:
+        model = Model.objects.get(uuid=model_id)
+    except Model.DoesNotExist:
+        logger.error("no model [{0}]".format(model_id))
+        return http_error_response("Model does not exist")
+    except Exception as e:
+        logger.error("get model[{0}] failed:{1}".format(model_id,str(e)))
+        return http_error_response("restart model monitor failed")
+
+    try:
+        text = model.text
+        obj = json.loads(text)
+        monitor = obj['monitor']
+        if not monitor:
+            logger.error("model[{0}] does not has monitor info".format(model_id))
+            return http_error_response("model does not has monitor info")
+        status = monitor["status"]
+        # if status == "on":
+        #     logger.error("model[{0}] has already stop monitor".format(model_id))
+        #     return http_error_response("model has already stop monitor")
+
+        path = os.path.join(os.path.join(settings.BASE_DIR, "monitor"), "__init__.py")
+        command = "python " + path + " restart " + model_id
+        logger.debug("command: {0}".format(command))
+        p = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        p.wait()
+
+        logger.info(" return code is :{0}".format(str(p.returncode)))
+        if (p.returncode) != 0:
+            logger.info('kill pid')
+            p.kill()
+            p_erro_info = p.stderr.read()
+            return_info = p_erro_info
+            print(return_info)
+            if p_erro_info.decode("utf-8") == '':
+                return_info = p.stdout.read()
+            logger.info(return_info)
+            raise Exception("start monitor failed:{0}".format(return_info.decode("utf-8")))
+
+    except Exception as e:
+        logger.error("restart model[{}] monitor failed:{}".format(model_id,str(e)))
+        return http_error_response("restart model monitor failed")
+    return http_success_response()

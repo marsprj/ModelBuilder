@@ -84,11 +84,11 @@ class Daemon:
                 sys.exit(1)
             pid = monitor.get("pid")
 
-            if pid != '0':
-                # 并且检测以下是否存在,待补充
-                message = 'pid %s already exist. Monitor already running!'
-                logger.fatal(message)
-                sys.exit(1)
+            # if pid != '0':
+            #     # 并且检测以下是否存在,待补充
+            #     message = 'pid %s already exist. Monitor already running!'
+            #     logger.fatal(message)
+            #     sys.exit(1)
         except Exception as e:
             logger.error("start monitor failed:{0}".format(str(e)))
             sys.exit(1)
