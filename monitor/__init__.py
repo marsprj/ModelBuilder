@@ -433,7 +433,7 @@ def verify(path,name):
             # 前缀与文件类型之间的名称
             pos_1 = name.index(".")
             prefix_length = len(d_prefix)
-            new_file_name = name[prefix_length:pos_1]
+            new_file_name = name[0:pos_1]
 
             data["new_path"] = os.path.join(d_path, name)
             data["new_file_name"] = new_file_name
