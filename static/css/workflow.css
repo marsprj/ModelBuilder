@@ -78,7 +78,7 @@
 	text-align: left;
 }
 .model-name{
-	width: 144px;
+	width: 119px;
     text-overflow: ellipsis;
     white-space: nowrap;
     display: inline-block;
@@ -100,8 +100,7 @@
 	display: block!important;
 }
 
-.remove-btn {
-	background: url(../images/remove_on.png) no-repeat center;
+.model-item .btns button{
 	color: #fff;
 	font-size: 16px;
 	border: none;
@@ -112,10 +111,22 @@
 	vertical-align: middle;
 }
 
-.remove-btn:hover{
+.btns .remove-btn {
+	background: url(../images/remove_on.png) no-repeat center;
+}
+
+.btns .remove-btn:hover{
 	background-image: url(../images/remove_off.png);
 }
-.btns button:focus{
+
+.btns .monitor-btn {
+	background: url(../images/monitor_on.png) no-repeat center;
+}
+
+.btns .monitor-btn:hover{
+	background-image: url(../images/monitor_off.png);
+}
+.model-item .btns button:focus{
 	outline: 0;
 }
 

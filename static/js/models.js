@@ -30,6 +30,7 @@ function showModels(json){
 			 +  '	<div class="model-icon"></div>'
 			 +  '	<div class="model-name">'  + model.name + "</div>"
 			 +	'	<div class="btns">'
+			 +	'		<button class="monitor-btn" title="监听模型"></button>'
 			 +	'		<button class="remove-btn" title="删除模型"></button>'
 			 +	'	 </div>'
 			 + 	'</div>'
@@ -82,7 +83,7 @@ function showModels(json){
 	});
 
 
-	$("#models_container .model-item .model-icon").click(function(event) {
+	$("#models_container .model-item .monitor-btn").click(function(event) {
 		var dlg = new MonitorDialog();
 		dlg.show();
 	});
