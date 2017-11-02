@@ -91,7 +91,11 @@ function showModels(json){
 		$(".process-div").remove(),
 		getModel(uuid,function(result){
 			showModel(result);
-			var dlg = new MonitorDialog();
+			var dlg = new MonitorDialog(function(){
+				refreshModel(uuid);
+			},function(){
+				refreshModel(uuid);
+			});
 			dlg.show();
 		});
 		

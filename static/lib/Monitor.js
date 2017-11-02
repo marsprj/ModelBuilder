@@ -32,6 +32,12 @@ Monitor.prototype.export = function(){
 };
 
 
+Monitor.prototype.clear = function(){
+	this._status = "off";
+	this._pid = 0;
+	this._data = [];
+};
+
 Monitor.prototype.setMonitorID = function(IDs){
 	var data = [];
 	for(var i = 0; i < IDs.length;++i){

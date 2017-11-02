@@ -815,18 +815,13 @@ input:checked + .slider:before {
 }
 
 .monitor-dialog .node-div{
-	width: 20px;
-    height: 25px;
+	width: 30px;
+    height: 20px;
     background: #00a2d4;
-    line-height: 25px;
-    border-radius: 25px;
+    border-radius: 50%;
     margin-left: 33px;
-    cursor: pointer;
 }
 
-.monitor-dialog .node-div:hover{
-	box-shadow: 2px 1px 1px 0px #cbc2c2;
-}
 
 .monitor-dialog .data-div{
 	/*border: 1px solid #ddd;*/
@@ -859,7 +854,8 @@ input:checked + .slider:before {
 .data-div .row:not(.header) .cell{
 	/*border-bottom: 1px solid #797979;*/
 	padding: 4px;
-    background-color: #fefefe
+    background-color: #fefefe;
+    vertical-align: middle;
 }
 
 

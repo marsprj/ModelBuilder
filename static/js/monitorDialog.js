@@ -1,9 +1,13 @@
-var MonitorDialog = function(onOK){
+var MonitorDialog = function(onOK,onClose){
 	Dialog.apply(this, arguments);
 
 	this._onOK = onOK;
 
+	this._onClose = onClose;
+
 	this._monitor = null;
+ 
+	this._colors = ["#fad96d","#959795","#4a6985","#768090","#813513","#e8e1d6"];
 }
 
 extend(MonitorDialog, Dialog);
@@ -19,10 +23,16 @@ MonitorDialog.prototype.initCloseEvent = function(){
 	var dlg = this;
 	this._win.find(".dialog_exit:first").click(function(){
 		dlg.destory();
+		if(dlg._onClose){
+			dlg._onClose();
+		}
 	});
 
 	this._win.find("#dlg_btn_exit:first").click(function(){
 		dlg.destory();
+		if(dlg._onClose){
+			dlg._onClose();
+		}
 	});
 }
 
@@ -57,12 +67,6 @@ MonitorDialog.prototype.create = function(){
 		+'					<div class="cell" style="width:50%">文件夹</div>'
 		+'					<div class="cell" style="width:10%"></div>'
 		+'				</div>'
-		// +'				<div class="row">'
-		// +'					<div class="cell"><div class="node-div f-left">&nbsp;</div></div>'
-		// +'					<div class="cell"><input type="text" class="prefix-input f-left" value=""></div>'
-		// +'					<div class="cell"><input type="text" class="folder-input f-left" value="/"></div>'
-		// +'					<div class="cell"><div class="f-left open-file" title="选择文件">……</div></div>'
-		// +'				</div>'
 		+'			</div>'
 		+'		</div>'
 		+'	</div>'
@@ -78,7 +82,7 @@ MonitorDialog.prototype.create = function(){
 		+'	</div>'
 		+'</div>';
 	var dlg = $(html);
-	$(".create-model-dialog").remove()
+	$(".monitor-dialog").remove()
 	$('body').append(dlg);
 	return dlg;
 };
@@ -103,12 +107,16 @@ MonitorDialog.prototype.showMonitorInfo = function(){
 		var id = d.id;
 		var prefix = d.prefix;
 		var path = d.path;
+		var color = this._colors[i%this._colors.length];
 		html += '<div class="row" dataid="' + id + '">'
-			+'	<div class="cell"><div class="node-div f-left">&nbsp;</div></div>'
+			+'	<div class="cell"><div class="node-div f-left" style="background-color:' +color  + '">&nbsp;</div></div>'
 			+'	<div class="cell"><input type="text" class="prefix-input f-left" value="' + prefix + '"></div>'
 			+'	<div class="cell"><input type="text" class="folder-input f-left" value="' + path + '"></div>'
 			+'	<div class="cell"><div class="f-left open-file" title="选择文件夹">……</div></div>'
 			+'</div>';
+
+		var node = g_graph.getNodeById(id);
+		node.setShapeAttr("fill",color);
 	}
 
 	this._win.find(".data-div .table .header").after(html);
@@ -211,10 +219,9 @@ MonitorDialog.prototype.saveMonitor = function(){
 				setTimeout(function(){
 					dlg.destory();
 					if(dlg._onOK){
-						dlg._onOK(result);
+						dlg._onOK();
 					}
 				}, 400);
-				refreshModel(modelID);
 			}
 
 		});
@@ -240,10 +247,9 @@ MonitorDialog.prototype.saveMonitor = function(){
 							setTimeout(function(){
 								dlg.destory();
 								if(dlg._onOK){
-									dlg._onOK(result);
+									dlg._onOK();
 								}
 							}, 400);
-							refreshModel(modelID);
 						}
 					});
 				},400);
@@ -270,10 +276,9 @@ MonitorDialog.prototype.saveMonitor = function(){
 							setTimeout(function(){
 								dlg.destory();
 								if(dlg._onOK){
-									dlg._onOK(result);
+									dlg._onOK();
 								}
 							}, 400);
-							refreshModel(modelID);
 						}
 					});
 				},400);
@@ -283,7 +288,7 @@ MonitorDialog.prototype.saveMonitor = function(){
 		// off=>off 直接关闭
 		this.destory();
 		if(this._onOK){
-			this._onOK(result);
+			this._onOK();
 		}
 	}
 
