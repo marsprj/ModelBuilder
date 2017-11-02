@@ -11,7 +11,7 @@ import signal
 
 
 import os
-from pyinotify import WatchManager, Notifier, ProcessEvent, IN_DELETE, IN_CREATE, IN_MODIFY
+from pyinotify import WatchManager, Notifier, ProcessEvent, IN_DELETE, IN_CREATE, IN_MODIFY,IN_CLOSE_WRITE
 import uuid,os,shutil,json,re,logging,datetime
 
 import django
@@ -418,7 +418,7 @@ def verify(path,name):
     length = len(monitor_data)
 
     # 匹配的名称
-    new_file_name = None
+    # new_file_name = None
     for data in monitor_data:
         d_path = data["path"]
         d_prefix = data["prefix"]
@@ -433,7 +433,7 @@ def verify(path,name):
             # 前缀与文件类型之间的名称
             pos_1 = name.index(".")
             prefix_length = len(d_prefix)
-            new_file_name = name[0:pos_1]
+            new_file_name = name[prefix_length:pos_1]
 
             data["new_path"] = os.path.join(d_path, name)
             data["new_file_name"] = new_file_name
@@ -447,12 +447,41 @@ def verify(path,name):
         createTask(new_data)
         return
 
-    # 多个输入时考虑,待补充
+
+    new_data_id = new_data[0]["id"]
+    new_file_name = new_data[0]["new_file_name"]
+
+    # 多个输入时考虑,去监听数据中根据路径查找名称相同的
     for data in monitor_data:
         path = data["path"]
         id = data["id"]
-        for new in new_data:
-            new_id = new["id"]
+
+        if id == new_data_id:
+            continue
+        prefix = data["prefix"]
+
+        # 前缀与文件类型之间的名称
+
+        prefix_length = len(prefix)
+        flag = False
+        for filename in os.listdir(path):
+            fp = os.path.join(path,filename)
+            if os.path.isfile(fp):
+                result = re.match(r"^" + prefix + "", filename)
+                if result == None:
+                    continue
+                pos_1 = filename.index(".")
+                middle_name = filename[prefix_length:pos_1]
+                if middle_name == new_file_name:
+                    flag = True
+                    data["new_path"] = fp
+                    data["new_file_name"] = middle_name
+                    data["name"] = filename
+                    new_data.append(data)
+                    break
+        if not flag:
+            return
+
 
     if len(new_data) == length:
         createTask(new_data)
@@ -469,11 +498,17 @@ class EventHandler(ProcessEvent):
     #     logger.info("Create file: %s " % os.path.join(event.path, event.name))
     #     verify(event.path,event.name)
 
-    def process_IN_MODIFY(self, event):
+    def process_IN_CLOSE_WRITE(self, event):
         if event.dir:
             return
-        logger.info("Modify file: %s " % os.path.join(event.path, event.name))
+        logger.info("close write file: %s " % os.path.join(event.path, event.name))
         verify(event.path,event.name)
+
+    # def process_IN_MODIFY(self, event):
+    #     if event.dir:
+    #         return
+    #     logger.info("Modify file: %s " % os.path.join(event.path, event.name))
+    #     verify(event.path,event.name)
 
 # 监听一个模型
 def monitor_model(model_id):
@@ -522,7 +557,7 @@ def monitor_model(model_id):
 def monitor_path():
     try:
         wm = WatchManager()
-        mask = IN_MODIFY
+        mask = IN_CLOSE_WRITE
         notifier = Notifier(wm, EventHandler())
 
         # 添加监听
@@ -563,5 +598,5 @@ if __name__ == '__main__':
         sys.exit(2)
 
     # global g_model_id
-    # g_model_id = 'e8c1e1b4-2a80-4acb-845c-0875724f02f3'
+    # g_model_id = '1cb407c2-3e23-4ed0-ab7e-13594d1cc005'
     # monitor_model(g_model_id)
