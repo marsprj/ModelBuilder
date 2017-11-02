@@ -368,6 +368,8 @@ MonitorDialog.prototype.restartMonitorModel = function(modelID,callback){
 
 
 MonitorDialog.prototype.verifyData = function(){
+
+	// 判断前缀是否有效
 	this._win.find("input").removeClass("error");
 	var prefixReg = /^[\u4e00-\u9fa5_a-zA-Z0-9]*$/;
 	var prefixInputs = this._win.find(".prefix-input");
@@ -384,5 +386,37 @@ MonitorDialog.prototype.verifyData = function(){
 	});
 
 
+	// 在多个输入的情况下，保证同一个文件夹下，监听的内容必须要前缀，否则无法识别是哪个输入
+	var folderInputs = this._win.find(".folder-input");
+	for(var i = 0; i < folderInputs.length; ++i){
+		var input = folderInputs[i];
+		for(var j = i+1; j < folderInputs.length;++j){
+			var compare = folderInputs[j];
+			if($(input).val() === $(compare).val()){
+				var inputPrefix = $(input).parent().prev().children();
+				var comparePrefix = $(compare).parent().prev().children();
+				if($(inputPrefix).val() == ""){
+					var tooltip = new Tooltip({
+						target : ".monitor-dialog .data-div .folder-input:eq("+ i + ")",
+						text : "监控同一文件夹，请输入有效的前缀加以区分"
+					});
+					$(inputPrefix).addClass('error');
+					$(input).addClass('error');
+					$(compare).addClass('error');
+					return false;
+				}
+				if($(comparePrefix).val() == ""){
+					var tooltip = new Tooltip({
+						target : ".monitor-dialog .data-div .prefix-input:eq(" + j + ")",
+						text : "请输入有效的前缀"
+					});
+					$(comparePrefix).addClass('error');
+					$(input).addClass('error');
+					$(compare).addClass('error');
+					return false;
+				}
+			}
+		}
+	}
 	return true;
 };
