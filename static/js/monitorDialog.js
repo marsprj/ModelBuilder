@@ -112,7 +112,7 @@ MonitorDialog.prototype.showMonitorInfo = function(){
 			+'	<div class="cell"><div class="node-div f-left" style="background-color:' +color  + '">&nbsp;</div></div>'
 			+'	<div class="cell"><input type="text" class="prefix-input f-left" value="' + prefix + '"></div>'
 			+'	<div class="cell"><input type="text" class="folder-input f-left" value="' + path + '"></div>'
-			+'	<div class="cell"><div class="f-left open-file" title="选择文件夹">……</div></div>'
+			+'	<div class="cell"><button class="f-left open-folder" title="选择文件夹"></button></div>'
 			+'</div>';
 
 		var node = g_graph.getNodeById(id);
@@ -132,17 +132,17 @@ MonitorDialog.prototype.setStatus = function(status){
 	if(status == "on"){
 		this._win.find(".monitor-info").html("可以编辑节点的监控设置")
 		this._win.find("#monitor_div input").prop("checked", true);
-		this._win.find(".data-div input").attr("disabled",false);
+		this._win.find(".data-div input,.data-div button").attr("disabled",false);
 	}else{
 		this._win.find(".monitor-info").html("开启监控状态，即可编辑节点设置")
 		this._win.find("#monitor_div input").prop("checked", false);
-		this._win.find(".data-div input").attr("disabled",true);
+		this._win.find(".data-div input,.data-div button").attr("disabled",true);
 	}
 };
 
 MonitorDialog.prototype.registerClickEvent = function(){
 	var dlg = this;
-	this._win.find(".open-file").click(function(){
+	this._win.find(".open-folder").click(function(){
 		var inputEle = $(this).parent().prev().children()
 		var inputs = dlg._win.find(".folder-input");
 		var index = inputs.index(inputEle);			
@@ -160,10 +160,10 @@ MonitorDialog.prototype.registerClickEvent = function(){
 		var status = $(this).prop("checked");
 		if(status){
 			dlg._win.find(".monitor-info").html("");
-			dlg._win.find(".data-div input").attr("disabled",false);
+			dlg._win.find(".data-div input,.data-div button").attr("disabled",false);
 		}else{
 			dlg._win.find(".monitor-info").html("");
-			dlg._win.find(".data-div input").attr("disabled",true);
+			dlg._win.find(".data-div input,.data-div button").attr("disabled",true);
 		}
 	});
 

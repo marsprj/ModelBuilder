@@ -811,7 +811,13 @@ input:checked + .slider:before {
 	border: 1px solid #cdcdcd;
     border-radius: 2px;
     padding: 4px;
-    width: calc(100% - 20px);
+}
+
+.prefix-input{
+	width: calc(100% - 20px);
+}
+.folder-input{
+	width: 100%;
 }
 
 .monitor-dialog .node-div{
@@ -871,4 +877,19 @@ input:checked + .slider:before {
 
 .monitor-dialog input.error {
     border-color: #d43f3a;
+}
+
+.open-folder{
+	width: 30px;
+    height: 23px;
+    margin: 0 5px;
+    border-radius: 4px;
+    text-align: center;
+    background: url(../images/openfile.png) center no-repeat;
+    border: none;
+}
+
+.open-folder:hover {
+    cursor: pointer;
+    box-shadow: 1px 1px 2px #cdcdcd;
 }
