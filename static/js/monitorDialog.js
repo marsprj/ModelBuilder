@@ -111,7 +111,7 @@ MonitorDialog.prototype.showMonitorInfo = function(){
 		html += '<div class="row" dataid="' + id + '">'
 			+'	<div class="cell"><div class="node-div f-left" style="background-color:' +color  + '">&nbsp;</div></div>'
 			+'	<div class="cell"><input type="text" class="prefix-input f-left" value="' + prefix + '"></div>'
-			+'	<div class="cell"><input type="text" class="folder-input f-left" value="' + path + '"></div>'
+			+'	<div class="cell"><input type="text" class="folder-input f-left" value="' + path + '" readonly></div>'
 			+'	<div class="cell"><button class="f-left open-folder" title="选择文件夹"></button></div>'
 			+'</div>';
 
@@ -390,6 +390,14 @@ MonitorDialog.prototype.verifyData = function(){
 	var folderInputs = this._win.find(".folder-input");
 	for(var i = 0; i < folderInputs.length; ++i){
 		var input = folderInputs[i];
+		if($(input).val() == ""){
+			var tooltip = new Tooltip({
+				target : ".monitor-dialog .data-div .folder-input:eq("+ i + ")",
+				text : "请设置有效的监听文件夹"
+			});
+			$(input).addClass('error');
+			return false;
+		}
 		for(var j = i+1; j < folderInputs.length;++j){
 			var compare = folderInputs[j];
 			if($(input).val() === $(compare).val()){
