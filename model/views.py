@@ -12,6 +12,7 @@ from ModelFlow import settings
 import ModelFlow
 import signal
 import subprocess
+import psutil
 
 
 from django.utils import timezone
@@ -930,7 +931,7 @@ def model_start(request,model_id):
 
 
         logger.info("start monitor python")
-
+        kill_model_monitor(model_id)
         path = os.path.join(os.path.join(settings.BASE_DIR,"monitor"),"__init__.py")
         command = "python " + path + " start " + model_id
         logger.debug("command: {0}".format(command))
@@ -982,7 +983,10 @@ def model_stop(request,model_id):
             logger.error("model[{0}] does not has monitor info".format(model_id))
             return http_error_response("model does not has monitor info")
         status = monitor["status"]
+
+
         if status == "off":
+            kill_model_monitor(model_id)
             logger.error("model[{0}] has already stop monitor".format(model_id))
             return http_error_response("model has already stop monitor")
 
@@ -1005,6 +1009,7 @@ def model_stop(request,model_id):
             # raise Exception("process run failed:{0}".format(return_info.decode("utf-8")))
             # return False
             logger.info(return_info)
+        kill_model_monitor(model_id)
     except Exception as e:
         logger.error("get model[{0}] monitor info failed".format(model_id))
         return http_error_response("stop model failed")
@@ -1057,3 +1062,16 @@ def model_restart(request,model_id):
         logger.error("restart model[{}] monitor failed:{}".format(model_id,str(e)))
         return http_error_response("restart model monitor failed")
     return http_success_response()
+
+
+# 强制停止监听程序
+def kill_model_monitor(uuid):
+    try:
+        for p in psutil.process_iter(attrs=["cmdline"]):
+            cmdlines = p.info['cmdline']
+            if len(cmdlines) == 4 and cmdlines[3] == uuid :
+                p.kill()
+                logger.info("kill model[{}] monitor : {}".format(uuid,p.pid))
+    except Exception as e:
+        logger.error("kill model[{}] monitor failed : {}".format(uuid,str(e)))
+        raise Exception(e)
