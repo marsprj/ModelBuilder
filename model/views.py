@@ -1074,4 +1074,64 @@ def kill_model_monitor(uuid):
                 logger.info("kill model[{}] monitor : {}".format(uuid,p.pid))
     except Exception as e:
         logger.error("kill model[{}] monitor failed : {}".format(uuid,str(e)))
-        raise Exception(e)
+        raise e
+
+
+def get_model_monitor_process(uuid):
+    processes = []
+    try:
+        for p in psutil.process_iter(attrs=["cmdline"]):
+            cmdlines = p.info['cmdline']
+            if len(cmdlines) == 4 and cmdlines[3] == uuid :
+                processes.append(p.pid)
+        return  processes
+    except Exception as e:
+        raise e
+
+def models_status(request,model_status):
+    result = []
+    try:
+        username = request.COOKIES.get("username")
+        user = User.objects.get(username=username)
+
+    except User.DoesNotExist:
+        logger.error("no user[{0}]".format(username))
+        return http_error_response("no user[{0}]".format(username))
+
+    except Exception as e:
+        logger.error("get models status failed :{}".format(str(e)))
+        return http_error_response("get models status failed")
+
+    try:
+        models = user.model_set.all()
+        for model in models:
+            text = model.text
+            obj = json.loads(text)
+            monitor = obj['monitor']
+            selected = None
+            if not monitor:
+                flag = "off"
+            else:
+                status = monitor["status"]
+                if not status:
+                    flag = "off"
+                elif status == "on":
+                    flag = "on"
+                elif status == "off":
+                    flag = "off"
+            if model_status == "start" and flag == "on":
+                selected = model
+            elif model_status == "stop" and flag == "off":
+                selected = model
+            elif model_status == "all":
+                selected = model
+            if selected:
+                model_text = selected.exportToJson()
+                model_text["status"] = flag
+                result.append(model_text)
+        result = json.dumps(result)
+        return HttpResponse(result, content_type="application/json")
+    except Exception as e:
+        logger.error("get models status failed  :{}".format(str(e)))
+        return http_error_response("get models status failed")
+

@@ -43,4 +43,5 @@ urlpatterns = [
     url(r'^model/(?P<model_id>[-A-Za-z0-9]+)/start/',views.model_start),
     url(r'^model/(?P<model_id>[-A-Za-z0-9]+)/stop/',views.model_stop),
     url(r'^model/(?P<model_id>[-A-Za-z0-9]+)/restart/',views.model_restart),
+    url(r'^models/(?P<model_status>start|stop|all)/status/',views.models_status),
 ]
