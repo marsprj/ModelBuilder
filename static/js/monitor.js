@@ -26,6 +26,12 @@ function registerPanelEvent(){
 
 	// 切换状态查看
 	changeState();
+
+
+	//退出
+	$(".logout").click(function(){
+		logout();
+	});
 }
 
 
@@ -193,4 +199,23 @@ function stopMonitorModel(modelID,callback){
 	});	
 }
 
-
+function logout() {
+	var url = "/model/" + g_username + "/logout/" ;
+	$.ajax({
+		type:"GET",
+		url:url,
+		contentType: "text/plain",
+		dataType : "text",
+		success:function(result){
+			var text = JSON.parse(result);
+			if(text.status == "error"){
+				alert(text.message);
+			}else{
+				window.location.href = "login.html";
+			}
+		},
+	 	error:function(xhr){
+            console.log(xhr);
+        }
+	});
+}
