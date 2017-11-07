@@ -114,7 +114,10 @@ function changeModelMonitorStatus(input){
 		$(info).html("正在开启监听");
 		startMonitorModel(uuid,function(result){
 			if(result.status == "error"){
-				info.html(result.message);
+				info.html("开启失败:" + result.message);
+				setTimeout(function(){
+					$(input).prop("checked",false);
+				}, 200);
 				return;
 			}else {
 				info.html("开启监听成功");
@@ -127,7 +130,10 @@ function changeModelMonitorStatus(input){
 		$(info).html("正在关闭监听");
 		stopMonitorModel(uuid,function(result){
 			if(result.status == "error"){
-				info.html(result.message);
+				info.html("关闭失败:" + result.message);
+				setTimeout(function(){
+					$(input).prop("checked",true);
+				}, 200);
 				return;
 			}else {
 				info.html("关闭监听成功");

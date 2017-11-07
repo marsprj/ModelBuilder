@@ -416,13 +416,26 @@ MonitorDialog.prototype.verifyData = function(){
 				if($(comparePrefix).val() == ""){
 					var tooltip = new Tooltip({
 						target : ".monitor-dialog .data-div .prefix-input:eq(" + j + ")",
-						text : "请输入有效的前缀"
+						text : "监控同一文件夹，请输入有效的前缀加以区分"
 					});
 					$(comparePrefix).addClass('error');
 					$(input).addClass('error');
 					$(compare).addClass('error');
 					return false;
 				}
+				// 前缀相同
+				if($(comparePrefix).val() == $(inputPrefix).val()){
+					var tooltip = new Tooltip({
+						target : ".monitor-dialog .data-div .folder-input:eq("+ i + ")",
+						text : "监控同一文件夹，请输入有效的前缀加以区分"
+					});
+					$(inputPrefix).addClass('error');
+					$(comparePrefix).addClass('error');
+					$(input).addClass('error');
+					$(compare).addClass('error');
+					return false;
+				}
+
 			}
 		}
 	}
