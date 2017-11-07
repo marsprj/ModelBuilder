@@ -928,7 +928,7 @@ def model_start(request,model_id):
 
         if not model_monitor_verify(text):
             logger.error("model[{0}] monitor info not valid".format(model_id))
-            return http_error_response("model monitor info not valid")
+            return http_error_response("监听信息设置无效")
 
 
         logger.info("start monitor python")
@@ -963,6 +963,39 @@ def model_monitor_verify(text):
     if not graph.load(text):
         return False
     #待补充，检测只输入的dataNode是否已经设置完毕
+    nodes = graph.getMonitorData()
+    if not nodes:
+        return False
+    monitor = graph.getMonitor()
+    if not monitor:
+        return False
+
+    data = monitor.getData()
+    validData = []
+    for node in nodes:
+        flag = False
+        for d in data:
+            id = d["id"]
+            if id == node:
+                path = d["path"]
+                if not path or path.strip() == "":
+                    return False
+                validData.append(d)
+                flag = True
+                break
+        if not flag:
+            logger.error("no data [{}] monitor info".format(str(node)))
+            return False
+
+    for i in range(len(validData)):
+        for j in range(i+1,len(validData)):
+            d_i = validData[i]
+            d_j = validData[j]
+            path_i = d_i["path"]
+            path_j = d_j["path"]
+            if path_i == path_j and d_i["prefix"] == d_j["prefix"]:
+                logger.error("two data has same path and same prefix:[{}],[{}]".format(d_i["id"],d_j["id"]))
+                return False
     return True
 
 # 停止监听
@@ -1108,18 +1141,21 @@ def models_status(request,model_status):
         for model in models:
             text = model.text
             obj = json.loads(text)
-            monitor = obj['monitor']
-            selected = None
-            if not monitor:
+            if not "monitor" in obj:
                 flag = "off"
             else:
-                status = monitor["status"]
-                if not status:
+                monitor = obj['monitor']
+                selected = None
+                if not monitor:
                     flag = "off"
-                elif status == "on":
-                    flag = "on"
-                elif status == "off":
-                    flag = "off"
+                else:
+                    status = monitor["status"]
+                    if not status:
+                        flag = "off"
+                    elif status == "on":
+                        flag = "on"
+                    elif status == "off":
+                        flag = "off"
             if model_status == "start" and flag == "on":
                 selected = model
             elif model_status == "stop" and flag == "off":

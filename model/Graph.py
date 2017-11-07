@@ -154,6 +154,31 @@ class Connection:
         return self._to
 
 """
+Monitor Class
+"""
+class Monitor:
+    _pid = 0
+    _data = []
+    _status = "off"
+
+    def __init__(self):
+        self._pid = 0
+        self._data = []
+        self._status = "off"
+
+    def setPid(self,pid):
+        self._pid = pid
+
+    def setStatus(self,status):
+        self._status = status
+
+    def setData(self,data):
+        self._data = data
+
+    def getData(self):
+        return self._data
+
+"""
 Graph Class
 """
 class Graph:
@@ -161,11 +186,13 @@ class Graph:
     _data = []
     _functions = []
     _connections = []
+    _monitor = None
 
     def __init__(self):
         self._data = []
         self._functions = []
         self._connections = []
+        self._monitor = Monitor()
 
     def load(self, text):
         model = json.loads(text)
@@ -173,6 +200,8 @@ class Graph:
         functions = model["functions"]
         data = model["data"]
         connections = model["connections"]
+        monitor = model["monitor"]
+
 
         for f in functions:
             fn = self.createFunction(f)
@@ -186,6 +215,17 @@ class Graph:
             cn = self.createConnection(c)
             self._connections.append(cn)
 
+        if monitor:
+            pid = monitor["pid"]
+            if pid:
+                self._monitor.setPid(pid)
+            status = monitor["status"]
+            if status:
+                self._monitor.setStatus(status)
+
+            data = monitor["data"]
+            if data:
+                self._monitor.setData(data)
         return True
 
 
@@ -284,3 +324,15 @@ class Graph:
                 flow.insert(0, frm)
                 self.populateParentFunction(frm, flow)
         pass
+
+
+    def getMonitorData(self):
+        nodes = []
+        for data in self._data:
+            if data.getFrom() == None:
+                nodes.append(data.getID())
+        return nodes
+
+
+    def getMonitor(self):
+        return self._monitor
