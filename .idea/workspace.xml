@@ -7,6 +7,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ac37dfb7-7c13-4d7d-a101-64ef4a8b8d82" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/model/Graph.py" afterPath="$PROJECT_DIR$/model/Graph.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/model/views.py" afterPath="$PROJECT_DIR$/model/views.py" />
     </list>
@@ -97,8 +98,8 @@
       <file leaf-file-name="views.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/model/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="90">
-              <caret line="989" column="0" lean-forward="false" selection-start-line="989" selection-start-column="0" selection-end-line="989" selection-end-column="0" />
+            <state relative-caret-position="2916">
+              <caret line="537" column="10" lean-forward="false" selection-start-line="537" selection-start-column="10" selection-end-line="537" selection-end-column="10" />
               <folding>
                 <element signature="e#0#35#0" expanded="true" />
               </folding>
@@ -141,8 +142,8 @@
       <file leaf-file-name="Graph.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/model/Graph.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="379">
-              <caret line="331" column="37" lean-forward="false" selection-start-line="331" selection-start-column="37" selection-end-line="331" selection-end-column="37" />
+            <state relative-caret-position="198">
+              <caret line="197" column="31" lean-forward="false" selection-start-line="197" selection-start-column="27" selection-end-line="197" selection-end-column="31" />
               <folding />
             </state>
           </provider>
@@ -929,11 +930,6 @@
           <option name="timeStamp" value="210" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/model/views.py</url>
-          <line>333</line>
-          <option name="timeStamp" value="249" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/monitor/a.py</url>
           <line>9</line>
           <option name="timeStamp" value="252" />
@@ -968,11 +964,6 @@
           <line>37</line>
           <option name="timeStamp" value="267" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/model/views.py</url>
-          <line>989</line>
-          <option name="timeStamp" value="278" />
-        </line-breakpoint>
       </breakpoints>
       <breakpoints-dialog>
         <breakpoints-dialog />
@@ -984,7 +975,7 @@
           </properties>
         </breakpoint>
       </default-breakpoints>
-      <option name="time" value="279" />
+      <option name="time" value="289" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="Python.DjangoServer">
@@ -1331,16 +1322,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/model/Graph.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="379">
-          <caret line="331" column="37" lean-forward="false" selection-start-line="331" selection-start-column="37" selection-end-line="331" selection-end-column="37" />
+        <state relative-caret-position="198">
+          <caret line="197" column="31" lean-forward="false" selection-start-line="197" selection-start-column="27" selection-end-line="197" selection-end-column="31" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/model/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="989" column="0" lean-forward="false" selection-start-line="989" selection-start-column="0" selection-end-line="989" selection-end-column="0" />
+        <state relative-caret-position="2916">
+          <caret line="537" column="10" lean-forward="false" selection-start-line="537" selection-start-column="10" selection-end-line="537" selection-end-column="10" />
           <folding>
             <element signature="e#0#35#0" expanded="true" />
           </folding>

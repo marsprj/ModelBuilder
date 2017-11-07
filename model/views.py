@@ -400,6 +400,9 @@ def start_task_2(task):
     try:
         success = True
         graph = Graph()
+        if task.text == "":
+            task.text = task.model.text
+            task.save()
         if not graph.load(task.text):
             pass
         else:

@@ -200,7 +200,9 @@ class Graph:
         functions = model["functions"]
         data = model["data"]
         connections = model["connections"]
-        monitor = model["monitor"]
+        monitor = None
+        if "monitor" in model:
+            monitor = model["monitor"]
 
 
         for f in functions:
