@@ -98,6 +98,11 @@ function showModelsStatus(status){
 
 	 	// 查看
 	 	$("#monitor_model_table .view-btn").click(function(){
+
+	 		var prev = $(this).parent().prev();
+	 		if(prev.html() != "开启"){
+	 			return
+	 		}
 	 		var uuid = $(this).parents(".row").attr("uuid");
 	 		$("#menu_panel .menu").removeClass('active');
 	 		$("#menu_panel .menu[pre='task']").addClass('active');

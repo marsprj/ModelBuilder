@@ -82,7 +82,7 @@ function showModels(json){
 		}
 	});
 
-	// 弹出监控窗口
+	// 弹出监听窗口
 	$("#models_container .model-item .monitor-btn").click(function(event){
 		var row = $(this).parents(".model-item");
 		var uuid = row.attr("uuid");

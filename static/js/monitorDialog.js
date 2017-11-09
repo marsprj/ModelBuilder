@@ -130,11 +130,11 @@ MonitorDialog.prototype.showMonitorInfo = function(){
 
 MonitorDialog.prototype.setStatus = function(status){
 	if(status == "on"){
-		this._win.find(".monitor-info").html("可以编辑节点的监控设置")
+		this._win.find(".monitor-info").html("可以编辑节点的监听设置")
 		this._win.find("#monitor_div input").prop("checked", true);
 		this._win.find(".data-div input,.data-div button").attr("disabled",false);
 	}else{
-		this._win.find(".monitor-info").html("开启监控状态，即可编辑节点设置")
+		this._win.find(".monitor-info").html("开启监听状态，即可编辑节点设置")
 		this._win.find("#monitor_div input").prop("checked", false);
 		this._win.find(".data-div input,.data-div button").attr("disabled",true);
 	}
@@ -209,13 +209,13 @@ MonitorDialog.prototype.saveMonitor = function(){
 	if(preStatus == "on" && !status){
 		// on=>off
 		
-		this._win.find(".monitor-info").html("正在停止监控");
+		this._win.find(".monitor-info").html("正在停止监听");
 		this.stopMonitorModel(modelID,function(result){
 			if(result.status == "error"){
 				dlg._win.find(".monitor-info").html(result.message);
 				return;
 			}else if(result.status == "success"){
-				dlg._win.find(".monitor-info").html("停止监控成功");
+				dlg._win.find(".monitor-info").html("停止监听成功");
 				setTimeout(function(){
 					dlg.destory();
 					if(dlg._onOK){
@@ -230,20 +230,20 @@ MonitorDialog.prototype.saveMonitor = function(){
 
 		this._monitor.setData(data);
 		var text = g_graph.export();
-		dlg._win.find(".monitor-info").html("保存监控设置");
+		dlg._win.find(".monitor-info").html("保存监听设置");
 		saveModel(text,function(result){
 			if(result.status == "error"){
 				dlg._win.find(".monitor-info").html(result.message);
 			}else if(result.status == "success"){
 				dlg._win.find(".monitor-info").html("保存成功");
 				setTimeout(function(){
-					dlg._win.find(".monitor-info").html("正在重启监控");
+					dlg._win.find(".monitor-info").html("正在重启监听");
 					dlg.restartMonitorModel(modelID,function(result){
 						if(result.status == "error"){
 							dlg._win.find(".monitor-info").html(result.message);
 							return;
 						}else if(result.status == "success"){
-							dlg._win.find(".monitor-info").html("重启监控成功");
+							dlg._win.find(".monitor-info").html("重启监听成功");
 							setTimeout(function(){
 								dlg.destory();
 								if(dlg._onOK){
@@ -259,20 +259,20 @@ MonitorDialog.prototype.saveMonitor = function(){
 		// off =>on
 		this._monitor.setData(data);
 		var text = g_graph.export();
-		dlg._win.find(".monitor-info").html("保存监控设置");
+		dlg._win.find(".monitor-info").html("保存监听设置");
 		saveModel(text,function(result){
 			if(result.status == "error"){
 				dlg._win.find(".monitor-info").html(result.message);
 			}else if(result.status == "success"){
 				dlg._win.find(".monitor-info").html("保存成功");
 				setTimeout(function(){
-					dlg._win.find(".monitor-info").html("正在开启监控");
+					dlg._win.find(".monitor-info").html("正在开启监听");
 					dlg.startMonitorModel(modelID,function(result){
 						if(result.status == "error"){
 							dlg._win.find(".monitor-info").html(result.message);
 							return;
 						}else if(result.status == "success"){
-							dlg._win.find(".monitor-info").html("开启监控成功");
+							dlg._win.find(".monitor-info").html("开启监听成功");
 							setTimeout(function(){
 								dlg.destory();
 								if(dlg._onOK){
@@ -406,7 +406,7 @@ MonitorDialog.prototype.verifyData = function(){
 				if($(inputPrefix).val() == ""){
 					var tooltip = new Tooltip({
 						target : ".monitor-dialog .data-div .folder-input:eq("+ i + ")",
-						text : "监控同一文件夹，请输入有效的前缀加以区分"
+						text : "监听同一文件夹，请输入有效的前缀加以区分"
 					});
 					$(inputPrefix).addClass('error');
 					$(input).addClass('error');
@@ -416,7 +416,7 @@ MonitorDialog.prototype.verifyData = function(){
 				if($(comparePrefix).val() == ""){
 					var tooltip = new Tooltip({
 						target : ".monitor-dialog .data-div .prefix-input:eq(" + j + ")",
-						text : "监控同一文件夹，请输入有效的前缀加以区分"
+						text : "监听同一文件夹，请输入有效的前缀加以区分"
 					});
 					$(comparePrefix).addClass('error');
 					$(input).addClass('error');
@@ -427,7 +427,7 @@ MonitorDialog.prototype.verifyData = function(){
 				if($(comparePrefix).val() == $(inputPrefix).val()){
 					var tooltip = new Tooltip({
 						target : ".monitor-dialog .data-div .folder-input:eq("+ i + ")",
-						text : "监控同一文件夹，请输入有效的前缀加以区分"
+						text : "监听同一文件夹，请输入有效的前缀加以区分"
 					});
 					$(inputPrefix).addClass('error');
 					$(comparePrefix).addClass('error');

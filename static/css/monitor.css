@@ -65,6 +65,10 @@
     margin: 0 20px;
 }
 
+#monitor_model_table .row:not(.header):hover{
+    background-color: #f4f8fb;
+}
+
 #monitor_model_table .header .cell {
     height: 30px;
     font-weight: 700;
