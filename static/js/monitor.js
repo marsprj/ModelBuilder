@@ -32,6 +32,11 @@ function registerPanelEvent(){
 	$(".logout").click(function(){
 		logout();
 	});
+
+	//排序切换
+	$(".order-icon").click(function(){
+		changeOrderBy(this);
+	});
 }
 
 
