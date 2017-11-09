@@ -22,7 +22,7 @@ DATABASES = {
         'NAME': 'model',                        #数据库名称
         'USER': 'postgres',                         #数据库用户名
         'PASSWORD': 'qwer1234',                   #数据库密码
-        'HOST': '192.168.111.63',                    #主机地址
+        'HOST': 'localhost',                    #主机地址
         'PORT': '5432',                         #数据库端口号
     }
 }
