@@ -112,6 +112,13 @@ function showModelsStatus(status){
 
 	 		showMonitorModels();
 	 	});
+
+	 	$("#monitor_model_table .view-btn").mouseenter(function(event) {
+	 		var prev = $(this).parent().prev();
+	 		if(prev.html() != "开启"){
+	 			$(this).css("cursor","not-allowed");
+	 		}
+	 	});
 	});
 }
 
