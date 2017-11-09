@@ -76,7 +76,7 @@ function setState(state){
 // 获取状态个数
 function getStateCount(state,model_id,callback){
 	$("#task_table .row:not(.header)").remove();
-	$("#count span").html("0");
+	$("#task_panel #count span").html("0");
 	$(".pagination").empty();
 	if(state == null){
 		if(callback){
@@ -119,7 +119,7 @@ function onGetStateCount(result){
 	var pageCount = Math.ceil(result/g_maxCount);
 	g_pageCount = pageCount;
 
-	$("#count span").html(result);
+	$("#task_panel #count span").html(result);
 
 	initPageControl(1, g_pageCount);
 	
@@ -243,7 +243,7 @@ function initPageControl(currentPage,pageCount){
 			+ '	</li>';
 	}
 
-	$(".pagination").html(html);
+	$("#task_panel .pagination").html(html);
 
 	registerPageEvent();
 
