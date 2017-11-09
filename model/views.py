@@ -1125,6 +1125,7 @@ def get_model_monitor_process(uuid):
     except Exception as e:
         raise e
 
+# 模型的监控状态
 def models_status(request,model_status):
     result = []
     try:
@@ -1144,11 +1145,11 @@ def models_status(request,model_status):
         for model in models:
             text = model.text
             obj = json.loads(text)
+            selected = None
             if not "monitor" in obj:
                 flag = "off"
             else:
                 monitor = obj['monitor']
-                selected = None
                 if not monitor:
                     flag = "off"
                 else:
