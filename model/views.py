@@ -1169,9 +1169,10 @@ def models_status(request,model_status):
             if selected:
                 model_text = selected.exportToJson()
                 model_text["status"] = flag
+                monitor_status = getMonitorStatus(str(model.uuid), flag)
+                model_text["monitor_status"] = monitor_status
                 result.append(model_text)
-            monitor_status = getMonitorStatus(str(model.uuid),flag)
-            model_text["monitor_status"] = monitor_status
+
         result = json.dumps(result)
         return HttpResponse(result, content_type="application/json")
     except Exception as e:

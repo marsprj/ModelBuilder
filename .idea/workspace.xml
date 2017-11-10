@@ -7,7 +7,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ac37dfb7-7c13-4d7d-a101-64ef4a8b8d82" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/model/urls.py" afterPath="$PROJECT_DIR$/model/urls.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/model/views.py" afterPath="$PROJECT_DIR$/model/views.py" />
     </list>
     <ignored path="ModelFlow.iws" />
@@ -54,7 +53,7 @@
         <entry file="file://$PROJECT_DIR$/monitor/__init__.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="1338">
-              <caret line="146" column="17" lean-forward="true" selection-start-line="146" selection-start-column="17" selection-end-line="146" selection-end-column="17" />
+              <caret line="146" column="17" lean-forward="false" selection-start-line="146" selection-start-column="17" selection-end-line="146" selection-end-column="17" />
               <folding>
                 <element signature="e#40#81#0" expanded="true" />
               </folding>
@@ -97,8 +96,8 @@
       <file leaf-file-name="views.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/model/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="221">
-              <caret line="1170" column="31" lean-forward="false" selection-start-line="1170" selection-start-column="31" selection-end-line="1170" selection-end-column="31" />
+            <state relative-caret-position="270">
+              <caret line="1155" column="46" lean-forward="true" selection-start-line="1155" selection-start-column="46" selection-end-line="1155" selection-end-column="46" />
               <folding>
                 <element signature="e#0#35#0" expanded="true" />
               </folding>
@@ -986,7 +985,7 @@
           </properties>
         </breakpoint>
       </default-breakpoints>
-      <option name="time" value="294" />
+      <option name="time" value="296" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="Python.DjangoServer">
@@ -1294,7 +1293,7 @@
     <entry file="file://$PROJECT_DIR$/monitor/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1338">
-          <caret line="146" column="17" lean-forward="true" selection-start-line="146" selection-start-column="17" selection-end-line="146" selection-end-column="17" />
+          <caret line="146" column="17" lean-forward="false" selection-start-line="146" selection-start-column="17" selection-end-line="146" selection-end-column="17" />
           <folding>
             <element signature="e#40#81#0" expanded="true" />
           </folding>
@@ -1303,8 +1302,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/model/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="1170" column="31" lean-forward="false" selection-start-line="1170" selection-start-column="31" selection-end-line="1170" selection-end-column="31" />
+        <state relative-caret-position="270">
+          <caret line="1155" column="46" lean-forward="true" selection-start-line="1155" selection-start-column="46" selection-end-line="1155" selection-end-column="46" />
           <folding>
             <element signature="e#0#35#0" expanded="true" />
           </folding>
