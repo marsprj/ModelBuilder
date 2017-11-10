@@ -1,5 +1,8 @@
 function showMonitorModels(){
 	$("#models_container").empty();
+	$("#task_table .row:not(.header)").remove();
+	$("#task_panel #count span").html("0");
+	$(".pagination").empty();
 	getModelsStatus("start",function(result){
 		if(result.status == "error"){
 			alert(result.message);
