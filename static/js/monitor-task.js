@@ -2,8 +2,8 @@ function showMonitorModels(){
 	$("#models_container").empty();
 	$("#task_table .row:not(.header)").remove();
 	$("#task_panel #count span").html("0");
-	$(".pagination").empty();
-	getModelsStatus("start",function(result){
+	$("#task_panel .pagination").empty();
+	getModelsStatus("start",100,0,function(result){
 		if(result.status == "error"){
 			alert(result.message);
 			return;
@@ -80,7 +80,7 @@ function setState(state){
 function getStateCount(state,model_id,callback){
 	$("#task_table .row:not(.header)").remove();
 	$("#task_panel #count span").html("0");
-	$(".pagination").empty();
+	$("#task_panel .pagination").empty();
 	if(state == null){
 		if(callback){
 			var result = '{"status":"error","message":"state is null"}';
@@ -254,8 +254,8 @@ function initPageControl(currentPage,pageCount){
 }
 
 function registerPageEvent(){
-	$(".pagination li a").click(function(){
-		var active = $(".pagination li.active a").html();
+	$("#task_panel .pagination li a").click(function(){
+		var active = $("#task_panel .pagination li.active a").html();
 		var currentPage = parseInt(active);
 
 		var label = $(this).attr("aria-label");
