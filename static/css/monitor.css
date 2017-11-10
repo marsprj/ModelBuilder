@@ -40,11 +40,15 @@
 
 .menu-icon{
     display: inline-block;
-    
-    height: 20px;
+    height: 36px;
     width: 20px;
-    vertical-align: middle;
+    /*vertical-align: middle;*/
 }
+#menu_panel .menu span:nth-child(1){
+    display: inline-block;
+    vertical-align: top;
+}
+
 
 
 .model-menu-icon{
@@ -138,13 +142,6 @@ input:checked + .slider:before {
 .slider.round:before {
     border-radius: 50%;
 }
-
-
-
-
-
-
-
 
 .panel {
     -webkit-border-radius: 5px;

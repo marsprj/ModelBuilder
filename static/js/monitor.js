@@ -80,7 +80,13 @@ function showModelsStatus(status){
 			}else if (status == "off") {
 				checked = ""
 			}
-			html += '<div class="row" uuid="' + model.uuid +'">'
+
+			var showStatus = (model.monitor_status == "ok")?(status == "on"?'开启':'关闭') : "异常"; 
+			var rowClass = "";
+			if(model.monitor_status == "error"){
+				rowClass = "failed-row";
+			}
+			html += '<div class="row ' + rowClass + '" uuid="' + model.uuid +'">'
                 +'    <div class="cell">' + (i +1) + '</div>'
                 +'    <div class="cell">' + model.name  + '</div>'
                 +'    <div class="cell">' + model.create_time + '</div>'
@@ -90,7 +96,8 @@ function showModelsStatus(status){
                 +'            <span class="slider round"></span>'
                 +'        </label>'
                 +'    </div>'
-                +'    <div class="cell">' + (status == "on"?'开启':'关闭') + '</div>'
+                // +'    <div class="cell">' + (status == "on"?'开启':'关闭') + '</div>'
+                +'    <div class="cell">' + showStatus + '</div>'
                 +'	  <div class="cell"><a class="view-btn" href="javascript:void(0)">查看</a></div>'
                 +'</div>';
 		}
@@ -138,32 +145,30 @@ function changeModelMonitorStatus(input){
 		startMonitorModel(uuid,function(result){
 			if(result.status == "error"){
 				info.html("开启失败:" + result.message);
-				setTimeout(function(){
-					$(input).prop("checked",false);
-				}, 200);
-				return;
 			}else {
 				info.html("开启监听成功");
-				setTimeout(function(){
-					info.html("开启");
-				}, 200);
 			}
+
+			setTimeout(function(){
+				getModelStatus(uuid,function(result){
+					showModelStatus(result);
+				});
+			}, 500)
+
 		});
 	}else{
 		$(info).html("正在关闭监听");
 		stopMonitorModel(uuid,function(result){
 			if(result.status == "error"){
 				info.html("关闭失败:" + result.message);
-				setTimeout(function(){
-					$(input).prop("checked",true);
-				}, 200);
-				return;
 			}else {
 				info.html("关闭监听成功");
-				setTimeout(function(){
-					info.html("关闭");
-				}, 200);
 			}
+			setTimeout(function(){
+				getModelStatus(uuid,function(result){
+					showModelStatus(result);
+				});
+			}, 500)
 		})
 	}
 }
@@ -235,4 +240,100 @@ function logout() {
             console.log(xhr);
         }
 	});
+}
+
+// 获取单一模型的状态
+function getModelStatus(modelID,callback){
+	if(!modelID){
+		if(callback){
+			callback();
+		}
+		return;
+	}
+	var url = "/model/model/" + modelID + "/status/" ;
+	$.ajax({
+		type:"GET",
+		url:url,
+		contentType: "text/plain",
+		dataType : "text",
+		success:function(json){
+			var result = JSON.parse(json);
+			if(callback){
+				callback(result);
+			}
+		},
+	 	error:function(xhr){
+            console.log(xhr);
+        }
+	});
+
+}
+
+// 展开单一模型的状态
+function showModelStatus(result){
+	if(result.status == "error"){
+		alert(result.message);
+		return;
+	}
+
+	var uuid = result.uuid;
+	var row = $("#monitor_model_table .row[uuid='" + uuid + "']");
+	var id = row.find(".cell:first").html();
+
+	var checked = "";
+	var status = result.status;
+	if(status == "on"){
+		checked = "checked";
+	}else if (status == "off") {
+		checked = ""
+	}	
+	
+	var showStatus = (result.monitor_status == "ok")?(status == "on"?'开启':'关闭') : "异常"; 
+    var html ='<div class="cell">' + id + '</div>'
+        +'    <div class="cell">' + result.name  + '</div>'
+        +'    <div class="cell">' + result.create_time + '</div>'
+        +'    <div class="cell">'
+        +'        <label class="switch">'
+        +'            <input type="checkbox" ' + checked + '>'
+        +'            <span class="slider round"></span>'
+        +'        </label>'
+        +'    </div>'
+        // +'    <div class="cell">' + (status == "on"?'开启':'关闭') + '</div>'
+        +'    <div class="cell">' + showStatus + '</div>'
+        +'	  <div class="cell"><a class="view-btn" href="javascript:void(0)">查看</a></div>';	
+
+    row.html(html);
+
+    if(result.monitor_status == "error"){
+    	$(row).addClass('failed-row');
+    }
+
+    row.find("input[type='checkbox']").change(function(event) {
+    	changeModelMonitorStatus(this);
+    });
+
+    // 查看
+    row.find(".view-btn").click(function(){
+
+    	var prev = $(this).parent().prev();
+    	if(prev.html() != "开启"){
+    		return
+    	}
+    	var uuid = $(this).parents(".row").attr("uuid");
+    	$("#menu_panel .menu").removeClass('active');
+    	$("#menu_panel .menu[pre='task']").addClass('active');
+    	$(".tab-panel").removeClass('active');
+    	$("#monitor_task").addClass('active');
+    	g_model_id = uuid;
+
+    	showMonitorModels();
+    });
+
+    row.find(".view-btn").mouseenter(function(event) {
+    	var prev = $(this).parent().prev();
+    	if(prev.html() != "开启"){
+    		$(this).css("cursor","not-allowed");
+    	}
+    });
+
 }
