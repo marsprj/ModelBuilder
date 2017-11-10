@@ -1126,8 +1126,8 @@ def get_model_monitor_process(uuid):
         raise e
 
 # 模型的监控状态
-def models_status(request,model_status):
-    result = []
+def models_status(request,model_status,count,offset):
+    model_list = []
     try:
         username = request.COOKIES.get("username")
         user = User.objects.get(username=username)
@@ -1141,6 +1141,8 @@ def models_status(request,model_status):
         return http_error_response("get models status failed")
 
     try:
+        start = int(offset)
+        end = int(offset) + int(count)
         models = user.model_set.all()
         for model in models:
             text = model.text
@@ -1171,14 +1173,62 @@ def models_status(request,model_status):
                 model_text["status"] = flag
                 monitor_status = getMonitorStatus(str(model.uuid), flag)
                 model_text["monitor_status"] = monitor_status
-                result.append(model_text)
-
+                model_list.append(model_text)
+        result = model_list[start:end]
         result = json.dumps(result)
         return HttpResponse(result, content_type="application/json")
     except Exception as e:
         logger.error("get models status failed  :{}".format(str(e)))
         return http_error_response("get models status failed")
 
+# 获取模型状态列表的个数
+def models_status_count(request,model_status):
+    result = []
+    try:
+        username = request.COOKIES.get("username")
+        user = User.objects.get(username=username)
+
+    except User.DoesNotExist:
+        logger.error("no user[{0}]".format(username))
+        return http_error_response("no user[{0}]".format(username))
+
+    except Exception as e:
+        logger.error("get models status failed :{}".format(str(e)))
+        return http_error_response("get models status failed")
+    try:
+        models = user.model_set.all()
+        count = 0
+        for model in models:
+            text = model.text
+            obj = json.loads(text)
+            selected = None
+            if not "monitor" in obj:
+                flag = "off"
+            else:
+                monitor = obj['monitor']
+                if not monitor:
+                    flag = "off"
+                else:
+                    status = monitor["status"]
+                    if not status:
+                        flag = "off"
+                    elif status == "on":
+                        flag = "on"
+                    elif status == "off":
+                        flag = "off"
+            if model_status == "start" and flag == "on":
+                count += 1
+            elif model_status == "stop" and flag == "off":
+                count += 1
+            elif model_status == "all":
+                count += 1
+        obj = {
+            "count" : count
+        }
+        return HttpResponse(json.dumps(obj),content_type="application/json")
+    except Exception as e:
+        logger.error("get model status[{}] count failed:{}".format(model_status),str(e))
+        return http_error_response("get model status count failed")
 
 # 模型进程的状态
 def getMonitorStatus(model_id,status):
