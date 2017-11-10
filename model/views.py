@@ -1170,9 +1170,96 @@ def models_status(request,model_status):
                 model_text = selected.exportToJson()
                 model_text["status"] = flag
                 result.append(model_text)
+            monitor_status = getMonitorStatus(str(model.uuid),flag)
+            model_text["monitor_status"] = monitor_status
         result = json.dumps(result)
         return HttpResponse(result, content_type="application/json")
     except Exception as e:
         logger.error("get models status failed  :{}".format(str(e)))
         return http_error_response("get models status failed")
 
+
+# 模型进程的状态
+def getMonitorStatus(model_id,status):
+    try:
+        pids = getMonitorProcess(model_id)
+        monitor_status =None
+        if status == "on":
+            if len(pids) == 1:
+                monitor_status = "ok"
+            else:
+                monitor_status = "error"
+        elif status == "off":
+            if len(pids) == 0:
+                monitor_status = "ok"
+            else:
+                monitor_status = "error"
+        return monitor_status
+    except Exception as e:
+        logger.error("get model[{}] monitor status failed:{}".format(model_id,str(e)))
+        return "error"
+
+
+# 获取模型的相关进程
+def getMonitorProcess(model_id):
+    pids = []
+    try:
+        for p in psutil.process_iter(attrs=["cmdline"]):
+            cmdlines = p.info["cmdline"]
+            if len(cmdlines) == 4 and cmdlines[3] == model_id:
+                pids.append(p.pid)
+        return pids
+    except Exception as e:
+        logger.error("get monitor[{}] pid failed:{}".format(model_id,str(e)))
+        raise e
+
+
+# 单一进程的状态获取
+def model_status(request,model_id):
+    try:
+        username = request.COOKIES.get("username")
+        user = User.objects.get(username=username)
+    except User.DoesNotExist:
+        logger.error("no user[{0}]".format(username))
+        return http_error_response("no user[{0}]".format(username))
+    except Exception as e:
+        logger.error("get model[{}] status failed :{}".format(model_id,str(e)))
+        return http_error_response("get model status failed")
+
+    try:
+        model = Model.objects.get(uuid=model_id)
+    except Model.DoesNotExist:
+        logger.error("no model [{0}]".format(model_id))
+        return http_error_response("Model does not exist")
+    except Exception as e:
+        logger.error("get model[{0}] failed:{1}".format(model_id, str(e)))
+        return http_error_response("get model status failed")
+
+    try:
+        text = model.text
+        obj = json.loads(text)
+
+        if not "monitor" in obj:
+            flag = "off"
+        else:
+            monitor = obj['monitor']
+            if not monitor:
+                flag = "off"
+            else:
+                status = monitor["status"]
+                if not status:
+                    flag = "off"
+                elif status == "on":
+                    flag = "on"
+                elif status == "off":
+                    flag = "off"
+        model_text = model.exportToJson()
+        model_text["status"] = flag
+        monitor_status = getMonitorStatus(model_id, flag)
+        model_text["monitor_status"] = monitor_status
+        result = json.dumps(model_text)
+        logger.info("get model[{}] status:{}".format(model_id,result))
+        return HttpResponse(result,content_type="application/json")
+    except Exception as e:
+        logger.error("get model[{}] status failed:{}".format(model_id,str(e)))
+        return http_error_response("get model status failed")
