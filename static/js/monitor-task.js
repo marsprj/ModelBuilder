@@ -3,48 +3,56 @@ function showMonitorModels(){
 	$("#task_table .row:not(.header)").remove();
 	$("#task_panel #count span").html("0");
 	$("#task_panel .pagination").empty();
-	getModelsStatus("start",100,0,function(result){
+	getModelsStatusCount("start",function(result){
 		if(result.status == "error"){
 			alert(result.message);
 			return;
 		}
-		var html = '';
-		result.forEach(function(model){
-			html += '<div class="model-item" uuid="' + model.uuid + '" mname="' + model.name + '">'
-				 +  '	<div class="model-icon"></div>'
-				 +  '	<div class="model-name">'  + model.name + "</div>"
-				 + 	'</div>'
-		});
-		$("#models_container").html(html);
+		var count = result.count;
+		getModelsStatus("start",count,0,function(result){
+			if(result.status == "error"){
+				alert(result.message);
+				return;
+			}
+			var html = '';
+			result.forEach(function(model){
+				html += '<div class="model-item" uuid="' + model.uuid + '" mname="' + model.name + '">'
+					 +  '	<div class="model-icon"></div>'
+					 +  '	<div class="model-name">'  + model.name + "</div>"
+					 + 	'</div>'
+			});
+			$("#models_container").html(html);
 
 
-		if(!g_model_id){
-			// 第一个
-			var uuid = $("#models_container .model-item:first").attr("uuid");
-			if(uuid){
+			if(!g_model_id){
+				// 第一个
+				var uuid = $("#models_container .model-item:first").attr("uuid");
+				if(uuid){
+					g_model_id = uuid;
+				}
+			}
+			if(g_model_id){
+				if(!g_state){
+					g_state = 4;
+				}
+				setState(g_state);
+				$("#models_container .model-item[uuid='"+ g_model_id+ "']").addClass('active');
+			}
+
+
+
+			$("#models_container .model-item .model-name").click(function(){
+				var item = $(this).parent();
+				var uuid = item.attr("uuid");
+				$("#models_container .model-item").removeClass("active");
+				item.addClass("active");
+				$(".model-tool-div li").removeClass('active');
 				g_model_id = uuid;
-			}
-		}
-		if(g_model_id){
-			if(!g_state){
-				g_state = 4;
-			}
-			setState(g_state);
-			$("#models_container .model-item[uuid='"+ g_model_id+ "']").addClass('active');
-		}
-
-
-
-		$("#models_container .model-item .model-name").click(function(){
-			var item = $(this).parent();
-			var uuid = item.attr("uuid");
-			$("#models_container .model-item").removeClass("active");
-			item.addClass("active");
-			$(".model-tool-div li").removeClass('active');
-			g_model_id = uuid;
-			setState(g_state);
+				setState(g_state);
+			});
 		});
 	});
+	
 }
 
 
