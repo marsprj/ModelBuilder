@@ -6,6 +6,19 @@ var g_new_task = null;
 var g_username = null;
 var g_helper = null;
 
+var g_model_id = null;
+// 页码个数
+var g_pageNumber = 5;
+// 每页的个数
+var g_maxCount = 10;
+// 页码
+var g_pageCount = null;
+
+// 排序字段
+var g_order_field = "start_time";
+
+// 升序or降序
+var g_order = "desc";
 
 // 状态获取的循环器
 var g_state_int = null;

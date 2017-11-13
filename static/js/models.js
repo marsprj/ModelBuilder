@@ -46,7 +46,7 @@ function showModels(json){
 		var name = item.attr("mname");
 		$("#right .titlebar-title span").html("[" + name + "]");
 		refreshModel(uuid);
-		getTasks(uuid);
+		showTasks(uuid);
 	});
 
 
@@ -121,7 +121,7 @@ function showModels(json){
 			$("#right .titlebar-title span").html("[" + name + "]");
 			modelFirst.addClass("active");
 			refreshModel(modelFirst.attr("uuid"));
-			getTasks(modelFirst.attr("uuid"));
+			showTasks(modelFirst.attr("uuid"))
 		}
 	}
 }
@@ -166,30 +166,40 @@ function showModel(result){
 	setNoEdit();
 }
 
-// 获取计算任务
-function getTasks(modelId){
-	if(modelId == null){
+// 获取任务列表
+function getTasks(model_id,state,count,offset,field,orderby,callback){
+	if(model_id == null ||state == null || count == null || offset == null){
+		if(callback){
+			var result = '{"status":"error","message":"parms is not valid"}';
+			callback(JSON.parse(result));
+		}
 		return;
 	}
 
-	$(".process-div").remove();
-	$("#task_table .table .row:not(.header)").remove();
-	var url = "/model/model/" + modelId + "/tasks/";
+	var url = "/model/tasks/" + model_id + "/" + state + "/list/" + count 
+			+ "/" + offset + "/" + field + "/" + orderby + "/";
 	$.ajax({
 		url : url,
 		dataType : "text",
 		async : true,
 		success : function(json,textStatus){
-			showTasks(JSON.parse(json));
+			if(callback){
+				var result = JSON.parse(json);
+				callback(result);
+			}
 		},
-		error:function(xhr){
-            alert("获取任务列表失败");
-            console.log(xhr);
-        }		
-	});	
+		error :function(XMLHttpRequest, textStatus, errorThrown) {
+			console.log(XMLHttpRequest.status);
+			if(callback){
+				var result = '{"status":"error","message":"'  + XMLHttpRequest.status + '"}';
+				callback(JSON.parse(result));
+			}
+		}	
+	});
 }
 
-function showTasks(json){
+
+function showTaskList(json){
 	if(json == null){
 		return;
 	}
@@ -971,3 +981,183 @@ function setActiveTaskRow(task_id){
 	$("#task_table .row[uuid='" + task_id + "']").addClass('active-row');
 	showTaskGraph(task_id);
 }
+
+// 展示模型下面的任务
+function showTasks(modelId){
+	g_model_id = modelId;
+	$(".process-div").remove(),
+	$(".pagination").empty();
+    $("#task_table .table .row:not(.header)").remove();	
+
+    getTasksCount("4",modelId,onGetTasksCount);
+}
+
+// 获取任务个数
+function getTasksCount(state,modelId,callback){
+	if(state == null){
+		if(callback){
+			var result = '{"status":"error","message":"state is null"}';
+			callback(JSON.parse(result));
+		}
+		return;
+	}
+
+	var url = "/model/tasks/"  + modelId + "/" + state + "/count/";
+	$.ajax({
+		url : url,
+		dataType : "text",
+		async : true,
+		success : function(json,textStatus){
+			if(callback){
+				var result = JSON.parse(json);
+				callback(result.count);
+			}
+		},
+		error :function(XMLHttpRequest, textStatus, errorThrown) {
+			console.log(XMLHttpRequest.status);
+			if(callback){
+				var result = '{"status":"error","message":"'  + XMLHttpRequest.status + '"}';
+				callback(JSON.parse(result));
+			}
+		}	
+	});	
+}
+
+
+function onGetTasksCount(result){
+	if(result.status == "error"){
+		alert(result.message);
+		return;
+	}
+
+	var pageCount = Math.ceil(result/g_maxCount);
+	g_pageCount = pageCount;
+
+	$("#task_count span").html(result);
+
+	initPageControl(1, g_pageCount);
+}
+
+function initPageControl(currentPage,pageCount){
+	if(currentPage <=0 || currentPage > pageCount){
+		return;
+	}
+	var html = "";
+	// 前一页
+	if(currentPage == 1){
+		html += '<li class="disabled">'
+			+ '		<a href="javascript:void(0)" aria-label="Previous">'
+			+ '			<span aria-hidden="true">«</span>'
+			+ '		</a>'
+			+ '	</li>';
+	}else{
+		html += '<li>'
+			+ '		<a href="javascript:void(0)" aria-label="Previous">'
+			+ '			<span aria-hidden="true">«</span>'
+			+ '		</a>'
+			+ '	</li>';
+	}
+	// 如果页码总数小于要展示的页码，则每个都显示
+	if(pageCount <= g_pageNumber){
+		for(var i = 1; i <= pageCount; ++i){
+			if(i == currentPage){
+				html += '<li class="active">'
+				+ 	'	<a href="javascript:void(0)">' + currentPage.toString() 
+				// + 	'		<span class="sr-only">(current)</span>'
+				// + 	'		<span class="sr-only">(' + currentPage + ')</span>'
+				+	'</a>'
+				+ 	'</li>';
+			}else{
+				html += "<li>"
+					+ "<a href='javascript:void(0)'>" + i + "</a>"
+					+ "</li>";	
+			}
+		}	
+	}else{
+		// 开始不变化的页码
+		var beginEndPage = pageCount - g_pageNumber + 1;
+		if(currentPage <= beginEndPage){
+			for(var i = currentPage; i < currentPage + g_pageNumber;++i){
+				if(i == currentPage){
+					html += '<li class="active">'
+					+ 	'	<a href="javascript:void(0)">' + currentPage
+					// + 	'		<span class="sr-only">(current)</span>'
+					+	'</a>'
+					+ 	'</li>';
+				}else{
+					html += "<li>"
+						+ "<a href='javascript:void(0)'>" + i + "</a>"
+						+ "</li>";	
+				}					
+			}
+		}else{
+			for(var i = beginEndPage; i <= pageCount; ++i){
+				if(i == currentPage){
+					html += '<li class="active">'
+					+ 	'	<a href="javascript:void(0)">' + currentPage
+					// + 	'		<span class="sr-only">(current)</span>'
+					+	'</a>'
+					+ 	'</li>';
+				}else{
+					html += "<li>"
+						+ "<a href='javascript:void(0)'>" + i + "</a>"
+						+ "</li>";	
+				}
+			}
+		}
+	}
+	
+	// 最后一页
+	if(currentPage == pageCount){
+		html += '<li class="disabled">'
+			+ '		<a href="javascript:void(0)" aria-label="Next">'
+			+ '			<span aria-hidden="true">»</span>'
+			+ '		</a>'
+			+ '	</li>';
+	}else{
+		html += '<li>'
+			+ '		<a href="javascript:void(0)" aria-label="Next">'
+			+ '			<span aria-hidden="true">»</span>'
+			+ '		</a>'
+			+ '	</li>';
+	}
+
+	$(".pagination").html(html);
+
+	registerPageEvent();
+
+	getPage(currentPage);
+}
+
+
+function registerPageEvent(){
+	$(".pagination li a").click(function(){
+		var active = $(".pagination li.active a").html();
+		var currentPage = parseInt(active);
+
+		var label = $(this).attr("aria-label");
+		if(label == "Previous"){
+			currentPage = currentPage - 1;
+		}else if(label == "Next"){
+			currentPage = currentPage + 1;
+		}else{
+			currentPage = parseInt($(this).html());
+		}
+		
+		initPageControl(currentPage,g_pageCount);
+	});
+}
+
+// 按照页码获取
+function getPage(page){
+	if(page <= 0  || page > g_pageCount){
+		return;
+	}
+
+	var offset = (page -1) * g_maxCount;
+
+	$("#task_table .row:not(.header)").remove();
+
+	getTasks(g_model_id,"4",g_maxCount,offset,g_order_field,g_order,showTaskList);
+}
+

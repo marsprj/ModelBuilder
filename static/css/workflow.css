@@ -42,6 +42,22 @@
 	cursor: pointer;
 }
 
+.titlebar-tools .pagination{
+	margin:0px !important;
+	display: block !important;
+	margin: 3px !important;
+}
+
+.titlebar-tools .pagination>li>a, .titlebar-tools .pagination>li>span{
+	padding: 3px 8px !important;
+}
+
+.titlebar-tools #task_count{
+	color: #797979;
+	font-weight: 700;
+	margin-right: 10px;
+}
+
 .panel-contaniner{
 	height: calc(100% - 30px);
 	width: 100%;
@@ -126,8 +142,8 @@
 }
 
 .new-task-btn{
-	width: 92px !important;
-	margin-right: 64px;
+    width: 80px !important;
+   	margin-right: 16px;
 }
 
 #task_table .table,.process-right .table{
