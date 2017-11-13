@@ -1,22 +1,7 @@
-.title-right {
-    line-height: 20px;
-    font-size: 12px;
-    margin-top: 10px;
-    font-weight: 700;
-}
-.title-right a {
-    margin-right: 10px;
-    color: #061d30;
-    text-decoration: none;
-}
 
-.title-right a:hover {
-    color: #f5f4ed
-}
 #main {
     background: #f8f8f8;
 }
-
 
 #menu_panel{
     float: left;
@@ -49,8 +34,6 @@
     vertical-align: top;
 }
 
-
-
 .model-menu-icon{
     background: url(../images/list.png) no-repeat center;
 }
@@ -58,6 +41,7 @@
 .task-menu-icon{
     background: url(../images/task.png) no-repeat center;
 }
+
 #menu_panel .menu.active{
     background-color: #f8f8f8;
     color: #111;
@@ -87,71 +71,6 @@
     width: 0 !important;
 }
 
-/**slider checkbox**/
-.switch {
-    position: relative;
-    display: inline-block;
-    width: 48px;
-    height: 28px;
-}
-
-.switch input {display:none;}
-
-.slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #969696;
-    -webkit-transition: .4s;
-    transition: .4s;
-}
-
-.slider:before {
-    position: absolute;
-    content: "";
-    height: 20px;
-    width: 20px;
-    left: 4px;
-    bottom: 4px;
-    background-color: white;
-    -webkit-transition: .4s;
-    transition: .4s;
-}
-
-input:checked + .slider {
-    background-color: #32cbcb;
-}
-
-input:focus + .slider {
-    box-shadow: 0 0 1px #2196F3;
-}
-
-input:checked + .slider:before {
-    -webkit-transform: translateX(20px);
-    -ms-transform: translateX(20px);
-    transform: translateX(20px);
-}
-
-.slider.round {
-    border-radius: 28px;
-}
-
-.slider.round:before {
-    border-radius: 50%;
-}
-
-.panel {
-    -webkit-border-radius: 5px;
-    border-radius: 5px;
-    background-clip: padding-box;
-    background-color: #fff;
-    box-shadow: 0 0px 8px 0 rgba(0, 0, 0, 0.06), 0 1px 0px 0 rgba(0, 0, 0, 0.02);
-}
-
-
 .right-panel{
     width: calc(100% - 100px);
     height: 100%;
@@ -172,60 +91,6 @@ input:checked + .slider:before {
     width: calc(100% - 40px);
     margin: 20px auto 20px;
     height: calc(100% - 40px);
-}
-
-
-
-
-.panel-title {
-    color: #797979;
-    font-weight: 600;
-	border-bottom: 3px solid #797979;
-    padding: 10px 0px;
-    margin: 0 20px;
-}
-
-.panel-title-name{
-	font-size: 18px;
-	display: inline-block;
-}
-
-.panel-title-tool{
-	display: inline-block;
-	vertical-align: middle;
-}
-
-.panel-label-tool ul{
-    list-style: none;
-    margin: 0px;
-}
-
-.panel-label-tool ul li{
-    float: left;
-    display: inline-block;
-    padding: 4px 8px;
-    margin: 0 10px;
-    background-color: rgba(22, 155, 213, 0.4);
-    color: #959595;
-    border-radius: 3px;
-    cursor: pointer;
-}
-
-.panel-label-tool ul li.active{
-    background-color: #169bd5;
-    color: #fff;
-    font-weight: 700;
-}
-
-.panel-label-tool ul li:hover{
-    box-shadow: 1px 1px 2px #cdcdcd;
-    color: #fcf4f4; 
-}
-
-
-.panel-content{
-	height: calc( 100% - 51px);
-	position: relative;
 }
 
 #monitor_model_table .cell a{
@@ -260,98 +125,13 @@ input:checked + .slider:before {
 }
 
 
-/**pagination**/
-.pagination {
-    display: inline-block;
-    padding-left: 0;
-    margin: 20px 0;
-    border-radius: 4px;
-}
-.pagination>li {
-    display: inline;
-}
-
-.pagination>li>a, .pagination>li>span {
-    position: relative;
-    float: left;
-    padding: 6px 12px;
-    margin-left: -1px;
-    line-height: 1.42857143;
-    color: #337ab7;
-    text-decoration: none;
-    background-color: #fff;
-    border: 1px solid #ddd;
-}
-
-.pagination>li:first-child>a, .pagination>li:first-child>span {
-    margin-left: 0;
-    border-top-left-radius: 4px;
-    border-bottom-left-radius: 4px;
-}
-
-.pagination>li:last-child>a, .pagination>li:last-child>span {
-    border-top-right-radius: 4px;
-    border-bottom-right-radius: 4px;
-}
-
-.pagination>li>a:focus, .pagination>li>a:hover, .pagination>li>span:focus, .pagination>li>span:hover {
-    z-index: 2;
-    color: #23527c;
-    background-color: #eee;
-    border-color: #ddd;
-}
-
-.pagination>.disabled>a, .pagination>.disabled>a:focus, .pagination>.disabled>a:hover, .pagination>.disabled>span, .pagination>.disabled>span:focus, .pagination>.disabled>span:hover {
-    color: #777;
-    cursor: not-allowed;
-    background-color: #fff;
-    border-color: #ddd;
-}
-.pagination>.active>a, .pagination>.active>a:focus, .pagination>.active>a:hover, .pagination>.active>span, .pagination>.active>span:focus, .pagination>.active>span:hover {
-    z-index: 3;
-    color: #fff;
-    cursor: default;
-    background-color: #337ab7;
-    border-color: #337ab7;
-}
-
-/**pagination--end**/
 
 
 
 /***model panel***/
-
-
-/*.model-tool-div ul{
-	list-style: none;
-	margin:0;
-}*/
-
 .model-tool-div{
 	float: right;
 }
-
-/*.model-tool-div ul li {
-    float: left;
-    display: inline-block;
-    padding: 4px 8px;
-    margin: 0 10px;
-    background-color: rgba(22, 155, 213, 0.4);
-    color: #959595;
-    border-radius: 3px;
-    cursor: pointer;
-}
-
-.model-tool-div ul li.active {
-    background-color: #169bd5;
-    color: #fff;
-    font-weight: 700;
-}
-
-.model-tool-div ul li:hover{
-	box-shadow: 1px 1px 2px #cdcdcd;
-    color: #fcf4f4;	
-}*/
 
 #models_container{
 	overflow-y: auto;
@@ -514,8 +294,6 @@ input:checked + .slider:before {
 .completed-icon{
     background-image: url(../images/green.png);
 }
-
-
 
 /*** process div ***/
 .process-header{

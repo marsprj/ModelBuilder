@@ -44,7 +44,6 @@
     background: #ffffff;
     padding:20px;
     box-shadow: 2px 2px 6px 5px #e2dddd;
-
 }
 .container-item{
     margin: 30px 10px 20px;
@@ -99,31 +98,11 @@
     height:calc(100% - 40px);
 }
 
-.panel{
-    -webkit-border-radius: 5px;
-    border-radius: 5px;
-    background-clip: padding-box;
-    background-color: #fff;
-    box-shadow: 0 0px 8px 0 rgba(0, 0, 0, 0.06), 0 1px 0px 0 rgba(0, 0, 0, 0.02);
-}
-
-.panel-title{
-    color: #797979;
-    font-weight: 600;
-    font-size: 18px;
-    padding-top: 16px;
-    padding-left: 16px;
-}
-
-.panel-content{
-    height:calc(100% - 40px);
-    overflow-y: auto;
-}
 .panel-content.loading{
     background: url(../images/spin.gif) no-repeat center;
 }
 .table{
-    padding: 20px;
+    margin: 0 20px;
 }
 
 .cell{
