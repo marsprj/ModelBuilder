@@ -112,8 +112,74 @@ gulp.task('user-css',['user-css-clean'],function(){
 		.pipe(gulp.dest(userCssDest));		
 	});
 
+
+
+/********************Montior****************/
+gulp.task("monitor-task",["monitor","monitor-css"]);
+
+gulp.task("monitor-clean",function(){
+	return gulp.src('ModelFlow/static/js/monitor.min.js')
+	.pipe(clean({force:true}));
+});
+
+var monitorList = ["ModelFlow/static/js/monitor.js",
+	"ModelFlow/static/js/monitor-task.js"];
+var monitorDest = "ModelFlow/static/js"
+gulp.task("monitor",["monitor-clean"],function(){
+	gulp.src(monitorList)
+	.pipe(uglify())
+	.pipe(concat("monitor.min.js"))
+	.pipe(gulp.dest(monitorDest));
+});
+
+gulp.task("monitor-css-clean",function(){
+	return gulp.src('Model/static/css/monitor.min.css')
+		.pipe(clean({force: true}));
+});
+var monitorCssList = ["ModelFlow/static/css/commom.css",
+					"ModelFlow/static/css/monitor.css"];
+var monitorCssDest = "ModelFlow/static/css/";
+gulp.task('monitor-css',['monitor-css-clean'],function(){
+	gulp.src(monitorCssList)
+		.pipe(minifycss())
+		.pipe(concat('monitor.min.css'))
+		.pipe(gulp.dest(monitorCssDest));		
+});
+
+/********************Task****************/
+gulp.task("task-task",["task","task-css"]);
+
+gulp.task("task-clean",function(){
+	return gulp.src('ModelFlow/static/js/task.min.js')
+	.pipe(clean({force:true}));
+});
+
+var taskList = ["ModelFlow/static/js/task.js",
+	"ModelFlow/static/js/model.js"];
+var taskDest = "ModelFlow/static/js"
+gulp.task("task",["task-clean"],function(){
+	gulp.src(taskList)
+	.pipe(uglify())
+	.pipe(concat("task.min.js"))
+	.pipe(gulp.dest(taskDest));
+});
+
+gulp.task("task-css-clean",function(){
+	return gulp.src('Model/static/css/task.min.css')
+		.pipe(clean({force: true}));
+});
+var taskCssList = ["ModelFlow/static/css/commom.css",
+					"ModelFlow/static/css/task.css"];
+var taskCssDest = "ModelFlow/static/css/";
+gulp.task('task-css',['task-css-clean'],function(){
+	gulp.src(taskCssList)
+		.pipe(minifycss())
+		.pipe(concat('task.min.css'))
+		.pipe(gulp.dest(taskCssDest));		
+});
+
 /********************DEFAULT****************/
-gulp.task('default',['graph-task','index-task','user-task']);
+gulp.task('default',['graph-task','index-task','user-task','monitor-task','task-task']);
 
 
 /********************AUTO****************/
@@ -123,4 +189,8 @@ gulp.task('auto',function(){
 	gulp.watch(indexList,['index-js']);
 	gulp.watch(indexCssList,['index-css']);
 	gulp.watch(userCssList,['user-css']);
+	gulp.watch(monitorList,['monitor']);
+	gulp.watch(monitorCssList,['monitor-css']);
+	gulp.watch(taskList,['task']);
+	gulp.watch(taskCssList,['task-css']);
 });
