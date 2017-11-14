@@ -979,6 +979,7 @@ function setActiveTaskRow(task_id){
 	
 	$("#task_table .row").removeClass('active-row');
 	$("#task_table .row[uuid='" + task_id + "']").addClass('active-row');
+	g_graph.clear();
 	showTaskGraph(task_id);
 }
 
@@ -988,6 +989,7 @@ function showTasks(modelId){
 	$(".process-div").remove(),
 	$(".pagination").empty();
     $("#task_table .table .row:not(.header)").remove();	
+    $("#task_count span").html('0');
 
     getTasksCount("4",modelId,onGetTasksCount);
 }
