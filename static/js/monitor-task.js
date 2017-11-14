@@ -289,6 +289,7 @@ function getPage(page){
 
 	$("#task_table .row:not(.header)").remove();
 	$(".panel-content").addClass('loading');
+	$(".process-div").remove();
 	getStateList(g_model_id,g_state,g_maxCount,offset,g_order_field,g_order,onGetStateList);
 }
 

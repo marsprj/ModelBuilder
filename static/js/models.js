@@ -986,7 +986,7 @@ function setActiveTaskRow(task_id){
 // 展示模型下面的任务
 function showTasks(modelId){
 	g_model_id = modelId;
-	$(".process-div").remove(),
+	$(".process-div").remove();
 	$(".pagination").empty();
     $("#task_table .table .row:not(.header)").remove();	
     $("#task_count span").html('0');
@@ -1159,6 +1159,7 @@ function getPage(page){
 	var offset = (page -1) * g_maxCount;
 
 	$("#task_table .row:not(.header)").remove();
+	$(".process-div").remove();
 
 	getTasks(g_model_id,"4",g_maxCount,offset,g_order_field,g_order,showTaskList);
 }
