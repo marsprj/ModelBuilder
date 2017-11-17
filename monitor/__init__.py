@@ -2,15 +2,18 @@
 # coding: utf-8
 
 
-import sys, os, time, atexit, string,json
+import sys, os, time, atexit, string,json,inspect
+
+currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+parentdir = os.path.dirname(currentdir)
+sys.path.insert(0,parentdir)
+# print(sys.path)
 
 import setting
-
 from signal import SIGTERM
 import signal,threading,atexit
 
-import os
-from pyinotify import WatchManager, Notifier, ProcessEvent, IN_DELETE, IN_CREATE, IN_MODIFY,IN_CLOSE_WRITE
+from pyinotify import WatchManager, Notifier, ProcessEvent,IN_CLOSE_WRITE
 import uuid,os,shutil,json,re,logging,datetime
 
 import django
@@ -24,7 +27,6 @@ from model.models import User,Model,Task,Process
 
 
 logger = logging.getLogger("model.app")
-
 
 class Daemon:
     __monitorData = []
@@ -625,6 +627,3 @@ if __name__ == '__main__':
     else:
         logger.error('usage: %s start|stop|restart' % sys.argv[0])
         sys.exit(2)
-
-    # daemon.monitor_models()
-
