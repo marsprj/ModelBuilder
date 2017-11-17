@@ -933,27 +933,9 @@ def model_start(request,model_id):
             logger.error("model[{0}] monitor info not valid".format(model_id))
             return http_error_response("监听信息设置无效")
 
-
-        logger.info("start monitor python")
-        kill_model_monitor(model_id)
-        path = os.path.join(os.path.join(settings.BASE_DIR,"monitor"),"__init__.py")
-        command = "python " + path + " start " + model_id
-        logger.debug("command: {0}".format(command))
-        p = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        p.wait()
-
-        logger.info(" return code is :{0}".format(str(p.returncode)))
-        if (p.returncode) != 0:
-            logger.info('kill pid')
-            p.kill()
-            p_erro_info = p.stderr.read()
-            return_info = p_erro_info
-            print(return_info)
-            if p_erro_info.decode("utf-8") == '':
-                return_info = p.stdout.read()
-            logger.info(return_info)
-            raise Exception("start monitor failed:{0}".format(return_info.decode("utf-8")))
-
+        monitor["status"] = "on"
+        model.text = json.dumps(obj)
+        model.save()
     except Exception as e:
         logger.error("start model[{0}] monitor  failed:{1}".format(model_id,str(e)))
         return http_error_response("start model failed")
@@ -1027,26 +1009,10 @@ def model_stop(request,model_id):
             logger.error("model[{0}] has already stop monitor".format(model_id))
             return http_error_response("model has already stop monitor")
 
-        path = os.path.join(os.path.join(settings.BASE_DIR, "monitor"), "__init__.py")
-        command = "python " + path + " stop " + model_id
-        logger.debug("command: {0}".format(command))
-        p = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        p.wait()
-        p_out_info = p.stdout.read()
-        print(p_out_info)
-        print(p.stderr.read())
-        logger.info(" return code is :{0}".format(str(p.returncode)))
-        if (p.returncode) != 0:
-            logger.info('kill pid')
-            p.kill()
-            p_erro_info = p.stderr.read()
-            return_info = p_erro_info
-            if p_erro_info.decode("utf-8") == '':
-                return_info = p_out_info
-            # raise Exception("process run failed:{0}".format(return_info.decode("utf-8")))
-            # return False
-            logger.info(return_info)
-        kill_model_monitor(model_id)
+        monitor["status"] = "off"
+        model.text = json.dumps(obj)
+        model.save()
+
     except Exception as e:
         logger.error("get model[{0}] monitor info failed".format(model_id))
         return http_error_response("stop model failed")
@@ -1077,23 +1043,23 @@ def model_restart(request,model_id):
         #     logger.error("model[{0}] has already stop monitor".format(model_id))
         #     return http_error_response("model has already stop monitor")
 
-        path = os.path.join(os.path.join(settings.BASE_DIR, "monitor"), "__init__.py")
-        command = "python " + path + " restart " + model_id
-        logger.debug("command: {0}".format(command))
-        p = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        p.wait()
-
-        logger.info(" return code is :{0}".format(str(p.returncode)))
-        if (p.returncode) != 0:
-            logger.info('kill pid')
-            p.kill()
-            p_erro_info = p.stderr.read()
-            return_info = p_erro_info
-            print(return_info)
-            if p_erro_info.decode("utf-8") == '':
-                return_info = p.stdout.read()
-            logger.info(return_info)
-            raise Exception("start monitor failed:{0}".format(return_info.decode("utf-8")))
+        # path = os.path.join(os.path.join(settings.BASE_DIR, "monitor"), "__init__.py")
+        # command = "python " + path + " restart " + model_id
+        # logger.debug("command: {0}".format(command))
+        # p = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        # p.wait()
+        #
+        # logger.info(" return code is :{0}".format(str(p.returncode)))
+        # if (p.returncode) != 0:
+        #     logger.info('kill pid')
+        #     p.kill()
+        #     p_erro_info = p.stderr.read()
+        #     return_info = p_erro_info
+        #     print(return_info)
+        #     if p_erro_info.decode("utf-8") == '':
+        #         return_info = p.stdout.read()
+        #     logger.info(return_info)
+        #     raise Exception("start monitor failed:{0}".format(return_info.decode("utf-8")))
 
     except Exception as e:
         logger.error("restart model[{}] monitor failed:{}".format(model_id,str(e)))
@@ -1172,7 +1138,7 @@ def models_status(request,model_status,count,offset):
                 model_text = selected.exportToJson()
                 model_text["status"] = flag
                 monitor_status = getMonitorStatus(str(model.uuid), flag)
-                model_text["monitor_status"] = monitor_status
+                model_text["monitor_status"] = "ok"
                 model_list.append(model_text)
         result = model_list[start:end]
         result = json.dumps(result)
@@ -1307,7 +1273,7 @@ def model_status(request,model_id):
         model_text = model.exportToJson()
         model_text["status"] = flag
         monitor_status = getMonitorStatus(model_id, flag)
-        model_text["monitor_status"] = monitor_status
+        model_text["monitor_status"] = "ok"
         result = json.dumps(model_text)
         logger.info("get model[{}] status:{}".format(model_id,result))
         return HttpResponse(result,content_type="application/json")

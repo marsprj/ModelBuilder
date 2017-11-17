@@ -7,8 +7,7 @@ import sys, os, time, atexit, string,json
 import setting
 
 from signal import SIGTERM
-import signal
-
+import signal,threading,atexit
 
 import os
 from pyinotify import WatchManager, Notifier, ProcessEvent, IN_DELETE, IN_CREATE, IN_MODIFY,IN_CLOSE_WRITE
@@ -26,11 +25,35 @@ from model.models import User,Model,Task,Process
 
 logger = logging.getLogger("model.app")
 
-g_model_id = None
-monitor_data = None
 
 class Daemon:
-    def _daemonize(self):
+    __monitorData = []
+    __monitorPaths = []
+    __timer = None
+    __notifier = None
+    __wm = None
+    __watchPaths = None
+    __pidfile = None
+
+    def __init__(self,pidfile):
+        self.__monitorData = []
+        self.__monitorPaths = []
+        self.__timer = None
+        self.__notifier = None
+        self.__wm = None
+        self.__watchPaths = None
+        self.__pidfile = pidfile
+
+
+    # def __del__(self):
+    #     self.__cleanMonitorData()
+    #     if self.__notifier:
+    #         self.__notifier.stop()
+    #     if self.__timer:
+    #         self.__timer.cancel()
+
+    # 守护进程
+    def __daemonize(self):
         try:
             pid = os.fork()  # 第一次fork，生成子进程，脱离父进程
             if pid > 0:
@@ -39,11 +62,10 @@ class Daemon:
             logger.error('fork #1 failed: %d (%s)\n' % (e.errno, e.strerror))
             sys.exit(1)
 
-        os.chdir("/")  # 修改工作目录
-        os.setsid()  # 设置新的会话连接
-        os.umask(0)  # 重新设置文件创建权限
-
         try:
+            os.chdir("/")  # 修改工作目录
+            os.setsid()  # 设置新的会话连接
+            os.umask(0)  # 重新设置文件创建权限
             pid = os.fork()  # 第二次fork，禁止进程打开终端
             if pid > 0:
                 sys.exit(0)
@@ -51,87 +73,61 @@ class Daemon:
             logger.error('fork #2 failed: %d (%s)\n' % (e.errno, e.strerror))
             sys.exit(1)
 
+        try:
+            atexit.register(self.__delete_pidfile)
+            logger.info("save daemon process pid to file")
+            pid = str(os.getpid())
+            fo = open(self.__pidfile,'w+')
+            fo.write('%s\n'%pid)
+            fo.close()
+        except Exception as e:
+            logger.error("save daemon pid failed:{}".format(str(e)))
+            sys.exit(1)
 
+    def __delete_pidfile(self):
+        try:
+            if os.path.exists(self.__pidfile):
+                logger.info("******delete daemon pid file*****")
+                os.remove(self.__pidfile)
+        except Exception as e:
+            logger.error("delete daemon pid file failed:{}".format(str(e)))
+            sys.exit(1)
+
+    # 启动
     def start(self):
-
+        # 先判断是否已经启动了
         try:
-            model = Model.objects.get(uuid=g_model_id)
-            self.model = model
-        except Model.DoesNotExist:
-            info = "model[{0}] does not exist".format(g_model_id)
-            logger.error(info)
-            sys.exit(1)
+            fo = open(self.__pidfile,'r')
+            pid = int(fo.read().strip())
+            fo.close()
         except Exception as e:
-            info = "get model [{0}] failed : {1}".format(g_model_id, str(e))
-            logger.error(info)
-            sys.exit(1)
+            pid = None
 
-        # 数据库读取
-        try:
-
-            text = model.text
-            obj = json.loads(text)
-
-            monitor = obj["monitor"]
-            if not monitor:
-                info = "model[{0}] does not has monitor info".format(g_model_id)
-                logger.error(info)
-                sys.exit(1)
-            status = monitor["status"]
-            if status == "on":
-                info = "model[{0}] has already start monitor".format(g_model_id)
-                logger.error(info)
-                sys.exit(1)
-            pid = monitor.get("pid")
-
-            # if pid != '0':
-            #     # 并且检测以下是否存在,待补充
-            #     message = 'pid %s already exist. Monitor already running!'
-            #     logger.fatal(message)
-            #     sys.exit(1)
-        except Exception as e:
-            logger.error("start monitor failed:{0}".format(str(e)))
+        if pid:
+            logger.error("pidfile already exist.Daemon monitor already running?")
             sys.exit(1)
 
         # 启动监控
-        self._daemonize()
-        self._run()
+        self.__daemonize()
+        self.__run()
 
+    # 停止
     def stop(self):
         try:
-            model = Model.objects.get(uuid=g_model_id)
-            self.model = model
-        except Model.DoesNotExist:
-            info = "model[{0}] does not exist".format(g_model_id)
-            logger.error(info)
-            sys.exit(1)
+            fo = open(self.__pidfile,'r')
+            pid = int(fo.read().strip())
+            fo.close()
         except Exception as e:
-            info = "get model [{0}] failed : {1}".format(g_model_id, str(e))
-            logger.error(info)
-            sys.exit(1)
+            logger.error("get daemon pid file failed:{}".format(str(e)))
+            pid = None
 
-        try:
+        if not pid:
+            logger.error("pid file does not exist. not running?")
+            return
 
-            text = model.text
-            obj = json.loads(text)
-            logger.debug("monitor model text:{0}".format(text))
+        logger.debug("read pid from pid file:{}".format(str(pid)))
 
-            monitor = obj["monitor"]
-            if not monitor:
-                info = "model[{0}] does not has monitor info".format(g_model_id)
-                logger.error(info)
-                sys.exit(1)
-            status = monitor["status"]
-            if status == "off":
-                info = "model[{0}] has already stop monitor".format(g_model_id)
-                logger.error(info)
-                sys.exit(1)
-            pid = monitor.get("pid")
-            pid = int(pid)
-            logger.info("pid is {0}".format(pid))
-        except Exception as e:
-            logger.error("stop monitor failed:{}".format(str(e)))
-
+        logger.info("stop daemon monitor process")
 
         # 杀进程,循环删除
         try:
@@ -141,58 +137,251 @@ class Daemon:
 
         except OSError as err:
             err = str(err)
-
             if err.find('No such process') > 0:
                 logger.error("no such process")
+                if os.path.exists(self.__pidfile):
+                    os.remove(self.__pidfile)
             else:
                 logger.error(str(err))
                 sys.exit(1)
-        try:
-            text = self.model.text
-            obj = json.loads(text)
-            monitor = obj.get("monitor")
-
-            monitor["status"] = "off"
-            monitor["pid"] = '0'
-            self.model.text = json.dumps(obj)
-            self.model.save()
-            logger.info("stop monitor [{}]  success".format(g_model_id))
-        except Exception as e:
-            logger.error("stop monitor failed:{}".format(str(e)))
 
     def restart(self):
         self.stop()
         self.start()
 
-    def _run(self):
+    def __run(self):
         try:
-            text = self.model.text
-            obj = json.loads(text)
-            monitor = obj.get("monitor")
-
-            monitor["status"] = "on"
-            monitor["pid"] = str(os.getpid())
-            self.model.text = json.dumps(obj)
-            self.model.save()
+            logger.info("pid is {}".format(os.getpid()))
+            self.__timer = threading.Timer(1, self.monitor_models)
+            self.__timer.start()
         except Exception as e:
-            logger.error("save model monitor failed:{}".format(str(e)))
+            logger.error("start monitor failed:{}".format(str(e)))
             sys.exit(1)
 
-        monitor_model(g_model_id)
 
+    # 刷新前清理数据
+    def __cleanMonitorData(self):
+        try:
+            self.__monitorData = []
+            self.__monitorPaths = []
+            if connection:
+                connection.close()
+        except Exception as e:
+            logger.error("clean monitor data failed:{}".format(str(e)))
+
+    # 监听所有模型
+    def monitor_models(self):
+        try:
+            now = datetime.datetime.utcnow() - datetime.timedelta(hours=16)
+            logger.info("refresh monitor info from database :{}".format(now.strftime("%Y-%m-%d %H:%M:%S")))
+            self.__cleanMonitorData()
+            models = Model.objects.all()
+        except Exception as e:
+            info = "get models failed : {}".format(str(e))
+            logger.error(info)
+            sys.exit(1)
+
+        try:
+            for model in models:
+                text = model.text
+                obj = json.loads(text)
+                if not "monitor" in obj:
+                    continue
+
+                user_id = model.user.uuid
+                user_root = os.path.join(setting.UPLOADS_ROOT,str(user_id))
+                monitor = obj["monitor"]
+                status = monitor["status"]
+                if status == "on":
+                    data = monitor["data"]
+                    for d in data:
+                        d_path = d["path"]
+                        d["relative_path"] = d_path
+                        path = os.path.join(user_root,d_path[1:])
+                        d["path"] = path
+                        self.__add_monitor_folder_path(path,str(model.uuid))
+                    self.__monitorData.append({
+                        "id": str(model.uuid),
+                        "data": data
+                    })
+        except Exception as e:
+            logger.error("get monitor info failed:{}".format(str(e)))
+            return
+
+        try:
+            mask = IN_CLOSE_WRITE
+            paths = []
+            if not self.__wm:
+                wm = WatchManager()
+                self.__wm = wm
+                self.__notifier = Notifier(self.__wm, EventHandler())
+                for monitorPath in self.__monitorPaths:
+                    path = monitorPath["path"]
+                    logger.info('now starting monitor %s' % (path))
+                    paths.append(path)
+                self.__watchPaths = self.__wm.add_watch(paths, mask, rec=False)
+                connection.close()
+                self.__timer = threading.Timer(10, self.monitor_models)
+                self.__timer.start()
+
+                while True:
+                    try:
+                        self.__notifier.process_events()
+                        if self.__notifier.check_events():
+                            self.__notifier.read_events()
+                    except KeyboardInterrupt:
+                        self.__notifier.stop()
+                        break
+            else:
+                # 第二次访问，清理监听文件夹，新加入监听文件夹
+                rm_paths = []
+                for value in self.__watchPaths.values():
+                    rm_paths.append(value)
+                self.__wm.rm_watch(rm_paths)
+                for monitorPath in self.__monitorPaths:
+                    path = monitorPath["path"]
+                    logger.info('now starting monitor %s' % (path))
+                    paths.append(path)
+                self.__watchPaths = self.__wm.add_watch(paths, mask, rec=False)
+                connection.close()
+                self.__timer = threading.Timer(10, self.monitor_models)
+                self.__timer.start()
+        except Exception as e:
+            logger.error("run monitor failed:{}".format(str(e)))
+
+
+    # 加入监听文件夹
+    def __add_monitor_folder_path(self,path,model_id):
+        try:
+            for p in self.__monitorPaths:
+                models = p["models"];
+                if p["path"] == path:
+                    if not model_id in models :
+                        models.append(model_id)
+                    return
+            self.__monitorPaths.append({
+                "path":path,
+                "models":[model_id]
+            })
+        except Exception as e:
+            logger.error("add monitor path failed:{}".format(str(e)))
+
+
+    # 上传文件后的判断
+    def verify(self,path,name):
+        try:
+            logger.debug("***********begin verify new file***********")
+            for monitorPath in self.__monitorPaths:
+                m_path = monitorPath["path"]
+                if os.path.normpath(m_path) == os.path.normpath(path):
+                    for model in monitorPath["models"]:
+                        self.__verify_model(path,name,model)
+            logger.debug("***********stop verify new file***********")
+        except Exception as e:
+            logger.error("verify file failed:{}".format(str(e)))
+
+    # 根据模型id来获取监听信息
+    def __get_monitor_data(self,model_id):
+        try:
+            for monitorData in self.__monitorData:
+                id = monitorData["id"]
+                if id == model_id:
+                    return monitorData["data"]
+        except Exception as e:
+            logger.error("get monitor data failed:{}".format(str(e)))
+        return None
+
+    # 验证一个模型
+    def __verify_model(self,path,name,model_id):
+        try:
+            monitorData = self.__get_monitor_data(model_id)
+            if not monitorData:
+                return
+            new_data = []
+            logger.info("new file[{}] match model[{}] path".format(name,model_id))
+
+            for data in monitorData:
+                d_path = data["path"]
+                d_prefix = data["prefix"]
+                if os.path.normpath(d_path) == os.path.normpath(path):
+                    result = re.match(r"^" + d_prefix + "", name)
+                    if result == None:
+                        # 路径一致,但是前缀不符合
+                        logger.info("new file[{}] does not matched prefix[{}]".format(name,d_prefix))
+                        continue
+                    logger.info("new file[{}] match [{}]".format(name, d_prefix))
+
+                    # 前缀与文件类型之间的名称
+                    pos_1 = name.index(".")
+                    prefix_length = len(d_prefix)
+                    new_file_name = name[prefix_length:pos_1]
+
+                    data["new_path"] = os.path.join(d_path, name)
+                    data["new_file_name"] = new_file_name
+                    data["name"] = name
+                    # 数据有效
+                    new_data.append(data)
+            if len(new_data) == 0:
+                logger.info("new file[{}] does not match any node".format(name))
+                return
+
+            #单一输入
+            if len(new_data) == len(monitorData):
+                createTask(model_id,new_data)
+                return
+
+            # 验证通过的数据
+            new_data_id = new_data[0]["id"]
+            new_file_name = new_data[0]["new_file_name"]
+
+            # 多个输入时考虑,去监听数据中根据路径查找名称相同的
+            for data in monitorData:
+                d_path = data["path"]
+                d_id = data["id"]
+                if d_id == new_data_id:
+                    continue
+                d_prefix = data["prefix"]
+
+                prefix_length = len(d_prefix)
+                flag = False
+                for filename in os.listdir(d_path):
+                    fp = os.path.join(d_path, filename)
+                    if os.path.isfile(fp):
+                        result = re.match(r"^" + d_prefix + "",filename)
+                        if result == None:
+                            continue
+                        pos_1 = filename.index(".")
+                        middle_name = filename[prefix_length:pos_1]
+                        if middle_name == new_file_name:
+                            flag = True
+                            data["new_path"] = fp
+                            data["new_file_name"] = middle_name
+                            data["name"] = filename
+                            new_data.append(data)
+                            break
+                if not flag:
+                    # 在另一个输入里面没有形同名称的文件，直接退出
+                    logger.info("not found match file")
+                    return
+            if len(new_data) == len(monitorData):
+                createTask(model_id,new_data)
+                return
+            return
+        except Exception as e:
+            logger.error("verify model[{}] failed:{}".format(model_id,str(e)))
+            return
 
 # 创建task
-def createTask(new_data):
-    # logger.info(daemon)
+def createTask(model_id,new_data):
     try:
         django.setup()
-        model = Model.objects.get(uuid=g_model_id)
+        model = Model.objects.get(uuid=model_id)
     except Model.DoesNotExist:
-        info = "model[{0}] does not exist".format(g_model_id)
+        info = "model[{0}] does not exist".format(model_id)
         logger.error(info)
         return
     except Exception as e:
-        info = "get model [{0}] failed : {1}".format(g_model_id, str(e))
+        info = "get model [{0}] failed : {1}".format(model_id, str(e))
         logger.error(info)
         return
 
@@ -237,7 +426,6 @@ def createTask(new_data):
         logger.error("save new task[{0}] failed:{1}".format(task_name,str(e)))
         return
 
-
 # 运行任务
 def runTask(task_id):
     try:
@@ -254,6 +442,7 @@ def runTask(task_id):
         logger.error("task[{0}] is running".format(task_id))
     start_run_task(task)
 
+# 执行运行任务
 def start_run_task(task):
     try:
         user_uuid = task.model.user.uuid
@@ -285,7 +474,6 @@ def start_run_task(task):
             flow = graph.plan()
             if flow:
 
-                #task.process_set.delete()
                 Process.objects.filter(task=task).delete()
 
                 #生成执行步骤及其状态,记录Process的状态
@@ -411,178 +599,19 @@ def start_run_task(task):
     finally:
         connection.close()
 
-
-# 验证新加入的文件是否符合规则
-def verify(path,name):
-    new_data = []
-    length = len(monitor_data)
-
-    # 匹配的名称
-    # new_file_name = None
-    for data in monitor_data:
-        d_path = data["path"]
-        d_prefix = data["prefix"]
-        if os.path.normpath(d_path) == os.path.normpath(path):
-            result = re.match(r"^" + d_prefix + "",name)
-            if result == None:
-                # 路径一致,但是前缀不符合
-                logger.info("new file does not matched")
-                return
-            logger.info("new file[{}] match [{}]".format(name,d_prefix))
-
-            # 前缀与文件类型之间的名称
-            pos_1 = name.index(".")
-            prefix_length = len(d_prefix)
-            new_file_name = name[prefix_length:pos_1]
-
-            data["new_path"] = os.path.join(d_path, name)
-            data["new_file_name"] = new_file_name
-            data["name"] = name
-            # 数据有效
-            new_data.append(data)
-            break
-
-    # 只有一个的情况
-    if len(new_data) == length:
-        createTask(new_data)
-        return
-
-
-    new_data_id = new_data[0]["id"]
-    new_file_name = new_data[0]["new_file_name"]
-
-    # 多个输入时考虑,去监听数据中根据路径查找名称相同的
-    for data in monitor_data:
-        path = data["path"]
-        id = data["id"]
-
-        if id == new_data_id:
-            continue
-        prefix = data["prefix"]
-
-        # 前缀与文件类型之间的名称
-
-        prefix_length = len(prefix)
-        flag = False
-        for filename in os.listdir(path):
-            fp = os.path.join(path,filename)
-            if os.path.isfile(fp):
-                result = re.match(r"^" + prefix + "", filename)
-                if result == None:
-                    continue
-                pos_1 = filename.index(".")
-                middle_name = filename[prefix_length:pos_1]
-                if middle_name == new_file_name:
-                    flag = True
-                    data["new_path"] = fp
-                    data["new_file_name"] = middle_name
-                    data["name"] = filename
-                    new_data.append(data)
-                    break
-        if not flag:
-            return
-
-
-    if len(new_data) == length:
-        createTask(new_data)
-        return
-    return
-
-
-
+# 监听文件夹的事件处理
 class EventHandler(ProcessEvent):
-    """事件处理"""
-    # def process_IN_CREATE(self, event):
-    #     if event.dir:
-    #         return
-    #     logger.info("Create file: %s " % os.path.join(event.path, event.name))
-    #     verify(event.path,event.name)
-
     def process_IN_CLOSE_WRITE(self, event):
         if event.dir:
             return
         logger.info("close write file: %s " % os.path.join(event.path, event.name))
-        verify(event.path,event.name)
-
-    # def process_IN_MODIFY(self, event):
-    #     if event.dir:
-    #         return
-    #     logger.info("Modify file: %s " % os.path.join(event.path, event.name))
-    #     verify(event.path,event.name)
-
-# 监听一个模型
-def monitor_model(model_id):
-    try:
-        model = Model.objects.get(uuid=model_id)
-    except Model.DoesNotExist:
-        info = "model[{0}] does not exist".format(model_id)
-        logger.error(info)
-        return
-    except Exception as e:
-        info = "get model [{0}] failed : {1}".format(model_id, str(e))
-        logger.error(info)
-        return
-    try:
-        text = model.text
-        obj = json.loads(text)
-        user_id = model.user.uuid
-        user_root = os.path.join(setting.UPLOADS_ROOT,str(user_id))
-
-        monitor = obj["monitor"]
-        if not monitor:
-            info ="model[{0}] does not has monitor info".format(model_id)
-            logger.error(info)
-            return
-        data = monitor["data"]
-        for d in data:
-            d_path = d["path"]
-            d["relative_path"] = d_path
-            d_path = os.path.join(user_root,d_path[1:])
-            d["path"] = d_path
-
-        # 从监听信息中读取监听的路径等数据
-        global monitor_data
-        monitor_data = data
-
-        connection.close()
-        monitor_path()
-
-    except Exception as e:
-        logger.error("monitor model[{0}] failed: {1}".format(model_id,str(e)))
-        return
-
-
-
-# 监听路径
-def monitor_path():
-    try:
-        wm = WatchManager()
-        mask = IN_CLOSE_WRITE
-        notifier = Notifier(wm, EventHandler())
-
-        # 添加监听
-        for d in monitor_data:
-            path = d["path"]
-            wm.add_watch(path, mask, rec=True)
-            logger.info('now starting monitor %s' % (path))
-
-        while True:
-            try:
-                notifier.process_events()
-                if notifier.check_events():
-                    notifier.read_events()
-            except KeyboardInterrupt:
-                notifier.stop()
-                break
-    except Exception as e:
-        logger.error("start monitor failed:{}".format(str(e)))
-
+        daemon.verify(event.path,event.name)
 
 # 入口
 if __name__ == '__main__':
-    daemon = Daemon()
-    if len(sys.argv) == 3:
-        g_model_id = sys.argv[2]
+    pidfile = "/tmp/daedom_monitor.pid"
+    daemon = Daemon(pidfile)
+    if len(sys.argv) == 2:
         if 'start' == sys.argv[1]:
             daemon.start()
         elif 'stop' == sys.argv[1]:
@@ -594,9 +623,8 @@ if __name__ == '__main__':
             sys.exit(2)
         sys.exit(0)
     else:
-        logger.error('usage: %s start|stop|restart model_id' % sys.argv[0])
+        logger.error('usage: %s start|stop|restart' % sys.argv[0])
         sys.exit(2)
 
-    # global g_model_id
-    # g_model_id = '1cb407c2-3e23-4ed0-ab7e-13594d1cc005'
-    # monitor_model(g_model_id)
+    # daemon.monitor_models()
+
