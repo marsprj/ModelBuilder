@@ -157,17 +157,12 @@ class Connection:
 Monitor Class
 """
 class Monitor:
-    _pid = 0
     _data = []
     _status = "off"
 
     def __init__(self):
-        self._pid = 0
         self._data = []
         self._status = "off"
-
-    def setPid(self,pid):
-        self._pid = pid
 
     def setStatus(self,status):
         self._status = status
@@ -218,9 +213,6 @@ class Graph:
             self._connections.append(cn)
 
         if monitor:
-            pid = monitor["pid"]
-            if pid:
-                self._monitor.setPid(pid)
             status = monitor["status"]
             if status:
                 self._monitor.setStatus(status)

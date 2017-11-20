@@ -7,10 +7,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ac37dfb7-7c13-4d7d-a101-64ef4a8b8d82" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/model/urls.py" afterPath="$PROJECT_DIR$/model/urls.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/model/Graph.py" afterPath="$PROJECT_DIR$/model/Graph.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/model/views.py" afterPath="$PROJECT_DIR$/model/views.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/monitor/__init__.py" afterPath="$PROJECT_DIR$/monitor/__init__.py" />
     </list>
     <ignored path="ModelFlow.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -53,11 +51,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="__init__.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="__init__.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/monitor/__init__.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="350">
-              <caret line="240" column="56" lean-forward="true" selection-start-line="240" selection-start-column="56" selection-end-line="240" selection-end-column="56" />
+            <state relative-caret-position="188">
+              <caret line="231" column="51" lean-forward="true" selection-start-line="231" selection-start-column="51" selection-end-line="231" selection-end-column="51" />
               <folding>
                 <element signature="e#9718#12857#0" expanded="false" />
                 <element signature="e#12905#14548#0" expanded="false" />
@@ -94,8 +92,8 @@
       <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/model/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="266">
-              <caret line="1231" column="11" lean-forward="true" selection-start-line="1231" selection-start-column="11" selection-end-line="1231" selection-end-column="11" />
+            <state relative-caret-position="14">
+              <caret line="932" column="59" lean-forward="true" selection-start-line="932" selection-start-column="59" selection-end-line="932" selection-end-column="59" />
               <folding>
                 <element signature="e#0#35#0" expanded="true" />
               </folding>
@@ -107,10 +105,20 @@
         <entry file="file://$PROJECT_DIR$/model/urls.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="356">
-              <caret line="41" column="36" lean-forward="true" selection-start-line="41" selection-start-column="36" selection-end-line="41" selection-end-column="36" />
+              <caret line="41" column="36" lean-forward="false" selection-start-line="41" selection-start-column="36" selection-end-line="41" selection-end-column="36" />
               <folding>
                 <element signature="e#0#32#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Graph.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/model/Graph.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="309">
+              <caret line="169" column="15" lean-forward="false" selection-start-line="169" selection-start-column="8" selection-end-line="169" selection-end-column="15" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -208,14 +216,14 @@
         <option value="$PROJECT_DIR$/monitor/model.py" />
         <option value="$PROJECT_DIR$/monitor/daemon.py" />
         <option value="$PROJECT_DIR$/monitor/a.py" />
-        <option value="$PROJECT_DIR$/model/Graph.py" />
         <option value="$PROJECT_DIR$/monitor/c.py" />
         <option value="$PROJECT_DIR$/monitor/b.py" />
         <option value="$PROJECT_DIR$/monitor/setting.py" />
         <option value="$PROJECT_DIR$/ModelFlow/settings.py" />
         <option value="$PROJECT_DIR$/model/urls.py" />
-        <option value="$PROJECT_DIR$/model/views.py" />
         <option value="$PROJECT_DIR$/monitor/__init__.py" />
+        <option value="$PROJECT_DIR$/model/views.py" />
+        <option value="$PROJECT_DIR$/model/Graph.py" />
       </list>
     </option>
   </component>
@@ -806,6 +814,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="64" y="-11" width="1217" height="1036" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.20119353" sideWeight="0.49421486" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3281768" sideWeight="0.49029535" order="7" side_tool="false" content_ui="tabs" />
@@ -813,11 +822,11 @@
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.23375528" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3281768" sideWeight="0.48691982" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.23314917" sideWeight="0.5873418" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.28618786" sideWeight="0.8469136" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.28618786" sideWeight="0.8469136" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24959481" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3281768" sideWeight="0.49029535" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.16118143" sideWeight="0.5057851" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.28066298" sideWeight="0.67572016" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.28066298" sideWeight="0.67572016" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="manage.py@ModelFlow" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2839779" sideWeight="0.8518519" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -908,7 +917,7 @@
           </properties>
         </breakpoint>
       </default-breakpoints>
-      <option name="time" value="338" />
+      <option name="time" value="339" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="Python.DjangoServer">
@@ -1100,14 +1109,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/model/Graph.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3546">
-          <caret line="197" column="31" lean-forward="false" selection-start-line="197" selection-start-column="27" selection-end-line="197" selection-end-column="31" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/ModelFlow/urls.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -1208,27 +1209,17 @@
     <entry file="file://$PROJECT_DIR$/model/urls.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="356">
-          <caret line="41" column="36" lean-forward="true" selection-start-line="41" selection-start-column="36" selection-end-line="41" selection-end-column="36" />
+          <caret line="41" column="36" lean-forward="false" selection-start-line="41" selection-start-column="36" selection-end-line="41" selection-end-column="36" />
           <folding>
             <element signature="e#0#32#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/model/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="266">
-          <caret line="1231" column="11" lean-forward="true" selection-start-line="1231" selection-start-column="11" selection-end-line="1231" selection-end-column="11" />
-          <folding>
-            <element signature="e#0#35#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/monitor/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="350">
-          <caret line="240" column="56" lean-forward="true" selection-start-line="240" selection-start-column="56" selection-end-line="240" selection-end-column="56" />
+        <state relative-caret-position="188">
+          <caret line="231" column="51" lean-forward="true" selection-start-line="231" selection-start-column="51" selection-end-line="231" selection-end-column="51" />
           <folding>
             <element signature="e#9718#12857#0" expanded="false" />
             <element signature="e#12905#14548#0" expanded="false" />
@@ -1236,6 +1227,24 @@
             <element signature="e#15059#21261#0" expanded="false" />
             <element signature="e#21312#21524#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/model/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="14">
+          <caret line="932" column="59" lean-forward="true" selection-start-line="932" selection-start-column="59" selection-end-line="932" selection-end-column="59" />
+          <folding>
+            <element signature="e#0#35#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/model/Graph.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="309">
+          <caret line="169" column="15" lean-forward="false" selection-start-line="169" selection-start-column="8" selection-end-line="169" selection-end-column="15" />
+          <folding />
         </state>
       </provider>
     </entry>

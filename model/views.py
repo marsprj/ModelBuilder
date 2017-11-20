@@ -951,6 +951,7 @@ def model_monitor_verify(text):
     #待补充，检测只输入的dataNode是否已经设置完毕
     nodes = graph.getMonitorData()
     if not nodes:
+        logger.error("monitor data not valid")
         return False
     monitor = graph.getMonitor()
     if not monitor:
