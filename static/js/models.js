@@ -10,7 +10,6 @@ function loadModels(){
 			showModels(JSON.parse(json));
 		},
 		error : function(xhr){
-			alert("获取模型列表失败");
 			showModels([]);
 			console.log(xhr)
 		}
