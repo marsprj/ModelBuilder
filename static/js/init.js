@@ -66,6 +66,7 @@ function initPageEvent(){
 
 	// 新建模型
 	$(".new-model-btn").click(function(){
+		$(".dialog").remove();
 		var dlg = new CreateModelDialog(function(result){
 			if(result.status == "error"){
 				alert(result.message);

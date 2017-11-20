@@ -1,6 +1,7 @@
 // 获取模型列表
 function loadModels(){
 	$("#models_container").empty().addClass("loading");
+	$(".dialog").remove();
 	var url = "/model/" + g_username + "/models/";
 	$.ajax({
 		url : url,
@@ -127,6 +128,7 @@ function showModels(json){
 
 
 function refreshModel(uuid){
+	$(".dialog").remove();
 	g_graph.clear();
 	getModel(uuid,showModel);
 }
