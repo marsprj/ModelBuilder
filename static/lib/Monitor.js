@@ -1,7 +1,6 @@
 var Monitor = function(){
 	this._status = "off";
 	this._data = [];
-	this._pid = 0;
 }
 
 Monitor.prototype.load = function(obj){
@@ -12,9 +11,6 @@ Monitor.prototype.load = function(obj){
 		this._status = obj.status;
 	}
 	
-	if(obj.pid){
-		this._pid = obj.pid;
-	}
 	
 	if(obj.data){
 		this._data = obj.data;
@@ -24,7 +20,6 @@ Monitor.prototype.load = function(obj){
 Monitor.prototype.export = function(){
 	var obj = {
 		status : this._status,
-		pid : this._pid,
 		data : this._data
 	};
 
@@ -34,7 +29,6 @@ Monitor.prototype.export = function(){
 
 Monitor.prototype.clear = function(){
 	this._status = "off";
-	this._pid = 0;
 	this._data = [];
 };
 

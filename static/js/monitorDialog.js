@@ -237,22 +237,28 @@ MonitorDialog.prototype.saveMonitor = function(){
 			}else if(result.status == "success"){
 				dlg._win.find(".monitor-info").html("保存成功");
 				setTimeout(function(){
-					dlg._win.find(".monitor-info").html("正在重启监听");
-					dlg.restartMonitorModel(modelID,function(result){
-						if(result.status == "error"){
-							dlg._win.find(".monitor-info").html(result.message);
-							return;
-						}else if(result.status == "success"){
-							dlg._win.find(".monitor-info").html("重启监听成功");
-							setTimeout(function(){
-								dlg.destory();
-								if(dlg._onOK){
-									dlg._onOK();
-								}
-							}, 400);
-						}
-					});
-				},400);
+					dlg.destory();
+					if(dlg._onOK){
+						dlg._onOK();
+					}
+				}, 400);
+				// setTimeout(function(){
+				// 	dlg._win.find(".monitor-info").html("正在重启监听");
+				// 	dlg.restartMonitorModel(modelID,function(result){
+				// 		if(result.status == "error"){
+				// 			dlg._win.find(".monitor-info").html(result.message);
+				// 			return;
+				// 		}else if(result.status == "success"){
+				// 			dlg._win.find(".monitor-info").html("重启监听成功");
+				// 			setTimeout(function(){
+				// 				dlg.destory();
+				// 				if(dlg._onOK){
+				// 					dlg._onOK();
+				// 				}
+				// 			}, 400);
+				// 		}
+				// 	});
+				// },400);
 			}
 		});
 	}else if (preStatus == "off" && status) {
@@ -369,8 +375,15 @@ MonitorDialog.prototype.restartMonitorModel = function(modelID,callback){
 
 MonitorDialog.prototype.verifyData = function(){
 
+	var nodeLength = this._win.find(".data-div .row:not(.header)").length;
+	if(nodeLength == 0){
+		this._win.find(".monitor-info").html("没有有效的监听节点");
+		return false;
+	}
+
 	// 判断前缀是否有效
 	this._win.find("input").removeClass("error");
+	this._win.find(".monitor-info").html("");
 	var prefixReg = /^[\u4e00-\u9fa5_a-zA-Z0-9]*$/;
 	var prefixInputs = this._win.find(".prefix-input");
 	prefixInputs.each(function(index, el) {
