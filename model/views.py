@@ -151,7 +151,6 @@ def model_delete(request,model_id):
 
     try:
         model.delete()
-        kill_model_monitor(model_id)
         logger.info("delete model [{0}] success".format(model_id))
     except Exception as e:
         logger.error("delete model [{0}]:".format(model_id,str(e)))

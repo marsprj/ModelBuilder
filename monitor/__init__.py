@@ -628,3 +628,4 @@ if __name__ == '__main__':
     else:
         logger.error('usage: %s start|stop|restart' % sys.argv[0])
         sys.exit(2)
+    # daemon.monitor_models()
