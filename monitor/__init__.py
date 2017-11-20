@@ -36,6 +36,7 @@ class Daemon:
     __wm = None
     __watchPaths = None
     __pidfile = None
+    __interval = 2*60
 
     def __init__(self,pidfile):
         self.__monitorData = []
@@ -45,7 +46,7 @@ class Daemon:
         self.__wm = None
         self.__watchPaths = None
         self.__pidfile = pidfile
-
+        self.__interval = 2*60
 
     # def __del__(self):
     #     self.__cleanMonitorData()
@@ -223,7 +224,7 @@ class Daemon:
                     paths.append(path)
                 self.__watchPaths = self.__wm.add_watch(paths, mask, rec=False)
                 connection.close()
-                self.__timer = threading.Timer(10, self.monitor_models)
+                self.__timer = threading.Timer(self.__interval, self.monitor_models)
                 self.__timer.start()
 
                 while True:
@@ -246,7 +247,7 @@ class Daemon:
                     paths.append(path)
                 self.__watchPaths = self.__wm.add_watch(paths, mask, rec=False)
                 connection.close()
-                self.__timer = threading.Timer(10, self.monitor_models)
+                self.__timer = threading.Timer(self.__interval, self.monitor_models)
                 self.__timer.start()
         except Exception as e:
             logger.error("run monitor failed:{}".format(str(e)))

@@ -936,6 +936,7 @@ def model_start(request,model_id):
         monitor["status"] = "on"
         model.text = json.dumps(obj)
         model.save()
+        logger.info("start model[{}] monitor success".format(model_id))
     except Exception as e:
         logger.error("start model[{0}] monitor  failed:{1}".format(model_id,str(e)))
         return http_error_response("start model failed")
@@ -1001,95 +1002,93 @@ def model_stop(request,model_id):
         if not monitor:
             logger.error("model[{0}] does not has monitor info".format(model_id))
             return http_error_response("model does not has monitor info")
+
         status = monitor["status"]
-
-
         if status == "off":
-            kill_model_monitor(model_id)
             logger.error("model[{0}] has already stop monitor".format(model_id))
             return http_error_response("model has already stop monitor")
 
         monitor["status"] = "off"
         model.text = json.dumps(obj)
         model.save()
-
+        logger.info("stop model[{}] monitor success".format(model_id))
     except Exception as e:
-        logger.error("get model[{0}] monitor info failed".format(model_id))
-        return http_error_response("stop model failed")
+        logger.error("stop model[{0}] monitor failed".format(model_id))
+        return http_error_response("stop model monitor failed")
     return http_success_response()
 
 
 
-# 重启监听
-def model_restart(request,model_id):
-    try:
-        model = Model.objects.get(uuid=model_id)
-    except Model.DoesNotExist:
-        logger.error("no model [{0}]".format(model_id))
-        return http_error_response("Model does not exist")
-    except Exception as e:
-        logger.error("get model[{0}] failed:{1}".format(model_id,str(e)))
-        return http_error_response("restart model monitor failed")
-
-    try:
-        text = model.text
-        obj = json.loads(text)
-        monitor = obj['monitor']
-        if not monitor:
-            logger.error("model[{0}] does not has monitor info".format(model_id))
-            return http_error_response("model does not has monitor info")
-        status = monitor["status"]
-        # if status == "on":
-        #     logger.error("model[{0}] has already stop monitor".format(model_id))
-        #     return http_error_response("model has already stop monitor")
-
-        # path = os.path.join(os.path.join(settings.BASE_DIR, "monitor"), "__init__.py")
-        # command = "python " + path + " restart " + model_id
-        # logger.debug("command: {0}".format(command))
-        # p = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        # p.wait()
-        #
-        # logger.info(" return code is :{0}".format(str(p.returncode)))
-        # if (p.returncode) != 0:
-        #     logger.info('kill pid')
-        #     p.kill()
-        #     p_erro_info = p.stderr.read()
-        #     return_info = p_erro_info
-        #     print(return_info)
-        #     if p_erro_info.decode("utf-8") == '':
-        #         return_info = p.stdout.read()
-        #     logger.info(return_info)
-        #     raise Exception("start monitor failed:{0}".format(return_info.decode("utf-8")))
-
-    except Exception as e:
-        logger.error("restart model[{}] monitor failed:{}".format(model_id,str(e)))
-        return http_error_response("restart model monitor failed")
-    return http_success_response()
+# # 重启监听
+# def model_restart(request,model_id):
+#     try:
+#         model = Model.objects.get(uuid=model_id)
+#     except Model.DoesNotExist:
+#         logger.error("no model [{0}]".format(model_id))
+#         return http_error_response("Model does not exist")
+#     except Exception as e:
+#         logger.error("get model[{0}] failed:{1}".format(model_id,str(e)))
+#         return http_error_response("restart model monitor failed")
+#
+#     try:
+#         text = model.text
+#         obj = json.loads(text)
+#         monitor = obj['monitor']
+#         if not monitor:
+#             logger.error("model[{0}] does not has monitor info".format(model_id))
+#             return http_error_response("model does not has monitor info")
+#         status = monitor["status"]
+#         # if status == "on":
+#         #     logger.error("model[{0}] has already stop monitor".format(model_id))
+#         #     return http_error_response("model has already stop monitor")
+#
+#         # path = os.path.join(os.path.join(settings.BASE_DIR, "monitor"), "__init__.py")
+#         # command = "python " + path + " restart " + model_id
+#         # logger.debug("command: {0}".format(command))
+#         # p = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+#         # p.wait()
+#         #
+#         # logger.info(" return code is :{0}".format(str(p.returncode)))
+#         # if (p.returncode) != 0:
+#         #     logger.info('kill pid')
+#         #     p.kill()
+#         #     p_erro_info = p.stderr.read()
+#         #     return_info = p_erro_info
+#         #     print(return_info)
+#         #     if p_erro_info.decode("utf-8") == '':
+#         #         return_info = p.stdout.read()
+#         #     logger.info(return_info)
+#         #     raise Exception("start monitor failed:{0}".format(return_info.decode("utf-8")))
+#
+#     except Exception as e:
+#         logger.error("restart model[{}] monitor failed:{}".format(model_id,str(e)))
+#         return http_error_response("restart model monitor failed")
+#     return http_success_response()
 
 
 # 强制停止监听程序
-def kill_model_monitor(uuid):
-    try:
-        for p in psutil.process_iter(attrs=["cmdline"]):
-            cmdlines = p.info['cmdline']
-            if len(cmdlines) == 4 and cmdlines[3] == uuid :
-                p.kill()
-                logger.info("kill model[{}] monitor : {}".format(uuid,p.pid))
-    except Exception as e:
-        logger.error("kill model[{}] monitor failed : {}".format(uuid,str(e)))
-        raise e
+# def kill_model_monitor(uuid):
+#     try:
+#         for p in psutil.process_iter(attrs=["cmdline"]):
+#             cmdlines = p.info['cmdline']
+#             if len(cmdlines) == 4 and cmdlines[3] == uuid :
+#                 p.kill()
+#                 logger.info("kill model[{}] monitor : {}".format(uuid,p.pid))
+#     except Exception as e:
+#         logger.error("kill model[{}] monitor failed : {}".format(uuid,str(e)))
+#         raise e
 
 
-def get_model_monitor_process(uuid):
-    processes = []
-    try:
-        for p in psutil.process_iter(attrs=["cmdline"]):
-            cmdlines = p.info['cmdline']
-            if len(cmdlines) == 4 and cmdlines[3] == uuid :
-                processes.append(p.pid)
-        return  processes
-    except Exception as e:
-        raise e
+# def get_model_monitor_process(uuid):
+#     processes = []
+#     try:
+#         for p in psutil.process_iter(attrs=["cmdline"]):
+#             cmdlines = p.info['cmdline']
+#             if len(cmdlines) == 4 and cmdlines[3] == uuid :
+#                 processes.append(p.pid)
+#         return  processes
+#     except Exception as e:
+#         raise e
 
 # 模型的监控状态
 def models_status(request,model_status,count,offset):
@@ -1137,7 +1136,6 @@ def models_status(request,model_status,count,offset):
             if selected:
                 model_text = selected.exportToJson()
                 model_text["status"] = flag
-                monitor_status = getMonitorStatus(str(model.uuid), flag)
                 model_text["monitor_status"] = "ok"
                 model_list.append(model_text)
         result = model_list[start:end]
@@ -1197,38 +1195,38 @@ def models_status_count(request,model_status):
         return http_error_response("get model status count failed")
 
 # 模型进程的状态
-def getMonitorStatus(model_id,status):
-    try:
-        pids = getMonitorProcess(model_id)
-        monitor_status =None
-        if status == "on":
-            if len(pids) == 1:
-                monitor_status = "ok"
-            else:
-                monitor_status = "error"
-        elif status == "off":
-            if len(pids) == 0:
-                monitor_status = "ok"
-            else:
-                monitor_status = "error"
-        return monitor_status
-    except Exception as e:
-        logger.error("get model[{}] monitor status failed:{}".format(model_id,str(e)))
-        return "error"
+# def getMonitorStatus(model_id,status):
+#     try:
+#         pids = getMonitorProcess(model_id)
+#         monitor_status =None
+#         if status == "on":
+#             if len(pids) == 1:
+#                 monitor_status = "ok"
+#             else:
+#                 monitor_status = "error"
+#         elif status == "off":
+#             if len(pids) == 0:
+#                 monitor_status = "ok"
+#             else:
+#                 monitor_status = "error"
+#         return monitor_status
+#     except Exception as e:
+#         logger.error("get model[{}] monitor status failed:{}".format(model_id,str(e)))
+#         return "error"
 
 
 # 获取模型的相关进程
-def getMonitorProcess(model_id):
-    pids = []
-    try:
-        for p in psutil.process_iter(attrs=["cmdline"]):
-            cmdlines = p.info["cmdline"]
-            if len(cmdlines) == 4 and cmdlines[3] == model_id:
-                pids.append(p.pid)
-        return pids
-    except Exception as e:
-        logger.error("get monitor[{}] pid failed:{}".format(model_id,str(e)))
-        raise e
+# def getMonitorProcess(model_id):
+#     pids = []
+#     try:
+#         for p in psutil.process_iter(attrs=["cmdline"]):
+#             cmdlines = p.info["cmdline"]
+#             if len(cmdlines) == 4 and cmdlines[3] == model_id:
+#                 pids.append(p.pid)
+#         return pids
+#     except Exception as e:
+#         logger.error("get monitor[{}] pid failed:{}".format(model_id,str(e)))
+#         raise e
 
 
 # 单一进程的状态获取
@@ -1272,7 +1270,7 @@ def model_status(request,model_id):
                     flag = "off"
         model_text = model.exportToJson()
         model_text["status"] = flag
-        monitor_status = getMonitorStatus(model_id, flag)
+        # monitor_status = getMonitorStatus(model_id, flag)
         model_text["monitor_status"] = "ok"
         result = json.dumps(model_text)
         logger.info("get model[{}] status:{}".format(model_id,result))

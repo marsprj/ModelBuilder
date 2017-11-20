@@ -42,7 +42,7 @@ urlpatterns = [
     url(r'^auto/$',views.auto_task),
     url(r'^model/(?P<model_id>[-A-Za-z0-9]+)/start/$',views.model_start),
     url(r'^model/(?P<model_id>[-A-Za-z0-9]+)/stop/$',views.model_stop),
-    url(r'^model/(?P<model_id>[-A-Za-z0-9]+)/restart/$',views.model_restart),
+    # url(r'^model/(?P<model_id>[-A-Za-z0-9]+)/restart/$',views.model_restart),
     url(r'^models/(?P<model_status>start|stop|all)/status/$',views.models_status),
     url(r'^models/(?P<model_status>start|stop|all)/status/count/$',views.models_status_count),
     url(r'^models/(?P<model_status>start|stop|all)/status/(?P<count>[0-9]+)/(?P<offset>[0-9]+)/$',views.models_status),
