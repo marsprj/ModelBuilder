@@ -2,7 +2,7 @@
 # coding: utf-8
 
 
-import sys, os, time, atexit, string,json,inspect
+import sys, os, time, atexit, string,json,inspect,psutil
 
 currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 parentdir = os.path.dirname(currentdir)
@@ -126,17 +126,19 @@ class Daemon:
 
         if not pid:
             logger.error("pid file does not exist. not running?")
-            return
+            # return
 
         logger.debug("read pid from pid file:{}".format(str(pid)))
 
         logger.info("stop daemon monitor process")
 
+
         # 杀进程,循环删除
         try:
-            while 1:
-                os.kill(pid, SIGTERM)
-                time.sleep(0.1)
+            if pid:
+                while 1:
+                    os.kill(pid, SIGTERM)
+                    time.sleep(0.1)
 
         except OSError as err:
             err = str(err)
@@ -146,11 +148,62 @@ class Daemon:
                     os.remove(self.__pidfile)
             else:
                 logger.error(str(err))
-                sys.exit(1)
+                # sys.exit(1)
+
+        try:
+            for p in psutil.process_iter(attrs=["cmdline"]):
+                cmdlines = p.info["cmdline"]
+                if len(cmdlines) == 3 and (cmdlines[2] == "start" or cmdlines[2] == "restart"):
+                    p.kill()
+        except Exception as e:
+            logging.error("kill process failedc:{}".format(str(e)))
+
 
     def restart(self):
         self.stop()
         self.start()
+
+    def getStatus(self):
+        try:
+            fo = open(self.__pidfile, 'r')
+            pid = int(fo.read().strip())
+            fo.close()
+        except Exception as e:
+            pid = None
+
+        try:
+            process = []
+            for p in psutil.process_iter(attrs=["cmdline"]):
+                cmdlines = p.info["cmdline"]
+                if len(cmdlines) == 3 and (cmdlines[2] == "start" or cmdlines[2]== "restart"):
+                    pyPath = cmdlines[1]
+                    index = pyPath.rfind("__init__.py")
+                    if index == -1:
+                        continue
+                    if len(pyPath) - len("__init__.py") == index:
+                        process.append(p.pid)
+        except Exception as e:
+            process = []
+
+        if pid:
+            if len(process) == 0:
+                return "error"
+            elif len(process) > 1:
+                return "error"
+            elif len(process) == 1:
+                process_pid = process[0]
+                if process_pid == pid:
+                    return "start"
+                else:
+                    return "error"
+        else:
+            if len(process) == 0:
+                return "stop"
+            else:
+                return "error"
+        # if not pid:
+        #     return "stop"
+
 
     def __run(self):
         try:
@@ -621,6 +674,9 @@ if __name__ == '__main__':
             daemon.stop()
         elif 'restart' == sys.argv[1]:
             daemon.restart()
+        elif 'status' == sys.argv[1]:
+            status = daemon.getStatus()
+            print(status)
         else:
             logger.error('unknown command')
             sys.exit(2)

@@ -1,5 +1,6 @@
 from django.conf.urls import url
 from . import views
+from . import monitor
 
 import time,json
 
@@ -47,4 +48,8 @@ urlpatterns = [
     url(r'^models/(?P<model_status>start|stop|all)/status/count/$',views.models_status_count),
     url(r'^models/(?P<model_status>start|stop|all)/status/(?P<count>[0-9]+)/(?P<offset>[0-9]+)/$',views.models_status),
     url(r'^model/(?P<model_id>[-A-Za-z0-9]+)/status/$',views.model_status),
+
+    url(r'^monitor/(?P<oper>start|stop|restart)/$',monitor.monitor_oper),
+    url(r'^monitor/status/$',monitor.monitor_status),
+
 ]
