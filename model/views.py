@@ -753,7 +753,8 @@ def user_logout(request,username):
     logger.info("用户[{0}]注销".format(username))
     return  response
 
-def user_list(request):
+# 获取用户个数
+def users_count(request):
     username = request.COOKIES.get("username")
     if not username:
         logger.error("get user list failed: user not login")
@@ -763,15 +764,55 @@ def user_list(request):
         return http_error_response("please login admin")
 
     try:
-        users = User.objects.all().exclude(username='admin').order_by("-login_time")
-        obj = []
-        for user in users:
-            obj.append(user.exportToJson())
+        users = User.objects.all().exclude(username='admin')
+        obj = {
+            "count": len(users)
+        }
+
+        logger.info("get users count:{}".format(str(len(users))))
         return HttpResponse(json.dumps(obj),content_type="application/json")
+    except Exception as e:
+        logger.error("get users count failed:{}".format(str(e)))
+        return http_error_response("get users count failed")
+
+# 分页获取用户列表
+def user_list(request,count,offset,field,orderby):
+    username = request.COOKIES.get("username")
+    if not username:
+        logger.error("get user list failed: user not login")
+        return http_error_response("please login")
+    if username != "admin":
+        logger.error("get user list failed: user is not admin")
+        return http_error_response("please login admin")
+
+    try:
+        start = int(offset)
+        end = int(offset) + int(count)
+        users = User.objects.all().exclude(username='admin')
+        users_list = []
+        users_list.extend(users)
+        obj = []
+        if orderby == 'desc':
+            reverse_order = True
+        else:
+            reverse_order = False
+        if field == "login_time":
+            users_list.sort(key=lambda k: k.login_time,reverse=reverse_order)
+        elif field == "models":
+            users_list.sort(key=lambda k: len(k.model_set.all()), reverse=reverse_order)
+        elif field == "username":
+            users_list.sort(key=lambda k: k.username, reverse=reverse_order)
+
+        return_list = users_list[start:end]
+        for user in return_list:
+            obj.append(user.exportToJson())
+        text = json.dumps(obj)
+        logger.info("get user list offset[{}] count[{}] order by {} {}:{}".format(offset,
+                                                                    count,field,orderby,text))
+        return HttpResponse(text, content_type="application/json")
     except Exception as e:
         logger.error("get user list failed:{0}".format(str(e)))
         return http_error_response("get user list failed")
-
 
 def user_delete(request,user_id):
     try:

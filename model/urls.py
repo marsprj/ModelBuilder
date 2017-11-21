@@ -30,7 +30,8 @@ urlpatterns = [
     url(r'^register/$', views.user_register, name='register'),
     url(r'^login/$', views.user_login, name='login'),
     url(r'^(?P<username>[-A-Za-z0-9]+)/logout/$', views.user_logout, name='logout'),
-    url(r'^users/$', views.user_list, name='users'),
+    url(r'^users/count/$',views.users_count),
+    url(r'^users/list/(?P<count>[0-9]+)/(?P<offset>[0-9]+)/(?P<field>[-_A-Za-z0-9]+)/(?P<orderby>desc|asc)/$', views.user_list, name='users'),
     url(r'^user/(?P<user_id>[-A-Za-z0-9]+)/delete/$', views.user_delete, name='user_delete'),
 
     #url(r'^tasks/(?P<task_state>[0-4]{1})/count/$',views.task_count),
