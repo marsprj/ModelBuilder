@@ -6,7 +6,6 @@ $().ready(function () {
         }
         $("#main").show();
 	    $(".user-name").html("用户&nbsp;:&nbsp;" + username);
-	    // getUserList();
     }else{
         window.location.href = "login.html";
     }
@@ -36,12 +35,23 @@ function registerPanelEvent(){
 
         if(pre == "user"){
             showUsersCount();
+        }else if (pre === "model") {
+            showModelsStatus(g_model_state);
         }
     });
 
         //排序切换
     $("#user_panel .order-icon").click(function(){
         changeOrderBy(this);
+    });
+
+    // 切换模型状态
+    $(".model-state-div li").click(function(){
+        $(".model-state-div li").removeClass('active');
+        $(this).addClass('active');
+        var status = $(this).attr("status");
+        g_model_state = status;
+        showModelsStatus(status);
     });
 }
 
