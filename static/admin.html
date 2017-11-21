@@ -3,213 +3,139 @@
 <head>
     <meta charset="UTF-8">
     <script type="text/javascript" src="./js/jquery-3.2.1.min.js"></script>
-<!--     <link rel="stylesheet" type="text/css" href="css/commom.css">
-    <link rel="stylesheet" type="text/css" href="css/user.css"> -->
-    <link rel="stylesheet" type="text/css" href="css/user.min.css">
+    <link rel="stylesheet" type="text/css" href="css/commom.css">
+    <!-- <link rel="stylesheet" type="text/css" href="css/user.css"> -->
+    <!-- <link rel="stylesheet" type="text/css" href="css/user.min.css"> -->
+    <link rel="stylesheet" type="text/css" href="css/admin.css">
     <title>工作流系统--管理员系统</title>
 </head>
 <body>
     <div id="header">
 		<div class="title-icon"></div>
 		<div class="title">
-			工作流系统
+			工作流系统-管理员
 		</div>
         <div class="title-right">
             <a href="javascript:void(0)" class="user-name user-btn"></a>
             <a href="javascript:void(0)" class="logout user-btn">退出</a>
         </div>
 	</div>
-    <div id="main" style="padding-top: 20px;">
-        <div id="user_panel" class="panel">
-            <div class="panel-title">
-                <span class="panel-title-name">用户列表</span>
+    <div id="main">
+        <div id="menu_panel" class="">
+            <div class="menu active" pre="index">
+                <span class="menu-icon index-menu-icon"></span>
+                <span>首页</span>
             </div>
-            <div class="panel-content">
-                <div class="table">
-                    <div class="row header">
-                        <div class="cell">序号</div>
-                        <div class="cell">用户名</div>
-                        <div class="cell">密码</div>
-                        <div class="cell">最后登录时间</div>
-                        <div class="cell">模型个数</div>
-                        <div class="cell">操作</div>
+            <div class="menu" pre="user">
+                <span class="menu-icon user-menu-icon"></span>
+                <span>用户</span>
+            </div>
+            <div class="menu" pre="model">
+                <span class="menu-icon model-menu-icon"></span>
+                <span>模型</span>
+            </div>
+        </div>
+        <div class="right-panel">
+            <div class="tab-panel active" id="index_tab_panel">
+                <div class="panel-row">
+                    <div class="box">
+                        <div class="inner-box">
+                        </div>
+                    </div>
+                    <div class="box">
+                        <div class="inner-box">
+                        </div>
+                    </div>
+                    <div class="box">
+                        <div class="inner-box">
+                        </div>
                     </div>
                 </div>
+
+                
+            </div>
+            <div class="tab-panel" id="user_tab_panel">
+                <div id="user_panel" class="panel">
+                    <div class="panel-title">
+                        <span class="panel-title-name">用户列表</span>
+                        <div class="panel-title-tool pagination-div">
+                            <ul class="pagination" style="margin:1px 0px">
+                            </ul>
+                        </div>
+                        <div class="panel-title-tool count-div">
+                            <div id="count">共<span>&nbsp;</span>个</div>
+                        </div>
+                    </div>
+                    <div class="panel-content">
+                        <div id="user_table">
+                            <div class="table">
+                                <div class="row header">
+                                    <div class="cell" style="width: 10%">
+                                        序号
+                                    </div>
+                                    <div class="cell" style="width: 15%">
+                                        <span field="username">用户名</span>
+                                        <span class="order-icon desc-order"></span>
+                                    </div>
+                                    <div class="cell" style="width: 15%">
+                                        密码
+                                    </div>
+                                    <div class="cell" style="width: 20%">
+                                        <span field="login_time">最后登录时间</span>
+                                        <span class="order-icon desc-order active"></span>
+                                    </div>
+                                    <div class="cell" style="width: 10%">
+                                        <span field="models">模型个数</span>
+                                        <span class="order-icon desc-order"></span>
+                                    </div>
+                                    <div class="cell" style="width: 20%">
+                                        操作
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="loading-svg" width="200px" height="200px" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
+                            <g transform="translate(25 50)">
+                                <circle cx="0" cy="0" r="10" fill="#456caa" transform="scale(0.917903 0.917903)">
+                                    <animateTransform attributeName="transform" type="scale" begin="-0.3333333333333333s" calcMode="spline" keySplines="0.3 0 0.7 1;0.3 0 0.7 1" values="0;1;0" keyTimes="0;0.5;1" dur="1s" repeatCount="indefinite"></animateTransform>
+                                </circle>
+                            </g>
+                            <g transform="translate(50 50)">
+                                <circle cx="0" cy="0" r="10" fill="#88a2ce" transform="scale(0.5 0.5)">
+                                    <animateTransform attributeName="transform" type="scale" begin="-0.16666666666666666s" calcMode="spline" keySplines="0.3 0 0.7 1;0.3 0 0.7 1" values="0;1;0" keyTimes="0;0.5;1" dur="1s" repeatCount="indefinite"></animateTransform>
+                                </circle>
+                            </g>
+                            <g transform="translate(75 50)">
+                                <circle cx="0" cy="0" r="10" fill="#c2d2ee" transform="scale(0.0820965 0.0820965)">
+                                    <animateTransform attributeName="transform" type="scale" begin="0s" calcMode="spline" keySplines="0.3 0 0.7 1;0.3 0 0.7 1" values="0;1;0" keyTimes="0;0.5;1" dur="1s" repeatCount="indefinite"></animateTransform>
+                                </circle>
+                            </g>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-panel" id="model_tab_panel">
             </div>
         </div>
     </div>
 </body>
 </html>
-
 <script type="text/javascript">
-    $().ready(function () {
-        var username = getCookie("username");
-        if(username){
-            if(username != "admin"){
-                window.location.href = "index.html";
-            }
-            $("#main").show();
-		    $(".user-name").html("用户&nbsp;:&nbsp;" + username);
-		    getUserList();
-        }else{
-            window.location.href = "login.html";
-        }
+    // 页码个数
+    g_pageNumber = 5;
 
-        //退出
-        $(".logout").click(function(){
-            logout();
-        });
+    // 用户页每页的个数
+    g_userMaxCount = 26;
 
-    });
-    function getCookie(name){
-        var arr = document.cookie.match(new RegExp("(^| )"+name+"=([^;]*)(;|$)"));
-        if(arr != null) return unescape(arr[2]); return null;
-    }
+    // 用户页的页码
+    g_userPageCount = null;
 
+    // 用户页排序的字段
+    g_user_order_field = "login_time";
 
-    function getUserList() {
-        $("#user_panel .table .row:not(.header)").remove();
-        $(".panel-content").addClass("loading");
-        $.ajax({
-            type:"get",
-            url:"/model/users/",
-            contentType: "text/plain",
-            dataType : "text",
-            success:function(result){
-                $(".panel-content").removeClass("loading");
-                var text = JSON.parse(result);
-                if(text.status == "error"){
-                    alert(text.message);
-                }else{
-                    showUserList(text);
-                }
-            }
-        });
-    }
-
-
-    function showUserList(list) {
-        if(!$.isArray(list)){
-            alert("error");
-            return;
-        }
-        var html = '';
-        for(var i = 0; i < list.length;++i){
-            var item = list[i];
-            html += '<div class="row" uuid="' +item.uuid + '" uname="' + item.name + '">'
-                +   '   <div class="cell">' + (i+1) + '</div>'
-                +   '   <div class="cell">' + item.name + '</div>'
-                +   '   <div class="cell">' + item.password + '</div>'
-                +   '   <div class="cell">' + item.login_time + '</div>'
-                +   '   <div class="cell">' + item.models + '</div>'
-                +   '   <div class="cell">'
-                +   '       <a class="user-oper user-visit" href="javascript:void(0)">访问</a>'
-                +   '       <a class="user-oper user-delete" href="javascript:void(0)">删除</a>'
-                +   '    </div>'
-                +   '</div>';
-        }
-
-        $("#user_panel .table .header").after(html);
-
-        $("#user_panel .table .user-delete").click(function () {
-            var user_id = $(this).parents(".row").attr("uuid");
-            var name = $(this).parents(".row").attr("uname");
-            if(!confirm("确定删除用户[" + name + "]")){
-                return;
-            }
-            deleteUser(user_id,function(result) {
-                if(result.status == "success"){
-                    alert("删除成功")
-                    getUserList();
-                }else{
-                    alert(result.message);
-                }
-            });
-        })
-
-        $("#user_panel .table .user-visit").click(function () {
-             var user_id = $(this).parents(".row").attr("uuid");
-             var name = $(this).parents(".row").attr("uname");
-             var password = $(this).parents(".row").find(".cell:eq(2)").html();
-             login(name,password);
-
-        })
-    }
-
-    function deleteUser(user_id,callback) {
-        if(user_id == null){
-            if(callback){
-                var result = '{"status":"error","message":"user is not valid"}';
-                callback(JSON.parse(result));
-            }
-            return;
-        }
-         $.ajax({
-            type:"get",
-            url:"/model/user/" + user_id + "/delete/",
-            contentType: "text/plain",
-            dataType : "text",
-            success:function(result){
-                var text = JSON.parse(result);
-                if(callback){
-                    callback(text);
-                }
-            },
-            error:function(xhr){
-                $(".info").html("获取用户列表失败");
-                console.log(xhr);
-            }
-        });
-    }
-
-    function login(username,password) {
-        var obj = {
-            "username": username,
-            "password": password
-        }
-        var text = JSON.stringify(obj);
-        $(".info").html("登录中……");
-        $.ajax({
-            type:"POST",
-            url:"/model/login/",
-            data : text,
-            contentType: "text/plain",
-            dataType : "text",
-            success:function(result){
-                var text = JSON.parse(result);
-                if(text.status == "error"){
-                    $(".info").html(text.message);
-                }else{
-                    $(".info").html("登录成功，正在跳转……");
-                    window.open("index.html");
-                }
-            },
-            error:function(xhr){
-                $(".info").html("登录失败");
-                console.log(xhr);
-            }
-        });
-    }
-    function logout() {
-        var url = "/model/admin/logout/" ;
-        $.ajax({
-            type:"GET",
-            url:url,
-            contentType: "text/plain",
-            dataType : "text",
-            success:function(result){
-                var text = JSON.parse(result);
-                if(text.status == "error"){
-                    alert(text.message);
-                }else{
-                    window.location.href = "login.html";
-                }
-            },
-            error:function(xhr){
-                $(".info").html("注销失败");
-                console.log(xhr);
-            }
-        });
-    }
+    // 用户页排序方式
+    g_userOrder = "desc";
 
 </script>
+<script type="text/javascript" src="js/admin-index.js"></script>
+<script type="text/javascript" src="js/admin-user.js"></script>

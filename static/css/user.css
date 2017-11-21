@@ -92,11 +92,7 @@
     -moz-box-sizing: border-box;
 }
 
-#user_panel{
-    width:calc(100% - 40px);
-    margin:0 auto 20px;
-    height:calc(100% - 40px);
-}
+
 
 .panel-content.loading{
     background: url(../images/spin.gif) no-repeat center;
