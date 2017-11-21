@@ -1149,7 +1149,10 @@ def models_status(request,model_status,count,offset):
     try:
         start = int(offset)
         end = int(offset) + int(count)
-        models = user.model_set.all()
+        if username == "admin":
+            models = Model.objects.all()
+        else:
+            models = user.model_set.all()
         for model in models:
             text = model.text
             obj = json.loads(text)
@@ -1178,6 +1181,7 @@ def models_status(request,model_status,count,offset):
                 model_text = selected.exportToJson()
                 model_text["status"] = flag
                 model_text["monitor_status"] = "ok"
+                model_text["user"] = selected.user.username
                 model_list.append(model_text)
         result = model_list[start:end]
         result = json.dumps(result)
@@ -1201,7 +1205,10 @@ def models_status_count(request,model_status):
         logger.error("get models status failed :{}".format(str(e)))
         return http_error_response("get models status failed")
     try:
-        models = user.model_set.all()
+        if username == "admin":
+            models = Model.objects.all()
+        else:
+            models = user.model_set.all()
         count = 0
         for model in models:
             text = model.text
