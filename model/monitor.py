@@ -27,7 +27,7 @@ def monitor_oper(request,oper):
             logger.info(return_info)
             raise Exception("start monitor failed:{0}".format(return_info.decode("utf-8")))
     except Exception as e:
-        logging.error("{} monitor failed            :{}".format(oper, str(e)))
+        logger.error("{} monitor failed            :{}".format(oper, str(e)))
         return http_error_response("faield:{}".format(str(e)))
     return http_success_response()
 
@@ -64,5 +64,5 @@ def monitor_status(request):
         }
         return HttpResponse(json.dumps(obj),content_type="application/json")
     except Exception as e:
-        logging.error("get monitor status failed :{}".format(str(e)))
+        logger.error("get monitor status failed :{}".format(str(e)))
         return http_error_response("error")

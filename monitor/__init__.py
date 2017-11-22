@@ -156,7 +156,7 @@ class Daemon:
                 if len(cmdlines) == 3 and (cmdlines[2] == "start" or cmdlines[2] == "restart"):
                     p.kill()
         except Exception as e:
-            logging.error("kill process failedc:{}".format(str(e)))
+            logger.error("kill process failedc:{}".format(str(e)))
 
 
     def restart(self):
