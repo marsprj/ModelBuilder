@@ -53,4 +53,6 @@ urlpatterns = [
     url(r'^monitor/(?P<oper>start|stop|restart)/$',monitor.monitor_oper),
     url(r'^monitor/status/$',monitor.monitor_status),
 
+    url(r'^admin/info/$', views.admin_info),
+
 ]

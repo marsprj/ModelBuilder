@@ -60,7 +60,7 @@ def monitor_status(request):
         return_info = return_info.decode("utf-8")
         return_info = return_info.replace("\n", "")
         obj = {
-            "status": return_info
+            "monitorStatus": return_info
         }
         return HttpResponse(json.dumps(obj),content_type="application/json")
     except Exception as e:

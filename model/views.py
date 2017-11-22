@@ -1320,9 +1320,38 @@ def model_status(request,model_id):
         model_text["status"] = flag
         # monitor_status = getMonitorStatus(model_id, flag)
         model_text["monitor_status"] = "ok"
+        model_text["user"] = model.user.username
         result = json.dumps(model_text)
         logger.info("get model[{}] status:{}".format(model_id,result))
         return HttpResponse(result,content_type="application/json")
     except Exception as e:
         logger.error("get model[{}] status failed:{}".format(model_id,str(e)))
         return http_error_response("get model status failed")
+
+# 用户、模型等统计信息
+def admin_info(request):
+    try:
+        username = request.COOKIES.get("username")
+        if not username:
+            logger.error("get admin info list: user not login")
+            return http_error_response("please login")
+        if username != "admin":
+            logger.error("get admin info list failed: user is not admin")
+            return http_error_response("please login admin")
+    except Exception as e:
+        logger.error("get admin info list failed:{}".format(str(e)))
+        return http_error_response("get admin info list failed")
+
+    try:
+        users = User.objects.all().exclude(username='admin')
+        models = Model.objects.all()
+        tasks = Task.objects.all()
+        obj = {
+            "users": len(users),
+            "models": len(models),
+            "tasks": len(tasks)
+        }
+        return HttpResponse(json.dumps(obj), content_type="application/json")
+    except Exception as e:
+        logger.error("get admin info list failed:{}".format(str(e)))
+        return http_error_response("get admin info list failed")
