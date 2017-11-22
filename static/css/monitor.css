@@ -17,10 +17,10 @@
     width: 100%;
     color: #fff;
     text-align: center;
-    /*border-bottom: 1px solid #cdcdcd;*/
-    /*font-weight: 800;*/
+    border-bottom: 1px solid #f8f8f8;
     letter-spacing: 6px;
     cursor: pointer;
+
 }
 
 .menu-icon{
@@ -28,6 +28,8 @@
     height: 36px;
     width: 20px;
     /*vertical-align: middle;*/
+    background-position:center;
+    background-repeat: no-repeat;
 }
 #menu_panel .menu span:nth-child(1){
     display: inline-block;
@@ -35,16 +37,28 @@
 }
 
 .model-menu-icon{
-    background: url(../images/list.png) no-repeat center;
+    background-image: url(../images/cubes_20.png);
+}
+
+.menu:hover .model-menu-icon,.menu.active .model-menu-icon{
+    background-image: url(../images/cubes_b20.png);
 }
 
 .task-menu-icon{
-    background: url(../images/task.png) no-repeat center;
+    background-image: url(../images/tasks_20.png);
+}
+
+.menu:hover .task-menu-icon,.menu.active .task-menu-icon{
+    background-image: url(../images/tasks_b20.png);
 }
 
 #menu_panel .menu.active{
-    background-color: #f8f8f8;
+    background-color: #f8f8f8 !important;
     color: #111;
+}
+#menu_panel .menu:hover{
+    background-color: #f8f8f8;
+    color: #111;    
 }
 
 #monitor_model_table {
