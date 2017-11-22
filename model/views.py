@@ -111,7 +111,10 @@ def models(request,username):
         return http_error_response("get modesl failed")
 
     try:
-        models = user.model_set.all().order_by("-create_time")
+        if username == "admin":
+            models = Model.objects.all()
+        else:
+            models = user.model_set.all().order_by("-create_time")
         for model in models:
             obj.append(model.exportToJson())
         result = json.dumps(obj)
@@ -844,10 +847,16 @@ def task_count(request,model_id,task_state):
 
     try:
         count = 0
-        if model_id == '0':
-            models = user.model_set.all()
+        if username == "admin":
+            if model_id == '0':
+                models = Model.objects.all()
+            else:
+                models = Model.objects.filter(uuid=model_id)
         else:
-            models = user.model_set.filter(uuid=model_id)
+            if model_id == '0':
+                models = user.model_set.all()
+            else:
+                models = user.model_set.filter(uuid=model_id)
         for model in models:
             if task_state == '4':
                 tasks = model.task_set.all()
@@ -881,10 +890,16 @@ def task_list(request,model_id,task_state,offset,count,field,orderby):
         start = int(offset)
         end = int(offset) + int(count)
         obj = []
-        if model_id == '0':
-            models = user.model_set.all()
+        if username == "admin":
+            if model_id == '0':
+                models = Model.objects.all()
+            else:
+                models = Model.objects.filter(uuid=model_id)
         else:
-            models = user.model_set.filter(uuid=model_id)
+            if model_id == '0':
+                models = user.model_set.all()
+            else:
+                models = user.model_set.filter(uuid=model_id)
         tasks_all = []
         for model in models:
             if task_state == '4':
