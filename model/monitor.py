@@ -10,6 +10,18 @@ logger = logging.getLogger('model.app')
 
 def monitor_oper(request,oper):
     try:
+        username = request.COOKIES.get("username")
+        if not username:
+            logger.error("{} monitor failed: user not login".format(oper))
+            return http_error_response("please login")
+        if username != "admin":
+            logger.error("{} monitor failed: user is not admin".format(oper))
+            return http_error_response("please login admin")
+    except Exception as e:
+        logger.error("{} monitor failed:{}".format(oper,str(e)))
+        return http_error_response("failed")
+
+    try:
         path = os.path.join(os.path.join(settings.BASE_DIR, "monitor"), "__init__.py")
         command = "python " + path + " " + oper
         logger.debug("command: {0}".format(command))
