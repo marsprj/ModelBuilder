@@ -39,19 +39,41 @@
             <div class="tab-panel active" id="index_tab_panel">
                 <div class="panel-row">
                     <div class="box">
-                        <div class="inner-box">
+                        <div class="inner-box user-box" title="用户">
+                            <i class="user-icon box-icon"></i>
+                            <div class="box-info">0</div>
                         </div>
                     </div>
                     <div class="box">
-                        <div class="inner-box">
+                        <div class="inner-box model-box" title="模型">
+                            <i class="user-icon box-icon"></i>
+                            <div class="box-info">0</div>
                         </div>
                     </div>
                     <div class="box">
-                        <div class="inner-box">
+                        <div class="inner-box task-box" title="任务">
+                            <i class="user-icon box-icon"></i>
+                            <div class="box-info">0</div>
                         </div>
                     </div>
                 </div>
-
+                <div>
+                    <div class="panel" id="monitor_panel">
+                        <div class="panel-title">
+                            <span class="panel-title-name">模型监听</span>
+                        </div>
+                        <div class="panel-content">
+                            <div class="monitor-status">当前状态：<span></span></div>
+                            <div class="monitor-oper">
+                                <span>操作：</span>
+                                <label class="switch">
+                                    <input type="checkbox">
+                                    <span class="slider round"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 
             </div>
             <div class="tab-panel" id="user_tab_panel">
@@ -115,6 +137,57 @@
                 </div>
             </div>
             <div class="tab-panel" id="model_tab_panel">
+                <div class="panel" id="model_panel">
+                    <div class="panel-title">
+                        <span class="panel-title-name">模型列表</span>
+                        <div class="panel-label-tool panel-title-tool model-state-div">
+                            <ul>
+                                <li class="active" status="all">所有</li>
+                                <li status="start">正在监听</li>
+                                <li status="stop">停止</li>
+                            </ul>
+                        </div>
+                        <div class="panel-title-tool pagination-div">
+                            <ul class="pagination" style="margin:1px 0px">
+                            </ul>
+                        </div>
+                        <div class="panel-title-tool count-div">
+                            <div id="count">共<span>&nbsp;</span>个</div>
+                        </div>
+
+                    </div>
+                    <div class="panel-content">
+                        <div id="model_table">
+                            <div class="table">
+                                <div class="row header">
+                                    <div class="cell" style="width: 10%">序号</div>
+                                    <div class="cell" style="width: 20%">名称</div>
+                                    <div class="cell" style="width: 15%">用户</div>
+                                    <div class="cell" style="width: 25%">创建时间</div>
+                                    <div class="cell" style="width: 10%">操作</div>
+                                    <div class="cell" style="width: 20%">状态</div>
+                                </div>
+                            </div>
+                        </div>
+                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="loading-svg" width="200px" height="200px" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
+                            <g transform="translate(25 50)">
+                                <circle cx="0" cy="0" r="10" fill="#456caa" transform="scale(0.917903 0.917903)">
+                                    <animateTransform attributeName="transform" type="scale" begin="-0.3333333333333333s" calcMode="spline" keySplines="0.3 0 0.7 1;0.3 0 0.7 1" values="0;1;0" keyTimes="0;0.5;1" dur="1s" repeatCount="indefinite"></animateTransform>
+                                </circle>
+                            </g>
+                            <g transform="translate(50 50)">
+                                <circle cx="0" cy="0" r="10" fill="#88a2ce" transform="scale(0.5 0.5)">
+                                    <animateTransform attributeName="transform" type="scale" begin="-0.16666666666666666s" calcMode="spline" keySplines="0.3 0 0.7 1;0.3 0 0.7 1" values="0;1;0" keyTimes="0;0.5;1" dur="1s" repeatCount="indefinite"></animateTransform>
+                                </circle>
+                            </g>
+                            <g transform="translate(75 50)">
+                                <circle cx="0" cy="0" r="10" fill="#c2d2ee" transform="scale(0.0820965 0.0820965)">
+                                    <animateTransform attributeName="transform" type="scale" begin="0s" calcMode="spline" keySplines="0.3 0 0.7 1;0.3 0 0.7 1" values="0;1;0" keyTimes="0;0.5;1" dur="1s" repeatCount="indefinite"></animateTransform>
+                                </circle>
+                            </g>
+                        </svg>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -136,6 +209,18 @@
     // 用户页排序方式
     g_userOrder = "desc";
 
+    // 模型列表的状态 all/start/stop
+    g_model_state = "all";
+
+    // 模型页面每页的个数
+    g_modelMaxCount = 26;
+
+    // 模型页的页码
+    g_modelPageCount = null;
+
+
+
 </script>
 <script type="text/javascript" src="js/admin-index.js"></script>
 <script type="text/javascript" src="js/admin-user.js"></script>
+<script type="text/javascript" src="js/admin-model.js"></script>
