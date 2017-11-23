@@ -119,7 +119,7 @@ function initPageEvent(){
 		var dlg = new CreateTaskDialog(function(taskId){
 			g_new_task= taskId;
 			var uuid = $("#models_container .model-item.active").attr("uuid");
-			getTasks(uuid);
+			showTasks(uuid);
 		});
 		dlg.show();
 		if(g_helper.isShow()){
