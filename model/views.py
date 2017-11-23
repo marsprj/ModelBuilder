@@ -452,6 +452,9 @@ def start_task_2(task):
             user_id = task.model.user.uuid
             user_root = os.path.join(settings.UPLOADS_ROOT, str(user_id))
             model_root = os.path.join(user_root, model_name)
+            #  兼容之前的模式
+            if not os.path.exists(model_root):
+                os.mkdir(model_root)
             task_path = os.path.join(model_root,task.name)
             if os.path.exists(task_path):
                 shutil.rmtree(task_path)
