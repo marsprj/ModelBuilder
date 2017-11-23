@@ -72,6 +72,12 @@ def model_save(request,username):
                 description=model_name,
                 create_time=create_time,
                 text=json.dumps(obj))
+            user_root = os.path.join(settings.UPLOADS_ROOT,str(user.uuid))
+            model_root = os.path.join(user_root,model_name)
+            if os.path.exists(model_root):
+                shutil.rmtree(model_root)
+            os.mkdir(model_root)
+            logger.info("create model folder:{}".format(model_root))
     except Exception as e:
         logger.error("save model[{0} failed:{1}".format(model_name,str(e)))
         return http_error_response("Model保存失败")
@@ -336,20 +342,43 @@ def task_create(request):
     start_time = timezone.now()
 
     #初始化task_name，如果没有指定task_name，则用当前时间作为task_name
-    model_id = obj["model"]
-    if "name" in obj:
-        task_name = obj["name"]
-    else:
-        task_name = start_time.astimezone().strftime("%Y%m%d%H%M%S")
+
+    # if "name" in obj:
+    #     task_name = obj["name"]
+    # else:
+    #     task_name = start_time.astimezone().strftime("%Y%m%d%H%M%S")
     try:
-        model = Model.objects.get(uuid=model_id)
+        if "model" in obj:
+            model_id = obj["model"]
+            model = Model.objects.get(uuid=model_id)
+        else:
+            logger.error("create task failed:no model id")
+            return http_error_response("create task failed")
     except Model.DoesNotExist:
         logger.error("create task failed: model[{0}] does not exist".format(model_id))
         return http_error_response("create task failed")
     except Exception as e:
-        logger.error("create task {0} failed : {1}".format(task_name,str(e)))
+        logger.error("create task failed {}: {}".format(text,str(e)))
         return http_error_response("create task failed")
 
+    try:
+        if "name" in obj:
+            task_name = obj["name"]
+        else:
+            model_name = model.name
+            task_name = model_name + "_" + start_time.astimezone().strftime("%Y%m%d%H%M%S")
+    except Exception as e:
+        logger.error("create task failed:{}".format(str(e)))
+        return http_error_response("create task faield :name is invalid")
+
+    try:
+        tasks = model.task_set.filter(name=task_name)
+        if len(tasks) > 0:
+            logger.error("create task failed : has task name[]".format(task_name))
+            return http_error_response("该任务名称重复")
+    except Exception as e:
+        logger.error("create task failed:{}".format(str(e)))
+        return http_error_response("create task faield")
     try:
         text = model.text
         task = model.task_set.create(
