@@ -235,19 +235,28 @@ def build_local_path(path,user_uuid):
         user_path, path[1:]
     )
 
-def build_task_local_path(path,taskId,user_uuid):
-    root_path = os.path.join(
-        os.path.join(
-            os.path.join(settings.BASE_DIR, "static"),
-            "data"
-        ),
-        "uploads"
-    )
-    user_path = os.path.join(root_path,user_uuid)
-    task_path = os.path.join(user_path,taskId)
+# def build_task_local_path(path,taskId,user_uuid):
+#     root_path = os.path.join(
+#         os.path.join(
+#             os.path.join(settings.BASE_DIR, "static"),
+#             "data"
+#         ),
+#         "uploads"
+#     )
+#     user_path = os.path.join(root_path,user_uuid)
+#     task_path = os.path.join(user_path,taskId)
+#     return os.path.join(
+#         task_path, path[1:]
+#     )
+
+def build_task_local_path(path,model_name,task_name,user_uuid):
+    user_root = os.path.join(settings.UPLOADS_ROOT, str(user_uuid))
+    model_path = os.path.join(user_root, model_name)
+    task_path = os.path.join(model_path,task_name)
     return os.path.join(
         task_path, path[1:]
     )
+
 
 
 
@@ -436,7 +445,10 @@ def process_roiextract(func,process,user_uuid):
 """
 def process_common(func, process, user_uuid,fun_command,use_key=True):
     try:
+
         task_id = str(process.task_id)
+        task_name = process.task.name
+        model_name = process.task.model.name
         parms = func.getParms()
         command = ""
         for i in parms:
@@ -452,13 +464,13 @@ def process_common(func, process, user_uuid,fun_command,use_key=True):
                     if not input.getFrom():
                         local_ipath = build_local_path(input_path, user_uuid)
                     else:
-                        local_ipath = build_task_local_path(input_path, task_id, user_uuid)
+                        local_ipath = build_task_local_path(input_path, model_name,task_name, user_uuid)
                     command = "{0} {1} {2}".format(command, key, local_ipath)
             outObj = re.search(r'(\[out\](.*))', value, re.M | re.I)
             if outObj:
                 output = func.getOutput()
                 output_path = output.getPath()
-                local_opath = build_task_local_path(output_path, task_id, user_uuid)
+                local_opath = build_task_local_path(output_path,model_name, task_name, user_uuid)
                 pat = re.compile(r'(\[out\])')
                 res = pat.sub(r'' + local_opath + '', value)
                 command = "{0} {1} {2}".format(command, key, res)
@@ -468,7 +480,7 @@ def process_common(func, process, user_uuid,fun_command,use_key=True):
                 ouput = func.getOutputByID(outputId)
                 if ouput:
                     output_path = ouput.getPath()
-                    local_opath = build_task_local_path(output_path, task_id, user_uuid)
+                    local_opath = build_task_local_path(output_path,model_name, task_name, user_uuid)
                     command = "{0} {1} {2}".format(command, key, local_opath)
 
             if (not inObj and not outObj) and not outputsObj:

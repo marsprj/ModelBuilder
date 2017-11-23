@@ -447,6 +447,12 @@ def start_task_2(task):
             file_root = get_file_root()
             user_root = os.path.join(file_root,str(user_uuid))
             task_path = os.path.join(user_root,str(task.uuid))
+            model_id = task.model.uuid
+            model_name = task.model.name
+            user_id = task.model.user.uuid
+            user_root = os.path.join(settings.UPLOADS_ROOT, str(user_id))
+            model_root = os.path.join(user_root, model_name)
+            task_path = os.path.join(model_root,task.name)
             if os.path.exists(task_path):
                 shutil.rmtree(task_path)
             os.mkdir(task_path)
