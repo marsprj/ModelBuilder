@@ -1,0 +1,294 @@
+#main{
+    background: #f8f8f8;
+}
+
+#menu_panel {
+    float: left;
+    width: 100px;
+    height: 100%;
+    background-color: #000;
+    opacity: .9
+}
+
+#menu_panel .menu {
+    height: 36px;
+    line-height: 36px;
+    width: 100%;
+    color: #fff;
+    text-align: center;
+    letter-spacing: 6px;
+    cursor: pointer;
+    border-bottom: 1px solid #f8f8f8;
+}
+
+.menu-icon {
+    display: inline-block;
+    height: 36px;
+    width: 20px;
+    background-position:center;
+    background-repeat: no-repeat;
+}
+
+#menu_panel .menu span:nth-child(1) {
+    display: inline-block;
+    vertical-align: top
+}
+
+.index-menu-icon{
+    background-image: url(../images/index_20.png);
+}
+.menu:hover .index-menu-icon,.menu.active .index-menu-icon{
+    background-image: url(../images/index_b20.png);
+}
+
+.user-menu-icon{
+    background-image: url(../images/user_20.png);
+}
+
+.menu:hover .user-menu-icon,.menu.active .user-menu-icon{
+    background-image: url(../images/user_b20.png);
+}
+
+.model-menu-icon{
+    background-image: url(../images/cubes_20.png);
+}
+
+.menu:hover .model-menu-icon,.menu.active .model-menu-icon{
+    background-image: url(../images/cubes_b20.png);
+}
+
+#menu_panel .menu.active {
+    background-color: #f8f8f8 !important;
+    color: #111;
+}
+#menu_panel .menu:hover{
+    background-color: #f8f8f8;
+    color: #111;    
+}
+
+.right-panel {
+    width: calc(100% - 100px);
+    height: 100%;
+    float: left;
+}
+
+.tab-panel {
+    height: 100%;
+    width: 100%;
+    display: none
+}
+
+.tab-panel.active {
+    display: block;
+}
+
+.count-div, .pagination-div {
+    float: right;
+}
+.count-div {
+    padding-top: 10px;
+    margin-right: 10px;
+}
+.loading-svg {
+    display: none
+}
+.panel-content.loading .loading-svg {
+    display: block;
+    position: absolute;
+    bottom: calc(50% - 100px);
+    left: calc(50% - 100px)
+}
+
+.cell {
+    padding: 8px 12px;
+    border-bottom: 1px solid #f4f8fb;
+    vertical-align: middle;
+}
+
+.cell span{
+    vertical-align: middle
+}
+
+.row:not(.header):hover .cell {
+    background-color: #f4f8fb
+}
+
+.cell a {
+    text-decoration: none;
+    color: #169bd5;
+    font-weight: 600;
+    margin-right: 10px
+}
+
+.cell a:hover {
+    color: #cdcdcd
+}
+.order-icon {
+    width: 26px;
+    height: 20px;
+    display: inline-block;
+    transition: .1s all ease;
+    background-position: center;
+    cursor: pointer;
+}
+
+.desc-order {
+    background-image: url(../images/desc_off.png)
+}
+
+.desc-order.active {
+    background-image: url(../images/desc.png)
+}
+
+.desc-order.asc {
+    background-image: url(../images/asc_off.png)
+}
+
+.desc-order.asc.active {
+    background-image: url(../images/asc.png)
+}
+
+/************index*************/
+.panel-row{
+    width: calc(100% - 20px);
+    overflow: hidden;
+    margin: 10px 10px;
+}
+
+.panel-row .box{
+    width: 33.3%;
+    float: left;
+    box-sizing: border-box;
+    padding: 10px;
+}
+
+.inner-box{
+    min-height: 90px;
+    padding: 20px;
+    border-radius: 6px;
+    color: white;
+    box-shadow: 0 0 8px 0 rgba(0,0,0,.06), 0 1px 0 0 rgba(0,0,0,.02);
+    overflow:hidden;
+    cursor: pointer;
+}
+
+.inner-box:hover{
+    box-shadow: 2px 2px 3px 3px #cfcfcf;
+}
+.panel-row:after{
+    clear: both;
+}
+
+.box-icon{
+    background-position: center;
+    height: 90px;
+    width: 90px;
+    background-repeat: no-repeat;
+    display: inline-block;
+    color: #fff;
+    margin-right: 10px;
+}
+.user-box{
+    background-color: #d1b993;
+}
+.user-box .box-icon{
+    background-image: url(../images/user.png);
+}
+
+.model-box{
+    background-color: #92cde7;
+}
+.model-box .box-icon{
+    background-image: url(../images/cubes.png);
+}
+
+.task-box{
+    background-color: #FFCDD2;
+}
+.task-box .box-icon{
+    background-image: url(../images/task-list.png);
+}
+.box-info {
+    display: inline-block;
+    font-size: 80px;
+    line-height: 80px;
+    float: right;
+}
+
+#monitor_panel{
+    margin: 0 20px;
+    width: 220px;
+    height: 140px;
+}
+
+#monitor_panel .panel-content{
+    margin: 10px 20px;
+    font-size: 16px;
+}
+
+.monitor-status{
+    margin: 10px 0px;
+}  
+
+.monitor-status span{
+    color: red;
+    font-weight: 700;
+    float: right;
+}
+
+.monitor-oper{
+    margin: 10px 0px;
+    line-height: 30px;
+}
+
+.monitor-oper>span{
+    vertical-align: top;
+}
+
+.monitor-oper label{
+    float: right;
+}
+/************index end*************/
+
+/************user*************/
+
+#user_panel{
+    width:calc(100% - 40px);
+    margin: 20px auto;
+    height:calc(100% - 40px);
+}
+#user_table{
+    height: 100%;
+    overflow-y: auto;
+    margin: 0 20px;
+}
+
+#user_table::-webkit-scrollbar {
+    width: 0!important
+}
+/************user end*************/
+
+/************model*************/
+#model_panel{
+   width:calc(100% - 40px);
+   margin: 20px auto;
+   height:calc(100% - 40px); 
+}
+
+#model_table{
+    height: 100%;
+    overflow-y: auto;
+    margin: 0 20px;    
+}
+#model_table::-webkit-scrollbar {
+    width: 0!important
+}
+
+#model_table .header .cell {
+    height: 30px;
+    font-weight: 700;
+}
+#model_table .cell{
+    padding: 3px 12px !important;
+}
+/************model end*************/
