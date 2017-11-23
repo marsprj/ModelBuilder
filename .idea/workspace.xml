@@ -7,7 +7,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ac37dfb7-7c13-4d7d-a101-64ef4a8b8d82" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/model/functions.py" afterPath="$PROJECT_DIR$/model/functions.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/model/views.py" afterPath="$PROJECT_DIR$/model/views.py" />
     </list>
     <ignored path="ModelFlow.iws" />
@@ -191,8 +190,8 @@
       <file leaf-file-name="views.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/model/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="369">
-              <caret line="670" column="0" lean-forward="false" selection-start-line="670" selection-start-column="0" selection-end-line="673" selection-end-column="45" />
+            <state relative-caret-position="351">
+              <caret line="663" column="12" lean-forward="true" selection-start-line="663" selection-start-column="12" selection-end-line="663" selection-end-column="12" />
               <folding>
                 <element signature="e#0#35#0" expanded="true" />
               </folding>
@@ -252,7 +251,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>file</find>
       <find>Notifier</find>
       <find>django</find>
       <find>add_wa</find>
@@ -282,6 +280,7 @@
       <find>task_create</find>
       <find>build_task_local_path</find>
       <find>process_common</find>
+      <find>download</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -1038,6 +1037,11 @@
           <line>448</line>
           <option name="timeStamp" value="364" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/model/views.py</url>
+          <line>426</line>
+          <option name="timeStamp" value="365" />
+        </line-breakpoint>
       </breakpoints>
       <breakpoints-dialog>
         <breakpoints-dialog />
@@ -1049,7 +1053,7 @@
           </properties>
         </breakpoint>
       </default-breakpoints>
-      <option name="time" value="365" />
+      <option name="time" value="366" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="Python.DjangoServer">
@@ -1480,8 +1484,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/model/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="369">
-          <caret line="670" column="0" lean-forward="false" selection-start-line="670" selection-start-column="0" selection-end-line="673" selection-end-column="45" />
+        <state relative-caret-position="351">
+          <caret line="663" column="12" lean-forward="true" selection-start-line="663" selection-start-column="12" selection-end-line="663" selection-end-column="12" />
           <folding>
             <element signature="e#0#35#0" expanded="true" />
           </folding>

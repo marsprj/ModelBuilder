@@ -668,17 +668,23 @@ def task_download(request,task_id,node_id):
         logger.error("download task node image :no node[{0}]".format(node_id))
         return http_error_response("no node[{0}]".format(node_id))
 
-    user_uuid = request.COOKIES.get("user_uuid")
-    if not user_uuid:
-        logger.error("no user[{0}]".format(user_uuid))
-        return http_error_response("no user")
+    try:
+        model = task.model
+        user_uuid = model.user.uuid
+        model_name = model.name
+        task_name = task.name
+        user_root = os.path.join(settings.UPLOADS_ROOT, str(user_uuid))
+        model_path = os.path.join(user_root, model_name)
+        task_path = os.path.join(model_path,task_name)
+
+    except Exception as e:
+        logger.error("get task path failed:{}".format(str(e)))
+        return http_error_response("download picture failed ")
 
     try:
-        file_root = get_file_root()
-        user_root = os.path.join(file_root,user_uuid)
         node_path = node.getPath()
         if node.getFrom():
-            file_path = os.path.join(os.path.join(user_root,task_id),node_path[1:])
+            file_path = os.path.join(task_path,node_path[1:])
         else:
             file_path = os.path.join(user_root,node_path[1:])
         logger.debug("task[{0}] node[{1}] path:{2}".format(task_id,node_id,file_path))
@@ -693,8 +699,7 @@ def task_download(request,task_id,node_id):
                 return response
         else:
             logger.error("no file:{0}".format(file_path))
-            return  http_error_response("no file")
-
+            return http_error_response("no file")
         return http_success_response()
     except Exception as e:
         logger.error("download task[{0}] node[{1}] failed:{2}".format(task_id,node_id,str(e)))
