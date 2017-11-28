@@ -12,14 +12,24 @@ var FileDialog = function(path,mode,onOK){
 	this.setPath(path ? path : "/");
 	this.populateFolders();
 
+
+	this.registerPanelEvent();
+
+}
+
+extend(FileDialog, Dialog)
+
+FileDialog.prototype.registerPanelEvent = function(){
 	this.initUpwardEvent();
 	this.initCreateFolderEvent();
 	this.initDeleteFolderEvent();
 	this.initUploadEvent();
 	this.initNameInputEvent();
-}
 
-extend(FileDialog, Dialog)
+	this.initFolderViewEvent();
+
+	this.initOrderEvent();
+};
 
 
 //选中模式(choose)还是输入文件名模式(new)
@@ -50,7 +60,7 @@ FileDialog.prototype.initUpwardEvent = function(){
 FileDialog.prototype.initCreateFolderEvent = function(){
 
 	var dlg = this;
-	this._win.find(".dialog_folder_add:first").click(function(){
+	this._win.find(".create-folder-tool").click(function(){
 		var createFoloderDialog = new CreateFolderDialog(dlg._folder_path,function () {
 			dlg.populateFolders();
         },function () {
@@ -63,14 +73,14 @@ FileDialog.prototype.initCreateFolderEvent = function(){
 FileDialog.prototype.initDeleteFolderEvent = function(){
 
 	var dlg = this;
-	this._win.find(".dialog_folder_delete:first").click(function(){
+	this._win.find(".delete-folder-tool").click(function(){
 		dlg.deleteFolder();
 	});
 }
 
 FileDialog.prototype.initUploadEvent = function(){
 	var dlg = this;
-	this._win.find(".dialog_file_upload").click(function(){
+	this._win.find(".upload-tool").click(function(){
 		var uploadDlg = new UploadDialog(dlg._folder_path,function(){
 			// ok
 		},function(){
@@ -83,7 +93,7 @@ FileDialog.prototype.initUploadEvent = function(){
 
 FileDialog.prototype.initFileEvent = function(){
 	var dlg = this;
-	this._win.find(".item_container").each(function(){
+	this._win.find(".item-container").each(function(){
 		var container = this;
 		var type = $(this).attr("type");
 		switch(type){
@@ -91,7 +101,7 @@ FileDialog.prototype.initFileEvent = function(){
 				$(this).dblclick(function(){
 					//双击文件夹，进入该目录
 					var curPath = dlg.getPath();
-					var fldName = $(this).find('.folder_item_text:first').text();
+					var fldName = $(this).attr("title");
 					var newPath = dlg.makeFolderPath(curPath, fldName);
 					dlg.setPath(newPath);
 					dlg.populateFolders();
@@ -104,7 +114,7 @@ FileDialog.prototype.initFileEvent = function(){
 					dlg._file_name = "";
 					dlg._file_type = "folder";
 
-					dlg._win.find(".item_container").removeClass("active");
+					dlg._win.find(".item-container").removeClass("active");
 					$(this).addClass("active");
 					dlg._win.find("#dlg_file_name").val(dlg._file_name);
 				});
@@ -114,13 +124,13 @@ FileDialog.prototype.initFileEvent = function(){
 				$(this).click(function(){
 					//单击文件，选中该文件
 					var curPath = dlg.getPath();
-					var filName = $(this).find('.folder_item_text:first').text();
+					var filName = $(this).attr("title");;
 					dlg._file_path = dlg.makeFilePath(curPath, filName);
 					dlg._file_name = filName;
 					dlg._file_type = "file";
 
 					dlg._win.find("#dlg_file_name").val(dlg._file_name);
-					dlg._win.find(".item_container").removeClass("active");
+					dlg._win.find(".item-container").removeClass("active");
 					$(this).addClass("active");
 				});
 
@@ -153,7 +163,7 @@ FileDialog.prototype.initOkEvent = function(){
 				alert("请选择一个文件");
 				return;
 			}
-			var item = dlg._win.find(".item_container[title='" + dlg._file_name + "']");
+			var item = dlg._win.find(".item-container[title='" + dlg._file_name + "']");
 			if(item.length == 0){
 				alert("请选择一个有效的文件");
 				return;
@@ -171,7 +181,7 @@ FileDialog.prototype.initOkEvent = function(){
 			}
 			dlg._file_path = dlg.makeFilePath(dlg._folder_path,name);
 		}else if (dlg._mode == "folder") {
-			var active = dlg._win.find(".item_container.active");
+			var active = dlg._win.find(".item-container.active");
 			var type = active.attr("type");
 			var chooseName = active.find(".folder_item_text").html();
 			if(chooseName == null || type == null || type == "file"){
@@ -215,66 +225,13 @@ FileDialog.prototype.getFilePath = function(){
 
 
 FileDialog.prototype.getFolderPath = function(){
-	var active = this._win.find(".item_container.active");
+	var active = this._win.find(".item-container.active");
 	var type = active.attr("type");
-	var chooseName = active.find(".folder_item_text").html();
+	var chooseName = active.attr("title");
 	
 	var path = this.makeFolderPath(this._folder_path, chooseName);
 	return path;
 };
-FileDialog.prototype.populateFolders = function(){
-	var that = this;
-	var data = '{"path":"' + this._folder_path + '"}';
-	$("#dialog_file_ctrl .tab").removeClass("active");
-	$("#dilaog_file_loading").addClass("active");
-	$.ajax({
-			type:"POST",
-			url:"/file/list/",
-			data : data,
-			contentType: "text/plain",
-			dataType : "text",
-			success:function(data){
-				$("#dialog_file_ctrl .tab").removeClass("active");
-				$("#dialog_file_list").addClass("active");
-				var json = JSON.parse(data);
-				if(json.status == "error"){
-					alert(json.message);
-					var curPath = that.getPath();
-					if(curPath.length==0){
-						return;
-					}
-					if(curPath == "/"){
-						return;
-					}
-					var pos = curPath.lastIndexOf("/", curPath.length-2);
-					if( pos>=0 ){
-						var parentPath = curPath.substring(0, pos) + "/";
-						that.setPath(parentPath);
-						that.populateFolders();
-					}
-					return;
-				}
-				var html = "";
-				for(var i in json){
-					var o = json[i];
-					var icon = (o.type == "folder" ? "folder_item_icon" : "file_item_icon");
-					html += "<div class='item_container' type='" + o.type + "' title='" + o.name + "'>";
-					html += "<div class='" + icon + "'></div>";
-					html += "<div class='folder_item_text'>" + o.name + "</div>";
-					html += "</div>";
-				}
-				document.getElementById("dialog_file_list").innerHTML = html;
-				that._win.find(".item_container[title='" + that._file_name + "']").addClass("active")
-				that.initFileEvent();
-			},
-			error:function(xhr){
-				$("#dialog_file_ctrl .tab").removeClass("active");
-				$("#dialog_file_list").addClass("active");
-	            alert("get folder list failed");
-	            console.log(xhr);
-	        }	
-		});
-}
 
 FileDialog.prototype.upwards = function(){
 	var curPath = this.getPath();
@@ -293,40 +250,11 @@ FileDialog.prototype.upwards = function(){
 	}
 }
 
-// FileDialog.prototype.createFolder = function(){
-// 	if(!this._folder_path){
-// 		return;
-// 	}
-//
-// 	var that = this;
-// 	var fname = Math.random().toString(36).substr(2);
-// 	var fpath = this.makeFolderPath(this._folder_path, fname);
-//
-// 	var data = '{"path":"' + fpath + '"}';
-//
-// 	$.ajax({
-// 		type:"POST",
-// 		url:"/file/create/",
-// 		data : data,
-// 		contentType: "text/plain",
-// 		dataType : "text",
-// 		async : true,
-// 		success : function(result){
-// 			var text = JSON.parse(result);
-// 			if(text.status == "success"){
-// 				that.populateFolders();
-// 			}else{
-// 				alert((text.message));
-// 			}
-// 		},
-// 	});
-//
-// }
 
 FileDialog.prototype.deleteFolder = function(){
-	var active = this._win.find(".item_container.active");
+	var active = this._win.find(".item-container.active");
 	var type = active.attr("type");
-	var chooseName = active.find(".folder_item_text").html();
+	var chooseName = active.attr("title");
 	if(chooseName == null || type == null){
 		alert("请选择一个文件");
 		return;
@@ -380,62 +308,126 @@ FileDialog.prototype.onOK = function(func){
 	this._onOK = func;
 }
 
-
 FileDialog.prototype.create = function(){
-	var html = "<div class='file_dialog dialog'>"
-			+"	<div class='titlebar'>"
-			+"		<div class='dialog_title'>文件</div>"
-			+"		<div class='dialog_exit'></div>"
-			+"	</div>"
-			+"	<div class='dialog_main'>"
-			+"		<div class='dialog_file_path_wrapper'>"
-			+"			<span>路径:</span>"
-			+"			<input type='text' class='dialog_folder_path' readonly='readonly' value='/'>"
-			+"			<ul>"
-			+"				<li><div class='folder-tool dialog_folder_up' title='上一级'></div></li>"
-			+"				<li><div class='folder-tool dialog_folder_add' title='新建文件夹'></div></li>"
-			+"				<li><div class='folder-tool dialog_folder_delete' title='删除'></div></li>"
-			+"				<li><div class='folder-tool dialog_file_upload' title='上传文件'></div></li>"
-			+"			</ul>"
-			+"		</div>"
-			+"		<div id='dialog_file_ctrl'>"
-			+"			<div class='tab' id='dialog_file_list'>"
-			+"			</div>"
-			+"			<div class='tab' id='dilaog_file_loading'>"
-			+"				<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='200px' height='200px' viewBox='0 0 100 100' preserveAspectRatio='xMidYMid'>"
-			+"					<g transform='translate(25 50)'>"
-			+"						<circle cx='0' cy='0' r='10' fill='#456caa' transform='scale(0.226392 0.226392)'>"
-			+"		  					<animateTransform attributeName='transform' type='scale' begin='-0.3333333333333333s' calcMode='spline' keySplines='0.3 0 0.7 1;0.3 0 0.7 1' values='0;1;0' keyTimes='0;0.5;1' dur='1s' repeatCount='indefinite'></animateTransform>"
-			+"						</circle>"
-			+"					</g>"
-			+"					<g transform='translate(50 50)'>"
-			+"						<circle cx='0' cy='0' r='10' fill='#88a2ce' transform='scale(0.00325972 0.00325972)'>"
-			+"		  					<animateTransform attributeName='transform' type='scale' begin='-0.16666666666666666s' calcMode='spline' keySplines='0.3 0 0.7 1;0.3 0 0.7 1' values='0;1;0' keyTimes='0;0.5;1' dur='1s' repeatCount='indefinite'></animateTransform>"
-			+"						</circle>"
-			+"					</g>"
-			+"					<g transform='translate(75 50)'>"
-			+"						<circle cx='0' cy='0' r='10' fill='#c2d2ee' transform='scale(0.313074 0.313074)'>"
-			+"		  					<animateTransform attributeName='transform' type='scale' begin='0s' calcMode='spline' keySplines='0.3 0 0.7 1;0.3 0 0.7 1' values='0;1;0' keyTimes='0;0.5;1' dur='1s' repeatCount='indefinite'></animateTransform>"
-			+"						</circle>"
-			+"					</g>"
-			+"				</svg>"
-			+"			</div>"
-			+"		</div>"
-			+"	</div>"
-			+"	<div class='file-dialog-backup'></div>"
-			+"	<div class='dialog_bottom'>"
-			+"		<span>文件名：</span>"
-			+"		<input type='text' id='dlg_file_name'></input>"
-			+"		<ul>"
-			+"			<li>"
-			+"				<a href='javascript:void(0)' id='dlg_btn_ok'>确定</a>"
-			+"			</li>"
-			+"			<li>"
-			+"				<a href='javascript:void(0)' id='dlg_btn_exit'>取消</a>"
-			+"			</li>"
-			+"		</ul>"
-			+"	</div>"
-			+"</div>";
+	var html = '<div class="file_dialog dialog">'
+				+'	<div class="titlebar">'
+				+'		<div class="dialog_title">文件</div>'
+				+'		<div class="dialog_exit"></div>'
+				+'	</div>'
+				+'	<div class="dialog_main">'
+				+'		<div class="dialog_file_path_wrapper">'
+				+'			<span>路径:</span>'
+				+'			<input type="text" class="dialog_folder_path" readonly="readonly" value="/">'
+				+'			<ul>'
+				+'				<li><div class="folder-tool dialog_folder_up" title="上一级"></div></li>'
+				+'			</ul>'
+				+'		</div>'
+				+'		<div id="dialog_file_ctrl">'
+				+'			<div id="filedialog_tool">'
+				+'				<ul class="file-tool">'
+				+'					<li class="create-folder-tool"><span></span>新建文件夹</li>'
+				+'					<li class="delete-folder-tool"><span></span>删除</li>'
+				+'					<li class="upload-tool"><span></span>上传</li>'
+				+'				</ul>'
+				+'				<ul class="file-list-view">'
+				+'					<li class="icon-view " title="图标显示">&nbsp;</li>'
+				+'					<li class="list-view active" title="列表显示">&nbsp;</li>'
+				+'				</ul>'
+				+'			</div>'
+				+'			<div class="tab active" id="dialog_file_list">'
+				+'				<div class="table list-title">'
+				+'					<div class="row header">'
+				+'						<div class="cell" style="width: 40%">'
+				+'							<span field="name">名称</span>'
+				+'							<span class="order-icon desc-order asc active"></span>'
+				+'						</div>'
+				+'						<div class="cell" style="width: 20%">'
+				+'							<span field="filetype">类型</span>'
+				+'							<span class="order-icon desc-order asc"></span>'
+				+'						</div>'
+				+'						<div class="cell" style="width: 20%">'
+				+'							<span field="size">大小</span>'
+				+'							<span class="order-icon desc-order asc"></span>'
+				+'						</div>'
+				+'						<div class="cell" style="width: 20%">'
+				+'							<span field="time">最后修改日期</span>'
+				+'							<span class="order-icon desc-order asc"></span>'
+				+'						</div>'
+				+'					</div>'
+				+'				</div>'
+				+'				<div class="table" >'
+				+'					<div class="row header list-header">'
+				+'						<div class="cell" style="width: 40%">'
+				+'							<span field="name">名称</span>'
+				+'							<span class="order-icon desc-order"></span>'
+				+'						</div>'
+				+'						<div class="cell" style="width: 20%">'
+				+'							<span field="filetype">类型</span>'
+				+'							<span class="order-icon desc-order asc"></span>'
+				+'						</div>'
+				+'						<div class="cell" style="width: 20%">'
+				+'							<span field="size">大小</span>'
+				+'							<span class="order-icon desc-order asc"></span>'
+				+'						</div>'
+				+'						<div class="cell" style="width: 20%">'
+				+'							<span field="time">最后修改日期</span>'
+				+'							<span class="order-icon desc-order asc"></span>'
+				+'						</div>'
+				+'					</div>'
+				+'					<div class="row">'
+				+'						<div class="cell">00a8f632-7377-4d80-9128-d4b3fe3f8f5b</div>'
+				+'						<div class="cell">文件夹</div>'
+				+'						<div class="cell"></div>'
+				+'						<div class="cell">2017-11-14 13:14:26</div>'
+				+'					</div>'
+				+'					<div class="row">'
+				+'						<div class="cell">00a8f632-7377-4d80-9128-d4b3fe3f8f5b</div>'
+				+'						<div class="cell">文件夹</div>'
+				+'						<div class="cell"></div>'
+				+'						<div class="cell">2017-11-14 13:14:26</div>'
+				+'					</div>'
+				+'					<div class="row">'
+				+'						<div class="cell">00a8f632-7377-4d80-9128-d4b3fe3f8f5b</div>'
+				+'						<div class="cell">文件夹</div>'
+				+'						<div class="cell"></div>'
+				+'						<div class="cell">2017-11-14 13:14:26</div>'
+				+'					</div>'
+				+'				</div>'
+				+'			</div>'
+				+'			<div class="tab" id="dialog_file_icon">'
+				+'			</div>'
+				+'			<div id="dilaog_file_loading">'
+				+'				<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="200px" height="200px" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">'
+				+'					<g transform="translate(25 50)">'
+				+'						<circle cx="0" cy="0" r="10" fill="#456caa" transform="scale(0.0032592 0.0032592)">'
+				+'		  					<animateTransform attributeName="transform" type="scale" begin="-0.3333333333333333s" calcMode="spline" keySplines="0.3 0 0.7 1;0.3 0 0.7 1" values="0;1;0" keyTimes="0;0.5;1" dur="1s" repeatCount="indefinite"></animateTransform>'
+				+'						</circle>'
+				+'					</g>'
+				+'					<g transform="translate(50 50)">'
+				+'						<circle cx="0" cy="0" r="10" fill="#88a2ce" transform="scale(0.226395 0.226395)">'
+				+'		  					<animateTransform attributeName="transform" type="scale" begin="-0.16666666666666666s" calcMode="spline" keySplines="0.3 0 0.7 1;0.3 0 0.7 1" values="0;1;0" keyTimes="0;0.5;1" dur="1s" repeatCount="indefinite"></animateTransform>'
+				+'						</circle>'
+				+'					</g>'
+				+'					<g transform="translate(75 50)">'
+				+'						<circle cx="0" cy="0" r="10" fill="#c2d2ee" transform="scale(0.68693 0.68693)">'
+				+'  						<animateTransform attributeName="transform" type="scale" begin="0s" calcMode="spline" keySplines="0.3 0 0.7 1;0.3 0 0.7 1" values="0;1;0" keyTimes="0;0.5;1" dur="1s" repeatCount="indefinite"></animateTransform>'
+				+'						</circle>'
+				+'					</g>'
+				+'				</svg>'
+				+'			</div>'
+				+'		</div>'
+				+'	</div>'
+				+'	<div class="file-dialog-backup" style="display: none;"></div>'
+				+'	<div class="dialog_bottom">'
+				+'		<span>文件名：</span>'
+				+'		<input type="text" id="dlg_file_name" readonly="">'
+				+'		<ul>'
+				+'			<li><a href="javascript:void(0)" id="dlg_btn_ok">确定</a></li>'
+				+'			<li><a href="javascript:void(0)" id="dlg_btn_exit">取消</a></li>'
+				+'		</ul>'
+				+'	</div>'
+				+'</div>';
+
 	var dlg = $(html);
 	$(".file_dialog").remove();
 	$('body').append(dlg);
@@ -470,3 +462,246 @@ FileDialog.prototype.initNameInputEvent = function(){
 		}
 	});
 }
+
+FileDialog.prototype.populateFolders = function(){
+	var listActive = this._win.find(".file-list-view li.active");
+	if(listActive.hasClass('list-view')){
+		this.showFolderList();
+	}else if(listActive.hasClass('icon-view')){
+		this.showFolderIcon();
+	}
+};
+
+
+// 列表显示
+FileDialog.prototype.showFolderList = function(){
+	this._win.find("#dialog_file_ctrl .tab").removeClass("active");
+	this._win.find("#dialog_file_ctrl").addClass("loading");
+	this._win.find("#dialog_file_list").addClass('active');
+	this._win.find("#dialog_file_list .row:not(.header)").remove();
+	var that = this;
+	var element = this._win.find(".list-title .order-icon.active");
+	var field = $(element).prev().attr("field");
+	var order = $(element).hasClass('asc')?"asc":"desc";
+	this.getFolderListByList(this._folder_path,field,order,function(result){
+		that._win.find("#dialog_file_ctrl").removeClass("loading");
+		if(result.status == "error"){
+			alert(result.message);
+			// 返回上一级目录
+			var parentPath = that.getParentPath(that.getPath());
+			that.setPath(parentPath);
+			that.populateFolders();
+			return;
+		}
+		var html = '';
+		for(var i = 0; i < result.length; ++i){
+			var o = result[i];
+			var ftype = "",size = "",fclass="";
+			if(o.type == 'folder'){
+				ftype = "文件夹";
+				size = "";
+				fclass = "folder-item-icon";
+			}else{
+				ftype = o.filetype;
+				size = Math.ceil(o.size);
+				size += "kb";
+				fclass = "file-item-icon";
+			}
+
+
+			html += '<div class="row item-container" type="' + o.type + '" title="' + o.name  +  '">'
+				+'		<div class="cell">' 
+				+'			<div class="' + fclass + '"></div>'		
+				+'			<span>'+ o.name  + '</span>'
+				+'		</div>'
+				+'		<div class="cell">' + ftype + '</div>'
+				+'		<div class="cell">' + size + '</div>'
+				+'		<div class="cell">' + o.ftime + '</div>'
+				+'	</div>';
+		}
+
+		that._win.find("#dialog_file_list .row.list-header").after(html);
+		that._win.find("#dialog_file_list .row[title='" + that._file_name + "'][type='file']").addClass('active');
+		that.initFileEvent();
+	});
+};
+
+// 图标显示
+FileDialog.prototype.showFolderIcon = function(){
+	this._win.find("#dialog_file_ctrl .tab").removeClass("active");
+	this._win.find("#dialog_file_ctrl").addClass("loading");
+	this._win.find("#dialog_file_icon").addClass('active');
+	this._win.find("#dialog_file_icon").empty();
+	var that = this;
+	this.getFolderListByIcon(this._folder_path,function(result){
+		that._win.find("#dialog_file_ctrl").removeClass("loading");
+		if(result.status == "error"){
+			alert(result.message);
+			// 返回上一级目录
+			alert(result.message);
+			// 返回上一级目录
+			var parentPath = that.getParentPath(that.getPath());
+			that.setPath(parentPath);
+			that.populateFolders();
+			return;
+		}
+
+		var html = '';
+		for(var i = 0; i < result.length;++i){
+			var o = result[i];
+			var type = o.type;
+			var file_type = '';
+			if(type == "folder"){
+				file_type = "folder-icon";
+			}else if(type == "file"){
+				file_type = "file-icon";
+			}
+			html += '<div class="file-icon-item item-container" type="' + o.type + '" title="' + o.name  +  '">'
+					+'	<div class="icon-div ' + file_type + '">'
+					+'	</div>'
+					+'	<div class="file-info-div">'
+					+'		<div class="file-info-name">' + o.name +  '</div>'
+					+'	</div>'
+					+'</div>';
+		}
+		that._win.find("#dialog_file_icon").html(html);
+		that._win.find(".file-icon-item[title='" + that._file_name + "'][type='file']").addClass("active");
+		that.initFileEvent();
+	});
+};
+
+// 按照图标获取
+FileDialog.prototype.getFolderListByIcon = function(path,callback){
+	if(!path){
+		if(callback){
+			callback("");
+		}
+		return;
+	}
+
+	var dataObj = {
+		"path": path,
+		"type": "icon"
+	};
+	$.ajax({
+			type:"POST",
+			url:"/file/list/",
+			data : JSON.stringify(dataObj),
+			contentType: "text/plain",
+			dataType : "text",
+			success:function(data){
+				var json = JSON.parse(data);
+				if(callback){
+					callback(json);
+				}
+				
+			},
+			error:function(xhr){
+				var json = {
+					"status" : "error",
+					"message" : "失败"
+				};
+				if(callback){
+					callback(json);
+				}
+	        }	
+		});
+
+
+};
+
+FileDialog.prototype.initFolderViewEvent = function(){
+	var that = this;
+	this._win.find(".file-list-view li").click(function(){
+		that._win.find(".file-list-view li").removeClass('active');
+		// if($(this).has('list-view')){
+			
+		// 	that.showFolderList();
+		// }else{
+		// 	$(this).addClass('active');
+		// 	that.showFolderIcon();
+		// }
+		$(this).addClass('active');
+		that.populateFolders();
+	});
+};
+
+
+// 列表获取
+FileDialog.prototype.getFolderListByList = function(path,field,order,callback){
+	if(!path || !field || !order){
+		if(callback){
+			callback("");
+		}
+		return;
+	}
+
+	var dataObj = {
+		"path": path,
+		"type": "list",
+		"field": field,
+		"order": order,
+	};
+	$.ajax({
+			type:"POST",
+			url:"/file/list/",
+			data : JSON.stringify(dataObj),
+			contentType: "text/plain",
+			dataType : "text",
+			success:function(data){
+				var json = JSON.parse(data);
+				if(callback){
+					callback(json);
+				}
+			},
+			error:function(xhr){
+				var json = {
+					"status" : "error",
+					"message" : "失败"
+				};
+				if(callback){
+					callback(json);
+				}
+	        }	
+		});
+};
+
+// 排序事件
+FileDialog.prototype.initOrderEvent = function(){
+	var that = this;
+	this._win.find(".list-title .order-icon").click(function(){
+		that.changeOrderBy(this);
+	});
+};
+
+FileDialog.prototype.changeOrderBy = function(element){
+	var field = $(element).prev().attr("field");
+	var isActive = $(element).hasClass('active');
+	if(isActive){
+		var order = $(element).hasClass('asc');
+		if(order){
+		    $(element).removeClass('asc');
+		}else{
+		    $(element).addClass('asc');
+		}
+	}else{
+		this._win.find(".order-icon").removeClass('active');
+        $(element).addClass('active');
+	}
+
+	this.showFolderList();
+};
+
+
+FileDialog.prototype.getParentPath = function(path){
+	if(!path){
+		return "/";
+	}
+
+	var pos = path.lastIndexOf("/", path.length-2);
+	if(pos>=0 ){
+		var parentPath = path.substring(0, pos) + "/";
+		return parentPath;
+	}
+	return "/";
+};

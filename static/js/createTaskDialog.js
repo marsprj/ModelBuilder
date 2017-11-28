@@ -46,6 +46,10 @@ CreateTaskDialog.prototype.initOkEvent = function(){
 			return;
 		}
 		createTask(modelId,name,function(obj){
+			if(obj.status == "error"){
+				alert(obj.message);
+				return;
+			}
 			dlg.destory();
 			if(dlg._onOK){
 				dlg._onOK(obj.uuid);

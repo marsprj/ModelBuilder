@@ -719,6 +719,7 @@ function createTask(modelId,taskName,callback){
 	}
 
 	var text = '{"model":"' + modelId + '","name":"' + taskName + '"}';
+	// var text = '{"model":"' + modelId + '"}';
 	var url = "/model/task/create/";
 	$.ajax({
 		type:"POST",
