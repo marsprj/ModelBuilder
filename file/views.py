@@ -5,11 +5,17 @@ from ModelFlow import settings
 from json import JSONDecodeError
 
 import os,logging
-import json
+import json,time,math
 
 # Create your views here.
 
 logger = logging.getLogger('model.app')
+
+# 把时间戳转化为时间: 1479264792 to 2016-11-16 10:53:12'''
+def TimeStampToTime(timestamp):
+    timeStruct = time.localtime(timestamp)
+    return time.strftime('%Y-%m-%d %H:%M:%S',timeStruct)
+
 def file_upload(request):
     if request.method != "POST":
         return http_error_response("error")
@@ -57,38 +63,134 @@ def file_list(request):
 
     try:
         request_path = obj["path"]
-
         file_root = get_user_file_root(request)
-
         file_path = os.path.join(file_root, request_path[1:])
         if not os.path.exists(file_path):
             logger.error("folder path[{0}] is not exist".format(file_path))
             return http_error_response('该路径不存在')
 
-        files_json = []
+        list_json = []
+        dir_json = []
+        file_json = []
 
-        # files = os.listdir(file_path)
-        def sorted_ls(path):
-            mtime = lambda f: os.stat(os.path.join(path, f)).st_mtime
-            return list(sorted(os.listdir(path), key=mtime))
-        files = sorted_ls(file_path)
-        for f in files:
-            fpath = os.path.join(file_path, f)
-            type = "file" if os.path.isfile(fpath) else "folder"
+        if "type" in obj:
+            type = obj["type"]
+        else:
+            type = "icon"
 
-            files_json.append({
-                "name": f,
-                "type": type
-            })
-        logger.info("get folder path:{0}".format(json.dumps(files_json)))
+        # 图标排列
+        if type == "icon":
+            for parent, dirs, files in os.walk(file_path):
+                for dirname in dirs:
+                    if os.path.normpath(parent) != os.path.normpath(file_path):
+                        continue
+                    dirpath = os.path.join(parent, dirname)
+
+                    dir_json.append({
+                        "type": "folder",
+                        "name": dirname,
+                    })
+                for filename in files:
+                    if os.path.normpath(parent) != os.path.normpath(file_path):
+                        continue
+                    file_json.append({
+                        "type": "file",
+                        "name": filename,
+                    })
+                break
+            dir_json = sorted_ls(dir_json,"name")
+            file_json = sorted_ls(file_json,"name")
+            list_json.extend(dir_json)
+            list_json.extend(file_json)
+        # 列表排序
+        elif type == "list":
+            field = obj["field"]
+            order = obj["order"]
+            for parent,dirs,files in os.walk(file_path):
+                for dirname in dirs:
+                    if os.path.normpath(parent) != os.path.normpath(file_path):
+                        continue
+                    dirpath = os.path.join(parent,dirname)
+                    modify_time = os.path.getmtime(dirpath)
+
+                    dir_json.append({
+                        "type":"folder",
+                        "name": dirname,
+                        "ftime": str(TimeStampToTime(modify_time)),
+                        "time":modify_time,
+                        "filetype" : "文件夹"
+                    })
+                for filename in files:
+                    if os.path.normpath(parent) != os.path.normpath(file_path):
+                        continue
+                    filepath = os.path.join(parent,filename)
+                    modify_time = os.path.getmtime(filepath)
+                    fsize = os.path.getsize(filepath)
+                    fsize = fsize / float(1024 * 1024)
+                    # fsize = convertBytes(fsize)
+                    index = filename.rfind(".")
+                    if index == -1:
+                        filetype = "文件"
+                    else:
+                        fix = filename[index+1:]
+                        filetype = fix.lower() + "文件"
+                    file_json.append({
+                        "type": "file",
+                        "name": filename,
+                        "ftime": str(TimeStampToTime(modify_time)),
+                        "time": TimeStampToTime(modify_time),
+                        "fsize": str(fsize) +  "KB",
+                        "size": fsize,
+                        "filetype":filetype
+                    })
+                break
+            if order == "desc":
+                reverse = True
+            else:
+                reverse = False
+            if field == "name" or field == "time":
+                dir_json = sorted_ls(dir_json,field,reverse)
+                file_json = sorted_ls(file_json,field,reverse)
+                list_json.extend(dir_json)
+                list_json.extend(file_json)
+            elif field == "size":
+                dir_json = sorted_ls(dir_json, "name")
+                file_json = sorted_ls(file_json, field, reverse)
+                if order == "desc":
+                    list_json.extend(file_json)
+                    list_json.extend(dir_json)
+                else:
+                    list_json.extend(dir_json)
+                    list_json.extend(file_json)
+            elif field == "filetype":
+                dir_json = sorted_ls(dir_json, "name",reverse)
+                file_json = sorted_ls(file_json, field, reverse)
+                list_json.extend(dir_json)
+                list_json.extend(file_json)
+
+        logger.info("get folder path:{0}".format(json.dumps(list_json)))
+
         return HttpResponse(
-            json.dumps(files_json),
+            json.dumps(list_json),
             content_type="application/json")
     except Exception as e:
         logger.error("get file list[{0}] failed: {1}".format(request_path,str(e)))
         return http_error_response("get file list failed")
 
+def convertBytes(bytes, lst=['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB']):
+    i = int(math.floor( # 舍弃小数点，取小
+             math.log(bytes, 1024) # 求对数(对数：若 a**b = N 则 b 叫做以 a 为底 N 的对数)
+            ))
 
+    if i >= len(lst):
+        i = len(lst) - 1
+    return ('%.2f' + " " + lst[i]) % (bytes/math.pow(1024, i))
+
+
+# 默认是升序
+def sorted_ls(jsons,field,reverse=False):
+    key_field = lambda f: f[field]
+    return list(sorted(jsons, key=key_field,reverse=reverse))
 """
 创建文件夹
 ｛
