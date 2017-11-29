@@ -20,7 +20,6 @@ var FileDialog = function(path,mode,onOK){
 extend(FileDialog, Dialog)
 
 FileDialog.prototype.registerPanelEvent = function(){
-	this.initUpwardEvent();
 	this.initCreateFolderEvent();
 	this.initDeleteFolderEvent();
 	this.initUploadEvent();
@@ -29,6 +28,8 @@ FileDialog.prototype.registerPanelEvent = function(){
 	this.initFolderViewEvent();
 
 	this.initOrderEvent();
+
+	this.initPathEvent();
 };
 
 
@@ -49,13 +50,6 @@ FileDialog.prototype.setMode =function(mode){
 	}
 }
 
-FileDialog.prototype.initUpwardEvent = function(){
-
-	var dlg = this;
-	this._win.find(".dialog_folder_up:first").click(function(){
-		dlg.upwards();
-	});
-}
 
 FileDialog.prototype.initCreateFolderEvent = function(){
 
@@ -199,7 +193,6 @@ FileDialog.prototype.initOkEvent = function(){
 }
 
 
-
 FileDialog.prototype.setPath = function(path){
 	this._file_path = path;
 	this._folder_path = "/";
@@ -210,13 +203,49 @@ FileDialog.prototype.setPath = function(path){
 	else{
 		this._folder_path = path.substring(0, path.lastIndexOf("/")+1);
 		this._file_name = path.substring(path.lastIndexOf("/")+1, path.length);
-	}
+	}	
 	this._win.find("#dlg_file_name").val(this._file_name);
-	this._win.find(".dialog_folder_path").attr("value", this._folder_path);
+	this._win.find(".path-div").attr("dpath",this._folder_path);
+
+	var pathList = this._folder_path.split("/");
+	var html = '';
+	var curPath = "/";
+	for(var i = 0; i < pathList.length;++i){
+		var p = pathList[i];
+		if(p == ""){
+			continue;
+		}
+		curPath += p + "/";
+		html += '<li title="' + curPath + '">'
+			+'		<a href="javascript:void(0)">' + p + '</a>'
+			+'	</li>';
+	}
+	this._win.find(".path-div ul").html(html);
+
+	var length = 0;
+	this._win.find(".path-div ul li").each(function(){
+		length += this.getBoundingClientRect().width;
+	});
+	var width = 770;
+	if(length > width){
+		console.log(length);
+		var delta = width - length ;
+		this._win.find(".path-div ul").css("left",delta + "px").css("width",length + "px");
+	}else{
+		this._win.find(".path-div ul").css("left","0px");
+	}
+
+	var that = this;
+	this._win.find(".path-div ul li").click(function(event) {
+		var path = $(this).attr("title");
+		that.setPath(path);
+		that.populateFolders();
+	});
 }
 
+
 FileDialog.prototype.getPath = function(path){
-	return $(".dialog_folder_path").attr("value");
+	return $(".path-div").attr("dpath");
 }
 
 FileDialog.prototype.getFilePath = function(){
@@ -315,13 +344,18 @@ FileDialog.prototype.create = function(){
 				+'		<div class="dialog_exit"></div>'
 				+'	</div>'
 				+'	<div class="dialog_main">'
-				+'		<div class="dialog_file_path_wrapper">'
-				+'			<span>路径:</span>'
-				+'			<input type="text" class="dialog_folder_path" readonly="readonly" value="/">'
-				+'			<ul>'
-				+'				<li><div class="folder-tool dialog_folder_up" title="上一级"></div></li>'
-				+'			</ul>'
+				+'	<div class="address-div">'
+				+'		<div class="home" title="根目录"></div>'
+				+'		<div class="path-div" dpath="/">'
+				+'		<ul>'
+				+'			<li><a href="javascript:void(0)">folder1</a></li>'
+				+'			<li><a href="javascript:void(0)">folder2</a></li>'
+				+'			<li><a href="javascript:void(0)">folder3</a></li>'
+				+'		</ul>'
 				+'		</div>'
+				+'		<div class="path-tool up-tool" title="上一级"></div>'
+				+'		<div class="path-tool refresh-tool" title="刷新"></div>'
+				+'	</div>'
 				+'		<div id="dialog_file_ctrl">'
 				+'			<div id="filedialog_tool">'
 				+'				<ul class="file-tool">'
@@ -704,4 +738,22 @@ FileDialog.prototype.getParentPath = function(path){
 		return parentPath;
 	}
 	return "/";
+};
+
+FileDialog.prototype.initPathEvent = function(){
+	var that = this;
+	this._win.find(".home").click(function(event) {
+		that.setPath("/");
+		that.populateFolders();
+		that._file_path = null;
+		that._win.find("#dlg_file_name").val("");
+	});
+
+	this._win.find(".up-tool").click(function(event) {
+		that.upwards();
+	});
+
+	this._win.find('.refresh-tool').click(function(event) {
+		that.populateFolders();
+	});
 };

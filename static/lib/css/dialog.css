@@ -240,10 +240,6 @@
     padding: 0px 0px 0px 10px;
 }
 
-.dialog_folder_path{
-    width: 810px;
-}
-
 .dialog_file_path_wrapper ul{
 	padding: 0px;
 	margin: 0px 10px 0px 0px;
@@ -616,6 +612,89 @@
 	/*display: none;*/
 }
 
+
+.address-div{
+	height: 27px;
+    border: 1px solid #ccc;
+    margin: 10px;
+    background-color: #f2f2f2;
+}
+
+.home{
+	width: 27px;
+    border-right: 1px solid #ccc;
+    height: 27px;
+    display: inline-block;
+    background: url(../images/home_20.png) no-repeat center;
+    cursor: pointer;
+}
+
+.home:hover{
+	box-shadow: 0 1px 10px rgba(0,0,0,0.2);
+}
+
+.path-div{
+	display: inline-block;
+    vertical-align: top;
+    line-height: 27px;
+    overflow: hidden;
+    width: 780px;
+}
+
+.path-div ul{
+	margin: 0px;
+	padding: 0px;
+	list-style: none;
+    overflow: hidden;
+    position: relative;
+}
+
+.path-div ul li{
+	float: left;
+	background-image: url(../images/button.png);
+    background-repeat: no-repeat;
+    background-position: 100% -1px;
+    padding: 0 8px 0px 4px;
+}
+.path-div ul li a{
+	text-decoration: none;
+	color: #4c4c4c;
+	margin: 10px;
+}
+.path-div ul li:hover{
+    background-position: 100% -49px;
+}
+
+.path-div ul li:hover a{
+	color: #b50404;
+}
+
+.path-div ul li:active{
+	background-position: 100% -97px;
+}
+
+.path-tool{
+	float: right;
+	height: 27px;
+	width: 27px;
+	display: inline-block;
+	background-position: center;
+	background-repeat: no-repeat;
+	cursor: pointer;
+}
+
+.path-tool:hover{
+	box-shadow: 0 1px 10px rgba(0,0,0,0.2);
+}
+.path-tool.refresh-tool{
+	background-image: url(../images/refresh.png);
+	border-left: 1px solid #ccc;
+	border-right: 1px solid #ccc;
+}
+
+.path-tool.up-tool{
+	background-image: url(../images/up_20.png);
+}
 /********************************************************************/
 /*    file upload dialog
 /********************************************************************/
