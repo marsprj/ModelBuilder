@@ -287,18 +287,14 @@
     border: 1px solid #aaaaaa;
 }
 
-#dialog_file_ctrl .item_container{
-	float: left;
-	width: 125px;
-	height: 30px;
-	margin: 0px 5px 0px 0px;
-	background-color: #fff;
+.item-container{
+	transition: background .2s,border .2s,color .2s;
 }
 
 #dialog_file_ctrl .tab{
 	display: none;
 	width: 100%;
-	height: calc(100% - 43px);
+	height: calc(100% - 45px);
 	overflow-y: scroll;
 	background-color: #fdfdfd;
 }
@@ -329,15 +325,6 @@
     width: 100%;
     z-index: 1007;
     display: none;	
-}
-
-#dialog_file_ctrl .item_container.active{
-	background-color: rgb(224, 236, 246);
-}
-
-#dialog_file_ctrl .item_container:hover{
-	cursor : pointer;
-	background-color: #e0ecf6;
 }
 
 .folder-item-icon{
@@ -501,9 +488,6 @@
 	text-align: left;
 }
 
-.file_dialog .row{
-	transition: background 0.2s, border 0.2s, color 0.2s;
-}
 
 .file_dialog .row:not(.header):hover,.file_dialog .row:not(.header).active{
 	background-color: #169bd5 !important;
@@ -604,14 +588,9 @@
 .file_dialog .list-title{
 	position: fixed;
     width: 861px;
-    background-color: #94a1ad;
-    color: #fff;
+	background-color:#e7e7e7;
+    color: #230606;
 }
-
-.file_dialog .list-header{
-	/*display: none;*/
-}
-
 
 .address-div{
 	height: 27px;
@@ -694,6 +673,14 @@
 
 .path-tool.up-tool{
 	background-image: url(../images/up_20.png);
+}
+
+.file_dialog .file-name{
+	width: 290px;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+	display: inline-block;
 }
 /********************************************************************/
 /*    file upload dialog
