@@ -126,7 +126,7 @@ def file_list(request):
                     filepath = os.path.join(parent,filename)
                     modify_time = os.path.getmtime(filepath)
                     fsize = os.path.getsize(filepath)
-                    fsize = fsize / float(1024 * 1024)
+                    fsize = fsize / float(1024)
                     # fsize = convertBytes(fsize)
                     index = filename.rfind(".")
                     if index == -1:
