@@ -467,7 +467,8 @@ def createTask(model_id,new_data):
         logger.debug("new task text:{0}".format(new_text))
 
         start_time = datetime.datetime.utcnow() - datetime.timedelta(hours=6)
-        task_name = "auto_" + new_file_name
+        model_name = model.name
+        task_name = model_name + "_" + timezone.now().strftime("%Y%m%d%H%M%S")
 
         task = model.task_set.create(
             uuid=uuid.uuid4(),
@@ -517,10 +518,17 @@ def start_run_task(task):
             task.state = 1
             task.save()
 
-            #文件夹处理
+            # 文件夹处理
             file_root = setting.UPLOADS_ROOT
-            user_root = os.path.join(file_root,str(user_uuid))
-            task_path = os.path.join(user_root,str(task.uuid))
+            user_root = os.path.join(file_root, str(user_uuid))
+            task_path = os.path.join(user_root, str(task.uuid))
+            model_id = task.model.uuid
+            model_name = task.model.name
+            model_root = os.path.join(user_root, model_name)
+            #  兼容之前的模式
+            if not os.path.exists(model_root):
+                os.mkdir(model_root)
+            task_path = os.path.join(model_root, task.name)
             if os.path.exists(task_path):
                 shutil.rmtree(task_path)
             os.mkdir(task_path)
