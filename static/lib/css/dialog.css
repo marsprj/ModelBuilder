@@ -450,8 +450,8 @@
 .file-list-view li{
 	float: left;
 	/*padding: 4px 8px;*/
-	height: 26px;
-	width: 26px;
+	height: 28px;
+	width: 30px;
 	background-position: center;
 	background-repeat: no-repeat;
 	cursor: pointer;
@@ -463,24 +463,24 @@
 }
 
 .file-list-view li.active{
-	background-color: #909090;
+	background-color: #dad9d9 ;
 	cursor: not-allowed;
 }
 
 .file-list-view li:hover{
-	background-color: #909090;
+	background-color: #dad9d9;
 }
 .file-list-view .icon-view{
-	background-image: url(../images/image_26.png);
+	background-image: url(../images/image_20.png);
 }
-.file-list-view .icon-view.active,.file-list-view .icon-view:hover{
-	background-image: url(../images/image_26_white.png);
+.file-list-view .icon-view.active{
+	background-image: url(../images/image_20_white.png);
 }
 .file-list-view .list-view{
-	background-image: url(../images/list_26.png);
+	background-image: url(../images/list_20.png);
 }
-.file-list-view .list-view.active,.file-list-view .list-view:hover{
-	background-image: url(../images/list_26_white.png);
+.file-list-view .list-view.active{
+	background-image: url(../images/list_20_white.png);
 }
 
 .file_dialog .cell{

@@ -501,6 +501,9 @@ FileDialog.prototype.showFolderList = function(){
 			alert(result.message);
 			// 返回上一级目录
 			var parentPath = that.getParentPath(that.getPath());
+			if(parentPath == that.getPath()){
+				return;
+			}
 			that.setPath(parentPath);
 			that.populateFolders();
 			return;
@@ -550,9 +553,10 @@ FileDialog.prototype.showFolderIcon = function(){
 		if(result.status == "error"){
 			alert(result.message);
 			// 返回上一级目录
-			alert(result.message);
-			// 返回上一级目录
 			var parentPath = that.getParentPath(that.getPath());
+			if(parentPath == that.getPath()){
+				return;
+			}
 			that.setPath(parentPath);
 			that.populateFolders();
 			return;
