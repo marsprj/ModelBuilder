@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script type="text/javascript" src="./js/jquery-3.2.1.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/commom.css">
+    <link rel="stylesheet" type="text/css" href="css/webuploader.css">
+    <link rel="stylesheet" type="text/css" href="css/file.css">
+    <!-- <link rel="stylesheet" type="text/css" href="css/task.min.css"> -->
+    <!-- <link rel="stylesheet" type="text/css" href="lib/css/graph.min.css"> -->
+    <title>工作流系统--文件管理</title>
+</head>
+<body>
+    <div id="header">
+		<div class="title-icon"></div>
+		<div class="title">
+			工作流系统-文件管理
+		</div>
+        <div class="title-right">
+            <a href="index.html" class="user-task">返回主页</a>
+            <a href="javascript:void(0)" class="user-name"></a>
+            <a href="javascript:void(0)" class="logout">退出</a>
+        </div>
+	</div>
+    <div id="main">
+        <div class="file-div">
+            <div class="address-div">
+                <div class="home" title="根目录"></div>
+                <div class="path-div" dpath="/">
+                    <ul>
+                      <li><a href="javascript:void(0)">folder1</a></li>
+                      <li><a href="javascript:void(0)">folder2</a></li>
+                      <li><a href="javascript:void(0)">folder3</a></li>
+                    </ul>
+                </div>
+                <div class="path-tool up-tool" title="上一级"></div>
+                <div class="path-tool refresh-tool" title="刷新"></div>
+            </div>
+            <div id="dialog_file_ctrl">
+              <div id="filedialog_tool">
+                  <ul class="file-tool">
+                      <li class="create-folder-tool"><span></span>新建文件夹</li>
+                      <li class="delete-folder-tool"><span></span>删除</li>
+                      <li class="upload-tool"><span></span>上传</li>
+                  </ul>
+                  <ul class="file-list-view">
+                      <li class="icon-view active" title="图标显示">&nbsp;</li>
+                      <li class="list-view " title="列表显示">&nbsp;</li>
+                  </ul>
+              </div>
+              <div class="tab active" id="dialog_file_list">
+                  <div class="table list-title">
+                      <div class="row header">
+                          <div class="cell" style="width: 40%">
+                              <span field="name">名称</span>
+                              <span class="order-icon desc-order asc active"></span>
+                          </div>
+                          <div class="cell" style="width: 20%">
+                              <span field="filetype">类型</span>
+                              <span class="order-icon desc-order asc"></span`>
+                          </div>
+                          <div class="cell" style="width: 20%">
+                              <span field="size">大小</span>
+                              <span class="order-icon desc-order asc"></span>
+                          </div>
+                          <div class="cell" style="width: 20%">
+                              <span field="time">最后修改日期</span>
+                              <span class="order-icon desc-order asc"></span>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="table" >
+                      <div class="row header list-header">
+                          <div class="cell" style="width: 40%">
+                              <span field="name">名称</span>
+                          </div>
+                          <div class="cell" style="width: 20%">
+                              <span field="filetype">类型</span>
+                          </div>
+                          <div class="cell" style="width: 20%">
+                              <span field="size">大小</span>
+                          </div>
+                          <div class="cell" style="width: 20%">
+                              <span field="time">最后修改日期</span>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <div class="tab" id="dialog_file_icon">
+              </div>
+              <div id="dilaog_file_loading">
+                  <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="200px" height="200px" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">'
+                      <g transform="translate(25 50)">
+                          <circle cx="0" cy="0" r="10" fill="#456caa" transform="scale(0.0032592 0.0032592)">
+                              <animateTransform attributeName="transform" type="scale" begin="-0.3333333333333333s" calcMode="spline" keySplines="0.3 0 0.7 1;0.3 0 0.7 1" values="0;1;0" keyTimes="0;0.5;1" dur="1s" repeatCount="indefinite"></animateTransform>
+                          </circle>
+                      </g>
+                      <g transform="translate(50 50)">
+                          <circle cx="0" cy="0" r="10" fill="#88a2ce" transform="scale(0.226395 0.226395)">
+                              <animateTransform attributeName="transform" type="scale" begin="-0.16666666666666666s" calcMode="spline" keySplines="0.3 0 0.7 1;0.3 0 0.7 1" values="0;1;0" keyTimes="0;0.5;1" dur="1s" repeatCount="indefinite"></animateTransform>
+                          </circle>
+                      </g>
+                      <g transform="translate(75 50)">
+                          <circle cx="0" cy="0" r="10" fill="#c2d2ee" transform="scale(0.68693 0.68693)">
+                              <animateTransform attributeName="transform" type="scale" begin="0s" calcMode=spline" keySplines="0.3 0 0.7 1;0.3 0 0.7 1" values="0;1;0" keyTimes="0;0.5;1" dur="1s" repeatCount="indefinite"></animateTransform>
+                          </circle>
+                      </g>
+                  </svg>
+              </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+<script type="text/javascript">
+
+    var g_path = "/";
+
+    var g_uploadState = null;
+
+    $().ready(function () {
+        var username = getCookie("username");
+        if(!username){
+            window.location.href="login.html";
+            return;
+        }
+        g_username = username;
+        $(".user-name").html("用户&nbsp;:&nbsp;" + username);
+        $("#main").show();
+
+        initPageEvent();
+
+        setPath("/");
+
+        populateFolders();
+
+        // loadModels();
+
+        // setState(4);
+        // changeState();
+
+    });
+    function getCookie(name){
+        var arr = document.cookie.match(new RegExp("(^| )"+name+"=([^;]*)(;|$)"));
+        if(arr != null) return unescape(arr[2]); return null;
+    }
+
+</script>
+
+<!-- <script type="text/javascript" src="js/task.js"></script>
+<script type="text/javascript" src="js/model.js"></script> -->
+<!-- <script type="text/javascript" src="js/task.min.js"></script> -->
+<script type="text/javascript" src="js/3rd/webuploader.min.js"></script>
+<script type="text/javascript" src="js/file.js"></script>

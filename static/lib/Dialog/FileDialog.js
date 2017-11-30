@@ -177,7 +177,7 @@ FileDialog.prototype.initOkEvent = function(){
 		}else if (dlg._mode == "folder") {
 			var active = dlg._win.find(".item-container.active");
 			var type = active.attr("type");
-			var chooseName = active.find(".folder_item_text").html();
+			var chooseName = dlg._win.find(".path-div").attr("dpath");
 			if(chooseName == null || type == null || type == "file"){
 				alert("请选择一个文件夹");
 				return;
@@ -252,7 +252,7 @@ FileDialog.prototype.getFilePath = function(){
 	return this._file_path;
 }
 
-
+// 选中的文件夹
 FileDialog.prototype.getFolderPath = function(){
 	var active = this._win.find(".item-container.active");
 	var type = active.attr("type");
@@ -432,7 +432,7 @@ FileDialog.prototype.create = function(){
 				+'	<div class="file-dialog-backup" style="display: none;"></div>'
 				+'	<div class="dialog_bottom">'
 				+'		<span>文件名：</span>'
-				+'		<input type="text" id="dlg_file_name" readonly="">'
+				+'		<input type="text" id="dlg_file_name">'
 				+'		<ul>'
 				+'			<li><a href="javascript:void(0)" id="dlg_btn_ok">确定</a></li>'
 				+'			<li><a href="javascript:void(0)" id="dlg_btn_exit">取消</a></li>'
