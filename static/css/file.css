@@ -1,0 +1,549 @@
+.file-div{
+	height: 100%;
+	width: 100%;
+}
+
+.address-div {
+    height: 27px;
+    border: 1px solid #ccc;
+    margin: 10px;
+    background-color: #f2f2f2;
+}
+
+.home {
+    width: 27px;
+    border-right: 1px solid #ccc;
+    height: 27px;
+    background: url(../images/home_20.png) center no-repeat;
+    cursor: pointer;
+    display: inline-block;
+}
+
+.home:hover{
+	box-shadow: 0 1px 10px rgba(0,0,0,0.2);
+}
+
+.path-div{
+	display: inline-block;
+    vertical-align: top;
+    line-height: 27px;
+    overflow: hidden;
+    width: calc(100% - 88px);
+}
+
+.path-div ul{
+	margin: 0px;
+	padding: 0px;
+	list-style: none;
+    overflow: hidden;
+    position: relative;
+}
+
+.path-div ul li{
+	float: left;
+	background-image: url(../images/button.png);
+    background-repeat: no-repeat;
+    background-position: 100% -1px;
+    padding: 0 8px 0px 4px;
+}
+.path-div ul li a{
+	text-decoration: none;
+	color: #4c4c4c;
+	margin: 10px;
+}
+.path-div ul li:hover{
+    background-position: 100% -49px;
+}
+
+.path-div ul li:hover a{
+	color: #b50404;
+}
+
+.path-div ul li:active{
+	background-position: 100% -97px;
+}
+
+.path-tool{
+	float: right;
+	height: 27px;
+	width: 27px;
+	display: inline-block;
+	background-position: center;
+	background-repeat: no-repeat;
+	cursor: pointer;
+}
+
+.path-tool:hover{
+	box-shadow: 0 1px 10px rgba(0,0,0,0.2);
+}
+.path-tool.refresh-tool{
+	background-image: url(../images/refresh.png);
+	border-left: 1px solid #ccc;
+	border-right: 1px solid #ccc;
+}
+
+.path-tool.up-tool{
+	background-image: url(../images/up_20.png);
+}
+
+#dialog_file_ctrl{
+	height: calc(100% - 59px);
+    margin: 0px 10px 10px;
+    border: 1px solid #aaaaaa;
+}
+
+.item-container{
+	transition: background .2s,border .2s,color .2s;
+}
+
+#dialog_file_ctrl .tab{
+	display: none;
+	width: 100%;
+	height: calc(100% - 45px);
+	overflow-y: scroll;
+	background-color: #fff;
+}
+
+#dialog_file_ctrl .tab.active{
+	display: block;
+}
+.list-title{
+	position: fixed;
+    width: 861px;
+	background-color:#e7e7e7;
+    color: #230606;
+}
+
+#filedialog_tool{
+	background-color: #f4f3f3;
+    padding: 6px;
+}
+
+.file-tool{
+	list-style: none;
+    margin: 0;
+    overflow: hidden;
+    line-height: 18px;
+    margin-top: 2px;
+    padding: 0px;
+    display: inline-block;
+}
+
+.file-tool li{
+    float: left;
+    padding: 4px 8px;
+    margin: 0 10px;
+    background-color: #909090;
+    color: #fff;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.file-tool li:hover{
+    box-shadow: 1px 1px 2px #f2ebeb;
+    color: #7c7a7a;
+    background-color: #ddd;
+    font-weight: 700;
+}
+
+.file-tool li span{
+	width: 24px;
+	margin-right: 3px;
+	height: 20px;
+	background-position: center;
+	float: left;
+	background-repeat: no-repeat;	
+}
+
+.create-folder-tool span{
+	background-image: url(../images/new_folder_16.png);
+}
+
+.create-folder-tool:hover span{
+	background-image: url(../images/new_folder_16_h.png);
+}
+
+.delete-folder-tool span{
+	background-image: url(../images/delete_16.png);
+}
+
+.delete-folder-tool:hover span{
+	background-image: url(../images/delete_16_h.png);
+}
+
+.upload-tool span{
+	background-image: url(../images/upload_16.png);
+}
+
+.upload-tool:hover span{
+	background-image: url(../images/upload_16_h.png);
+}
+
+
+.file-list-view{
+	float: right;
+	list-style: none;
+    margin: 2px 0px;
+    overflow: hidden;
+	display: inline-block;
+	padding: 0px;
+	border:1px solid #efefef;
+	border-radius: 4px;
+}
+
+.file-list-view li{
+	float: left;
+	/*padding: 4px 8px;*/
+	height: 28px;
+	width: 30px;
+	background-position: center;
+	background-repeat: no-repeat;
+	cursor: pointer;
+	background-color: #fff;
+}
+
+.file-list-view li:first-child{
+	border-right: 1px solid #efefef;
+}
+
+.file-list-view li.active{
+	background-color: #dad9d9 ;
+	cursor: not-allowed;
+}
+
+.file-list-view li:hover{
+	background-color: #dad9d9;
+}
+.file-list-view .icon-view{
+	background-image: url(../images/image_20.png);
+}
+.file-list-view .icon-view.active{
+	background-image: url(../images/image_20_white.png);
+}
+.file-list-view .list-view{
+	background-image: url(../images/list_20.png);
+}
+.file-list-view .list-view.active{
+	background-image: url(../images/list_20_white.png);
+}
+
+.folder-item-icon{
+	float: left;
+	width: 24px;
+	height: 20px;
+	margin-right: 3px;
+	background-image: url(../images/folder_24.png);
+	background-repeat: no-repeat;
+	background-position: center;
+}
+
+.file-item-icon{
+	float: left;
+	width: 24px;
+	margin-right: 3px;
+	height: 20px;
+	background-image: url(../images/file_24.png);
+	background-repeat: no-repeat;
+	background-position: center;
+}
+.cell {
+    padding: 6px 10px;
+    text-align: left;
+}
+
+.list-title {
+    position: fixed;
+    width: calc(100% - 39px);
+    background-color: #e7e7e7;
+    color: #230606;
+}
+
+.row:not(.header):hover,.file_dialog .row:not(.header).active{
+	background-color: #169bd5 !important;
+	color: #fff !important;
+	cursor: pointer;
+}
+
+.row:not(.header):nth-of-type(even){
+	background-color: #f7f7f7;
+}
+
+.cell span{
+	vertical-align: middle;
+}
+
+.order-icon {
+    width: 26px;
+    height: 20px;
+    display: inline-block;
+    transition: .1s all ease;
+    background-position: center;
+    cursor: pointer;
+}
+
+.desc-order {
+    background-image: url(../images/desc_off.png)
+}
+
+.desc-order.active {
+    background-image: url(../images/desc.png)
+}
+
+.desc-order.asc {
+    background-image: url(../images/asc_off.png)
+}
+
+.desc-order.asc.active {
+    background-image: url(../images/asc.png)
+}
+
+
+.file-icon-item{
+	background-color: #fff;
+	box-shadow: 2px 2px 2px #d6d3d3;
+	margin: 6px;
+	cursor: pointer;
+	border-radius: 4px;
+}
+
+.file-icon-item:hover,.file-icon-item.active{
+	background-color: #169bd5;
+	color: #fff;
+}
+
+.file-icon-item{
+	width: 200px;
+	float: left;
+	height: 60px;
+	/*background-color: #ddd;*/
+}
+
+.icon-div{
+	float: left;
+	height: 100%;
+	width: 60px;
+	background-position: center ;
+	background-repeat: no-repeat;
+}
+.file-icon{
+	background-image:  url(../images/file_48.png) ;
+}
+
+.folder-icon{
+	background-image: url(../images/folder_80.png) ;	
+}
+
+
+.file-icon-item:hover .file-icon,.file-icon-item.active .file-icon{
+	background-image: url(../images/file_48_white.png);
+}
+
+.file-icon-item:hover .folder-icon,.file-icon-item.active .folder-icon{
+	background-image: url(../images/folder_80_white.png);
+}
+
+.file-info-div{
+	float: right;
+	height: 100%;
+	width: 140px;
+}
+
+.file-info-name{
+	overflow: hidden;
+    word-break: break-all;
+    text-overflow: ellipsis;
+    height: 100%;
+    line-height: 1.6em;
+}
+
+#dilaog_file_loading{
+	position: absolute;
+    left: calc(50% - 100px);
+    top: calc(50% - 160px);
+    display: none;
+}
+
+#dialog_file_ctrl.loading #dilaog_file_loading{
+	display: block;
+}
+#dilaog_file_loading svg{
+	margin: 60px auto;
+    display: block;
+}
+
+
+
+.dialog {
+	position: absolute;
+	font-size:12px;
+	z-index: 1006;
+	display: none;
+	border: 1px solid #888;
+	background-color: white;
+	box-shadow: 2px 2px 5px 2px #888888;
+}
+
+.dialog .titlebar {
+    padding-left: 10px;
+    height: 30px;
+    line-height: 30px;
+    background-color: #eee;
+    cursor: move
+}
+.dialog .dialog_title{
+	display: inline-block;
+}
+
+.dialog_exit {
+	float:right;
+	width:16px;
+	height:100%;
+	margin-right:10px;
+	background-image: url('../images/exit_12.png');
+	background-repeat: no-repeat;
+	background-position: center;
+	cursor: pointer;	
+}
+
+.dialog_main {
+    width: 100%;
+    border-bottom: 1px solid #ccc
+}
+
+.dialog_bottom {
+    width: 100%;
+    height: 24px;
+    padding: 3px 0;
+    margin: 10px 0
+}
+
+.dialog_bottom ul {
+    float: right;
+    list-style: none;
+    height: 24px;
+    margin: 0 20px;
+    padding: 0
+}
+.dialog_bottom ul li {
+    float: left;
+    width: 70px;
+    height: 24px;
+    line-height: 24px;
+    margin-left: 10px
+}
+
+.dialog_bottom ul li a {
+    text-decoration: none;
+    display: block;
+    width: 70px;
+    color: #000;
+    text-align: center;
+    background-color: #f0f0f0
+}
+
+.dialog_bottom ul li a:hover {
+    background-color: #e0ecf6;
+    border: 1px solid #aaa
+}
+.dialog_item {
+    padding: 10px;
+    height: 26px;
+    font-size: 12px
+}
+.create-folder-dialog {
+    left: 650px;
+    top: 300px;
+    width: 360px
+}
+
+.create-folder-dialog input {
+    width: 288px
+}
+
+
+.upload_dialog{
+	left: 300px;
+	top: 80px;
+	width: 700px;
+	height: 500px;
+}
+
+.upload_dialog #filePicker{
+	display: inline-block;
+}
+
+.upload_dialog .file-oper-row{
+	margin: 16px;
+}
+
+.upload_dialog .upload-btn{
+	text-decoration: none;
+	display: inline-block;
+    padding: 8px 15px;
+    margin-bottom: 0;
+    font-weight: 400;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-image: none;
+    border: 1px solid rgba(0, 0, 0, 0);
+    border-radius: 3px;
+    color: #fff;
+    background-color: #5cb85c;
+    border-color: #4cae4c;
+    margin-top: -29px;
+} 
+.upload_dialog #fileList{
+	width: 666px;
+    margin: 0 auto;
+    height: 380px;
+    border: 1px solid #aaa;
+    overflow-y: auto;
+}
+
+.upload_dialog .file-item{
+    height: 40px;
+    line-height: 40px;
+    border-bottom: 1px #aaa dotted;
+    padding: 0 6px;
+}
+.upload_dialog .file-name{
+	width: 200px;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+	float: left;
+}
+
+.upload_dialog .progress{
+	width: 360px;
+	float: left;
+	border: 1px solid #ccc;
+	margin-top: 10px;
+	border-radius: 4px;
+	height: 20px;
+	margin-top: 10px;
+}
+.upload_dialog .progress-bar{
+	height: 100%;
+	width: 0%;
+    background-image: linear-gradient(45deg,rgba(255,255,255,.15) 25%,rgba(0, 0, 0, 0) 25%,rgba(0, 0, 0, 0) 50%,rgba(255,255,255,.15) 50%,rgba(255,255,255,.15) 75%,rgba(0, 0, 0, 0) 75%,rgba(0, 0, 0, 0));
+    background-color: #337ab7;
+    font-size: 12px;
+    line-height: 20px;
+    background-repeat: repeat-x; 
+    background-size: 40px 40px;
+    border-radius: 4px;
+    transition: width .6s ease;
+}
+.upload_dialog .state{
+	float: right;
+    width: 60px;
+    text-align: center;
+}
