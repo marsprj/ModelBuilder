@@ -238,21 +238,41 @@ def file_remove(request):
     except JSONDecodeError as e:
         logger.error("remove file json[{0}] parse failed: {1}".format(text, str(e)))
         return http_error_response("json 解析失败")
-
-    request_path = obj["path"]
-    file_root = get_user_file_root(request)
-
-    file_path = os.path.join(file_root, request_path[1:])
     try:
-        if os.path.isdir(file_path):
-            os.rmdir(file_path)
-        else:
-            os.remove(file_path)
-        logger.info("remove file[{0}] success".format(file_path))
-        return http_success_response()
+        remove_list = obj["list"]
+        result = []
+        file_root = get_user_file_root(request)
+        for obj in remove_list:
+            try:
+                type = obj["type"]
+                path = obj["path"]
+                file_path = os.path.join(file_root, path[1:])
+                if type == "file":
+                    os.remove(file_path)
+                elif type == "folder":
+                    os.rmdir(file_path)
+                result.append({
+                    "path": path,
+                    "result":"success"
+                })
+                logger.info("remove {} success:{}".format(type,path))
+            except Exception as e:
+                logger.error("remove {} failed:{}".format(type, path))
+                result.append({
+                    "path": path,
+                    "result": "fail"
+                })
+                continue
+        data = {
+            "result": result
+        }
+        return HttpResponse(json.dumps(data), content_type="application/json")
     except OSError as e:
-        logger.error("remove file[{0}] failed: {1}".format(file_path,str(e)))
-        return http_error_response(e.strerror)
+        logger.error("remove file[{0}] failed: {1}".format(text, str(e)))
+        data = {
+            "result":result
+        }
+        return HttpResponse(json.dumps(data), content_type="application/json")
 
 
 def get_user_file_root(request):
