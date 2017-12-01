@@ -311,3 +311,26 @@ def http_success_response():
     }
     response = HttpResponse(json.dumps(obj), content_type="application/json", status=200)
     return response
+
+
+def file_preview(request,path):
+
+    try:
+        path = path.replace("|","/")
+        file_root = get_user_file_root(request)
+        file_path = os.path.join(file_root, path[1:])
+        if not os.path.exists(file_path):
+            logger.error("file[{0}] does not exist".format(path))
+            return http_error_response("no file")
+
+        if os.path.exists(file_path):
+            if not os.path.isfile(file_path):
+                logger.error("file[{0}] does not a file".format(file_path))
+                return http_error_response("not a file")
+            with open(file_path, 'rb') as fh:
+                response = HttpResponse(fh.read(), content_type="application/x-tif")
+                response['Content-Disposition'] = 'inline; filename=' + os.path.basename(file_path)
+                return response
+    except Exception as e:
+        logger.error("get file[{}] preview failed:{}".format(path, str(e)))
+        return http_error_response("failed")
