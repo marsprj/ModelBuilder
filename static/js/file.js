@@ -54,6 +54,17 @@ function initPageEvent () {
 	});
 
 	addKeyEvent();
+
+	$("#myModal .close").click(function(event) {
+		$("#myModal").removeClass('active');
+	});
+
+	$("#myModal").click(function(e){
+		if(e.target instanceof HTMLAnchorElement){
+			return;
+		}
+		$("#myModal").removeClass('active');
+	});
 }
 
 function setPath(path){
@@ -347,7 +358,7 @@ function initFileEvent(){
 				});
 
 				$(this).dblclick(function(){
-					$("#dlg_btn_ok:first").click();
+					preview_file(this);
 				});
 			}
 		}
@@ -726,9 +737,6 @@ function deleteFiles(list,callback) {
 }
 
 
-
-
-
 function addKeyEvent () {
 	var event = function(evt) {
 		var keyCode = evt.keyCode;
@@ -747,4 +755,89 @@ function addKeyEvent () {
 		document.addEventListener("keyup",onkeyup,false);
 	}
 	document.addEventListener("keydown", event);
+}
+
+
+function preview_file(element) {
+	var type = $(element).attr("type");
+	if(type != "file"){
+		return;
+	}
+
+	var name = $(element).attr("title");
+	var index = name.lastIndexOf(".");
+	if(index == -1){
+		return;
+	}
+
+	var fix = name.slice(index+1);
+	fix = fix.toLowerCase();
+	if(fix  == "jpeg" || fix == "jpg" || fix == "png"){
+		path = makeFilePath(getPath(),name);
+		var modal = document.getElementById('myModal');
+		var modalImg = document.getElementById("img01");
+		var caption = $(".modal #caption");
+		modalImg.src = "";
+		caption.html("");
+		$(modal).addClass("loading active");
+		preview(path,function(result){
+			$(modal).removeClass('loading');
+			function isJson(str){
+				try{
+					JSON.parse(result);
+				}
+				catch(e){
+					return false;
+				}
+				return true;
+			}
+			
+			if(isJson(result)){
+				var message = JSON.parse(result).message;
+				var html = "暂不提供预览";
+				if(message == "no file"){
+					html = "没有该文件";
+				}
+				caption.html(html);
+				modalImg.src = "";
+			}else{
+				var html = "";
+				path = path.replace(/\//g,"|") ;
+				var src = "/file/preview/" + path + "/";	
+				modalImg.src = src;
+				var html = "<a href='" +  src + "' download='img.png'>下载文件</a>";
+		   		caption.html(html);
+			}
+		});
+	}
+	
+}
+
+function preview (path,callback) {
+
+	path = path.replace(/\//g,"|") ;
+	var dataObj = {
+		"path":path
+	};
+	var data = JSON.stringify(dataObj);
+	$.ajax({
+		type:"get",
+		url:"/file/preview/" + path + "/",
+		dataType : "text",
+		success:function(result){
+			if(callback){
+				callback(result);
+			}
+		},
+		error:function(xhr){
+			var json = {
+				"status" : "error",
+				"message" : "失败"
+			};
+	        console.log(xhr);
+	        if(callback){
+	        	callback(json);
+	        }
+	    }			
+	});
 }
