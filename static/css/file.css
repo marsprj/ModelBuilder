@@ -258,11 +258,6 @@
     color: #230606;
 }
 
-.row:not(.header):hover,.file_dialog .row:not(.header).active{
-	background-color: #169bd5 !important;
-	color: #fff !important;
-	cursor: pointer;
-}
 
 .row:not(.header):nth-of-type(even){
 	background-color: #f7f7f7;
@@ -270,6 +265,12 @@
 
 .cell span{
 	vertical-align: middle;
+}
+
+.row:not(.header):hover,.row:not(.header).active{
+	background-color: #169bd5 !important;
+	color: #fff !important;
+	cursor: pointer;
 }
 
 .order-icon {

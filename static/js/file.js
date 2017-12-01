@@ -47,6 +47,13 @@ function initPageEvent () {
 	$(window).resize(function(event) {
 		resizeFileIcons();
 	});
+
+	// 排序
+	$(".list-title .order-icon").click(function(event) {
+		changeOrderBy(this);
+	});
+
+	addKeyEvent();
 }
 
 function setPath(path){
@@ -109,6 +116,7 @@ function showFolderList () {
 	$("#dialog_file_ctrl").addClass("loading");
 	$("#dialog_file_list").addClass('active');
 	$("#dialog_file_list .row:not(.header)").remove();
+	$("#dialog_file_icon").empty();
 	var element = $(".list-title .order-icon.active");
 	var field = $(element).prev().attr("field");
 	var order = $(element).hasClass('asc')?"asc":"desc";
@@ -202,6 +210,7 @@ function showFolderIcon() {
 	$("#dialog_file_ctrl").addClass("loading");
 	$("#dialog_file_icon").addClass('active');
 	$("#dialog_file_icon").empty();
+	$("#dialog_file_list .row:not(.header)").remove();
 	getFolderListByIcon(g_path,function(result){
 		$("#dialog_file_ctrl").removeClass("loading");
 		if(result.status == "error"){
@@ -316,19 +325,25 @@ function initFileEvent(){
 
 				$(this).click(function(){
 					//单击文件夹，选中该文件夹
-					$(".item-container").removeClass("active");
-					$(this).addClass("active");
+					if(g_multi){
+						$(this).addClass("active");
+					}else{
+						$(".item-container").removeClass("active");
+						$(this).addClass("active");
+					}
+					
+					
 				});
 			}
 			break;
 			case "file":{
 				$(this).click(function(){
-					//单击文件，选中该文件
-					var curPath = getPath();
-					var filName = $(this).attr("title");;
-
-					$(".item-container").removeClass("active");
-					$(this).addClass("active");
+					if(g_multi){
+						$(this).addClass("active");
+					}else{
+						$(".item-container").removeClass("active");
+						$(this).addClass("active");
+					}
 				});
 
 				$(this).dblclick(function(){
@@ -342,6 +357,12 @@ function initFileEvent(){
 // 构建文件夹路径
 function makeFolderPath(folderPath, folderame){
 	return folderPath + folderame + "/";
+}
+
+
+// 构建文件路径
+function makeFilePath (folderPath,fileName) {
+	return folderPath + fileName;
 }
 
 function upwards(){
@@ -584,7 +605,146 @@ function initUploader(){
     });
 }
 
+// 排序
+function changeOrderBy(element){
+	var field = $(element).prev().attr("field");
+	var isActive = $(element).hasClass('active');
+	if(isActive){
+		var order = $(element).hasClass('asc');
+		if(order){
+		    $(element).removeClass('asc');
+		}else{
+		    $(element).addClass('asc');
+		}
+	}else{
+		$(".order-icon").removeClass('active');
+        $(element).addClass('active');
+	}
+
+	showFolderList();
+};
+
 
 function deleteFolder () {
+	var active = $(".item-container.active");
+	if(active.length == 0){
+		alert("请选择要删除的文件,ctrl可多选");
+		return;
+	}
+	var list = [];
+	var nameList = [];
+	for(var i = 0; i < active.length;++i){
+		var ele = active[i];
+		var type = $(ele).attr("type");
+		var name = $(ele).attr("title");
+		nameList.push(name);
+		var path = makeFilePath(getPath(),name);
+		list.push({
+			"type": type,
+			"path" : path
+		});
+	}
+
+	var str = "确认删除[" + nameList.toString() +  "]?";
+	if(!confirm(str)){
+		return;
+	}
+
 	
+	deleteFiles(list,function(result){
+		if(!result){
+			alert("删除失败");
+			return;
+		}
+
+		if(result.status == "error"){
+			alert(result.message);
+			return;
+		}
+
+		var list = result.result;
+		if(!list){
+			return;
+		}
+		var successCount = 0;
+		var failList = [];
+		for(var i = 0; i < list.length;++i){
+			var l = list[i];
+			if(l.result == "success"){
+				successCount++;
+			}else{
+				failList.push(l.path);
+			}
+		}
+
+		if(successCount == list.length){
+			alert("删除成功");
+		}else{
+			var str = "删除成功：" + successCount + "个 \n失败：\n" + failList.join('\n');
+			alert(str);
+		}
+
+		populateFolders();
+
+	});
+}
+
+function deleteFiles(list,callback) {
+	if(!list){
+		return;
+	}
+	var dataObj = {
+		"list":list
+	};
+	var data = JSON.stringify(dataObj);
+
+	$.ajax({
+		type:"POST",
+		url:"/file/remove/",
+		data : data,
+		contentType: "text/plain",
+		dataType : "text",
+		async : true,
+		success:function(json){
+			var result = JSON.parse(json);
+			console.log(result);
+			if(callback){
+				callback(result);
+			}
+			// if(result.status == "success"){
+			// 	alert("删除成功");
+			// 	dlg.populateFolders();
+			// }else if(result.status == "error"){
+			// 	alert(result.message);
+			// }
+		},
+		error:function(xhr){
+            alert("delete file failed");
+            console.log(xhr);
+        }	
+	});
+}
+
+
+
+
+
+function addKeyEvent () {
+	var event = function(evt) {
+		var keyCode = evt.keyCode;
+		if(keyCode != 17){
+			return;
+		}
+		console.log("ctrl down");
+
+		g_multi = true;
+
+		var onkeyup = function(evet){
+			console.log(evt);
+			g_multi = false;
+			document.removeEventListener("keyup",onkeyup);
+		}
+		document.addEventListener("keyup",onkeyup,false);
+	}
+	document.addEventListener("keydown", event);
 }
