@@ -281,6 +281,10 @@ def get_user_file_root(request):
         e = Exception("user is not login")
         raise e
         return None
+
+    username = request.COOKIES.get("username")
+    if username == "admin":
+        user_uuid = ""
     return os.path.join(
         os.path.join(
             os.path.join(
