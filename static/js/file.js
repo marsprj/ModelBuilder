@@ -1,13 +1,6 @@
 function initPageEvent () {
 	// 新建文件夹
 	$(".create-folder-tool").click(function(){
-		// var createFoloderDialog = new CreateFolderDialog(dlg._folder_path,function () {
-		// 	dlg.populateFolders();
-  //       },function () {
-
-  //       })
-		// createFoloderDialog.show();
-
 		createNewFolder();
 	});
 
@@ -64,6 +57,34 @@ function initPageEvent () {
 			return;
 		}
 		$("#myModal").removeClass('active');
+	});
+
+
+	//退出
+	$(".logout").click(function(){
+		logout();
+	});
+}
+
+
+function logout() {
+	var url = "/model/" + g_username + "/logout/" ;
+	$.ajax({
+		type:"GET",
+		url:url,
+		contentType: "text/plain",
+		dataType : "text",
+		success:function(result){
+			var text = JSON.parse(result);
+			if(text.status == "error"){
+				alert(text.message);
+			}else{
+				window.location.href = "login.html";
+			}
+		},
+	 	error:function(xhr){
+            console.log(xhr);
+        }
 	});
 }
 
@@ -722,12 +743,6 @@ function deleteFiles(list,callback) {
 			if(callback){
 				callback(result);
 			}
-			// if(result.status == "success"){
-			// 	alert("删除成功");
-			// 	dlg.populateFolders();
-			// }else if(result.status == "error"){
-			// 	alert(result.message);
-			// }
 		},
 		error:function(xhr){
             alert("delete file failed");
