@@ -40,7 +40,8 @@ gulp.task('graph-css-clean', function () {
 
 
 var graphCssList = ["ModelFlow/static/lib/css/dialog.css",
-		"ModelFlow/static/lib/css/tooltip.css"];
+		"ModelFlow/static/lib/css/tooltip.css",
+		"ModelFlow/static/lib/css/dataText.css"];
 var graphCssDest = "ModelFlow/static/lib/css/";
 gulp.task('graph-css',['graph-css-clean'],function(){
 	gulp.src(graphCssList)
