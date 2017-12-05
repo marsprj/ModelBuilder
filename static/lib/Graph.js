@@ -109,6 +109,16 @@ Graph.prototype.initCanvasEvent = function(){
 			var node = graph._nodeManager.getNodeById(target.id);
 			if(node && graph._isNodeEditable){
 				node.onClick();
+			}else{
+				if (target.type == "text"){
+					var nodeId = target.data("nodeid");
+					if(nodeId){
+						var node = graph._nodeManager.getNodeById(nodeId);
+						if(node && graph._isNodeEditable){
+							node.onClick();
+						}
+					}
+				}
 			}
 		}
 		else{

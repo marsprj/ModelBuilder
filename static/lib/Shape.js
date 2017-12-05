@@ -26,7 +26,14 @@ var Shape = function(r){
 
 
 Shape.prototype.getID = function(){
-	return this._shape ? this._shape.id : "";
+	if(this._shape){
+		if(this._shape.node){
+			this._shape.node.setAttribute("id",this._shape.id);
+		}
+		return this._shape.id;
+	}else{
+		return "";
+	}
 }
 
 Shape.prototype.setID = function(id){
@@ -34,7 +41,12 @@ Shape.prototype.setID = function(id){
 		this._shape.id = id;
 		if(this._shape.node){
 			this._shape.node.raphaelid = id;
+			this._shape.node.setAttribute("id",id);
 		}
+	}
+
+	if(this._text){
+		this._text.data("nodeid",id);
 	}
 }
 
@@ -90,6 +102,8 @@ Shape.prototype.showText = function(text){
 	}
 	this._text = this._r.text(cx, cy, text);
 	this._text.attr({ "font-size": 12, "font-family": "Microsoft YaHei"});
+	this._text.node.style.cursor = "default"
+	return this._text;
 }
 
 Shape.prototype.findSnap = function(x, y){
@@ -266,3 +280,9 @@ Shape.prototype.toFront = function () {
 		this._text.toFront();
 	}
 }
+
+
+
+Shape.prototype.getText = function(){
+	return this._text;
+};

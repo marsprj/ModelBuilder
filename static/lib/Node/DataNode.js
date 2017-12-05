@@ -102,11 +102,16 @@ DataNode.prototype.onClick = function(){
 	var that = this;
 	if(this._from){
 		this._createInput();
-	}else{
+	}else if(this._to){
 		var dlg = new FileDialog(this.getPath(),"choose", function(){
 			that.setPath(this.getFilePath());
 		});
 		dlg.show();
+	}else{
+		var tootip = new Tooltip({
+			target : "svg ellipse[id='" + this.getID() + "']",
+			text: "请连接该节点"
+		});
 	}
 }
 
@@ -215,7 +220,6 @@ DataNode.prototype._createInput = function(){
 // 删除输入框，保存输入值
 DataNode.prototype._removeInput = function(){
 
-	console.log("aa");
 	if(!this._input){
 		return;
 	}

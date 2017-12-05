@@ -69,7 +69,9 @@ Node.prototype.draggable = function(){
 }
 
 Node.prototype.showText = function(){
-	this._shape.showText(this._name);
+	var text = this._shape.showText(this._name);
+	var id = this.getID();
+	text.data("nodeid",id);
 }
 
 Node.prototype.undrag = function(){
