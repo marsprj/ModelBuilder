@@ -285,15 +285,7 @@ def get_user_file_root(request):
     username = request.COOKIES.get("username")
     if username == "admin":
         user_uuid = ""
-    return os.path.join(
-        os.path.join(
-            os.path.join(
-                os.path.join(settings.BASE_DIR, "static"),
-                "data"
-            ),
-            "uploads"
-        ),user_uuid
-    )
+    return os.path.join(settings.UPLOADS_ROOT, user_uuid)
 
 
 """

@@ -13,16 +13,9 @@ logger = logging.getLogger('model.app')
 
 
 def build_local_path(path,user_uuid):
-    root_path = os.path.join(
-        os.path.join(
-            os.path.join(settings.BASE_DIR, "static"),
-            "data"
-        ),
-        "uploads"
-    )
-    user_path = os.path.join(root_path,user_uuid)
+    user_root = os.path.join(settings.UPLOADS_ROOT, str(user_uuid))
     return os.path.join(
-        user_path, path[1:]
+        user_root, path[1:]
     )
 
 

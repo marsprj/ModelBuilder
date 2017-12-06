@@ -444,10 +444,6 @@ def start_task_2(task):
             task.save()
 
             #文件夹处理
-            file_root = get_file_root()
-            user_root = os.path.join(file_root,str(user_uuid))
-            task_path = os.path.join(user_root,str(task.uuid))
-            model_id = task.model.uuid
             model_name = task.model.name
             user_id = task.model.user.uuid
             user_root = os.path.join(settings.UPLOADS_ROOT, str(user_id))
@@ -643,14 +639,6 @@ def json_text_strip(text):
     return striped_text
 
 
-def get_file_root():
-    return os.path.join(
-        os.path.join(
-            os.path.join(settings.BASE_DIR, "static"),
-            "data"
-        ),
-        "uploads"
-    )
 
 def task_download(request,task_id,node_id):
     try:
@@ -742,8 +730,7 @@ def user_register(request):
         response = http_success_response()
         response.set_cookie('username', username, 3600)
         response.set_cookie('user_uuid', user_uuid, 3600)
-        file_root = get_file_root()
-        user_root = os.path.join(file_root,str(user_uuid))
+        user_root = os.path.join(settings.UPLOADS_ROOT, str(user_uuid))
         os.makedirs(user_root)
         logger.info("register user[{0}]".format(username))
         return response
