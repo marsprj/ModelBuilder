@@ -297,7 +297,9 @@ function showTaskList(json){
 							setTimeout(function(){
 								var taskName = $("#task_table .row[uuid='" + obj.taskId
 									+ "'] .cell:eq(1)").html();
-
+								if(!taskName){
+									return;
+								}
 								if(obj.status == "success"){
 									alert(taskName + " : 运行成功")
 								}else if(obj.status == "error"){
@@ -632,6 +634,9 @@ function showTaskState(json){
 	var uuid = json.uuid;
 	
 	var row = $("#task_table .row[uuid='" + uuid + "']");
+	if(row.length == 0){
+		return;
+	}
 	$(".process-div .process-header").after(processesHtml);
 	var rect = row[0].getClientRects()[0];
 	var top = rect.height + rect.top - 60;
