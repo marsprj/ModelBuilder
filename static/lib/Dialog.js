@@ -15,6 +15,7 @@ Dialog.prototype.close = function(){
 }
 
 Dialog.prototype.destory = function(){
+	$("body")[0].removeEventListener("mousedown",this._onmousedown);
 	$(this._win).remove();
 }
 
@@ -28,40 +29,40 @@ Dialog.prototype.isOK = function(){
 	return this._ok;
 }
 
+
 Dialog.prototype.initDragEvent = function () {
-	var titleBar = this._win.find(".titlebar")[0];
+	var body = $("body")[0];
 	var dlg = this;
 	var onMouseDown = function (e) {
-		var o_x = e.layerX;
-		var o_y = e.layerY;
+		var o_x = e.clientX;
+		var o_y = e.clientY;
 		var onMouseMove = function (e) {
-			var s_x = e.layerX - o_x;
-			var s_y = e.layerY - o_y;
+			var s_x = e.clientX - o_x;
+			var s_y = e.clientY - o_y;
 
 			var top = dlg._win.offset().top;
 			var left = dlg._win.offset().left;
 
 			left += s_x;
 			top += s_y;
+			o_x = e.clientX;
+			o_y = e.clientY;
 			dlg._win.css("left",left + "px").css("top",top + "px");
 
         }
         var onMouseUp = function (e) {
-			titleBar.removeEventListener("mousemove",onMouseMove);
-			titleBar.removeEventListener("mouseup",onMouseUp);
+			body.removeEventListener("mousemove",onMouseMove);
+			body.removeEventListener("mouseup",onMouseUp);
         }
 
-		titleBar.addEventListener("mousemove",onMouseMove);
-		titleBar.addEventListener("mouseup",onMouseUp);
+		body.addEventListener("mousemove",onMouseMove);
+		body.addEventListener("mouseup",onMouseUp);
 		dlg._onmousemove = onMouseMove;
 		dlg._onmouseup = onMouseUp;
 
     }
 
-    titleBar.addEventListener("mousedown",onMouseDown);
+    body.addEventListener("mousedown",onMouseDown);
+    dlg._onmousedown = onMouseDown;
 
-	titleBar.addEventListener("mouseout",function() {
-		titleBar.removeEventListener("mousemove",dlg._onmousemove);
-		titleBar.removeEventListener("mouseup",dlg._onmouseup);
-    })
 }
