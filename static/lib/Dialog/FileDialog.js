@@ -536,7 +536,16 @@ FileDialog.prototype.showFolderList = function(){
 		}
 
 		that._win.find("#dialog_file_list .row.list-header").after(html);
-		that._win.find("#dialog_file_list .row[title='" + that._file_name + "'][type='file']").addClass('active');
+		var selected = that._win.find("#dialog_file_list .row[title='" + that._file_name + "'][type='file']");
+		if(selected.length != 0){
+			selected.addClass('active');
+			// 滚动到新的位置
+			var div = $('#dialog_file_list');
+			div.animate({
+			    scrollTop: selected.offset().top - div.offset().top - 40
+			},1000)
+		};
+		
 		that.initFileEvent();
 	});
 };
@@ -581,7 +590,15 @@ FileDialog.prototype.showFolderIcon = function(){
 					+'</div>';
 		}
 		that._win.find("#dialog_file_icon").html(html);
-		that._win.find(".file-icon-item[title='" + that._file_name + "'][type='file']").addClass("active");
+		var selected = that._win.find("#dialog_file_list .row[title='" + that._file_name + "'][type='file']");
+		if(selected.length != 0){
+			selected.addClass('active');
+			// 滚动到新的位置
+			var div = $('#dialog_file_list');
+			div.animate({
+			    scrollTop: selected.offset().top - div.offset().top - 40
+			},1000)
+		};
 		that.initFileEvent();
 	});
 };
