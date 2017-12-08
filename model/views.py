@@ -27,6 +27,9 @@ logger = logging.getLogger('model.app')
 def index(request):
     return HttpResponse("hello world.")
 
+"""
+保存或者新建模型
+"""
 def model_save(request,username):
     try:
         user = User.objects.get(username=username)
@@ -178,6 +181,7 @@ def model_plan(request, model_id):
             plan += "{0}({1})-->".format(s.getID(), s.getName())
         return HttpResponse(plan)
 
+
 """
 获取model_id指定的Model下面的Task
 """
@@ -225,6 +229,8 @@ def tasks(request):
         return HttpResponse(text, content_type="application/json")
     except:
         return http_error_response("")
+
+
 """
 获取Task的text
 """
@@ -245,6 +251,7 @@ def task_get(request,task_id):
     except Exception as e:
         logger.error("get task[{0}] failed : {1}".format(task_id, str(e)))
         return http_error_response("get task failed")
+
 
 """
 保存task的text
@@ -285,6 +292,7 @@ def task_save(request,task_id):
     except Exception as e:
         logger.error("save task failed :{0} ".format(str(e)))
         return http_error_response("任务保存失败")
+
 
 """
 获取指定Task的状态
@@ -341,12 +349,6 @@ def task_create(request):
 
     start_time = timezone.now()
 
-    #初始化task_name，如果没有指定task_name，则用当前时间作为task_name
-
-    # if "name" in obj:
-    #     task_name = obj["name"]
-    # else:
-    #     task_name = start_time.astimezone().strftime("%Y%m%d%H%M%S")
     try:
         if "model" in obj:
             model_id = obj["model"]
@@ -583,6 +585,10 @@ def start_task_2(task):
         logger.error("run task failed:{0}".format(str(e)))
         return http_error_response("run failed: {0}".format(str(e)))
 
+
+"""
+停止任务执行
+"""
 def task_stop(request, task_id):
     try:
         task = Task.objects.get(uuid=task_id)
@@ -613,6 +619,8 @@ def task_stop(request, task_id):
     except Exception as e:
         logger.error("stop task[{0}] failed : {1}".format(task_id,str(e)))
         return http_error_response("stop task failed")
+
+
 """
 返回http错误信息
 """
@@ -639,7 +647,9 @@ def json_text_strip(text):
     return striped_text
 
 
-
+"""
+任务节点下载
+"""
 def task_download(request,task_id,node_id):
     try:
         task = Task.objects.get(uuid=task_id)
@@ -697,175 +707,9 @@ def task_download(request,task_id,node_id):
         return http_error_response("failed")
 
 
-
-def user_register(request):
-    text = request.body.decode('utf-8')
-    try:
-        obj = json.loads(text)
-    except JSONDecodeError:
-        logger.error("register user text:{0}".format(text))
-        return http_error_response("参数有错误")
-
-    try:
-        username = obj["username"]
-        users = User.objects.filter(username=username)
-    except Exception as e:
-        logger.error("get user[{0}] failed: {1}".format(username, str(e)))
-        return http_error_response("query user failed")
-
-    if len(users)>0:
-        logger.error("register user failed: has user named[{0}]".format(username))
-        return http_error_response("已经有该用户")
-
-    try:
-        password = obj["password"]
-        time = timezone.now()
-        user = User(
-            username=username,
-            password=password,
-            login_time=time
-        )
-        user.save()
-        user_uuid = user.uuid
-        response = http_success_response()
-        response.set_cookie('username', username, 3600)
-        response.set_cookie('user_uuid', user_uuid, 3600)
-        user_root = os.path.join(settings.UPLOADS_ROOT, str(user_uuid))
-        os.makedirs(user_root)
-        logger.info("register user[{0}]".format(username))
-        return response
-    except Exception as e:
-        logger.error("register user failed:{0}".format(str(e)))
-        return http_error_response("用户注册失败")
-
-
-def user_login(request):
-    text = request.body.decode('utf-8')
-    try:
-        obj = json.loads(text)
-    except JSONDecodeError:
-        logger.error("登录解析失败：" + text)
-        return http_error_response("解析失败")
-
-    try:
-        username = obj["username"]
-        password = obj["password"]
-        user = User.objects.filter(username=username)
-        if len(user) == 0:
-            logger.error("user[{0}] does not exist".format(username))
-            return http_error_response("用户不存在")
-    except Exception as e:
-        logger.error("用户[{0}]登录失败:{1}".format(username, str(e)))
-        return http_error_response("登录失败")
-
-    try:
-        user = User.objects.get(username=username, password=password)
-    except User.DoesNotExist:
-        logger.error("用户[{0}]登录失败: 密码错".format(username))
-        return http_error_response("密码错误")
-    except Exception as e:
-        logger.error("user login failed : {0}".format(str(e)))
-        return http_error_response("登录失败")
-    try:
-        time = timezone.now()
-        user.login_time = time;
-        user.save();
-        response = http_success_response();
-        response.set_cookie('username', username, 36000)
-        response.set_cookie('user_uuid', str(user.uuid), 36000)
-        logger.info("用户[{0}]登录成功".format(username))
-        return response
-    except Exception as e:
-        logger.error("用户[{0}]登录失败:{1}".format(username,str(e)))
-        return http_error_response("登录失败")
-
-def user_logout(request,username):
-    response = http_success_response()
-    response.delete_cookie("username")
-    response.delete_cookie("user_uuid")
-    logger.info("用户[{0}]注销".format(username))
-    return  response
-
-# 获取用户个数
-def users_count(request):
-    username = request.COOKIES.get("username")
-    if not username:
-        logger.error("get user list failed: user not login")
-        return http_error_response("please login")
-    if username != "admin":
-        logger.error("get user list failed: user is not admin")
-        return http_error_response("please login admin")
-
-    try:
-        users = User.objects.all().exclude(username='admin')
-        obj = {
-            "count": len(users)
-        }
-
-        logger.info("get users count:{}".format(str(len(users))))
-        return HttpResponse(json.dumps(obj),content_type="application/json")
-    except Exception as e:
-        logger.error("get users count failed:{}".format(str(e)))
-        return http_error_response("get users count failed")
-
-# 分页获取用户列表
-def user_list(request,count,offset,field,orderby):
-    username = request.COOKIES.get("username")
-    if not username:
-        logger.error("get user list failed: user not login")
-        return http_error_response("please login")
-    if username != "admin":
-        logger.error("get user list failed: user is not admin")
-        return http_error_response("please login admin")
-
-    try:
-        start = int(offset)
-        end = int(offset) + int(count)
-        users = User.objects.all().exclude(username='admin')
-        users_list = []
-        users_list.extend(users)
-        obj = []
-        if orderby == 'desc':
-            reverse_order = True
-        else:
-            reverse_order = False
-        if field == "login_time":
-            users_list.sort(key=lambda k: k.login_time,reverse=reverse_order)
-        elif field == "models":
-            users_list.sort(key=lambda k: len(k.model_set.all()), reverse=reverse_order)
-        elif field == "username":
-            users_list.sort(key=lambda k: k.username, reverse=reverse_order)
-
-        return_list = users_list[start:end]
-        for user in return_list:
-            obj.append(user.exportToJson())
-        text = json.dumps(obj)
-        logger.info("get user list offset[{}] count[{}] order by {} {}:{}".format(offset,
-                                                                    count,field,orderby,text))
-        return HttpResponse(text, content_type="application/json")
-    except Exception as e:
-        logger.error("get user list failed:{0}".format(str(e)))
-        return http_error_response("get user list failed")
-
-def user_delete(request,user_id):
-    try:
-        user = User.objects.get(uuid=user_id)
-    except User.DoesNotExist:
-        logger.error("delete user[{0}] failed : user is not exist".format(user_id))
-        return http_error_response("user is not exist")
-    except Exception as e:
-        logger.error("get delete user[{0}] failed:{1}".format(user_id,str(e)))
-        return http_error_response("get delete user failed")
-
-    try:
-        user.delete()
-        logger.info("delete user[{0}] success".format(user_id))
-    except Exception as e:
-        logger.error("delete user[{0}] failed: {1}".format(user_id,str(e)))
-        return http_error_response("delete user failed")
-    return http_success_response()
-
-
+"""
+任务个数统计
+"""
 def task_count(request,model_id,task_state):
     try:
         username = request.COOKIES.get("username")
@@ -904,6 +748,9 @@ def task_count(request,model_id,task_state):
         return http_error_response("get task count failed")
 
 
+"""
+任务列表
+"""
 def task_list(request,model_id,task_state,offset,count,field,orderby):
     try:
         username = request.COOKIES.get("username")
@@ -971,432 +818,3 @@ def task_list(request,model_id,task_state,offset,count,field,orderby):
         return http_error_response("get task count failed:{0}".format(str(e)))
 
 
-def auto_task(request):
-    command = "python /home/zhangyf/code/run/model/main.py"
-    p = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    p.wait()
-    p_out_info = p.stdout.read()
-    print(p_out_info)
-    logger.info(" return code is :{0}".format(str(p.returncode)))
-    if (p.returncode) != 0:
-        logger.info('kill pid')
-        p.kill()
-        p_erro_info = p.stderr.read()
-        return_info = p_erro_info
-        if p_erro_info.decode("utf-8") == '':
-            return_info = p_out_info
-        # raise Exception("process run failed:{0}".format(return_info.decode("utf-8")))
-        # return False
-        logger.info(return_info)
-    return http_success_response()
-
-
-# model 启动监听
-def model_start(request,model_id):
-    try:
-        model = Model.objects.get(uuid=model_id)
-    except Model.DoesNotExist:
-        logger.error("no model [{0}]".format(model_id))
-        return http_error_response("Model does not exist")
-    except Exception as e:
-        logger.error("get model[{0}] failed:{1}".format(model_id,str(e)))
-        return http_error_response("start model failed")
-
-    try:
-        text = model.text
-        obj = json.loads(text)
-        monitor = obj['monitor']
-        if not monitor:
-            logger.error("model[{0}] does not has monitor info".format(model_id))
-            return http_error_response("model does not has monitor info")
-        status = monitor["status"]
-        if status == "on":
-            logger.error("model[{0}] has already start monitor".format(model_id))
-            return http_error_response("model has already start monitor")
-
-        if not model_monitor_verify(text):
-            logger.error("model[{0}] monitor info not valid".format(model_id))
-            return http_error_response("监听信息设置无效")
-
-        monitor["status"] = "on"
-        model.text = json.dumps(obj)
-        model.save()
-        logger.info("start model[{}] monitor success".format(model_id))
-    except Exception as e:
-        logger.error("start model[{0}] monitor  failed:{1}".format(model_id,str(e)))
-        return http_error_response("start model failed")
-    return http_success_response()
-
-
-# 监听是否设置正确
-def model_monitor_verify(text):
-    graph = Graph()
-    if not graph.load(text):
-        return False
-    #待补充，检测只输入的dataNode是否已经设置完毕
-    nodes = graph.getMonitorData()
-    if not nodes:
-        logger.error("monitor data not valid")
-        return False
-    monitor = graph.getMonitor()
-    if not monitor:
-        return False
-
-    data = monitor.getData()
-    validData = []
-    for node in nodes:
-        flag = False
-        for d in data:
-            id = d["id"]
-            if id == node:
-                path = d["path"]
-                if not path or path.strip() == "":
-                    return False
-                validData.append(d)
-                flag = True
-                break
-        if not flag:
-            logger.error("no data [{}] monitor info".format(str(node)))
-            return False
-
-    for i in range(len(validData)):
-        for j in range(i+1,len(validData)):
-            d_i = validData[i]
-            d_j = validData[j]
-            path_i = d_i["path"]
-            path_j = d_j["path"]
-            if path_i == path_j and d_i["prefix"] == d_j["prefix"]:
-                logger.error("two data has same path and same prefix:[{}],[{}]".format(d_i["id"],d_j["id"]))
-                return False
-    return True
-
-# 停止监听
-def model_stop(request,model_id):
-    try:
-        model = Model.objects.get(uuid=model_id)
-    except Model.DoesNotExist:
-        logger.error("no model [{0}]".format(model_id))
-        return http_error_response("Model does not exist")
-    except Exception as e:
-        logger.error("get model[{0}] failed:{1}".format(model_id,str(e)))
-        return http_error_response("stop model monitor failed")
-
-    try:
-        text = model.text
-        obj = json.loads(text)
-        monitor = obj['monitor']
-        if not monitor:
-            logger.error("model[{0}] does not has monitor info".format(model_id))
-            return http_error_response("model does not has monitor info")
-
-        status = monitor["status"]
-        if status == "off":
-            logger.error("model[{0}] has already stop monitor".format(model_id))
-            return http_error_response("model has already stop monitor")
-
-        monitor["status"] = "off"
-        model.text = json.dumps(obj)
-        model.save()
-        logger.info("stop model[{}] monitor success".format(model_id))
-    except Exception as e:
-        logger.error("stop model[{0}] monitor failed".format(model_id))
-        return http_error_response("stop model monitor failed")
-    return http_success_response()
-
-
-
-# # 重启监听
-# def model_restart(request,model_id):
-#     try:
-#         model = Model.objects.get(uuid=model_id)
-#     except Model.DoesNotExist:
-#         logger.error("no model [{0}]".format(model_id))
-#         return http_error_response("Model does not exist")
-#     except Exception as e:
-#         logger.error("get model[{0}] failed:{1}".format(model_id,str(e)))
-#         return http_error_response("restart model monitor failed")
-#
-#     try:
-#         text = model.text
-#         obj = json.loads(text)
-#         monitor = obj['monitor']
-#         if not monitor:
-#             logger.error("model[{0}] does not has monitor info".format(model_id))
-#             return http_error_response("model does not has monitor info")
-#         status = monitor["status"]
-#         # if status == "on":
-#         #     logger.error("model[{0}] has already stop monitor".format(model_id))
-#         #     return http_error_response("model has already stop monitor")
-#
-#         # path = os.path.join(os.path.join(settings.BASE_DIR, "monitor"), "__init__.py")
-#         # command = "python " + path + " restart " + model_id
-#         # logger.debug("command: {0}".format(command))
-#         # p = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-#         # p.wait()
-#         #
-#         # logger.info(" return code is :{0}".format(str(p.returncode)))
-#         # if (p.returncode) != 0:
-#         #     logger.info('kill pid')
-#         #     p.kill()
-#         #     p_erro_info = p.stderr.read()
-#         #     return_info = p_erro_info
-#         #     print(return_info)
-#         #     if p_erro_info.decode("utf-8") == '':
-#         #         return_info = p.stdout.read()
-#         #     logger.info(return_info)
-#         #     raise Exception("start monitor failed:{0}".format(return_info.decode("utf-8")))
-#
-#     except Exception as e:
-#         logger.error("restart model[{}] monitor failed:{}".format(model_id,str(e)))
-#         return http_error_response("restart model monitor failed")
-#     return http_success_response()
-
-
-# 强制停止监听程序
-# def kill_model_monitor(uuid):
-#     try:
-#         for p in psutil.process_iter(attrs=["cmdline"]):
-#             cmdlines = p.info['cmdline']
-#             if len(cmdlines) == 4 and cmdlines[3] == uuid :
-#                 p.kill()
-#                 logger.info("kill model[{}] monitor : {}".format(uuid,p.pid))
-#     except Exception as e:
-#         logger.error("kill model[{}] monitor failed : {}".format(uuid,str(e)))
-#         raise e
-
-
-# def get_model_monitor_process(uuid):
-#     processes = []
-#     try:
-#         for p in psutil.process_iter(attrs=["cmdline"]):
-#             cmdlines = p.info['cmdline']
-#             if len(cmdlines) == 4 and cmdlines[3] == uuid :
-#                 processes.append(p.pid)
-#         return  processes
-#     except Exception as e:
-#         raise e
-
-# 模型的监控状态
-def models_status(request,model_status,count,offset):
-    model_list = []
-    try:
-        username = request.COOKIES.get("username")
-        user = User.objects.get(username=username)
-
-    except User.DoesNotExist:
-        logger.error("no user[{0}]".format(username))
-        return http_error_response("no user[{0}]".format(username))
-
-    except Exception as e:
-        logger.error("get models status failed :{}".format(str(e)))
-        return http_error_response("get models status failed")
-
-    try:
-        start = int(offset)
-        end = int(offset) + int(count)
-        if username == "admin":
-            models = Model.objects.all()
-        else:
-            models = user.model_set.all()
-        for model in models:
-            text = model.text
-            obj = json.loads(text)
-            selected = None
-            if not "monitor" in obj:
-                flag = "off"
-            else:
-                monitor = obj['monitor']
-                if not monitor:
-                    flag = "off"
-                else:
-                    status = monitor["status"]
-                    if not status:
-                        flag = "off"
-                    elif status == "on":
-                        flag = "on"
-                    elif status == "off":
-                        flag = "off"
-            if model_status == "start" and flag == "on":
-                selected = model
-            elif model_status == "stop" and flag == "off":
-                selected = model
-            elif model_status == "all":
-                selected = model
-            if selected:
-                model_text = selected.exportToJson()
-                model_text["status"] = flag
-                model_text["monitor_status"] = "ok"
-                model_text["user"] = selected.user.username
-                model_list.append(model_text)
-        result = model_list[start:end]
-        result = json.dumps(result)
-        return HttpResponse(result, content_type="application/json")
-    except Exception as e:
-        logger.error("get models status failed  :{}".format(str(e)))
-        return http_error_response("get models status failed")
-
-# 获取模型状态列表的个数
-def models_status_count(request,model_status):
-    result = []
-    try:
-        username = request.COOKIES.get("username")
-        user = User.objects.get(username=username)
-
-    except User.DoesNotExist:
-        logger.error("no user[{0}]".format(username))
-        return http_error_response("no user[{0}]".format(username))
-
-    except Exception as e:
-        logger.error("get models status failed :{}".format(str(e)))
-        return http_error_response("get models status failed")
-    try:
-        if username == "admin":
-            models = Model.objects.all()
-        else:
-            models = user.model_set.all()
-        count = 0
-        for model in models:
-            text = model.text
-            obj = json.loads(text)
-            selected = None
-            if not "monitor" in obj:
-                flag = "off"
-            else:
-                monitor = obj['monitor']
-                if not monitor:
-                    flag = "off"
-                else:
-                    status = monitor["status"]
-                    if not status:
-                        flag = "off"
-                    elif status == "on":
-                        flag = "on"
-                    elif status == "off":
-                        flag = "off"
-            if model_status == "start" and flag == "on":
-                count += 1
-            elif model_status == "stop" and flag == "off":
-                count += 1
-            elif model_status == "all":
-                count += 1
-        obj = {
-            "count" : count
-        }
-        return HttpResponse(json.dumps(obj),content_type="application/json")
-    except Exception as e:
-        logger.error("get model status[{}] count failed:{}".format(model_status),str(e))
-        return http_error_response("get model status count failed")
-
-# 模型进程的状态
-# def getMonitorStatus(model_id,status):
-#     try:
-#         pids = getMonitorProcess(model_id)
-#         monitor_status =None
-#         if status == "on":
-#             if len(pids) == 1:
-#                 monitor_status = "ok"
-#             else:
-#                 monitor_status = "error"
-#         elif status == "off":
-#             if len(pids) == 0:
-#                 monitor_status = "ok"
-#             else:
-#                 monitor_status = "error"
-#         return monitor_status
-#     except Exception as e:
-#         logger.error("get model[{}] monitor status failed:{}".format(model_id,str(e)))
-#         return "error"
-
-
-# 获取模型的相关进程
-# def getMonitorProcess(model_id):
-#     pids = []
-#     try:
-#         for p in psutil.process_iter(attrs=["cmdline"]):
-#             cmdlines = p.info["cmdline"]
-#             if len(cmdlines) == 4 and cmdlines[3] == model_id:
-#                 pids.append(p.pid)
-#         return pids
-#     except Exception as e:
-#         logger.error("get monitor[{}] pid failed:{}".format(model_id,str(e)))
-#         raise e
-
-
-# 单一进程的状态获取
-def model_status(request,model_id):
-    try:
-        username = request.COOKIES.get("username")
-        user = User.objects.get(username=username)
-    except User.DoesNotExist:
-        logger.error("no user[{0}]".format(username))
-        return http_error_response("no user[{0}]".format(username))
-    except Exception as e:
-        logger.error("get model[{}] status failed :{}".format(model_id,str(e)))
-        return http_error_response("get model status failed")
-
-    try:
-        model = Model.objects.get(uuid=model_id)
-    except Model.DoesNotExist:
-        logger.error("no model [{0}]".format(model_id))
-        return http_error_response("Model does not exist")
-    except Exception as e:
-        logger.error("get model[{0}] failed:{1}".format(model_id, str(e)))
-        return http_error_response("get model status failed")
-
-    try:
-        text = model.text
-        obj = json.loads(text)
-
-        if not "monitor" in obj:
-            flag = "off"
-        else:
-            monitor = obj['monitor']
-            if not monitor:
-                flag = "off"
-            else:
-                status = monitor["status"]
-                if not status:
-                    flag = "off"
-                elif status == "on":
-                    flag = "on"
-                elif status == "off":
-                    flag = "off"
-        model_text = model.exportToJson()
-        model_text["status"] = flag
-        # monitor_status = getMonitorStatus(model_id, flag)
-        model_text["monitor_status"] = "ok"
-        model_text["user"] = model.user.username
-        result = json.dumps(model_text)
-        logger.info("get model[{}] status:{}".format(model_id,result))
-        return HttpResponse(result,content_type="application/json")
-    except Exception as e:
-        logger.error("get model[{}] status failed:{}".format(model_id,str(e)))
-        return http_error_response("get model status failed")
-
-# 用户、模型等统计信息
-def admin_info(request):
-    try:
-        username = request.COOKIES.get("username")
-        if not username:
-            logger.error("get admin info list: user not login")
-            return http_error_response("please login")
-        if username != "admin":
-            logger.error("get admin info list failed: user is not admin")
-            return http_error_response("please login admin")
-    except Exception as e:
-        logger.error("get admin info list failed:{}".format(str(e)))
-        return http_error_response("get admin info list failed")
-
-    try:
-        users = User.objects.all().exclude(username='admin')
-        models = Model.objects.all()
-        tasks = Task.objects.all()
-        obj = {
-            "users": len(users),
-            "models": len(models),
-            "tasks": len(tasks)
-        }
-        return HttpResponse(json.dumps(obj), content_type="application/json")
-    except Exception as e:
-        logger.error("get admin info list failed:{}".format(str(e)))
-        return http_error_response("get admin info list failed")

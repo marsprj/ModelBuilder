@@ -2,15 +2,15 @@
 <project version="4">
   <component name="BookmarkManager">
     <bookmark url="file://$PROJECT_DIR$/file/views.py" line="212" />
-    <bookmark url="file://$PROJECT_DIR$/static/js/models.js" line="342" />
+    <bookmark url="file://$PROJECT_DIR$/static/js/models.js" line="343" />
     <bookmark url="file://$PROJECT_DIR$/model/functions.py" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ac37dfb7-7c13-4d7d-a101-64ef4a8b8d82" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/model/user.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ModelFlow/settings.py" afterPath="$PROJECT_DIR$/ModelFlow/settings.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/file/views.py" afterPath="$PROJECT_DIR$/file/views.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/model/functions.py" afterPath="$PROJECT_DIR$/model/functions.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/model/monitor.py" afterPath="$PROJECT_DIR$/model/monitor.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/model/urls.py" afterPath="$PROJECT_DIR$/model/urls.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/model/views.py" afterPath="$PROJECT_DIR$/model/views.py" />
     </list>
     <ignored path="ModelFlow.iws" />
@@ -71,8 +71,8 @@
       <file leaf-file-name="monitor.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/model/monitor.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="284">
-              <caret line="44" column="0" lean-forward="true" selection-start-line="44" selection-start-column="0" selection-end-line="44" selection-end-column="0" />
+            <state relative-caret-position="320">
+              <caret line="366" column="0" lean-forward="false" selection-start-line="366" selection-start-column="0" selection-end-line="366" selection-end-column="0" />
               <folding>
                 <element signature="e#0#33#0" expanded="true" />
               </folding>
@@ -80,11 +80,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="urls.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="urls.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/model/urls.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-422">
-              <caret line="8" column="62" lean-forward="false" selection-start-line="8" selection-start-column="56" selection-end-line="8" selection-end-column="62" />
+            <state relative-caret-position="392">
+              <caret line="43" column="105" lean-forward="false" selection-start-line="43" selection-start-column="105" selection-end-line="43" selection-end-column="105" />
               <folding>
                 <element signature="e#0#32#0" expanded="true" />
               </folding>
@@ -95,10 +95,22 @@
       <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/model/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="315">
-              <caret line="724" column="25" lean-forward="false" selection-start-line="724" selection-start-column="25" selection-end-line="724" selection-end-column="25" />
+            <state relative-caret-position="446">
+              <caret line="820" column="0" lean-forward="false" selection-start-line="820" selection-start-column="0" selection-end-line="820" selection-end-column="0" />
               <folding>
                 <element signature="e#0#35#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="user.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/model/user.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="235">
+              <caret line="186" column="34" lean-forward="true" selection-start-line="186" selection-start-column="34" selection-end-line="186" selection-end-column="34" />
+              <folding>
+                <element signature="e#0#22#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -114,11 +126,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="views.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/file/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="432">
-              <caret line="289" column="0" lean-forward="true" selection-start-line="289" selection-start-column="0" selection-end-line="289" selection-end-column="0" />
+            <state relative-caret-position="4932">
+              <caret line="281" column="15" lean-forward="false" selection-start-line="281" selection-start-column="15" selection-end-line="281" selection-end-column="15" />
               <folding>
                 <element signature="e#0#35#0" expanded="true" />
                 <element signature="e#6460#6691#0" expanded="false" />
@@ -143,7 +155,7 @@
         <entry file="file://$PROJECT_DIR$/ModelFlow/settings.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="79">
-              <caret line="93" column="28" lean-forward="true" selection-start-line="93" selection-start-column="28" selection-end-line="93" selection-end-column="28" />
+              <caret line="93" column="28" lean-forward="false" selection-start-line="93" selection-start-column="28" selection-end-line="93" selection-end-column="28" />
               <folding />
             </state>
           </provider>
@@ -154,16 +166,6 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="207">
               <caret line="184" column="0" lean-forward="false" selection-start-line="184" selection-start-column="0" selection-end-line="184" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/model/models.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="23" column="24" lean-forward="false" selection-start-line="23" selection-start-column="24" selection-end-line="23" selection-end-column="24" />
               <folding />
             </state>
           </provider>
@@ -181,7 +183,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>__get_watch_paths</find>
       <find>_daemonize</find>
       <find>monitor_data</find>
       <find>connection</find>
@@ -205,12 +206,13 @@
       <find>get_user_file_root</find>
       <find>file_preview</find>
       <find>task_name</find>
-      <find>admin</find>
       <find>download</find>
       <find>model_id</find>
-      <find>logging</find>
       <find>get_file_root</find>
       <find>process_common</find>
+      <find>admin</find>
+      <find>http_error_response(er</find>
+      <find>logging</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -219,7 +221,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/static/lib/Edge.js" />
         <option value="$PROJECT_DIR$/static/lib/Dialog/UploadDialog.js" />
         <option value="$PROJECT_DIR$/static/lib/Shape.js" />
         <option value="$PROJECT_DIR$/static/lib/func/add.js" />
@@ -262,14 +263,15 @@
         <option value="$PROJECT_DIR$/monitor/b.py" />
         <option value="$PROJECT_DIR$/monitor/setting.py" />
         <option value="$PROJECT_DIR$/model/Graph.py" />
-        <option value="$PROJECT_DIR$/model/urls.py" />
-        <option value="$PROJECT_DIR$/model/monitor.py" />
         <option value="$PROJECT_DIR$/monitor/__init__.py" />
         <option value="$PROJECT_DIR$/file/urls.py" />
         <option value="$PROJECT_DIR$/ModelFlow/settings.py" />
-        <option value="$PROJECT_DIR$/model/views.py" />
         <option value="$PROJECT_DIR$/model/functions.py" />
         <option value="$PROJECT_DIR$/file/views.py" />
+        <option value="$PROJECT_DIR$/model/user.py" />
+        <option value="$PROJECT_DIR$/model/views.py" />
+        <option value="$PROJECT_DIR$/model/monitor.py" />
+        <option value="$PROJECT_DIR$/model/urls.py" />
       </list>
     </option>
   </component>
@@ -997,7 +999,7 @@
           </properties>
         </breakpoint>
       </default-breakpoints>
-      <option name="time" value="393" />
+      <option name="time" value="395" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="Python.DjangoServer">
@@ -1018,14 +1020,6 @@
     </watches-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$USER_HOME$/.local/lib/python3.5/site-packages/django/db/models/base.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="244">
-          <caret line="743" column="41" lean-forward="false" selection-start-line="743" selection-start-column="41" selection-end-line="743" selection-end-column="41" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/model/connect.py/__init__.py" />
     <entry file="file://$PROJECT_DIR$/model/connect.py/service.py" />
     <entry file="file:///usr/lib/python3.5/importlib/__init__.py">
@@ -1268,16 +1262,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/model/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-422">
-          <caret line="8" column="62" lean-forward="false" selection-start-line="8" selection-start-column="56" selection-end-line="8" selection-end-column="62" />
-          <folding>
-            <element signature="e#0#32#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/file/urls.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="162">
@@ -1299,28 +1283,8 @@
     <entry file="file://$PROJECT_DIR$/ModelFlow/settings.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="79">
-          <caret line="93" column="28" lean-forward="true" selection-start-line="93" selection-start-column="28" selection-end-line="93" selection-end-column="28" />
+          <caret line="93" column="28" lean-forward="false" selection-start-line="93" selection-start-column="28" selection-end-line="93" selection-end-column="28" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/model/monitor.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="284">
-          <caret line="44" column="0" lean-forward="true" selection-start-line="44" selection-start-column="0" selection-end-line="44" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#33#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/model/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="724" column="25" lean-forward="false" selection-start-line="724" selection-start-column="25" selection-end-line="724" selection-end-column="25" />
-          <folding>
-            <element signature="e#0#35#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1334,11 +1298,51 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/file/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="432">
-          <caret line="289" column="0" lean-forward="true" selection-start-line="289" selection-start-column="0" selection-end-line="289" selection-end-column="0" />
+        <state relative-caret-position="4932">
+          <caret line="281" column="15" lean-forward="false" selection-start-line="281" selection-start-column="15" selection-end-line="281" selection-end-column="15" />
           <folding>
             <element signature="e#0#35#0" expanded="true" />
             <element signature="e#6460#6691#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/model/user.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="235">
+          <caret line="186" column="34" lean-forward="true" selection-start-line="186" selection-start-column="34" selection-end-line="186" selection-end-column="34" />
+          <folding>
+            <element signature="e#0#22#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/model/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="446">
+          <caret line="820" column="0" lean-forward="false" selection-start-line="820" selection-start-column="0" selection-end-line="820" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#35#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/model/monitor.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="320">
+          <caret line="366" column="0" lean-forward="false" selection-start-line="366" selection-start-column="0" selection-end-line="366" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#33#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/model/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="392">
+          <caret line="43" column="105" lean-forward="false" selection-start-line="43" selection-start-column="105" selection-end-line="43" selection-end-column="105" />
+          <folding>
+            <element signature="e#0#32#0" expanded="true" />
           </folding>
         </state>
       </provider>
