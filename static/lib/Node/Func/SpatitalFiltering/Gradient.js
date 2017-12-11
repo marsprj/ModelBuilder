@@ -56,9 +56,10 @@ Gradient.prototype.export = function(){
 	return obj;
 }
 
-Gradient.prototype.onClick = function(){
+Gradient.prototype.onClick = function(isPathEdit){
 	var inputs = [];
 	var output;
+	$(".tooltip").remove();
 	if(this._inputs){
 		for(var i=0; i<this._inputs.length; i++){
 			var conn_in = this._inputs[i];
@@ -82,12 +83,18 @@ Gradient.prototype.onClick = function(){
 
 
 	if(inputs.length != this._inputsNumber){
-		alert("请设置" + this._inputsNumber + "个输入节点")
+		var tootip = new Tooltip({
+			target : "svg rect[id='" + this.getID() + "']",
+			text: "请设置" + this._inputsNumber + "个输入节点"
+		});
 		return;
 	}
 
 	if(!this._output){
-		alert("请设置一个输出节点");
+		var tootip = new Tooltip({
+			target : "svg rect[id='" + this.getID() + "']",
+			text: "请设置一个输出节点"
+		});
 		return;
 	}
 
@@ -97,6 +104,6 @@ Gradient.prototype.onClick = function(){
 	var dlg = new GradientDialog(inputs, output,parms, function(){	//onOK
 		that.updateInputNode(0,dlg.getInput(0));
 		that.updateOutputNode(dlg.getOutput());
-	});
+	},isPathEdit);
 	dlg.show();
 };

@@ -131,31 +131,36 @@ RadioLineDetectorDialog.prototype.setOutput = function(outputs){
 RadioLineDetectorDialog.prototype.initFolderEvent = function(){
 	var dlg = this;
 
-	this._win.find(".dialog_folder,.open-file").click(function(){
-		var prev = $(this).prev();
-		var inputEle = prev.children();
-		if(inputEle.hasClass('dialog-input')){
-			var inputs = dlg._win.find(".dialog-input");
-			var index = inputEle.index(inputs);			
+	if(this._isPathEdit){
+		this._win.find(".dialog_folder,.open-file").click(function(){
+			var prev = $(this).prev();
+			var inputEle = prev.children();
+			if(inputEle.hasClass('dialog-input')){
+				var inputs = dlg._win.find(".dialog-input");
+				var index = inputEle.index(inputs);			
 
-			var file_dlg = new FileDialog(dlg._inputs[index],"choose", function(){
-				var file_path = this.getFilePath();
-				inputEle.attr("value", file_path);
-				dlg._inputs[index] = file_path;
-			});
-			file_dlg.show();
-		}else if(inputEle.hasClass('dialog-output')){
-			var outputs = dlg._win.find(".dialog-output");
-			var index = inputEle.index(outputs);
-			var index = outputs.index(inputEle);			
-			var file_dlg = new FileDialog(dlg._outputs[index],"new", function(){
-				var file_path = this.getFilePath();
-				inputEle.attr("value", file_path);
-				dlg._outputs[index] = file_path;
-			});
-			file_dlg.show();
-		}
-	});
+				var file_dlg = new FileDialog(dlg._inputs[index],"choose", function(){
+					var file_path = this.getFilePath();
+					inputEle.attr("value", file_path);
+					dlg._inputs[index] = file_path;
+				});
+				file_dlg.show();
+			}else if(inputEle.hasClass('dialog-output')){
+				var outputs = dlg._win.find(".dialog-output");
+				var index = inputEle.index(outputs);
+				var index = outputs.index(inputEle);			
+				var file_dlg = new FileDialog(dlg._outputs[index],"new", function(){
+					var file_path = this.getFilePath();
+					inputEle.attr("value", file_path);
+					dlg._outputs[index] = file_path;
+				});
+				file_dlg.show();
+			}
+		});
+		this._win.find(".dialog-input,.dialog-output").removeAttr("disabled");
+	}else{
+		this._win.find(".dialog-input,.dialog-output").attr("disabled","disabled");
+	}
 };
 
 RadioLineDetectorDialog.prototype.getOutputs = function(){

@@ -97,9 +97,10 @@ ROIExtract.prototype.export = function(){
 	return obj;
 }
 
-ROIExtract.prototype.onClick = function(){
+ROIExtract.prototype.onClick = function(isPathEdit){
 	var inputs = [];
 	var output;
+	$(".tooltip").remove();
 	if(this._inputs){
 		for(var i=0; i<this._inputs.length; i++){
 			var conn_in = this._inputs[i];
@@ -123,12 +124,18 @@ ROIExtract.prototype.onClick = function(){
 
 
 	if(inputs.length != this._inputsNumber){
-		alert("请设置" + this._inputsNumber + "个输入节点")
+		var tootip = new Tooltip({
+			target : "svg rect[id='" + this.getID() + "']",
+			text: "请设置" + this._inputsNumber + "个输入节点"
+		});
 		return;
 	}
 
 	if(!this._output){
-		alert("请设置一个输出节点");
+		var tootip = new Tooltip({
+			target : "svg rect[id='" + this.getID() + "']",
+			text: "请设置一个输出节点"
+		});
 		return;
 	}
 
@@ -151,7 +158,7 @@ ROIExtract.prototype.onClick = function(){
 		that.updateInputNode(0,dlg.getInput(0));
 		that.updateOutputNode(dlg.getOutput());
 		that.updateParms(dlg.getParms());
-	});
+	},isPathEdit);
 	dlg.show();
 };
 
