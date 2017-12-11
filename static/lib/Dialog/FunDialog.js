@@ -1,4 +1,4 @@
-var FunDialog = function(inputs,output,parms,onOK){
+var FunDialog = function(inputs,output,parms,onOK,isPathEdit){
 	Dialog.apply(this, arguments);
 
 	this.setInputs(inputs);
@@ -7,9 +7,16 @@ var FunDialog = function(inputs,output,parms,onOK){
 
 	this.setParms(parms);
 
-	this.initFolderEvent();
+	
 
 	this._onOK = onOK;
+	if(isPathEdit){
+		this._isPathEdit = true;
+	}else{
+		this.isPathEdit = false;
+	}
+
+	this.initFolderEvent();
 }
 
 
@@ -60,28 +67,33 @@ FunDialog.prototype.initOkEvent = function(){
 FunDialog.prototype.initFolderEvent = function(){
 	var dlg = this;
 
-	this._win.find(".dialog_folder,.open-file").click(function(){
-		var prev = $(this).prev();
-		var inputEle = prev.children();
-		if(inputEle.hasClass('dialog-input')){
-			var inputs = dlg._win.find(".dialog-input");
-			var index = inputs.index(inputEle);			
+	if(this._isPathEdit){
+		this._win.find(".dialog_folder,.open-file").click(function(){
+			var prev = $(this).prev();
+			var inputEle = prev.children();
+			if(inputEle.hasClass('dialog-input')){
+				var inputs = dlg._win.find(".dialog-input");
+				var index = inputs.index(inputEle);			
 
-			var file_dlg = new FileDialog(dlg._inputs[index],"choose", function(){
-				var file_path = this.getFilePath();
-				inputEle.attr("value", file_path);
-				dlg._inputs[index] = file_path;
-			});
-			file_dlg.show();
-		}else if(inputEle.hasClass('dialog-output')){
-			var file_dlg = new FileDialog(dlg._output,"new", function(){
-				var file_path = this.getFilePath();
-				inputEle.attr("value", file_path);
-				dlg._output = file_path;
-			});
-			file_dlg.show();
-		}
-	});
+				var file_dlg = new FileDialog(dlg._inputs[index],"choose", function(){
+					var file_path = this.getFilePath();
+					inputEle.attr("value", file_path);
+					dlg._inputs[index] = file_path;
+				});
+				file_dlg.show();
+			}else if(inputEle.hasClass('dialog-output')){
+				var file_dlg = new FileDialog(dlg._output,"new", function(){
+					var file_path = this.getFilePath();
+					inputEle.attr("value", file_path);
+					dlg._output = file_path;
+				});
+				file_dlg.show();
+			}
+		});
+		this._win.find(".dialog-input,.dialog-output").removeAttr("disabled");
+	}else{
+		this._win.find(".dialog-input,.dialog-output").attr("disabled","disabled");
+	}
 
 };
 

@@ -53,7 +53,7 @@ Rescale.prototype.export = function(){
 	return obj;
 }
 
-Rescale.prototype.onClick = function(){
+Rescale.prototype.onClick = function(isPathEdit){
 	var inputs = [];
 	var output;
 	if(this._inputs){
@@ -94,6 +94,6 @@ Rescale.prototype.onClick = function(){
 	var dlg = new RescaleDialog(inputs, output,parms, function(){	//onOK
 		that.updateInputNode(0,dlg.getInput(0));
 		that.updateOutputNode(dlg.getOutput());
-	});
+	},isPathEdit);
 	dlg.show();
 };

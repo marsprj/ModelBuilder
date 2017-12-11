@@ -106,19 +106,21 @@ Graph.prototype.initCanvasEvent = function(){
 		var y = evt.offsetY;
 		var target = graph._r.getElementByPoint(evt.pageX,evt.pageY);
 		if(target){
+
 			var node = graph._nodeManager.getNodeById(target.id);
-			if(node && graph._isNodeEditable){
-				node.onClick();
-			}else{
-				if (target.type == "text"){
-					var nodeId = target.data("nodeid");
-					if(nodeId){
-						var node = graph._nodeManager.getNodeById(nodeId);
-						if(node && graph._isNodeEditable){
-							node.onClick();
-						}
-					}
+			if(!node && target.type == "text"){
+				// 中间的文字双击
+				var nodeId = target.data("nodeid");
+				if(nodeId){
+					node = graph._nodeManager.getNodeById(nodeId);
 				}
+			}
+
+			if(node && graph._isNodeEditable){
+				node.onClick(true);
+			}else if(node && !graph._isNodeEditable && node.getType() == NODE_TYPE.FUNC){
+				// 算法节点双击只设置参数
+				node.onClick(false);
 			}
 		}
 		else{
