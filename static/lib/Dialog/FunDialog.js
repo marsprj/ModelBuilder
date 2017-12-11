@@ -10,10 +10,10 @@ var FunDialog = function(inputs,output,parms,onOK,isPathEdit){
 	
 
 	this._onOK = onOK;
-	if(isPathEdit){
-		this._isPathEdit = true;
+	if(isPathEdit != null){
+		this._isPathEdit = isPathEdit;
 	}else{
-		this.isPathEdit = false;
+		this._isPathEdit = true;
 	}
 
 	this.initFolderEvent();
