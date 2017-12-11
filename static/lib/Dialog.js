@@ -15,7 +15,7 @@ Dialog.prototype.close = function(){
 }
 
 Dialog.prototype.destory = function(){
-	$("body")[0].removeEventListener("mousedown",this._onmousedown);
+	this._win.find(".titlebar")[0].removeEventListener("mousedown",this._onmousedown);
 	$(this._win).remove();
 }
 
@@ -32,6 +32,7 @@ Dialog.prototype.isOK = function(){
 
 Dialog.prototype.initDragEvent = function () {
 	var body = $("body")[0];
+	var titleBar = this._win.find(".titlebar")[0];
 	var dlg = this;
 	var onMouseDown = function (e) {
 		var o_x = e.clientX;
@@ -62,7 +63,7 @@ Dialog.prototype.initDragEvent = function () {
 
     }
 
-    body.addEventListener("mousedown",onMouseDown);
+    titleBar.addEventListener("mousedown",onMouseDown);
     dlg._onmousedown = onMouseDown;
 
 }
