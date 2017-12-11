@@ -590,11 +590,11 @@ FileDialog.prototype.showFolderIcon = function(){
 					+'</div>';
 		}
 		that._win.find("#dialog_file_icon").html(html);
-		var selected = that._win.find("#dialog_file_list .row[title='" + that._file_name + "'][type='file']");
+		var selected = that._win.find("#dialog_file_icon .item-container[title='" + that._file_name + "'][type='file']");
 		if(selected.length != 0){
 			selected.addClass('active');
 			// 滚动到新的位置
-			var div = $('#dialog_file_list');
+			var div = $('#dialog_file_icon');
 			div.animate({
 			    scrollTop: selected.offset().top - div.offset().top - 40
 			},1000)
