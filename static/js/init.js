@@ -166,6 +166,25 @@ function initPageEvent(){
 
 	// 加载算法库
 	loadFuns();
+
+	// 算法库伸缩
+	$("#funcs .funcs-icon").click(function(){
+		if($(this).hasClass('funcs-min-icon')){
+			$(this).removeClass('funcs-min-icon').addClass('funcs-max-icon').attr("title","展开");
+			$(".funcs_container").slideUp(400,function(){
+				
+			});
+		}else if ($(this).hasClass('funcs-max-icon')) {
+			$(this).removeClass('funcs-max-icon').addClass('funcs-min-icon').attr("title","收起");
+			$(".funcs_container").slideDown(400,function(){
+				
+			});
+		}
+	});
+
+
+	// 算法库移动
+	moveCanvasElement($("#funcs"));
 }
 
 function logout() {
@@ -242,4 +261,45 @@ function loadFunType(catalog,deep){
 	}
 	html += '</ul>';
 	return html;
+}
+
+
+function moveCanvasElement(element){
+	if(element.length == 0){
+		return;
+	}
+
+	var parentElement = $("#canvas_div");
+	if(parentElement.length == 0){
+		return;
+	}
+	var onMouseDown = function (e) {
+		var o_x = e.clientX;
+		var o_y = e.clientY;
+		var onMouseMove = function (e) {
+
+			var s_x = e.clientX - o_x;
+			var s_y = e.clientY - o_y;
+
+			var top = element.offset().top - parentElement.offset().top;
+			var left = element.offset().left - parentElement.offset().left;
+
+			left += s_x;
+			top += s_y;
+			o_x = e.clientX;
+			o_y = e.clientY;
+			element.css("left",left + "px").css("top",top + "px");
+
+        }
+        var onMouseUp = function (e) {
+			parentElement[0].removeEventListener("mousemove",onMouseMove);
+			parentElement[0].removeEventListener("mouseup",onMouseUp);
+        }
+
+		parentElement[0].addEventListener("mousemove",onMouseMove);
+		parentElement[0].addEventListener("mouseup",onMouseUp);
+
+    }
+
+    element[0].addEventListener("mousedown",onMouseDown);
 }

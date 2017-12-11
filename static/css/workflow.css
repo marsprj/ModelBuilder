@@ -364,7 +364,34 @@
 	line-height: 30px;
 	font-weight: 600;
 	border-radius: 4px 4px 0px 0px;
+	cursor: move;
 }
+#funcs .funcs-title-name{
+	display: inline-block;
+}
+
+#funcs .funcs-icon{
+	float: right;
+    width: 24px;
+    height: 100%;
+    margin-right: 10px;
+    cursor: pointer;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#funcs .funcs-min-icon{
+	background-image: url(../images/min.png);
+}
+
+#funcs .funcs-max-icon{
+	background-image: url(../images/rect.png);
+}
+
+#funcs .funcs-icon:hover{
+	transform: scale(1.05);
+}
+
 #funcs .funcs_container{
 	background-color: #fff;
 	max-height: 400px;
