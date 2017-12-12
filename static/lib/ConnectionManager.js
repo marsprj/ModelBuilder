@@ -24,7 +24,7 @@ ConnectionManager.prototype.add = function(connection){
 }
 
 ConnectionManager.prototype.createConnection = function(r, from, to){
-	if(!from && !to){
+	if(!from || !to){
 		return null;
 	}
 

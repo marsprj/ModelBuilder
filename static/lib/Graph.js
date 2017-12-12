@@ -272,14 +272,19 @@ Graph.prototype.load = function(json){
 	var centery = Math.round(this._height/2 + 0.5);
 	model.data.forEach(function(d){
 		d.node = graph.createDatumNode(50, 50, 100, 50);
-		d.node.setPath(d.path);
-		d.node.setID(d.id);
+		if(d.node){
+			d.node.setPath(d.path);
+			d.node.setID(d.id);
+		}
+		
 	});
 
 	model.functions.forEach(function(f){
 		f.node = graph.createFuncNode(f.name, 50, 50, 100, 50);
-		f.node.setID(f.id);
-		f.node.setParms(f.parms);
+		if(f.node){
+			f.node.setID(f.id);
+			f.node.setParms(f.parms);
+		}
 	});
 
 	model.connections.forEach(function(c){
