@@ -9,21 +9,21 @@ var gulp = require("gulp"),
 gulp.task("graph-task",['graph','graph-css']);
 
 gulp.task('graph-clean',function () {
-	return  gulp.src('ModelFlow/static/lib/graph.min.js')
+	return  gulp.src('static/lib/graph.min.js')
 		.pipe(clean({force: true}))
 });
 
-var graphList = ["ModelFlow/static/lib/*.js",
-		"ModelFlow/static/lib/Dialog/*.js",
-		"ModelFlow/static/lib/Dialog/*/*.js",
-		"ModelFlow/static/lib/Dialog/*/*/*.js",
-		"ModelFlow/static/lib/Node/*.js",
-		"ModelFlow/static/lib/Node/*/*.js",
-		"ModelFlow/static/lib/Node/*/*/*.js",
-		"ModelFlow/static/lib/shape/*.js",
-		'!ModelFlow/static/lib/graph.min.js'
+var graphList = ["static/lib/*.js",
+		"static/lib/Dialog/*.js",
+		"static/lib/Dialog/*/*.js",
+		"static/lib/Dialog/*/*/*.js",
+		"static/lib/Node/*.js",
+		"static/lib/Node/*/*.js",
+		"static/lib/Node/*/*/*.js",
+		"static/lib/shape/*.js",
+		'!static/lib/graph.min.js'
 ];
-var graphDest = "ModelFlow/static/lib/";
+var graphDest = "static/lib/";
 gulp.task("graph",['graph-clean'],function(){
 	gulp.src(graphList)
 		.pipe(uglify())
@@ -33,21 +33,21 @@ gulp.task("graph",['graph-clean'],function(){
 
 
 gulp.task('graph-css-clean', function () {
-	return gulp.src('ModelFlow/static/lib/css/graph.min.css')
+	return gulp.src('static/lib/css/graph.min.css')
 		.pipe(clean({force: true}));
-    
+
 });
 
 
-var graphCssList = ["ModelFlow/static/lib/css/dialog.css",
-		"ModelFlow/static/lib/css/tooltip.css",
-		"ModelFlow/static/lib/css/dataText.css"];
-var graphCssDest = "ModelFlow/static/lib/css/";
+var graphCssList = ["static/lib/css/dialog.css",
+		"static/lib/css/tooltip.css",
+		"static/lib/css/dataText.css"];
+var graphCssDest = "static/lib/css/";
 gulp.task('graph-css',['graph-css-clean'],function(){
 	gulp.src(graphCssList)
 		.pipe(minifycss())
 		.pipe(concat('graph.min.css'))
-		.pipe(gulp.dest(graphCssDest));		
+		.pipe(gulp.dest(graphCssDest));
 	});
 
 
@@ -60,16 +60,16 @@ gulp.task('index-js-clean', function () {
 });
 
 
-var indexList = ['ModelFlow/static/js/init.js',
-		'ModelFlow/static/js/models.js',
-		'ModelFlow/static/js/graph.js',
-		'ModelFlow/static/js/CreateModelDialog.js',
-		'ModelFlow/static/js/createTaskDialog.js',
-		'ModelFlow/static/js/funCatalog.js',
-		'ModelFlow/static/js/beginnerHelper.js',
-		'ModelFlow/static/js/monitorDialog.js',
+var indexList = ['static/js/init.js',
+		'static/js/models.js',
+		'static/js/graph.js',
+		'static/js/CreateModelDialog.js',
+		'static/js/createTaskDialog.js',
+		'static/js/funCatalog.js',
+		'static/js/beginnerHelper.js',
+		'static/js/monitorDialog.js',
 ];
-var indexDest = 'ModelFlow/static/js';
+var indexDest = 'static/js';
 gulp.task('index-js',['index-js-clean'],function(){
 	gulp.src(indexList)
 		.pipe(uglify())
@@ -82,17 +82,17 @@ gulp.task('index-css-clean', function () {
 		.pipe(clean({force: true}));
 });
 
-var indexCssList = ["ModelFlow/static/css/commom.css",
-			"ModelFlow/static/css/user-dialog.css",
-		    "ModelFlow/static/css/webuploader.css",
-		    "ModelFlow/static/css/workflow.css",
+var indexCssList = ["static/css/commom.css",
+			"static/css/user-dialog.css",
+		    "static/css/webuploader.css",
+		    "static/css/workflow.css",
 ];
-var indexCssDest = "ModelFlow/static/css/";
+var indexCssDest = "static/css/";
 gulp.task('index-css',['index-css-clean'],function(){
 	gulp.src(indexCssList)
 		.pipe(minifycss())
 		.pipe(concat('index.min.css'))
-		.pipe(gulp.dest(indexCssDest));		
+		.pipe(gulp.dest(indexCssDest));
 	});
 
 /********************USER****************/
@@ -103,14 +103,14 @@ gulp.task('user-css-clean', function () {
 		.pipe(clean({force: true}));
 });
 
-var userCssList = ["ModelFlow/static/css/commom.css",
-					"ModelFlow/static/css/user.css"];
-var userCssDest = "ModelFlow/static/css/";
+var userCssList = ["static/css/commom.css",
+					"static/css/user.css"];
+var userCssDest = "static/css/";
 gulp.task('user-css',['user-css-clean'],function(){
 	gulp.src(userCssList)
 		.pipe(minifycss())
 		.pipe(concat('user.min.css'))
-		.pipe(gulp.dest(userCssDest));		
+		.pipe(gulp.dest(userCssDest));
 	});
 
 
@@ -119,13 +119,13 @@ gulp.task('user-css',['user-css-clean'],function(){
 gulp.task("monitor-task",["monitor","monitor-css"]);
 
 gulp.task("monitor-clean",function(){
-	return gulp.src('ModelFlow/static/js/monitor.min.js')
+	return gulp.src('static/js/monitor.min.js')
 	.pipe(clean({force:true}));
 });
 
-var monitorList = ["ModelFlow/static/js/monitor.js",
-	"ModelFlow/static/js/monitor-task.js"];
-var monitorDest = "ModelFlow/static/js"
+var monitorList = ["static/js/monitor.js",
+	"static/js/monitor-task.js"];
+var monitorDest = "static/js"
 gulp.task("monitor",["monitor-clean"],function(){
 	gulp.src(monitorList)
 	.pipe(uglify())
@@ -137,27 +137,27 @@ gulp.task("monitor-css-clean",function(){
 	return gulp.src('Model/static/css/monitor.min.css')
 		.pipe(clean({force: true}));
 });
-var monitorCssList = ["ModelFlow/static/css/commom.css",
-					"ModelFlow/static/css/monitor.css"];
-var monitorCssDest = "ModelFlow/static/css/";
+var monitorCssList = ["static/css/commom.css",
+					"static/css/monitor.css"];
+var monitorCssDest = "static/css/";
 gulp.task('monitor-css',['monitor-css-clean'],function(){
 	gulp.src(monitorCssList)
 		.pipe(minifycss())
 		.pipe(concat('monitor.min.css'))
-		.pipe(gulp.dest(monitorCssDest));		
+		.pipe(gulp.dest(monitorCssDest));
 });
 
 /********************Task****************/
 gulp.task("task-task",["task","task-css"]);
 
 gulp.task("task-clean",function(){
-	return gulp.src('ModelFlow/static/js/task.min.js')
+	return gulp.src('static/js/task.min.js')
 	.pipe(clean({force:true}));
 });
 
-var taskList = ["ModelFlow/static/js/task.js",
-	"ModelFlow/static/js/model.js"];
-var taskDest = "ModelFlow/static/js"
+var taskList = ["static/js/task.js",
+	"static/js/model.js"];
+var taskDest = "static/js"
 gulp.task("task",["task-clean"],function(){
 	gulp.src(taskList)
 	.pipe(uglify())
@@ -169,15 +169,18 @@ gulp.task("task-css-clean",function(){
 	return gulp.src('Model/static/css/task.min.css')
 		.pipe(clean({force: true}));
 });
-var taskCssList = ["ModelFlow/static/css/commom.css",
-					"ModelFlow/static/css/task.css"];
-var taskCssDest = "ModelFlow/static/css/";
+var taskCssList = ["static/css/commom.css",
+					"static/css/task.css"];
+var taskCssDest = "static/css/";
 gulp.task('task-css',['task-css-clean'],function(){
 	gulp.src(taskCssList)
 		.pipe(minifycss())
 		.pipe(concat('task.min.css'))
-		.pipe(gulp.dest(taskCssDest));		
+		.pipe(gulp.dest(taskCssDest));
 });
+
+
+
 
 /********************DEFAULT****************/
 gulp.task('default',['graph-task','index-task','user-task','monitor-task','task-task']);
