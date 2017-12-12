@@ -180,10 +180,46 @@ gulp.task('task-css',['task-css-clean'],function(){
 });
 
 
+/********************File****************/
+gulp.task("file-task",["file","file-css"]);
+
+gulp.task("file-clean",function(){
+	return gulp.src('static/js/file.min.js')
+	.pipe(clean({force:true}));
+});
+
+var fileList = ["static/js/file.js"];
+var fileDest = "static/js"
+gulp.task("file",["file-clean"],function(){
+	gulp.src(fileList)
+	.pipe(uglify())
+	.pipe(concat("file.min.js"))
+	.pipe(gulp.dest(fileDest));
+});
+
+gulp.task("file-css-clean",function(){
+	return gulp.src('Model/static/css/file.min.css')
+		.pipe(clean({force: true}));
+});
+var fileCssList = ["static/css/commom.css",
+					"static/css/file.css"];
+var fileCssDest = "static/css/";
+gulp.task('file-css',['file-css-clean'],function(){
+	gulp.src(fileCssList)
+		.pipe(minifycss())
+		.pipe(concat('file.min.css'))
+		.pipe(gulp.dest(fileCssDest));
+});
+
 
 
 /********************DEFAULT****************/
-gulp.task('default',['graph-task','index-task','user-task','monitor-task','task-task']);
+gulp.task('default',['graph-task',
+	'index-task',
+	'user-task',
+	'monitor-task',
+	'task-task',
+	'file-task']);
 
 
 /********************AUTO****************/
@@ -197,4 +233,6 @@ gulp.task('auto',function(){
 	gulp.watch(monitorCssList,['monitor-css']);
 	gulp.watch(taskList,['task']);
 	gulp.watch(taskCssList,['task-css']);
+	gulp.watch(fileList,['file']);
+	gulp.watch(fileCssList,['file-css']);
 });

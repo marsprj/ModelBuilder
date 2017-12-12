@@ -467,6 +467,9 @@ function createNewFolder () {
 	$(".create-folder-dialog input").focus();
 
 	$(".create-folder-dialog #dlg_btn_exit,.create-folder-dialog .dialog_exit").click(function(event) {
+		var titleBar = $(".create-folder-dialog .titlebar")[0];
+		titleBar.removeEventListener("mousedown",g_create_mouse_event);
+		g_create_mouse_event = null;
 		$(".create-folder-dialog").remove();
 	});
 
@@ -486,6 +489,10 @@ function createNewFolder () {
         var path = g_path + name + "/" ;
         createFolder(path,function (result) {
             if(result.status == "success"){
+            	alert("创建成功");
+            	var titleBar = $(".create-folder-dialog .titlebar")[0];
+            	titleBar.removeEventListener("mousedown",g_create_mouse_event);
+            	g_create_mouse_event = null;
             	$(".create-folder-dialog").remove();
                	populateFolders();
             }else{
@@ -493,6 +500,38 @@ function createNewFolder () {
             }
         })
 	});
+
+
+	var body = $("body")[0];
+	var titleBar = $(".create-folder-dialog .titlebar")[0];
+	var onMouseDown = function (e) {
+		var o_x = e.clientX;
+		var o_y = e.clientY;
+		var onMouseMove = function (e) {
+			var s_x = e.clientX - o_x;
+			var s_y = e.clientY - o_y;
+
+			var top = $(".create-folder-dialog").offset().top;
+			var left = $(".create-folder-dialog").offset().left;
+
+			left += s_x;
+			top += s_y;
+			o_x = e.clientX;
+			o_y = e.clientY;
+			$(".create-folder-dialog").css("left",left + "px").css("top",top + "px");
+
+        }
+        var onMouseUp = function (e) {
+			body.removeEventListener("mousemove",onMouseMove);
+			body.removeEventListener("mouseup",onMouseUp);
+        }
+
+		body.addEventListener("mousemove",onMouseMove);
+		body.addEventListener("mouseup",onMouseUp);
+    }
+
+    titleBar.addEventListener("mousedown",onMouseDown);
+    g_create_mouse_event = onMouseDown;
 }
 
 
@@ -552,9 +591,44 @@ function uploadFile () {
 	});
 
 	$(".upload_dialog .dialog_exit").click(function(event) {
+		var titleBar = $(".upload_dialog .titlebar")[0];
+		titleBar.removeEventListener("mousedown",g_upload_mouse_event);
+		g_upload_mouse_event = null;
 		$(".upload_dialog").remove();
 		populateFolders();
 	});
+
+
+	var body = $("body")[0];
+	var titleBar = $(".upload_dialog .titlebar")[0];
+	var onMouseDown = function (e) {
+		var o_x = e.clientX;
+		var o_y = e.clientY;
+		var onMouseMove = function (e) {
+			var s_x = e.clientX - o_x;
+			var s_y = e.clientY - o_y;
+
+			var top = $(".upload_dialog").offset().top;
+			var left = $(".upload_dialog").offset().left;
+
+			left += s_x;
+			top += s_y;
+			o_x = e.clientX;
+			o_y = e.clientY;
+			$(".upload_dialog").css("left",left + "px").css("top",top + "px");
+
+        }
+        var onMouseUp = function (e) {
+			body.removeEventListener("mousemove",onMouseMove);
+			body.removeEventListener("mouseup",onMouseUp);
+        }
+
+		body.addEventListener("mousemove",onMouseMove);
+		body.addEventListener("mouseup",onMouseUp);
+    }
+
+    titleBar.addEventListener("mousedown",onMouseDown);
+    g_upload_mouse_event = onMouseDown;
 }
 
 function initUploader(){

@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <script type="text/javascript" src="./js/jquery-3.2.1.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="css/commom.css">
+    <!-- <link rel="stylesheet" type="text/css" href="css/commom.css"> -->
     <link rel="stylesheet" type="text/css" href="css/webuploader.css">
-    <link rel="stylesheet" type="text/css" href="css/file.css">
-    <!-- <link rel="stylesheet" type="text/css" href="css/task.min.css"> -->
+<!--     <link rel="stylesheet" type="text/css" href="css/file.css"> -->
+    <link rel="stylesheet" type="text/css" href="css/file.min.css">
     <!-- <link rel="stylesheet" type="text/css" href="lib/css/graph.min.css"> -->
     <title>工作流系统--文件管理</title>
 </head>
@@ -143,6 +143,11 @@
 
     var g_multi = false;
 
+    // 对话框标题拖动事件
+    var g_create_mouse_event = null;
+
+    var g_upload_mouse_event = null;
+
     $().ready(function () {
         var username = getCookie("username");
         if(!username){
@@ -159,11 +164,6 @@
 
         populateFolders();
 
-        // loadModels();
-
-        // setState(4);
-        // changeState();
-
     });
     function getCookie(name){
         var arr = document.cookie.match(new RegExp("(^| )"+name+"=([^;]*)(;|$)"));
@@ -172,8 +172,5 @@
 
 </script>
 
-<!-- <script type="text/javascript" src="js/task.js"></script>
-<script type="text/javascript" src="js/model.js"></script> -->
-<!-- <script type="text/javascript" src="js/task.min.js"></script> -->
 <script type="text/javascript" src="js/3rd/webuploader.min.js"></script>
-<script type="text/javascript" src="js/file.js"></script>
+<script type="text/javascript" src="js/file.min.js"></script>
