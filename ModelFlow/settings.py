@@ -143,6 +143,7 @@ SITE_ROOT = os.path.join(BASE_DIR, "static")
 DATA_ROOT = os.path.join(SITE_ROOT, "data")
 UPLOADS_ROOT = os.path.join(DATA_ROOT,"uploads")
 MODEL_ROOT = os.path.join(DATA_ROOT, "model")
+THUMBNAIL_ROOT = os.path.join(DATA_ROOT,"thumbnail")
 
 
 STATICFILES_DIRS = [

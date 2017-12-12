@@ -4,8 +4,8 @@ from ModelFlow import settings
 #import requests
 from json import JSONDecodeError
 
-import os,logging
-import json,time,math
+import os, logging
+import json, time, math, subprocess, uuid
 
 # Create your views here.
 
@@ -291,8 +291,6 @@ def get_user_file_root(request):
 """
 返回http错误信息
 """
-
-
 def http_error_response(error):
     obj = {
         "status": "error",
@@ -308,9 +306,10 @@ def http_success_response():
     response = HttpResponse(json.dumps(obj), content_type="application/json", status=200)
     return response
 
-
+"""
+图片预览
+"""
 def file_preview(request,path):
-
     try:
         path = path.replace("|","/")
         file_root = get_user_file_root(request)
@@ -319,14 +318,56 @@ def file_preview(request,path):
             logger.error("file[{0}] does not exist".format(path))
             return http_error_response("no file")
 
-        if os.path.exists(file_path):
-            if not os.path.isfile(file_path):
-                logger.error("file[{0}] does not a file".format(file_path))
-                return http_error_response("not a file")
+        if not os.path.isfile(file_path):
+            logger.error("file[{0}] does not a file".format(file_path))
+            return http_error_response("not a file")
+
+
+        postfix_index = file_path.rfind('.')
+        if postfix_index == -1:
+            logger.error("file[{0}] does not preview".format(path))
+            return http_error_response("no preview")
+        postfix = file_path[postfix_index+1:]
+        postfix = postfix.lower()
+
+        if postfix == "jpg" or postfix == "jpeg" or postfix == "png":
             with open(file_path, 'rb') as fh:
                 response = HttpResponse(fh.read(), content_type="application/x-tif")
                 response['Content-Disposition'] = 'inline; filename=' + os.path.basename(file_path)
                 return response
+
+        if postfix == "tif" or postfix == "tiff":
+            # 进行转换
+            fun_command = "{0}{1}".format(settings.OTB_COMMAND_DIR, "IndexedToRGBImage")
+            output_name = str(uuid.uuid4()) + ".png"
+            output_path = os.path.join(settings.THUMBNAIL_ROOT, output_name)
+            command ="{} {} {}".format(fun_command,file_path,output_path)
+            logger.debug("convert tiff image command: {0}".format(command))
+            p = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            p.wait()
+            logger.info(" return code is :{0}".format(str(p.returncode)))
+            if p.returncode != 0:
+                logger.info('kill pid')
+                p.kill()
+                p_erro_info = p.stderr.read()
+                return_info = p_erro_info
+                print(return_info)
+                if p_erro_info.decode("utf-8") == '':
+                    return_info = p.stdout.read()
+                logger.info(return_info)
+                logger.error("file[{0}] does not preview".format(path))
+                return http_error_response("cannot preview")
+
+            if not os.path.isfile(output_path):
+                logger.error("file[{}] thumbnail does not exist".format(output_path))
+                return http_error_response("cannot preview")
+            with open(output_path, 'rb') as fh:
+                response = HttpResponse(fh.read(), content_type="application/x-tif")
+                response['Content-Disposition'] = 'inline; filename=' + os.path.basename(output_path)
+                return response
+
+        logger.error("get file[{}] preview failed:{}".format(path, "不支持的文件类型"))
+        return http_error_response("cannot preview")
     except Exception as e:
         logger.error("get file[{}] preview failed:{}".format(path, str(e)))
         return http_error_response("failed")

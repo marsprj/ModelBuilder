@@ -2,13 +2,14 @@
 <project version="4">
   <component name="BookmarkManager">
     <bookmark url="file://$PROJECT_DIR$/file/views.py" line="212" />
-    <bookmark url="file://$PROJECT_DIR$/static/js/models.js" line="343" />
+    <bookmark url="file://$PROJECT_DIR$/static/js/models.js" line="346" />
     <bookmark url="file://$PROJECT_DIR$/model/functions.py" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ac37dfb7-7c13-4d7d-a101-64ef4a8b8d82" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gulpfile.js" afterPath="$PROJECT_DIR$/gulpfile.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ModelFlow/settings.py" afterPath="$PROJECT_DIR$/ModelFlow/settings.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/file/views.py" afterPath="$PROJECT_DIR$/file/views.py" />
     </list>
     <ignored path="ModelFlow.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -78,9 +79,11 @@
       <file leaf-file-name="gulpfile.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/gulpfile.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="388">
-              <caret line="189" column="28" lean-forward="false" selection-start-line="189" selection-start-column="28" selection-end-line="189" selection-end-column="28" />
-              <folding />
+            <state relative-caret-position="1036">
+              <caret line="225" column="28" lean-forward="false" selection-start-line="225" selection-start-column="28" selection-end-line="225" selection-end-column="28" />
+              <folding>
+                <marker date="1513058228622" expanded="true" signature="6108:6118" ph="{...}" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -88,8 +91,8 @@
       <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/model/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="14400">
-              <caret line="820" column="0" lean-forward="false" selection-start-line="820" selection-start-column="0" selection-end-line="820" selection-end-column="0" />
+            <state relative-caret-position="189">
+              <caret line="386" column="29" lean-forward="false" selection-start-line="386" selection-start-column="17" selection-end-line="386" selection-end-column="29" />
               <folding>
                 <element signature="e#0#35#0" expanded="true" />
               </folding>
@@ -122,11 +125,11 @@
       <file leaf-file-name="views.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/file/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="342">
-              <caret line="64" column="26" lean-forward="false" selection-start-line="64" selection-start-column="26" selection-end-line="64" selection-end-column="26" />
+            <state relative-caret-position="135">
+              <caret line="311" column="31" lean-forward="false" selection-start-line="311" selection-start-column="31" selection-end-line="311" selection-end-column="31" />
               <folding>
                 <element signature="e#0#35#0" expanded="true" />
-                <element signature="e#6460#6691#0" expanded="false" />
+                <element signature="e#6481#6712#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -135,7 +138,7 @@
       <file leaf-file-name="urls.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/file/urls.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="144">
+            <state relative-caret-position="162">
               <caret line="9" column="27" lean-forward="false" selection-start-line="9" selection-start-column="27" selection-end-line="9" selection-end-column="27" />
               <folding>
                 <element signature="e#0#32#0" expanded="true" />
@@ -147,8 +150,8 @@
       <file leaf-file-name="settings.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/ModelFlow/settings.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1674">
-              <caret line="93" column="28" lean-forward="false" selection-start-line="93" selection-start-column="28" selection-end-line="93" selection-end-column="28" />
+            <state relative-caret-position="270">
+              <caret line="145" column="14" lean-forward="false" selection-start-line="145" selection-start-column="0" selection-end-line="145" selection-end-column="14" />
               <folding />
             </state>
           </provider>
@@ -157,7 +160,7 @@
       <file leaf-file-name="base.py" pinned="false" current-in-tab="false">
         <entry file="file://$USER_HOME$/.local/lib/python3.5/site-packages/django/core/handlers/base.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2970">
+            <state relative-caret-position="207">
               <caret line="184" column="0" lean-forward="false" selection-start-line="184" selection-start-column="0" selection-end-line="184" selection-end-column="0" />
               <folding />
             </state>
@@ -176,8 +179,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>_daemonize</find>
-      <find>monitor_data</find>
       <find>connection</find>
       <find>_run</find>
       <find>verify(</find>
@@ -206,6 +207,8 @@
       <find>admin</find>
       <find>http_error_response(er</find>
       <find>logging</find>
+      <find>uuid</find>
+      <find>function</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -257,14 +260,14 @@
         <option value="$PROJECT_DIR$/model/Graph.py" />
         <option value="$PROJECT_DIR$/monitor/__init__.py" />
         <option value="$PROJECT_DIR$/file/urls.py" />
-        <option value="$PROJECT_DIR$/ModelFlow/settings.py" />
         <option value="$PROJECT_DIR$/model/functions.py" />
-        <option value="$PROJECT_DIR$/file/views.py" />
         <option value="$PROJECT_DIR$/model/user.py" />
         <option value="$PROJECT_DIR$/model/views.py" />
         <option value="$PROJECT_DIR$/model/monitor.py" />
         <option value="$PROJECT_DIR$/model/urls.py" />
         <option value="$PROJECT_DIR$/gulpfile.js" />
+        <option value="$PROJECT_DIR$/ModelFlow/settings.py" />
+        <option value="$PROJECT_DIR$/file/views.py" />
       </list>
     </option>
   </component>
@@ -874,7 +877,7 @@
     <frame x="64" y="-11" width="1217" height="1036" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.20460358" sideWeight="0.49421486" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.16794544" sideWeight="0.49421486" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3281768" sideWeight="0.49029535" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.29" sideWeight="0.32427984" order="5" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.23375528" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -995,7 +998,7 @@
           </properties>
         </breakpoint>
       </default-breakpoints>
-      <option name="time" value="396" />
+      <option name="time" value="399" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="Python.DjangoServer">
@@ -1103,6 +1106,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="553">
           <caret line="226" column="0" lean-forward="false" selection-start-line="226" selection-start-column="0" selection-end-line="226" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1136,6 +1140,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="189">
           <caret line="176" column="4" lean-forward="false" selection-start-line="176" selection-start-column="4" selection-end-line="176" selection-end-column="4" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1207,6 +1212,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="180">
           <caret line="23" column="24" lean-forward="false" selection-start-line="23" selection-start-column="24" selection-end-line="23" selection-end-column="24" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1219,32 +1225,6 @@
             <element signature="e#10444#10978#0" expanded="false" />
             <element signature="e#11045#11342#0" expanded="false" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/file/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="9" column="27" lean-forward="false" selection-start-line="9" selection-start-column="27" selection-end-line="9" selection-end-column="27" />
-          <folding>
-            <element signature="e#0#32#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/.local/lib/python3.5/site-packages/django/core/handlers/base.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2970">
-          <caret line="184" column="0" lean-forward="false" selection-start-line="184" selection-start-column="0" selection-end-line="184" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ModelFlow/settings.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1674">
-          <caret line="93" column="28" lean-forward="false" selection-start-line="93" selection-start-column="28" selection-end-line="93" selection-end-column="28" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1262,16 +1242,6 @@
           <caret line="186" column="34" lean-forward="false" selection-start-line="186" selection-start-column="34" selection-end-line="186" selection-end-column="34" />
           <folding>
             <element signature="e#0#22#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/model/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="14400">
-          <caret line="820" column="0" lean-forward="false" selection-start-line="820" selection-start-column="0" selection-end-line="820" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#35#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1298,19 +1268,57 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/gulpfile.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="388">
-          <caret line="189" column="28" lean-forward="false" selection-start-line="189" selection-start-column="28" selection-end-line="189" selection-end-column="28" />
+        <state relative-caret-position="1036">
+          <caret line="225" column="28" lean-forward="false" selection-start-line="225" selection-start-column="28" selection-end-line="225" selection-end-column="28" />
+          <folding>
+            <marker date="1513058228622" expanded="true" signature="6108:6118" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/model/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="189">
+          <caret line="386" column="29" lean-forward="false" selection-start-line="386" selection-start-column="17" selection-end-line="386" selection-end-column="29" />
+          <folding>
+            <element signature="e#0#35#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/.local/lib/python3.5/site-packages/django/core/handlers/base.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="207">
+          <caret line="184" column="0" lean-forward="false" selection-start-line="184" selection-start-column="0" selection-end-line="184" selection-end-column="0" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ModelFlow/settings.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="145" column="14" lean-forward="false" selection-start-line="145" selection-start-column="0" selection-end-line="145" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/file/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="162">
+          <caret line="9" column="27" lean-forward="false" selection-start-line="9" selection-start-column="27" selection-end-line="9" selection-end-column="27" />
+          <folding>
+            <element signature="e#0#32#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/file/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="342">
-          <caret line="64" column="26" lean-forward="false" selection-start-line="64" selection-start-column="26" selection-end-line="64" selection-end-column="26" />
+        <state relative-caret-position="135">
+          <caret line="311" column="31" lean-forward="false" selection-start-line="311" selection-start-column="31" selection-end-line="311" selection-end-column="31" />
           <folding>
             <element signature="e#0#35#0" expanded="true" />
-            <element signature="e#6460#6691#0" expanded="false" />
+            <element signature="e#6481#6712#0" expanded="false" />
           </folding>
         </state>
       </provider>
