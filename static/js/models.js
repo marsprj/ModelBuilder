@@ -150,8 +150,11 @@ function getModel(uuid,callback){
 			}
 		},
 	 	error:function(xhr){
-            alert("读取模型失败");
             console.log(xhr);
+            var result = '{"status":"error","message":"'  + "读取模型失败" + '"}';
+			if(callback){
+				callback(JSON.parse(result));
+			}
         }	
 	});
 }
@@ -190,9 +193,9 @@ function getTasks(model_id,state,count,offset,field,orderby,callback){
 			}
 		},
 		error :function(XMLHttpRequest, textStatus, errorThrown) {
-			console.log(XMLHttpRequest.status);
+			console.log(XMLHttpRequest.textStatus);
 			if(callback){
-				var result = '{"status":"error","message":"'  + XMLHttpRequest.status + '"}';
+				var result = '{"status":"error","message":"'  + "获取任务列表失败" + '"}';
 				callback(JSON.parse(result));
 			}
 		}	
@@ -205,7 +208,7 @@ function showTaskList(json){
 		return;
 	}
 	if(json.status == "error"){
-		alert(json.message);
+		// alert(json.message);
 		return;
 	}
 
@@ -1023,9 +1026,9 @@ function getTasksCount(state,modelId,callback){
 			}
 		},
 		error :function(XMLHttpRequest, textStatus, errorThrown) {
-			console.log(XMLHttpRequest.status);
+			console.log(textStatus);
 			if(callback){
-				var result = '{"status":"error","message":"'  + XMLHttpRequest.status + '"}';
+				var result = '{"status":"error","message":"'  + textStatus + '"}';
 				callback(JSON.parse(result));
 			}
 		}	
@@ -1035,7 +1038,7 @@ function getTasksCount(state,modelId,callback){
 
 function onGetTasksCount(result){
 	if(result.status == "error"){
-		alert(result.message);
+		console.log("获取任务个数失败");
 		return;
 	}
 

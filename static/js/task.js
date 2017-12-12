@@ -143,7 +143,7 @@ function onGetStateCount(result){
 		return;
 	}
 	if(result.status == "error"){
-		alert(result.message);
+		// alert(result.message);
 		return;
 	}
 
@@ -175,7 +175,7 @@ function onGetStateList(json){
 	$(".panel-content").removeClass('loading');
 	var html = '';
 	if(json.status == "error"){
-		alert(json.message);
+		// alert(json.message);
 		return;
 	}
 	json.forEach(function(t){
