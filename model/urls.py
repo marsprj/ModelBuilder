@@ -22,7 +22,7 @@ urlpatterns = [
     url(r'^task/(?P<task_id>[-A-Za-z0-9]+)/state/$', views.task_state, name='state'),
     url(r'^task/(?P<task_id>[-A-Za-z0-9]+)/run/$', views.task_run, name='run'),
     url(r'^task/(?P<task_id>[-A-Za-z0-9]+)/stop/$', views.task_stop, name='stop'),
-    url(r'^task/(?P<task_id>[-A-Za-z0-9]+)/download/(?P<node_id>[-A-Za-z0-9]+)/$', views.task_download, name='download'),
+    url(r'^task/(?P<task_id>[-A-Za-z0-9]+)/download/(?P<node_id>[-A-Za-z0-9]+)/(?P<original>true|false)/$', views.task_download, name='download'),
 
     url(r'^register/$', user.user_register, name='register'),
     url(r'^login/$', user.user_login, name='login'),
