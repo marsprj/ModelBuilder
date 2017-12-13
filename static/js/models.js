@@ -812,7 +812,7 @@ function showResultIcons(taskId){
 	$("#backdrop .image-icon").click(function(){
 		var taskID = $(this).attr("tid");
 		var nodeID = $(this).attr("nid");
-		var src = "/model/task/" + taskId + "/download/" + nodeID + "/";
+		var src = "/model/task/" + taskId + "/download/" + nodeID + "/false/";
 		src += "?time=" + (new Date()).valueOf();
 		var tiff = $(this).attr("tiff");
 		var modal = document.getElementById('myModal');
@@ -824,7 +824,6 @@ function showResultIcons(taskId){
    		$.ajax({
 			type:"get",
 			url:src,
-			// contentType: "image/jpeg",
 			dataType : "text",
 			success:function(result){
 				$(modal).removeClass("loading");
@@ -855,13 +854,9 @@ function showResultIcons(taskId){
 				}else{
 					
 					var html = "";
-					if(tiff == "true"){
-						modalImg.src = "";
-						html += "<div>暂时不支持tif文件的预览</div>"
-					}else{
-						modalImg.src = src;								   			
-					}
-					html += "<a href='" +  src + "' download='img.png'>下载文件</a>";
+					modalImg.src = src;
+					var href = "/model/task/" + taskId + "/download/" + nodeID  + "/true/" +"?time=" + (new Date()).valueOf();	
+					html += "<a href='" +  href + "' download='img.png'>下载文件</a>";
 			   		caption.html(html);
 				}
 			},

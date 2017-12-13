@@ -861,7 +861,7 @@ function preview_file(element) {
 
 	var fix = name.slice(index+1);
 	fix = fix.toLowerCase();
-	if(fix  == "jpeg" || fix == "jpg" || fix == "png"){
+	if(fix  == "jpeg" || fix == "jpg" || fix == "png" || fix == "tif" || fix == "tiff"){
 		path = makeFilePath(getPath(),name);
 		var modal = document.getElementById('myModal');
 		var modalImg = document.getElementById("img01");
@@ -892,9 +892,10 @@ function preview_file(element) {
 			}else{
 				var html = "";
 				path = path.replace(/\//g,"|") ;
-				var src = "/file/preview/" + path + "/";	
+				var src = "/file/preview/false/" + path + "/";	
 				modalImg.src = src;
-				var html = "<a href='" +  src + "' download='img.png'>下载文件</a>";
+				var href = "/file/preview/true/" + path + "/";	
+				var html = "<a href='" +  href + "' download='img.png'>下载文件</a>";
 		   		caption.html(html);
 			}
 		});
@@ -911,7 +912,7 @@ function preview (path,callback) {
 	var data = JSON.stringify(dataObj);
 	$.ajax({
 		type:"get",
-		url:"/file/preview/" + path + "/",
+		url:"/file/preview/false/" + path + "/",
 		dataType : "text",
 		success:function(result){
 			if(callback){
