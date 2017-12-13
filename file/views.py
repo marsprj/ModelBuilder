@@ -309,7 +309,7 @@ def http_success_response():
 """
 图片预览
 """
-def file_preview(request,path):
+def file_preview(request,original,path):
     try:
         path = path.replace("|","/")
         file_root = get_user_file_root(request)
@@ -330,13 +330,14 @@ def file_preview(request,path):
         postfix = file_path[postfix_index+1:]
         postfix = postfix.lower()
 
-        if postfix == "jpg" or postfix == "jpeg" or postfix == "png":
+        if postfix == "jpg" or postfix == "jpeg" or postfix == "png" \
+                or ((postfix == "tif" or postfix == "tiff") and original == "true"):
             with open(file_path, 'rb') as fh:
                 response = HttpResponse(fh.read(), content_type="application/x-tif")
                 response['Content-Disposition'] = 'inline; filename=' + os.path.basename(file_path)
                 return response
 
-        if postfix == "tif" or postfix == "tiff":
+        if (postfix == "tif" or postfix == "tiff") and original == "false":
             # 进行转换
             fun_command = "{0}{1}".format(settings.OTB_COMMAND_DIR, "IndexedToRGBImage")
             output_name = str(uuid.uuid4()) + ".png"
