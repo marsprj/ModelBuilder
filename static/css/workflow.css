@@ -61,7 +61,7 @@
 .panel-contaniner{
 	height: calc(100% - 30px);
 	width: 100%;
-	overflow-y: auto;
+	overflow-y: scroll;
 }
 .panel-contaniner.loading{
 	background: url(../images/spin.gif) no-repeat center;
@@ -78,7 +78,7 @@
 	text-align: left;
 }
 .model-name{
-	width: 119px;
+	width: 100px;
     text-overflow: ellipsis;
     white-space: nowrap;
     display: inline-block;
@@ -92,6 +92,9 @@
 	color: #fff;
 }
 
+.model-item .btns{
+	height: 25px;
+}
 .model-item:hover .btns{
 	display: none;
 }
