@@ -12,7 +12,6 @@ from ModelFlow import settings
 import ModelFlow
 import signal
 import subprocess
-import psutil
 
 
 from django.utils import timezone
