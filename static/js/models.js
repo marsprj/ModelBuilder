@@ -110,6 +110,9 @@ function showModels(json){
 		$(".process-div").remove();
 		$("#task_table .table .row:not(.header)").remove();
 		$("#backdrop .image-icon").remove();
+		g_graph.setNodeEditable(false);
+		$("#state_div input").prop("checked",true);
+		g_graph.setEditable(true);
 		if(g_helper.isShow()){
 			g_helper.show(3);
 		}
