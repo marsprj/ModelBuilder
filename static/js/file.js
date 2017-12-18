@@ -422,19 +422,15 @@ function resizeFileIcons() {
 	}
 
 	var  width = $("#dialog_file_icon").width();
+	var width = $("#dialog_file_icon")[0].clientWidth;
 	var iconWidth = icons[0].getBoundingClientRect().width;
-
-
 
 	var count = Math.floor(width/iconWidth);
 
-
 	var delta = (width - count*iconWidth)/2/count;
-
+	delta = Math.floor(delta);
 	icons.css("margin-left",delta + "px").css("margin-right",delta + "px");
 }
-
-
 
 function createNewFolder () {
     var html = "<div class='create-folder-dialog dialog'>"
