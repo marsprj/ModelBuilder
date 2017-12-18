@@ -510,6 +510,7 @@ function showTaskStateDiv(uuid){
 		top -= (122+33+1);
 	}
 
+	top = Math.floor(top-1);
 	$(".process-div").css("top",top + "px").slideDown();	
 	
 	// $(".process-div .process-close-btn").click(function(){
@@ -597,6 +598,7 @@ function showTaskState(json){
 	if(tableBottom < bottom+131 ){
 		top -= (122+33+1);
 	}
+	top = Math.floor(top-1);
 	$(".process-div").css("top",top + "px").slideDown();
 
 	// 是否更新该行

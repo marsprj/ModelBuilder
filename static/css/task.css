@@ -10,6 +10,7 @@
     width: 260px;
     height: calc(100% - 40px);
     margin: 0 20px;
+    overflow: hidden;
 }
 
 
@@ -20,6 +21,7 @@
 
 #models_container{
     overflow-y: auto;
+    margin-right: -16px;
 }
 
 #models_container::-webkit-scrollbar{
@@ -63,16 +65,22 @@
     float: left;
     width: calc(100% - 320px);
     height: calc(100% - 40px);
+    overflow: hidden;
 }
 
 #task_table{
-	height: 100%;
+	height: calc(100% - 10px);
 	overflow-y: auto;
-	margin:0 20px;
+	margin:0 -16px 0 20px;
+    padding-bottom: 10px;
 }
 
 #task_table::-webkit-scrollbar{
-	width: 0 !important;
+	/*width: 0 !important;*/
+}
+
+#task_table .table{
+    width: calc(100% - 16px);
 }
 
 .order-icon{
@@ -202,7 +210,7 @@
 	/*box-shadow: 0 5px 10px rgba(0,0,0,.5);*/
 	position: absolute;
     left: 20px;
-    right: 20px;
+    right: 16px;
     top: 174px;
     display: none;
     z-index: 1002;
