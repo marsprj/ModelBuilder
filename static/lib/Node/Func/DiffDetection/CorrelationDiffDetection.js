@@ -89,7 +89,16 @@ CorrelationDiffDetection.prototype.onClick = function(isPathEdit){
 			if(conn_in){
 				var from = conn_in.getFrom();
 				if(from){
-					inputs[i] = from.getPath();
+					var inputFrom = from.getFrom();
+					var asOutput = false;
+					if(inputFrom){
+						asOutput = true;
+					}
+
+					inputs.push({
+						"path" : from.getPath(),
+						"asOutput" : asOutput
+					});
 				}
 			}
 		}
