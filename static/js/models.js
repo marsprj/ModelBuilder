@@ -363,7 +363,25 @@ function showTaskList(json){
 	// 查看结果
 	$("#task_table .show-results-btn").click(function(){
 		var taskId = $(this).parents(".row").attr("uuid");
-		showResultIcons(taskId);
+		var activeRow = $("#task_table .row.active-row");
+		if(activeRow.length>0){
+			var activeTaskId = activeRow.attr("uuid");
+			if(activeTaskId === taskId){
+				showResultIcons(taskId);
+				return;
+			}
+		}
+		
+		$("#task_table .row").removeClass('active-row');
+		$("#task_table .row[uuid='" + taskId + "']").addClass('active-row');
+		g_graph.clear();
+		getTask(taskId,function(text){
+			g_graph.setNodeEditable(true);
+			g_graph.load(text);
+			setNoEdit();
+			showResultIcons(taskId);
+		});
+		
 	});
 
 	// 是否有新建的task
