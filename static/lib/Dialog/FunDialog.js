@@ -49,7 +49,7 @@ FunDialog.prototype.initOkEvent = function(){
 			return;
 		}
 		dlg._win.find(".dialog-input").each(function(index, el) {
-			dlg._inputs[index] = $(this).val();			
+			dlg._inputs[index].path = $(this).val();			
 		});
 
 		dlg._output = dlg._win.find(".dialog-output").val();
@@ -73,13 +73,21 @@ FunDialog.prototype.initFolderEvent = function(){
 			var inputEle = prev.children();
 			if(inputEle.hasClass('dialog-input')){
 				var inputs = dlg._win.find(".dialog-input");
-				var index = inputs.index(inputEle);			
-
-				var file_dlg = new FileDialog(dlg._inputs[index],"choose", function(){
-					var file_path = this.getFilePath();
-					inputEle.attr("value", file_path);
-					dlg._inputs[index] = file_path;
-				});
+				var index = inputs.index(inputEle);	
+				var file_dlg = null;
+				if(inputEle.hasClass('as-output')){
+					file_dlg = new FileDialog(dlg._inputs[index].path,"new", function(){
+						var file_path = this.getFilePath();
+						inputEle.attr("value", file_path);
+						dlg._inputs[index].path = file_path;
+					});
+				}else{
+					file_dlg = new FileDialog(dlg._inputs[index].path,"choose", function(){
+						var file_path = this.getFilePath();
+						inputEle.attr("value", file_path);
+						dlg._inputs[index].path = file_path;
+					});
+				}
 				file_dlg.show();
 			}else if(inputEle.hasClass('dialog-output')){
 				var file_dlg = new FileDialog(dlg._output,"new", function(){
@@ -111,7 +119,10 @@ FunDialog.prototype.setInputs = function(inputs){
 	var dlg = this;
 	this._win.find(".dialog-input").each(function(index, el) {
 		var input = dlg._inputs[index]; 
-		$(this).attr("value",input);
+		$(this).attr("value",input.path)
+		if(input.asOutput){
+			$(this).addClass('as-output');
+		}
 	});
 };
 
@@ -133,7 +144,7 @@ FunDialog.prototype.setOutput = function(output){
 };
 
 FunDialog.prototype.getInput = function(index){
-	return this._inputs[index];
+	return this._inputs[index].path;
 };
 
 FunDialog.prototype.getOutput = function(){
