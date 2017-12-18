@@ -24,13 +24,13 @@ var BeginnerHelper = function(){
 			step :4 ,
 			object : "#canvas_div",
 			position : "top",
-			text: "该区域为编辑区域，进行工作流的绘制",
+			text: "该区域为编辑区域，进行模型的绘制",
 			next : "true"
 		},{
 			step :5 ,
 			object : "#state_div",
 			position : "left",
-			text: "默认是禁止编辑状态，选择启用开始进行编辑",
+			text: "确保模型处于可编辑状态",
 			next : "true"
 		},{
 			step :6 ,
@@ -66,7 +66,7 @@ var BeginnerHelper = function(){
 			step :11 ,
 			object : "#tools",
 			position : "top",
-			text: "点击第二个按钮“链接”按钮",
+			text: "点击第二个按钮“连接”按钮",
 			next : "true"
 		},{
 			step :12 ,
@@ -77,74 +77,60 @@ var BeginnerHelper = function(){
 			next : "true"
 		},{
 			step :13 ,
-			object : "#canvas_div",
-			position : "top",
-			text: "双击输入数据节点，弹出文件选择对话框",
-			next : "true"
-		},{
-			step :14 ,
-			object : ".file_dialog ",
-			position : "right",
-			text: "该面板显示该用户所属的文件,单击最右侧的上传文件按钮，弹出文件上传对话框",
-			next : "true"
-		},{
-			step :15 ,
-			object : ".upload_dialog",
-			position : "right",
-			text: "点击“选择文件”按钮，弹出打开对话框，选择文件，"+
-					"点击“开始上传”按钮，上传成功后，关闭该对话框",
-			next : "true"
-		},{
-			step :16 ,
-			object : ".file_dialog ",
-			position : "right",
-			text: "在文件对话框中看到已经上传的文件，选中该文件，点击“确定”按钮，关闭该对话框",
-			next : "true"
-		},{
-			step :17 ,
-			object : "#canvas_div ",
-			position : "top",
-			text: "看到输入的数据节点已经进行了设置，双击输出的节点，将弹出打开对话框",
-			next : "true"
-		},{
-			step :18 ,
-			object : ".file_dialog ",
-			position : "right",
-			text: "在文件名输入框内，输入文件名称，注意后缀,输入结束后，点击确定，关闭对话框",
-			next : "true"
-		},{
-			step :19 ,
-			object : "#canvas_div",
-			position : "top",
-			text: "完善了该流程的输入和输出",
-			next : "true"
-		},{
-			step :20 ,
 			object : "#tools",
 			position : "top",
 			text: "点击最后一个“保存”按钮，将弹出保存结果",
 			next : "true"
 		},{
-			step :21 ,
+			step :14 ,
 			object : ".new-task-btn",
 			position : "left",
 			text: "点击“新建”按钮，弹出新建任务对话框",
 			next : "false"
 		},{
-			step :22 ,
+			step :15 ,
 			object : ".create-task-dialog",
 			position : "right",
 			text: "输入任务名称，点击确定，关闭对话框",
 			next : "false"
 		},{
-			step :23 ,
+			step :16 ,
 			object : "#task_table",
 			position : "bottom",
-			text: "可以在任务列表中看到新建的任务,点击“运行”按钮，"+ 
-					"如果有错误需要根据提示进行修改，否则将运行任务,弹出计算过程",
+			text: "可以在任务列表中看到新建的任务,鼠标选中该任务行",
+			next : "true"
+		},{
+			step :17 ,
+			object : "#state_div",
+			position : "left",
+			text: "打开编辑状态，使得任务处于可编辑状态",
+			next : "true"
+		},{
+			step :18 ,
+			object : "#canvas_div",
+			position : "top",
+			text: "双击作为输入的数据节点，弹出文件选择对话框",
+			next : "true"
+		},{
+			step :19 ,
+			object : ".file_dialog",
+			position : "right",
+			text: "文件对话框中均是用户所属的文件，选中一个图像文件，点击“确定”按钮，关闭该对话框",
+			next : "true"
+		},{
+			step :20 ,
+			object : "#canvas_div",
+			position : "top",
+			text: "双击作为输出的数据节点，节点名称处于可输入状态，键入图像名称，然后回车",
+			next : "true"
+		},{
+			step :21 ,
+			object : "#task_table",
+			position : "bottom",
+			text: "点击“运行”按钮，如果有错误需要根据提示进行修改，否则将运行任务,弹出计算过程",
 			next : "false"
 		},{
-			step :24 ,
+			step :22 ,
 			object : "#right",
 			position : "left",
 			text: "可以看到运行的状态，运行结束后，可查看运行结果，至此引导结束",

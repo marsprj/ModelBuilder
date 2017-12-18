@@ -283,7 +283,7 @@ function showTaskList(json){
 					return;
 				}
 				if(g_helper.isShow()){
-					g_helper.show(24);
+					g_helper.show(22);
 				}
 				// 设置为不可编辑状态
 				setNoEdit();
@@ -395,7 +395,7 @@ function showTaskList(json){
 		},1000)
 		g_new_task = null;
 		if(g_helper.isShow()){
-			g_helper.show(23);
+			g_helper.show(16);
 		}
 	}
 }

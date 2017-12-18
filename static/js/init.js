@@ -123,7 +123,7 @@ function initPageEvent(){
 		});
 		dlg.show();
 		if(g_helper.isShow()){
-			g_helper.show(22);
+			g_helper.show(15);
 		}
 	});
 
