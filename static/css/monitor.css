@@ -64,7 +64,7 @@
 #monitor_model_table {
     height: 100%;
     overflow-y: auto;
-    margin: 0 20px;
+    margin: 0 -16px 0 20px;
 }
 
 #monitor_model_table .row:not(.header):hover{
@@ -107,6 +107,15 @@
     height: calc(100% - 40px);
 }
 
+#monitor_model_panel .panel-content{
+    overflow: hidden;
+}
+
+
+#monitor_model_table .table{
+    width: calc(100% - 16px);
+}
+
 #monitor_model_table .cell a{
     text-decoration: none;
     color: #169bd5;
@@ -143,16 +152,25 @@
 
 
 /***model panel***/
+#model_panel {
+    float: left;
+    width: 260px;
+    height: calc(100% - 40px);
+    margin: 20px;
+    overflow: hidden;
+}
+
 .model-tool-div{
 	float: right;
 }
 
 #models_container{
-	overflow-y: auto;
+	overflow-y: scroll;
+    margin-right: -16px;
 }
 
 #models_container::-webkit-scrollbar{
-	width: 0 !important;
+	/*width: 0 !important;*/
 }
 
 .model-item {
@@ -162,6 +180,7 @@
     font-size: 12px;
     text-align: left;
     margin: 0 20px;
+    width: calc(100% - 39px);
 }
 
 .model-icon {
@@ -189,12 +208,8 @@
 
 
 /****task panel ***/
-#model_panel {
-    float: left;
-    width: 260px;
-    height: calc(100% - 40px);
-    margin: 20px;
-}
+
+
 
 #task_panel{
     float: left;
@@ -203,14 +218,22 @@
     margin: 20px 20px 20px 0px;
 }
 
+#task_panel .panel-content{
+    overflow: hidden;
+}
+
 #task_table{
     height: 100%;
     overflow-y: auto;
-    margin:0 20px;
+    margin:0 -16px 0 20px;
+}
+
+#taks_table .table{
+    width: calc(100% - 16px);
 }
 
 #task_table::-webkit-scrollbar{
-    width: 0 !important;
+    /*width: 0 !important;*/
 }
 
 .order-icon{

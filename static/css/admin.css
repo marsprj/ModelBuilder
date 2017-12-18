@@ -257,14 +257,23 @@
     margin: 20px auto;
     height:calc(100% - 40px);
 }
+
+#user_panel .panel-content{
+    overflow: hidden;
+}
 #user_table{
     height: 100%;
     overflow-y: auto;
-    margin: 0 20px;
+    margin: 0 -16px 0 20px;
+}
+
+
+#user_table .table{
+    width: calc(100% - 36px);
 }
 
 #user_table::-webkit-scrollbar {
-    width: 0!important
+    /*width: 0!important*/
 }
 /************user end*************/
 
@@ -275,13 +284,22 @@
    height:calc(100% - 40px); 
 }
 
+#model_panel .panel-content{
+    overflow: hidden;
+}
+
 #model_table{
     height: 100%;
     overflow-y: auto;
-    margin: 0 20px;    
+    margin: 0 -16px 0 20px;    
+}
+
+
+#model_table .table{
+    width: calc(100% - 16px);
 }
 #model_table::-webkit-scrollbar {
-    width: 0!important
+    /*width: 0!important*/
 }
 
 #model_table .header .cell {
