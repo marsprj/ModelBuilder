@@ -213,13 +213,48 @@ gulp.task('file-css',['file-css-clean'],function(){
 
 
 
+/********************Admin****************/
+gulp.task("admin-task",["admin","admin-css"]);
+
+gulp.task("admin-clean",function(){
+	return gulp.src('static/js/admin.min.js')
+	.pipe(clean({force:true}));
+});
+
+var adminList = ["static/js/admin-index.js",
+	"static/js/admin-user.js",
+	"static/js/admin-model.js"];
+var adminDest = "static/js"
+gulp.task("admin",["admin-clean"],function(){
+	gulp.src(adminList)
+	.pipe(uglify())
+	.pipe(concat("admin.min.js"))
+	.pipe(gulp.dest(adminDest));
+});
+
+gulp.task("admin-css-clean",function(){
+	return gulp.src('Model/static/css/admin.min.css')
+		.pipe(clean({force: true}));
+});
+var adminCssList = ["static/css/commom.css",
+					"static/css/admin.css"];
+var adminCssDest = "static/css/";
+gulp.task('admin-css',['admin-css-clean'],function(){
+	gulp.src(adminCssList)
+		.pipe(minifycss())
+		.pipe(concat('admin.min.css'))
+		.pipe(gulp.dest(adminCssDest));
+});
+
+
 /********************DEFAULT****************/
 gulp.task('default',['graph-task',
 	'index-task',
 	'user-task',
 	'monitor-task',
 	'task-task',
-	'file-task']);
+	'file-task',
+	'admin-task']);
 
 
 /********************AUTO****************/
@@ -235,4 +270,6 @@ gulp.task('auto',function(){
 	gulp.watch(taskCssList,['task-css']);
 	gulp.watch(fileList,['file']);
 	gulp.watch(fileCssList,['file-css']);
+	gulp.watch(adminList,['admin']);
+	gulp.watch(adminCssList,['admin-css']);
 });
