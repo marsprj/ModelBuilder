@@ -55,7 +55,7 @@ gulp.task('graph-css',['graph-css-clean'],function(){
 gulp.task('index-task',['index-js','index-css']);
 
 gulp.task('index-js-clean', function () {
-	return gulp.src('Model/static/js/index.min.js')
+	return gulp.src('static/js/index.min.js')
 		.pipe(clean({force: true}));
 });
 
@@ -78,7 +78,7 @@ gulp.task('index-js',['index-js-clean'],function(){
 });
 
 gulp.task('index-css-clean', function () {
-	return gulp.src('Model/static/js/index.min.css')
+	return gulp.src('static/css/index.min.css')
 		.pipe(clean({force: true}));
 });
 
@@ -99,7 +99,7 @@ gulp.task('index-css',['index-css-clean'],function(){
 gulp.task('user-task',['user-css']);
 
 gulp.task('user-css-clean', function () {
-	return gulp.src('Model/static/css/user.min.css')
+	return gulp.src('static/css/user.min.css')
 		.pipe(clean({force: true}));
 });
 
@@ -134,7 +134,7 @@ gulp.task("monitor",["monitor-clean"],function(){
 });
 
 gulp.task("monitor-css-clean",function(){
-	return gulp.src('Model/static/css/monitor.min.css')
+	return gulp.src('static/css/monitor.min.css')
 		.pipe(clean({force: true}));
 });
 var monitorCssList = ["static/css/commom.css",
@@ -166,7 +166,7 @@ gulp.task("task",["task-clean"],function(){
 });
 
 gulp.task("task-css-clean",function(){
-	return gulp.src('Model/static/css/task.min.css')
+	return gulp.src('static/css/task.min.css')
 		.pipe(clean({force: true}));
 });
 var taskCssList = ["static/css/commom.css",
@@ -198,7 +198,7 @@ gulp.task("file",["file-clean"],function(){
 });
 
 gulp.task("file-css-clean",function(){
-	return gulp.src('Model/static/css/file.min.css')
+	return gulp.src('static/css/file.min.css')
 		.pipe(clean({force: true}));
 });
 var fileCssList = ["static/css/commom.css",
@@ -233,7 +233,7 @@ gulp.task("admin",["admin-clean"],function(){
 });
 
 gulp.task("admin-css-clean",function(){
-	return gulp.src('Model/static/css/admin.min.css')
+	return gulp.src('static/css/admin.min.css')
 		.pipe(clean({force: true}));
 });
 var adminCssList = ["static/css/commom.css",
@@ -255,6 +255,23 @@ gulp.task('default',['graph-task',
 	'task-task',
 	'file-task',
 	'admin-task']);
+
+
+
+/********************DEFAULT****************/
+gulp.task('clean',['graph-clean',
+	'graph-css-clean',
+	'index-js-clean',
+	'index-css-clean',
+	'user-css-clean',
+	'monitor-clean',
+	'monitor-css-clean',
+	'task-clean',
+	'task-css-clean',
+	'file-clean',
+	'file-css-clean',
+	'admin-clean',
+	'admin-css-clean']);
 
 
 /********************AUTO****************/
