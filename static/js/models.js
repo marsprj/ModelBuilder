@@ -326,6 +326,7 @@ function showTaskList(json){
 				// 不是active，直接运行。无需保存
 				// 激活当前行
 				setActiveTaskRow(taskId);
+				var btn = this;
 				$(btn).addClass("stop-btn");
 				$(btn).html("停止");
 				setActiveTaskRow(taskId);
