@@ -1,7 +1,7 @@
 function showModelsStatus (status) {
 	$("#model_panel .count-div #count span").html('0');
 	$("#model_table .row:not(.header)").remove();
-
+	$("#model_tab_panel .pagination").empty();
 	getModelsStatusCount(status,onGetModelsStatusCount);
 }
 
@@ -166,7 +166,7 @@ function getModelPage(page){
 	var offset = (page -1) * g_modelMaxCount;
 
 	$("#model_table .row:not(.header)").remove();
-	$("#model .panel-content").addClass("loading");
+	$("#model_panel .panel-content").addClass("loading");
 
 
 
