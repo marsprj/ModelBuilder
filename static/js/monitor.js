@@ -71,6 +71,7 @@ function showModelsStatus(status){
 	// $("#monitor_model .panel-content").addClass("loading");
 	$("#monitor_model_panel .count-div #count span").html('0');
 	$("#monitor_model_table .row:not(.header)").remove();
+	$("#monitor_model_panel .pagination").empty();
 	g_model_state = status;
 	getModelsStatusCount(status,onGetModelsStatusCount);
 }
