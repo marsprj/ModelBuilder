@@ -1,7 +1,13 @@
 function initPageEvent(){
 	// 任务div滚动
-	$("#task_table").scroll(function(){
+	$("#task_table").scroll(function(evt){
 		var processDiv = $(".process-div");
+		var outerHeight = $("#task_table").height();
+		var innerHeight = $("#task_table .table").height();
+		var delta = innerHeight - outerHeight;
+		if(processDiv.length == 0 || Math.abs(delta - $(this).scrollTop()) <= 2){
+			return;
+		}
 		processDiv.slideUp(200,function(){
 			processDiv.remove();
 			$("#task_table .active-row").removeClass("active-row");
@@ -437,20 +443,20 @@ function expandTaskState(taskId){
 		var processId = processDiv.attr("uuid");
 		if(processId == taskId){
 			processDiv.slideUp(400,function(){
-				$("#task_table .active-row").removeClass("active-row");
+				$("#task_table .row[uuid='" + $(this).attr("uuid") + "']").removeClass("active-row");
 				processDiv.remove();
 			});
 			return;
 		}else{
 			processDiv.slideUp(400,function(){
-				$("#task_table .active-row").removeClass("active-row");
+				$("#task_table .row[uuid='" + $(this).attr("uuid") + "']").removeClass("active-row");
 				processDiv.remove();
 			});
 		}
 	}
 
 	var taskIsRunning = $("#task_table .row[uuid='" + taskId + "'] ").hasClass("active-row");
-	if(taskIsRunning){
+	if(taskIsRunning&& g_state_int){
 		// 有正在运行的状态
 		window.clearInterval(g_state_int);
 		g_state_int = null;
